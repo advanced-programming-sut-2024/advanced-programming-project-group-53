@@ -1,4 +1,4 @@
-package Model;
+package Model.Card;
 
 public abstract class Card {
     private Faction faction;
@@ -6,6 +6,7 @@ public abstract class Card {
     private Ability ability;
     private double power;
     private double hitpoint;
-    /*public abstract int attack();
-    public abstract void ability();*/
+    public abstract void attack();
+    public abstract void ability();
+    public abstract void hit();
 }

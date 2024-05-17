@@ -1,5 +1,8 @@
 package Model;
 
+import Model.Card.Card;
+import Model.Card.Faction;
+
 import java.util.ArrayList;
 
 public class Player {

@@ -1,8 +1,8 @@
-package Model;
+package Model.Card;
 
 public enum Faction {
     Monsters,
-    EmpireNilfgaard,
+    NilfgaardianEmpire,
     NorthernRealms,
     Scoiatael,
     Skellige,
@@ -13,10 +13,10 @@ public enum Faction {
         switch (this) {
             case Monsters:
                 return "Monsters";
-            case EmpireNilfgaard:
-                return "EmpireNilfgaard";
+            case NilfgaardianEmpire:
+                return "Nilfgaardian Empire";
             case NorthernRealms:
-                return "NorthernRealms";
+                return "Northern Realms";
             case Scoiatael:
                 return "Scoia'tael";
             case Skellige:

@@ -1,6 +1,6 @@
-package Model;
+package Model.Card;
 
-public enum Units {
+public enum UnitName {
     Arachas,
     ArachasBehemoth,
     Ballista,

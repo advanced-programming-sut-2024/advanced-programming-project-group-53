@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Card.Faction;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 

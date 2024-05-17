@@ -1,6 +1,6 @@
-package Model;
+package Model.Card;
 
-public enum Specials {
+public enum SpecialName {
     BitingFrost,
     Decoy,
     ImpenetrableFog,
