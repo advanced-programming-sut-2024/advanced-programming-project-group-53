@@ -4,6 +4,7 @@ import Model.Card.Faction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -187,7 +188,11 @@ public class User {
     }
 
     public boolean checkSecurity(String answer, String question) {
-        return false;//check inputs with team
+        for (Map.Entry<String, String> aQuestion : securityQuestions.entrySet()) {
+            if (aQuestion.toString().equals(question) && aQuestion.getKey().equals(answer))
+                return true;
+        }
+        return false;
     }
 
     public void startGame(String playerName) {
