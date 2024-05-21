@@ -147,19 +147,27 @@ public class User {
     }
 
     public void changeUsername(String newUsername) {
-
+        if (getmatcher(newUsername, String.valueOf(ValidationRegexes.Username)) != null) {
+            this.setUsername(newUsername);
+        }
     }
 
     public void changePassword(String newPassword) {
-
+        if (getmatcher(newPassword, String.valueOf(ValidationRegexes.Password)) != null) {
+            this.setPassword(newPassword);
+        }
     }
 
     public void changeNickname(String newNickname) {
-
+        if (getmatcher(newNickname, String.valueOf(ValidationRegexes.Username)) != null) {
+            this.setNickname(newNickname);
+        }
     }
 
     public void changeEmail(String newEmail) {
-
+        if (getmatcher(newEmail, String.valueOf(ValidationRegexes.Email)) != null) {
+            this.setEmail(newEmail);
+        }
     }
 
     public boolean passwordCheck(String password) {
