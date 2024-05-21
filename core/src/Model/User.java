@@ -4,6 +4,8 @@ import Model.Card.Faction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class User {
     private String username;
@@ -130,7 +132,12 @@ public class User {
     public void setLastFaction(Faction lastFaction) {
         this.lastFaction = lastFaction;
     }
-
+    private static Matcher getmatcher(String input, String regex) {
+        Matcher matcher = Pattern.compile(regex).matcher(input);
+        if (matcher.matches())
+            return matcher;
+        return null;
+    }
     public static User findUser(String username) {
         for (User user : allUsers) {
             if (user.username.equals(username))
