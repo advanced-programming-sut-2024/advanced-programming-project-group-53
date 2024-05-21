@@ -35,7 +35,7 @@ public class User {
         this.loseCount = 0;
         this.drawCount = 0;
         this.maxPoint = 0;
-        //decide a default faction for the new players!
+        //todo: decide a default faction for the new players!
     }
 
     public String getUsername() {
