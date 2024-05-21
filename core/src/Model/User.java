@@ -133,12 +133,14 @@ public class User {
     public void setLastFaction(Faction lastFaction) {
         this.lastFaction = lastFaction;
     }
+
     private static Matcher getmatcher(String input, String regex) {
         Matcher matcher = Pattern.compile(regex).matcher(input);
         if (matcher.matches())
             return matcher;
         return null;
     }
+
     public static User findUser(String username) {
         for (User user : allUsers) {
             if (user.username.equals(username))
@@ -171,7 +173,7 @@ public class User {
         }
     }
 
-    public boolean passwordCheck(String password) throws Exception{
+    public boolean passwordCheck(String password) throws Exception {
         //Farbod: checking the password acceptability(not its accuracy)
         if (password.length() < 8) {
             throw new Exception("not enough length");
@@ -196,7 +198,10 @@ public class User {
     }
 
     public void startGame(String playerName) {
-
+        //todo: make a constructor in game class and call it here
     }
 
+    public void answerSecurityQuestion(String question, String answer) {
+        securityQuestions.put(question, answer);
+    }
 }
