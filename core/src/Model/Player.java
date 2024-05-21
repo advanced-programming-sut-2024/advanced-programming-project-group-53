@@ -22,9 +22,18 @@ public class Player {
     }
 
     public void addToDeck(Card card) {
+        //todo : check the size of deck or not?
+        deck.add(card);
     }
 
     public void deleteFromDeck(Card card) {
+        //todo: handle the occasion which the given card doesn't exist
+        for (Card aCard : deck) {
+            if (aCard.equals(card)) {
+                deck.remove(aCard);
+                break;
+            }
+        }
     }
 
 }
