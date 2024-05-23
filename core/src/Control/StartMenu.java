@@ -1,6 +1,6 @@
 package Control;
 
-import Model.User;
+import Model.Game.User;
 
 public abstract class StartMenu extends Menu {
     private static boolean passwordValidation(String password){
