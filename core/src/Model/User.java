@@ -19,8 +19,10 @@ public class User {
     private int winCount;
     private int loseCount;
     private int drawCount;
-    private ArrayList<Model.Game> game;
-    private static ArrayList<User> allUsers;
+    private ArrayList<Model.Game> game = new ArrayList<>();
+    //todo: read from a file that is saved
+    private static ArrayList<User> allUsers = new ArrayList<>();
+    //todo: read from a file that is saved
     private static User currentUser;
     private HashMap<String, String> securityQuestions;
     private Faction lastFaction;
@@ -173,7 +175,11 @@ public class User {
         }
     }
 
-    public boolean passwordCheck(String password) throws Exception {
+    public boolean passwordCheck(String password) {
+        return this.password.equals(password);
+    }
+
+    public boolean passwordValidation(String password) throws Exception {
         //Farbod: checking the password acceptability(not its accuracy)
         if (password.length() < 8) {
             throw new Exception("not enough length");
