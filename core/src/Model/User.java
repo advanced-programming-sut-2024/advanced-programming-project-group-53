@@ -179,20 +179,20 @@ public class User {
         return this.password.equals(password);
     }
 
-    public boolean passwordValidation(String password) throws Exception {
-        //Farbod: checking the password acceptability(not its accuracy)
+    public String passwordValidation(String password) {
+        //the string output should call a returning error in view (probably from an enum)
         if (password.length() < 8) {
-            throw new Exception("not enough length");
+            return "not enough length";
         } else if (getmatcher(password, "[a-z]") != null) {
-            throw new Exception("missing lowercase letter");
+            return "missing lowercase letter";
         } else if (getmatcher(password, "[A-Z]") != null) {
-            throw new Exception("missing uppercase letter");
+            return "missing uppercase letter";
         } else if (getmatcher(password, "[0-9]") != null) {
-            throw new Exception("missing number");
+            return "missing number";
         } else if (getmatcher(password, "[!@#$%^&*]") != null) {
-            throw new Exception("missing special character");
+            return "missing special character";
         }
-        return true;
+        return "true";
     }
 
     public boolean checkSecurity(String answer, String question) {
