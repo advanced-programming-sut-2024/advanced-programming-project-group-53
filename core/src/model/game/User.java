@@ -17,7 +17,7 @@ public class User {
     private int winCount;
     private int loseCount;
     private int drawCount;
-    private ArrayList<Game> game;
+    private ArrayList<GameInformation> gameInformation;
     private static ArrayList<User> allUsers;
     private static User currentUser;
     private HashMap<String, String> securityQuestions;

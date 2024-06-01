@@ -1,24 +1,24 @@
 package model.game;
 
 import model.card.Card;
-import model.Game;
-import model.GameLog;
-import model.Player;
+import model.Round;
 
 import java.util.ArrayList;
 
 public class Table {
-    private final Player player1, player2;
+    private final ArrayList<Player> players;
     private Player currentPlayer;
     private Player winner;
-    private GameLog gameLog;
-    private final Game game;
+    private Round round;
+    private final GameInformation gameInformation;
     private ArrayList<ArrayList<Card>> playGround;
-    public Table(Player player1, Player player2, GameLog gameLog) {
-        this.player1 = player1;
-        this.player2 = player2;
-        this.gameLog = gameLog;
-        this.game = new Game(player1.getUser(), player2.getUser());
+
+    public Table(Player player1, Player player2, Round round) {
+        this.players = new ArrayList<>();
+        this.players.add(player1);
+        this.players.add(player2);
+        this.round = round;
+        this.gameInformation = new GameInformation(player1, player2);
         this.currentPlayer = player1;
     }
 
@@ -31,27 +31,26 @@ public class Table {
         return false;
     }
 
-    public Game getGame() {
-        return game;
+    public GameInformation getGame() {
+        return gameInformation;
     }
 
     public Player getPlayers(int which) {
-        if (which == 1) return player1;
-        return player2;
+        return players.get(which - 1);
     }
 
-    public GameLog getGameLog() {
-        return gameLog;
+    public Round getGameLog() {
+        return round;
     }
 
-    public void setGameLog(GameLog gameLog) {
-        this.gameLog = new GameLog(this.currentPlayer,this.player1.getPoint(),
-                this.player2.getPoint());
+    public void setGameLog(Round round) {
+        this.round = new Round(this.currentPlayer.getUser());
     }
 
     public ArrayList<ArrayList<Card>> getPlayGround() {
         return playGround;
     }
+
     public ArrayList<Card> getSpells(int which) {
         ArrayList<Card> spells = new ArrayList<>();
         // TODO : iterate and add spells card to the return value of this method.

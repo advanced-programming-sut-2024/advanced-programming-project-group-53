@@ -68,6 +68,4 @@ public class GameMenu extends Menu {
     private static void passTurn() {
 
     }
-
-
 }
