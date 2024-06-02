@@ -1,10 +1,13 @@
 package model.card;
 
 public class Commander {
-    private Faction faction;
-    private CommanderInformation name;
-    private CommanderNickName nickName;
-    public Commander(Faction faction, CommanderNickName name) {
+    private final CommanderInformation commanderInformation;
 
+    public Commander(CommanderInformation commanderInformation) {
+        this.commanderInformation = commanderInformation;
+    }
+
+    public CommanderInformation getCommanderInformation() {
+        return commanderInformation;
     }
 }
