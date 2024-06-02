@@ -5,5 +5,6 @@ public enum Type {
     RangedCombat,
     Siege,
     Agile,
-    Special;
+    Spell,
+    Weather;
 }

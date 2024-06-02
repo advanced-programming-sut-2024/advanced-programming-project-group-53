@@ -6,7 +6,8 @@ public enum Faction {
     NorthernRealms,
     Scoiatael,
     Skellige,
-    Neutral;
+    Neutral,
+    All;
 
     @Override
     public String toString() {
