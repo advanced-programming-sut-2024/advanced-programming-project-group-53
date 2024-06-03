@@ -10,4 +10,9 @@ public class Unit extends Card {
     public UnitInformation getInformation() {
         return information;
     }
+
+    @Override
+    public boolean isSpecial() {
+        return false;
+    }
 }

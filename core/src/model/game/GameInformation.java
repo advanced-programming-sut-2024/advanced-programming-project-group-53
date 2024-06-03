@@ -1,18 +1,35 @@
 package model.game;
 
-import model.Round;
+import model.game.Round;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class GameInformation {
     private Date date;
-    private ArrayList<Round> rounds;
-    private User winner;
-    private final ArrayList<Player> players;
-    public GameInformation(Player player1, Player player2) {
-        players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
+    private final ArrayList<Round> rounds;
+    private final String winnerName;
+    private final String loserName;
+    public GameInformation(Player winner, Player loser, ArrayList<Round> rounds) {
+        // before this store it in user probably will handle by team.
+        this.winnerName = winner.getUser().getUsername();
+        this.loserName = loser.getUser().getUsername();
+        this.rounds = rounds;
+    }
+
+    public ArrayList<Round> getRounds() {
+        return rounds;
+    }
+
+    public String getWinnerName() {
+        return winnerName;
+    }
+
+    public String getLoserName() {
+        return loserName;
+    }
+
+    public boolean containsPlayer(String username) {
+        return this.winnerName.equals(username) || this.loserName.equals(username);
     }
 }

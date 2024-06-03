@@ -6,4 +6,9 @@ public class Special extends Card {
     public Special(SpecialInformation specialInformation) {
         this.specialInformation = specialInformation;
     }
+
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
 }
