@@ -1,9 +1,13 @@
 package model.game;
 
 import model.card.Card;
-import model.Round;
+import model.card.SpecialInformation;
+import model.card.UnitInformation;
 
+import javax.swing.plaf.IconUIResource;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class Table {
     private final ArrayList<Player> players;
@@ -23,9 +27,16 @@ public class Table {
     }
 
     public void changeTurn() {
-        //TODO : fill this
+        //TODO : I made this field as simple as possible but don't remember to complete it .
+        Collections.swap(players, 0, 1);
+        currentPlayer = players.get(0);
     }
 
+    public GameInformation saveGame() {
+        //for end of the game.
+        //TODO : specify attributes that are needed for save a game correctly .
+        return null;
+    }
     public boolean checkCardPosition(Card card, int position) {
         //TODO : check that card type is suitable for the selected position .
         return false;
@@ -56,4 +67,19 @@ public class Table {
         // TODO : iterate and add spells card to the return value of this method.
         return spells;
     }
+
+    public void showAllCardInFaction() {
+        //TODO : complete and move print part to view package
+        System.out.println("Unit Cards:");
+        for (UnitInformation unitInfo: UnitInformation.values()){
+            if (unitInfo.faction().equals(currentPlayer.getFaction()))
+                System.out.println(unitInfo.name());
+        }
+        System.out.println("Special Cards:");
+        for (SpecialInformation specialInfo: SpecialInformation.values()) {
+            if (specialInfo.faction().equals(currentPlayer.getFaction()))
+                System.out.println(specialInfo.name());
+        }
+    }
+
 }

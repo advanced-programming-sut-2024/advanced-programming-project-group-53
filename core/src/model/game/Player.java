@@ -2,7 +2,6 @@ package model.game;
 
 import model.card.Card;
 import model.card.Faction;
-import model.Round;
 
 import java.util.ArrayList;
 
@@ -10,8 +9,13 @@ public class Player {
     private User user;
     private ArrayList<Card> deck;
     private Round round;
-    private Faction faction;
+    private final Faction faction;
     private int point;
+
+    public Player(Faction faction) {
+        this.faction = faction;
+    }
+
     //remember to check if commander card is needed or not
     public void setFaction(Faction faction){
 
@@ -29,5 +33,9 @@ public class Player {
 
     public int getPoint() {
         return point;
+    }
+
+    public Faction getFaction() {
+        return faction;
     }
 }

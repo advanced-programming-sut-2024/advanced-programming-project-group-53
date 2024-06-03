@@ -1,6 +1,6 @@
 package model.game;
 
-import model.Round;
+import model.game.Round;
 
 import java.util.ArrayList;
 import java.util.Date;
