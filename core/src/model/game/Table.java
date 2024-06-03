@@ -1,7 +1,6 @@
-package model.game;
+package Model.game;
 
-import model.card.Card;
-import model.Round;
+import Model.card.Card;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
-package model.game;
+package Model.game;
 
-import model.Round;
+import Model.game.User;
 
 import java.util.ArrayList;
 import java.util.Date;

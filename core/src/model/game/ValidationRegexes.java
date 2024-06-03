@@ -1,4 +1,4 @@
-package Model;
+package Model.game;
 
 public enum ValidationRegexes {
     Email("(?<email>.+)@(yahoo|gmail|outlook|hotmail)\\.(com)\b"),

@@ -1,6 +1,6 @@
 package Model.game;
 
-import Model.ValidationRegexes;
+import Model.game.ValidationRegexes;
 
 import java.util.ArrayList;
 import java.util.HashMap;

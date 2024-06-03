@@ -1,8 +1,9 @@
-package model.game;
+package Model.game;
 
-import model.card.Card;
-import model.card.Faction;
-import model.Round;
+import Model.game.User;
+import Model.card.Card;
+import Model.card.Faction;
+import Model.game.Round;
 
 import java.util.ArrayList;
 
