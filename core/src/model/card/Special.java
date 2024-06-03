@@ -1,19 +1,9 @@
 package model.card;
 
 public class Special extends Card {
-    private SpecialName name;
-    @Override
-    public void attack() {
+    private final SpecialInformation specialInformation;
 
-    }
-
-    @Override
-    public void ability() {
-
-    }
-
-    @Override
-    public void hit() {
-
+    public Special(SpecialInformation specialInformation) {
+        this.specialInformation = specialInformation;
     }
 }

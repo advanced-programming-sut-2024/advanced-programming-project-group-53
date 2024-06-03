@@ -1,24 +1,13 @@
 package model.card;
 
 public class Unit extends Card {
-    private UnitName name;
+    private final UnitInformation information;
 
-    public Unit(UnitName name) {
-        this.name = name;
+    public Unit(UnitInformation information) {
+        this.information = information;
     }
 
-    @Override
-    public void attack() {
-
-    }
-
-    @Override
-    public void ability() {
-
-    }
-
-    @Override
-    public void hit() {
-
+    public UnitInformation getInformation() {
+        return information;
     }
 }
