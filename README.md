@@ -5,7 +5,7 @@
             <p style="color:rgb(4, 85, 53); font-size: 20px ">A simple version of GWENT card game in Witcher</p>
         <h2>Contributors :</h2>
             <ul>
-                <li><a href="" style="color: rgb(5, 42, 246);">Farbod Fattahi</a><p style="color: rgb(235, 19, 12)"><br></p></li>
+                <li><a href="" style="color: rgb(5, 42, 246);">Farbod Fattahi</a><p style="color: rgb(235, 19, 12)">402106231</p></li>
                 <li><a href="https://github.com/ampardra" style="color: rgb(5, 42, 246);">Amirparsa Safari</a><p style="color: rgb(235, 19, 12)">402171007</p></li>
                 <li><a href="https://github.com/Kiarash-Sanei" style="color: rgb(5, 42, 246);">Kiarash Sanei</a><p style="color: rgb(235, 19, 12)">402106156</p></li>
             </ul>
