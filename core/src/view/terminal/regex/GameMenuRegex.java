@@ -8,7 +8,7 @@ public enum GameMenuRegex {
     inHandDeck(Pattern.compile("^\\s*in\\s+hand\\s+deck\\s+-option\\s+(?<cardNumber>\\d+)\\s*$")),
     remainingCards(Pattern.compile("^\\s*remaining\\s+cards\\s+to\\s+play\\s*$")),
     outOfPlayCards(Pattern.compile("^\\s*out\\s+of\\s+play\\s+Cards\\s*$")),
-    cardsInRow(Pattern.compile("^\\s*cards\\s+in\\s+row\\s+(?<rowNumber>.+)\\s*$")),
+    cardsInRow(Pattern.compile("^\\s*cards\\s+in\\s+row\\s+(?<rowNumber>\\d+)\\s*$")),
     spellsInPlay(Pattern.compile("^\\s*spell\\s+in\\s+play\\s*$")),
     placeCard(Pattern.compile("^\\s*place\\s+card\\s+in\\s+(?<cardNumber>\\d+)\\s+row\\s+(?<rowNumber>\\d+)\\s*$")),
     showCommander(Pattern.compile("^\\s*show\\s+commander\\s*$")),

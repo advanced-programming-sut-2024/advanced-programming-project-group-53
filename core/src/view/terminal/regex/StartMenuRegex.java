@@ -19,7 +19,7 @@ public enum StartMenuRegex {
     selectLeader(Pattern.compile("^\\s*select\\s+leader\\s+-l\\s+(?<leaderNumber>\\d+)\\s*$")),
     addToDeck(Pattern.compile("^\\s*add\\s+to\\s+deck\\s+-n\\s+(?<cardName>\\S+)\\s+-c\\s+(?<count>\\d+)\\s*$")),
     deleteFromDeck(Pattern.compile("^\\s*delete\\s+from\\s+deck\\s+-n\\s+(?<cardName>\\S+)\\s+-c\\s+(?<count>\\d+)\\s*$")),
-    createGame(Pattern.compile("^\\s*create\\s+game\\s+-p2\\s+(?<player2Username>.+)\\s*$"));
+    createGame(Pattern.compile("^\\s*create\\s+game\\s+-p2\\s+(?<player2Username>\\S+)\\s*$"));
     private final Pattern pattern;
 
     StartMenuRegex(Pattern pattern) {
