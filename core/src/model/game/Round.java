@@ -1,15 +1,32 @@
 package model.game;
 
-import model.card.Card;
-import model.game.Player;
-import model.game.User;
-
-import java.util.ArrayList;
-
 public class Round {
-    private ArrayList<Card> discardPile;
+    //probably these are only information that we need for rounds
+    private final User currentPlayer;
+    private double firstPlayerPoint, secondPlayerPoint;
+    public Round(User currentPlayer, double firstPlayerPoint, double secondPlayerPoint) {
+        this.currentPlayer = currentPlayer;
+        this.firstPlayerPoint = firstPlayerPoint;
+        this.secondPlayerPoint = secondPlayerPoint;
+    }
 
-    public Round(User user) {//TODO: address GSON.
+    public double getFirstPlayerPoint() {
+        return firstPlayerPoint;
+    }
 
+    public void setFirstPlayerPoint(int firstPlayerPoint) {
+        this.firstPlayerPoint = firstPlayerPoint;
+    }
+
+    public double getSecondPlayerPoint() {
+        return secondPlayerPoint;
+    }
+
+    public void setSecondPlayerPoint(int secondPlayerPoint) {
+        this.secondPlayerPoint = secondPlayerPoint;
+    }
+
+    public User getCurrentPlayer() {
+        return currentPlayer;
     }
 }

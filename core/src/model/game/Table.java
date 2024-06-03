@@ -55,7 +55,9 @@ public class Table {
     }
 
     public void setGameLog(Round round) {
-        this.round = new Round(this.currentPlayer.getUser());
+        // TODO : make this and round better for store with Gson and preventing circular references.
+        this.round = new Round(this.currentPlayer.getUser(), this.players.get(0).getPoint(),
+                this.players.get(1).getPoint());
     }
 
     public ArrayList<ArrayList<Card>> getPlayGround() {
