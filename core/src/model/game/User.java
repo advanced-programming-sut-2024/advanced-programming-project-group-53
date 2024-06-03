@@ -1,12 +1,14 @@
-package model.game;
+package Model.game;
 
-import model.card.Faction;
+import Model.ValidationRegexes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class User {
-    private static ArrayList<User> users = new ArrayList<>();
     private String username;
     private String nickname;
     private String email;
@@ -17,42 +19,195 @@ public class User {
     private int winCount;
     private int loseCount;
     private int drawCount;
-    private ArrayList<GameInformation> gameInformation;
-    private static ArrayList<User> allUsers;
+    private ArrayList<Model.game.GameInformation> game = new ArrayList<>();
+    //todo: read from a file that is saved
+    private static ArrayList<User> allUsers = new ArrayList<>();
+    //todo: read from a file that is saved
     private static User currentUser;
     private HashMap<String, String> securityQuestions;
-    private Faction lastFaction;
+    private model.card.Faction lastFaction;
+
+    public User(String username, String nickname, String email, String password) {
+        this.username = username;
+        this.nickname = nickname;
+        this.email = email;
+        this.password = password;
+        this.gameCount = 0;
+        this.winCount = 0;
+        this.loseCount = 0;
+        this.drawCount = 0;
+        this.maxPoint = 0;
+        //todo: decide a default faction for the new players!
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public double getMaxPoint() {
+        return maxPoint;
+    }
+
+    public void setMaxPoint(double maxPoint) {
+        this.maxPoint = maxPoint;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public int getGameCount() {
+        return gameCount;
+    }
+
+    public void setGameCount(int gameCount) {
+        this.gameCount = gameCount;
+    }
+
+    public int getWinCount() {
+        return winCount;
+    }
+
+    public void setWinCount(int winCount) {
+        this.winCount = winCount;
+    }
+
+    public int getLoseCount() {
+        return loseCount;
+    }
+
+    public void setLoseCount(int loseCount) {
+        this.loseCount = loseCount;
+    }
+
+    public int getDrawCount() {
+        return drawCount;
+    }
+
+    public void setDrawCount(int drawCount) {
+        this.drawCount = drawCount;
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        User.currentUser = currentUser;
+    }
+
+    public model.card.Faction getLastFaction() {
+        return lastFaction;
+    }
+
+    public void setLastFaction(model.card.Faction lastFaction) {
+        this.lastFaction = lastFaction;
+    }
+
+    private static Matcher getmatcher(String input, String regex) {
+        Matcher matcher = Pattern.compile(regex).matcher(input);
+        if (matcher.matches())
+            return matcher;
+        return null;
+    }
 
     public static User findUser(String username) {
+        for (User user : allUsers) {
+            if (user.username.equals(username))
+                return user;
+        }
         return null;
     }
 
     public void changeUsername(String newUsername) {
-
+        if (getmatcher(newUsername, String.valueOf(ValidationRegexes.Username)) != null) {
+            this.setUsername(newUsername);
+        }
     }
 
     public void changePassword(String newPassword) {
-
+        if (getmatcher(newPassword, String.valueOf(ValidationRegexes.Password)) != null) {
+            this.setPassword(newPassword);
+        }
     }
 
     public void changeNickname(String newNickname) {
-
+        if (getmatcher(newNickname, String.valueOf(ValidationRegexes.Username)) != null) {
+            this.setNickname(newNickname);
+        }
     }
 
     public void changeEmail(String newEmail) {
-
+        if (getmatcher(newEmail, String.valueOf(ValidationRegexes.Email)) != null) {
+            this.setEmail(newEmail);
+        }
     }
 
     public boolean passwordCheck(String password) {
-        return false;
+        return this.password.equals(password);
+    }
+
+    public String passwordValidation(String password) {
+        //the string output should call a returning error in view (probably from an enum)
+        if (password.length() < 8) {
+            return "not enough length";
+        } else if (getmatcher(password, "[a-z]") != null) {
+            return "missing lowercase letter";
+        } else if (getmatcher(password, "[A-Z]") != null) {
+            return "missing uppercase letter";
+        } else if (getmatcher(password, "[0-9]") != null) {
+            return "missing number";
+        } else if (getmatcher(password, "[!@#$%^&*]") != null) {
+            return "missing special character";
+        }
+        return "true";
     }
 
     public boolean checkSecurity(String answer, String question) {
-        return false;//check inputs with team
+        for (Map.Entry<String, String> aQuestion : securityQuestions.entrySet()) {
+            if (aQuestion.toString().equals(question) && aQuestion.getKey().equals(answer))
+                return true;
+        }
+        return false;
     }
 
     public void startGame(String playerName) {
-
+        //todo: make a constructor in game class and call it here
     }
 
+    public void answerSecurityQuestion(String question, String answer) {
+        securityQuestions.put(question, answer);
+    }
 }

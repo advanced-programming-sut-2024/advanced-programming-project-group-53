@@ -1,8 +1,7 @@
 package model;
 
+import Model.game.User;
 import model.card.Card;
-import model.game.Player;
-import model.game.User;
 
 import java.util.ArrayList;
 

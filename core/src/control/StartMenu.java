@@ -1,6 +1,6 @@
 package control;
 
-import model.game.User;
+import Model.game.User;
 
 public class StartMenu extends Menu {
     private static StartMenu instance;
