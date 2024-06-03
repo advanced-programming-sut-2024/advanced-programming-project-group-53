@@ -1,4 +1,9 @@
-package control;
+package controller;
+
+import model.menu.MenuName;
+import view.terminal.Message.MenuMessage;
+import view.terminal.Printer;
+import view.terminal.TerminalRun;
 
 public class ProfileMenu extends Menu {
     private static ProfileMenu instance;
@@ -35,5 +40,21 @@ public class ProfileMenu extends Menu {
 
     private static void showGameHistory(int count) {
 
+    }
+
+    @Override
+    public void enterMenu(String name) {
+        Printer.print(MenuMessage.INVALID_MENU.message());
+    }
+
+    @Override
+    public void exitMenu() {
+        TerminalRun.ChangeCurrentMenu(MainMenu.getInstance());
+        Printer.print(MenuMessage.ENTER_MAIN_MENU.message());
+    }
+
+    @Override
+    public void showMenu() {
+        Printer.print(MenuMessage.PROFILE_MENU.message());
     }
 }

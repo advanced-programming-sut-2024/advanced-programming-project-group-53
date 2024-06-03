@@ -1,4 +1,8 @@
-package control;
+package controller;
+
+import view.terminal.Message.MenuMessage;
+import view.terminal.Printer;
+import view.terminal.TerminalRun;
 
 public class GameMenu extends Menu {
     private static GameMenu instance;
@@ -67,5 +71,21 @@ public class GameMenu extends Menu {
 
     private static void passTurn() {
 
+    }
+
+    @Override
+    public void enterMenu(String name) {
+        Printer.print(MenuMessage.INVALID_MENU.message());
+    }
+
+    @Override
+    public void exitMenu() {
+        TerminalRun.ChangeCurrentMenu(StartMenu.getInstance());
+        Printer.print(MenuMessage.ENTER_START_MENU.message());
+    }
+
+    @Override
+    public void showMenu() {
+        Printer.print(MenuMessage.GAME_MENU.message());
     }
 }
