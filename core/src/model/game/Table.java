@@ -3,10 +3,7 @@ package model.game;
 import model.card.Card;
 import model.card.SpecialInformation;
 import model.card.UnitInformation;
-
-import javax.swing.plaf.IconUIResource;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class Table {
@@ -15,7 +12,7 @@ public class Table {
     private Player winner;
     private Round round;
     private final GameInformation gameInformation;
-    private ArrayList<ArrayList<Card>> playGround;
+    private Playground playGround;
 
     public Table(Player player1, Player player2, Round round) {
         this.players = new ArrayList<>();
@@ -28,12 +25,13 @@ public class Table {
 
     public void changeTurn() {
         //TODO : I made this field as simple as possible but don't remember to complete it .
+        // probably I will use it in controller
         Collections.swap(players, 0, 1);
         currentPlayer = players.get(0);
     }
 
     public GameInformation saveGame() {
-        //for end of the game.
+        //for end of the game. probably with Gson and saving with random naming .
         //TODO : specify attributes that are needed for save a game correctly .
         return null;
     }
@@ -60,7 +58,7 @@ public class Table {
                 this.players.get(1).getPoint());
     }
 
-    public ArrayList<ArrayList<Card>> getPlayGround() {
+    public Playground getPlayGround() {
         return playGround;
     }
 
