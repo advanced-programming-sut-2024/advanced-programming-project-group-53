@@ -1,5 +1,6 @@
 package controller;
 
+import model.game.User;
 import model.menu.MenuName;
 import view.terminal.Message.MenuMessage;
 import view.terminal.Printer;
