@@ -1,10 +1,15 @@
-package control;
+package controller;
+
+import model.menu.MenuName;
+import view.terminal.Message.MenuMessage;
+import view.terminal.Printer;
+import view.terminal.TerminalRun;
 
 public class GameMenu extends Menu {
     private static GameMenu instance;
 
     private GameMenu() {
-
+        super.setMenuType(MenuName.GameMenu);
     }
 
     public static GameMenu getInstance() {
@@ -67,5 +72,22 @@ public class GameMenu extends Menu {
 
     private static void passTurn() {
 
+    }
+
+    @Override
+    public boolean enterMenu(String name) {
+        Printer.print(MenuMessage.INVALID_MENU.message());
+        return false;
+    }
+
+    @Override
+    public void exitMenu() {
+        TerminalRun.changeCurrentMenu(StartMenu.getInstance());
+        Printer.print(MenuMessage.ENTER_START_MENU.message());
+    }
+
+    @Override
+    public void showMenu() {
+        Printer.print(MenuMessage.GAME_MENU.message());
     }
 }
