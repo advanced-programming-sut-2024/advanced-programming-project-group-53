@@ -9,7 +9,7 @@ public class ProfileMenu extends Menu {
     private static ProfileMenu instance;
 
     private ProfileMenu() {
-
+        super.setMenuType(MenuName.ProfileMenu);
     }
 
     public static ProfileMenu getInstance() {
@@ -43,13 +43,14 @@ public class ProfileMenu extends Menu {
     }
 
     @Override
-    public void enterMenu(String name) {
+    public boolean enterMenu(String name) {
         Printer.print(MenuMessage.INVALID_MENU.message());
+        return false;
     }
 
     @Override
     public void exitMenu() {
-        TerminalRun.ChangeCurrentMenu(MainMenu.getInstance());
+        TerminalRun.changeCurrentMenu(MainMenu.getInstance());
         Printer.print(MenuMessage.ENTER_MAIN_MENU.message());
     }
 

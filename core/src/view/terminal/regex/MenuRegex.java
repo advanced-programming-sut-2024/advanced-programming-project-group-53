@@ -7,7 +7,7 @@ public enum MenuRegex {
     enterMenu(Pattern.compile("^\\s*enter\\s+menu\\s+(?<menuName>\\S+)\\s*$")),
     exitMenu(Pattern.compile("^\\s*exit\\s+menu\\s*$")),
     showCurrentMenu(Pattern.compile("^\\s*show\\s+menu\\s*$")),
-    exitGame(Pattern.compile("^\\s*exit\\s+game\\s*$")),;
+    exitGame(Pattern.compile("^\\s*exit\\s+game\\s*$"));
 
     private final Pattern pattern;
 

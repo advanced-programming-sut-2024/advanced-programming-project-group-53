@@ -5,16 +5,16 @@ import view.terminal.Message.MenuMessage;
 import view.terminal.Printer;
 import view.terminal.TerminalRun;
 
-public class LoginMenu extends Menu {
-    private static LoginMenu instance;
+public class RegisterMenu extends Menu {
+    private static RegisterMenu instance;
 
-    private LoginMenu() {
-        super.setMenuType(MenuName.LoginMenu);
+    private RegisterMenu() {
+        super.setMenuType(MenuName.RegisterMenu);
     }
 
-    public static LoginMenu getInstance() {
+    public static RegisterMenu getInstance() {
         if (instance == null)
-            instance = new LoginMenu();
+            instance = new RegisterMenu();
         return instance;
     }
 
@@ -23,6 +23,10 @@ public class LoginMenu extends Menu {
         if (MenuName.getMenu(name) == MenuName.MainMenu) {
             TerminalRun.changeCurrentMenu(MainMenu.getInstance());
             Printer.print(MenuMessage.ENTER_MAIN_MENU.message());
+            return true;
+        } else if (MenuName.getMenu(name) == MenuName.LoginMenu) {
+            TerminalRun.changeCurrentMenu(LoginMenu.getInstance());
+            Printer.print(MenuMessage.ENTER_REGISTER_MENU.message());
             return true;
         } else {
             Printer.print(MenuMessage.INVALID_MENU.message());

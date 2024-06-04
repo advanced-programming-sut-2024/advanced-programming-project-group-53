@@ -9,7 +9,7 @@ public class MainMenu extends Menu {
     private static MainMenu instance;
 
     private MainMenu() {
-
+        super.setMenuType(MenuName.MainMenu);
     }
 
     public static MainMenu getInstance() {
@@ -31,22 +31,26 @@ public class MainMenu extends Menu {
     }
 
     @Override
-    public void enterMenu(String name) {
+    public boolean enterMenu(String name) {
         if (MenuName.getMenu(name) == MenuName.GameMenu) {
-            TerminalRun.ChangeCurrentMenu(GameMenu.getInstance());
+            TerminalRun.changeCurrentMenu(GameMenu.getInstance());
             Printer.print(MenuMessage.ENTER_GAME_MENU.message());
+            return true;
         }
         else if (MenuName.getMenu(name) == MenuName.ProfileMenu) {
-            TerminalRun.ChangeCurrentMenu(ProfileMenu.getInstance());
+            TerminalRun.changeCurrentMenu(ProfileMenu.getInstance());
             Printer.print(MenuMessage.ENTER_PROFILE_MENU.message());
+            return true;
         }
-        else
+        else {
             Printer.print(MenuMessage.INVALID_MENU.message());
+            return false;
+        }
     }
 
     @Override
     public void exitMenu() {
-        TerminalRun.ChangeCurrentMenu(LoginMenu.getInstance());
+        TerminalRun.changeCurrentMenu(LoginMenu.getInstance());
         Printer.print(MenuMessage.ENTER_LOGIN_MENU.message());
     }
 

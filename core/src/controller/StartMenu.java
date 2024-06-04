@@ -10,7 +10,7 @@ public class StartMenu extends Menu {
     private static StartMenu instance;
 
     private StartMenu() {
-
+        super.setMenuType(MenuName.StartMenu);
     }
 
     public static StartMenu getInstance() {
@@ -40,17 +40,20 @@ public class StartMenu extends Menu {
     }
 
     @Override
-    public void enterMenu(String name) {
+    public boolean enterMenu(String name) {
         if (MenuName.getMenu(name) == MenuName.GameMenu) {
-            TerminalRun.ChangeCurrentMenu(GameMenu.getInstance());
+            TerminalRun.changeCurrentMenu(GameMenu.getInstance());
             Printer.print(MenuMessage.ENTER_GAME_MENU.message());
-        } else
+            return true;
+        } else {
             Printer.print(MenuMessage.INVALID_MENU.message());
+            return false;
+        }
     }
 
     @Override
     public void exitMenu() {
-        TerminalRun.ChangeCurrentMenu(MainMenu.getInstance());
+        TerminalRun.changeCurrentMenu(MainMenu.getInstance());
         Printer.print(MenuMessage.ENTER_MAIN_MENU.message());
     }
 

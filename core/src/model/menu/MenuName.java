@@ -3,6 +3,7 @@ package model.menu;
 public enum MenuName {
     GameMenu,
     LoginMenu,
+    RegisterMenu,
     MainMenu,
     ProfileMenu,
     StartMenu;
@@ -15,6 +16,9 @@ public enum MenuName {
             case "LoginMenu":
             case "Login":
                 return LoginMenu;
+            case "RegisterMenu":
+            case "Register":
+                return RegisterMenu;
             case "MainMenu":
             case "Main":
                 return MainMenu;

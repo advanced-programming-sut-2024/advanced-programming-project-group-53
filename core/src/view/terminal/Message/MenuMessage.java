@@ -4,6 +4,7 @@ public enum MenuMessage {
     INVALID_COMMAND("The command that you have entered is invalid."),
     INVALID_MENU("You can't enter this menu directly."),
     ENTER_LOGIN_MENU("You have entered the login menu."),
+    ENTER_REGISTER_MENU("You have entered the register menu."),
     ENTER_MAIN_MENU("You have entered the main menu."),
     ENTER_GAME_MENU("You have entered the game menu."),
     ENTER_PROFILE_MENU("You have entered the profile menu."),
