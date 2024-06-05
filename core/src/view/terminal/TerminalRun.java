@@ -31,8 +31,7 @@ public abstract class TerminalRun {
             }
             matcher = LoginMenuRegex.forgetPassword.getMatcher(line);
             if (matcher.find()) {
-                //TODO : fill this field with 2 regexes (answer question and set password) and
-                // confirm it in controller.
+                //TODO : make 1 method for this in user class.
                 if (exactlyCurrentMenu.forgetPasswordUserValidation(matcher.group("username"))) {
                     String questionLine = scanner.nextLine();
                     matcher = LoginMenuRegex.answerQuestion.getMatcher(questionLine);
@@ -58,6 +57,7 @@ public abstract class TerminalRun {
                     while (true) {
                         String pickQuestionLine = scanner.nextLine();
                         matcher = RegisterMenuRegex.pickQuestion.getMatcher(pickQuestionLine);
+                        //TODO : add confirm answer to this field.
                         int number = Integer.parseInt(matcher.group("questionNumber"));
                         boolean questionValidation = exactlyCurrentMenu.pickQuestion(number);
                         if (questionValidation) {
