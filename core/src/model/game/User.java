@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 public class User {
     private final static ArrayList<User> allUsers = new ArrayList<>();
+    private static HashMap<String, String> allSecurityQuestions;
     private static User currentUser;
     private String username;
     private String nickname;
@@ -28,6 +29,16 @@ public class User {
     private HashMap<String, String> securityQuestions;
     private Faction lastFaction;
 
+    static {
+        //Initialize all security questions part in static block. at least 5 questions.
+        allSecurityQuestions = new HashMap<>();
+        allSecurityQuestions.put("What year Hitler was born?", "1889");
+        allSecurityQuestions.put("What year Hiroshima happened?", "1945");
+        allSecurityQuestions.put("How many ribs a ordinary human has?", "24");
+        allSecurityQuestions.put("What is the capital city of Iran?", "Tehran");
+        allSecurityQuestions.put("How old was Henry Kissinger when he died?","100");
+
+    }
     public User(String username, String nickname, String email, String password) {
         this.username = username;
         this.nickname = nickname;
@@ -52,7 +63,6 @@ public class User {
     }
 
     public int passwordCheck(String password) {
-        //TODO : probably delete it because we have password regex in terminal package .
         if (password.length() < 8) return 1;
         Matcher matcher = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]+$").matcher(password);
         if (!matcher.find()) return 2;
@@ -76,10 +86,12 @@ public class User {
     }
 
 
-    public void changeUsername(String newUsername) {
+    public boolean changeUsername(String newUsername) {
         if (ValidationRegex.Username.getMatcher(newUsername).find()) {
             this.setUsername(newUsername);
+            return true;
         }
+        return false;
     }
 
     public void changePassword(String newPassword) {
@@ -88,21 +100,24 @@ public class User {
         }
     }
 
-    public void changeNickname(String newNickname) {
+    public boolean changeNickname(String newNickname) {
         if (ValidationRegex.Nickname.getMatcher(newNickname).find()) {
             this.setNickname(newNickname);
+            return true;
         }
+        return false;
     }
 
-    public void changeEmail(String newEmail) {
+    public boolean changeEmail(String newEmail) {
         if (ValidationRegex.Email.getMatcher(newEmail).find()) {
             this.setEmail(newEmail);
+            return true;
         }
+        return false;
     }
 
     public void showGameHistory(int count) {
         //TODO : fill this after completing game model.
-
     }
 
     public boolean isGameHistoryEmpty() {

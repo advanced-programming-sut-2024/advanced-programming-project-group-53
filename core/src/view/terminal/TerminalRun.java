@@ -12,7 +12,7 @@ public abstract class TerminalRun {
     private static Menu currentMenu = LoginMenu.getInstance();
 
     public static void loginMenuRun(Scanner scanner) {
-        LoginMenu exactlyCurrentMenu = (LoginMenu)TerminalRun.getInstance();
+        LoginMenu exactlyCurrentMenu = (LoginMenu)TerminalRun.getMenuInstance();
         while (true) {
             String line = scanner.nextLine();
             checkGeneralCommands(line, scanner);
@@ -42,7 +42,7 @@ public abstract class TerminalRun {
 
 
     public static void registerMenuRun(Scanner scanner) {
-        RegisterMenu exactlyCurrentMenu = (RegisterMenu) TerminalRun.getInstance();
+        RegisterMenu exactlyCurrentMenu = (RegisterMenu) TerminalRun.getMenuInstance();
         while (true) {
             String line = scanner.nextLine();
             checkGeneralCommands(line, scanner);
@@ -58,7 +58,7 @@ public abstract class TerminalRun {
     }
 
     public static void mainMenuRun(Scanner scanner) {
-        MainMenu exactlyCurrentMenu = (MainMenu) TerminalRun.getInstance();
+        MainMenu exactlyCurrentMenu = (MainMenu) TerminalRun.getMenuInstance();
         while (true) {
             String line = scanner.nextLine();
             checkGeneralCommands(line, scanner);
@@ -92,7 +92,7 @@ public abstract class TerminalRun {
 
     public static void profileMenuRun(Scanner scanner) {
         //TODO : complete show game history in User class.
-        ProfileMenu exactlyCurrentMenu = (ProfileMenu) TerminalRun.getInstance();
+        ProfileMenu exactlyCurrentMenu = (ProfileMenu) TerminalRun.getMenuInstance();
         while (true) {
             String line = scanner.nextLine();
             checkGeneralCommands(line, scanner);
@@ -119,7 +119,7 @@ public abstract class TerminalRun {
     }
 
     public static void startMenuRun(Scanner scanner) {
-        StartMenu exactlyCurrentMenu = (StartMenu) TerminalRun.getInstance();
+        StartMenu exactlyCurrentMenu = (StartMenu) TerminalRun.getMenuInstance();
         while (true) {
             String line = scanner.nextLine();
             checkGeneralCommands(line, scanner);
@@ -192,7 +192,7 @@ public abstract class TerminalRun {
     }
 
     public static void gameMenuRun(Scanner scanner) {
-        GameMenu exactlyCurrentMenu = (GameMenu) TerminalRun.getInstance();
+        GameMenu exactlyCurrentMenu = (GameMenu) TerminalRun.getMenuInstance();
         while (true) {
             String line = scanner.nextLine();
             checkGeneralCommands(line, scanner);
@@ -315,7 +315,7 @@ public abstract class TerminalRun {
         }
     }
 
-    public static Menu getInstance() {
+    public static Menu getMenuInstance() {
         return TerminalRun.currentMenu;
     }
 }

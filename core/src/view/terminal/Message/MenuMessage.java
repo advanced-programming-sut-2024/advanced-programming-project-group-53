@@ -24,7 +24,10 @@ public enum MenuMessage {
     CHANGE_EMAIL("Email changed successfully."),
     CHANGE_PASSWORD("Password changed successfully."),
     PASSWORD_LENGTH_ERROR("Password should at least contains 8 characters."),
-    PASSWORD_INVALID_CHARACTERS_ERROR("Password should contains just letters,digits and special characters.");
+    PASSWORD_INVALID_CHARACTERS_ERROR("Password should contains just letters,digits and special characters."),
+    INVALID_USERNAME("Invalid username."),
+    INVALID_NICKNAME("Invalid nickname."),
+    INVALID_EMAIL("Invalid email.");
     private final String message;
 
     MenuMessage(String message) {

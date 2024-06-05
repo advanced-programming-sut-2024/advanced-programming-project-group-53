@@ -26,8 +26,9 @@ public class MainMenu extends Menu {
     }
 
     public void changeUsername(String newUsername) {
-        User.getCurrentUser().changeUsername(newUsername);
-        Printer.print(MenuMessage.CHANGE_USERNAME.message());
+        boolean changed = User.getCurrentUser().changeUsername(newUsername);
+        if (changed) Printer.print(MenuMessage.CHANGE_USERNAME.message());
+        else Printer.print(MenuMessage.INVALID_USERNAME.message());
     }
 
     public void changePassword(String newPassword, String oldPassword) {
@@ -48,13 +49,15 @@ public class MainMenu extends Menu {
     }
 
     public void changeNickname(String newNickname) {
-        User.getCurrentUser().changeNickname(newNickname);
-        Printer.print(MenuMessage.CHANGE_NICKNAME.message());
+        boolean changed = User.getCurrentUser().changeNickname(newNickname);
+        if (changed) Printer.print(MenuMessage.CHANGE_NICKNAME.message());
+        else Printer.print(MenuMessage.INVALID_NICKNAME.message());
     }
 
     public void changeEmail(String newEmail) {
-        User.getCurrentUser().changeEmail(newEmail);
-        Printer.print(MenuMessage.CHANGE_EMAIL.message());
+        boolean changed = User.getCurrentUser().changeEmail(newEmail);
+        if (changed) Printer.print(MenuMessage.CHANGE_EMAIL.message());
+        else Printer.print(MenuMessage.INVALID_EMAIL.message());
     }
 
     @Override
