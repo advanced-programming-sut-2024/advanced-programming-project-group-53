@@ -7,7 +7,7 @@ public enum ValidationRegex {
     Email(Pattern.compile("^(?<email>.+)@(yahoo|gmail|outlook|hotmail)\\.(com)$")),
     Username(Pattern.compile("^(?<username>([a-z]|[A-Z]|[0-9]|-)+)$")),
     Nickname(Pattern.compile("^(?<username>([a-z]|[A-Z]|[0-9]|-)+)$")),
-    Password(Pattern.compile("^(?<password>([a-z]|[A-Z]|[0-9]|[!@#$%^&*])+)$"));
+    Password(Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$"));
     private String value;
 
     private final Pattern pattern;

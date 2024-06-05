@@ -69,6 +69,9 @@ public class User {
         return counter - 1;
     }
 
+    public static boolean checkQuestionNumberValidation(int number) {
+        return number >= 1 && number <= 5;
+    }
     public static void putQuestion(int questionNumber) {
         //TODO : check this part for bugs because it is not working for sure and intelliJ gives warning.
         Set<Map.Entry<String, String>> set = allSecurityQuestionsAndAnswers.entrySet();

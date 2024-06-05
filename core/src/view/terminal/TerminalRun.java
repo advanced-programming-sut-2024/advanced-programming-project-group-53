@@ -20,6 +20,7 @@ public abstract class TerminalRun {
             if (matcher.find()) {
                 currentMenu.enterMenu("RegisterMenu");
                 runSpecificMenu(MenuName.RegisterMenu, scanner);
+                break;
             }
             matcher = LoginMenuRegex.login.getMatcher(line);
             if (matcher.find()) {
@@ -48,11 +49,25 @@ public abstract class TerminalRun {
             checkGeneralCommands(line, scanner);
             Matcher matcher = RegisterMenuRegex.register.getMatcher(line);
             if (matcher.find()) {
-                //TODO : fill this with controller.
-            }
-            matcher = RegisterMenuRegex.pickQuestion.getMatcher(line);
-            if (matcher.find()) {
-                //TODO : fill this with controller.
+                String username = matcher.group("username");
+                String nickname = matcher.group("nickname");
+                String email = matcher.group("email");
+                String password = matcher.group("password");
+                boolean validate = exactlyCurrentMenu.registerValidate(username, nickname, email, password);
+                if (validate) {
+                    while (true) {
+                        String pickQuestionLine = scanner.nextLine();
+                        matcher = RegisterMenuRegex.pickQuestion.getMatcher(pickQuestionLine);
+                        int number = Integer.parseInt(matcher.group("questionNumber"));
+                        boolean questionValidation = exactlyCurrentMenu.pickQuestion(number);
+                        if (questionValidation) {
+                            exactlyCurrentMenu.register(username, nickname, email, password, number);
+                            TerminalRun.runSpecificMenu(MenuName.LoginMenu,scanner);
+                            break;
+                        } else Printer.print(MenuMessage.TRY_AGAIN.message());
+                    }
+                    break;
+                } else Printer.print(MenuMessage.TRY_AGAIN.message());
             } else Printer.print(MenuMessage.INVALID_COMMAND.message());
         }
     }
@@ -66,6 +81,7 @@ public abstract class TerminalRun {
             if (matcher.find()) {
                 exactlyCurrentMenu.logout();
                 runSpecificMenu(MenuName.LoginMenu,scanner);
+                break;
             }
             matcher = MainMenuRegex.changeUsername.getMatcher(line);
             if (matcher.find()) {

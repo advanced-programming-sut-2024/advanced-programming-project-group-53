@@ -27,7 +27,9 @@ public enum MenuMessage {
     PASSWORD_INVALID_CHARACTERS_ERROR("Password should contains just letters,digits and special characters."),
     INVALID_USERNAME("Invalid username."),
     INVALID_NICKNAME("Invalid nickname."),
-    INVALID_EMAIL("Invalid email.");
+    INVALID_EMAIL("Invalid email."),
+    WEAK_PASSWORD("Weak password."),
+    TRY_AGAIN("TRY AGAIN...");
     private final String message;
 
     MenuMessage(String message) {
