@@ -1,5 +1,6 @@
 package controller;
 
+import model.game.User;
 import model.menu.MenuName;
 import view.terminal.Message.MenuMessage;
 import view.terminal.Printer;
@@ -18,28 +19,20 @@ public class ProfileMenu extends Menu {
         return instance;
     }
 
-    private static void changeUsername(String newUsername) {
-
+    public void showInformation() {
+        Printer.printUserInfo();
     }
 
-    private static void changePassword(String newPassword) {
-
+    public void showGameHistory(int count) {
+        User user = User.getCurrentUser();
+        if (user == null) return;
+        if (user.isGameHistoryEmpty()) Printer.print(MenuMessage.EMPTY_GAME_HISTORY.message());
+        //TODO : fill this in user field for showing game history.
+        Printer.temporaryPrinter();
     }
 
-    private static void changeNickname(String newNickname) {
-
-    }
-
-    private static void changeEmail(String newEmail) {
-
-    }
-
-    private static void showInformation() {
-
-    }
-
-    private static void showGameHistory(int count) {
-
+    public boolean checkCountValidation(int count) {
+        return count <= 0;
     }
 
     @Override

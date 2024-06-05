@@ -40,4 +40,22 @@ public class LoginMenu extends Menu {
     public void showMenu() {
         Printer.print(MenuMessage.LOGIN_MENU.message());
     }
+
+    public boolean login(String username, String password) {
+        User user = User.findUser(username);
+        if (user == null) {
+            Printer.print(MenuMessage.NO_USER.message());
+            return false;
+        }
+        if (!user.getPassword().equals(password)) {
+            Printer.print(MenuMessage.INCORRECT_PASSWORD.message());
+            return false;
+        }
+        User.setCurrentUser(user);
+        TerminalRun.changeCurrentMenu(LoginMenu.getInstance());
+        return true;
+    }
+    public boolean forgetPasswordUserValidation(String username) {
+        return User.findUser(username) != null;
+    }
 }

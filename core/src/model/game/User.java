@@ -1,10 +1,14 @@
 package model.game;
 
 import model.card.Faction;
+import view.terminal.Message.MenuMessage;
+import view.terminal.Printer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class User {
     private final static ArrayList<User> allUsers = new ArrayList<>();
@@ -20,7 +24,7 @@ public class User {
     private int loseCount;
     private int drawCount;
     // this attributes can handle with simple methods.
-    private ArrayList<GameInformation> gameInformation;
+    private final ArrayList<GameInformation> gameInformations;
     private HashMap<String, String> securityQuestions;
     private Faction lastFaction;
 
@@ -34,6 +38,7 @@ public class User {
         this.loseCount = 0;
         this.drawCount = 0;
         this.maxPoint = 0;
+        this.gameInformations = new ArrayList<>();
         //TODO: decide a default faction for the new players!
     }
 
@@ -46,9 +51,12 @@ public class User {
         return null;
     }
 
-    public boolean passwordCheck(String password) {
+    public int passwordCheck(String password) {
         //TODO : probably delete it because we have password regex in terminal package .
-        return false;
+        if (password.length() < 8) return 1;
+        Matcher matcher = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]+$").matcher(password);
+        if (!matcher.find()) return 2;
+        return 0;
     }
 
     public boolean checkSecurity(String answer, String question) {
@@ -75,7 +83,7 @@ public class User {
     }
 
     public void changePassword(String newPassword) {
-        if (ValidationRegex.Password.getMatcher(newPassword).find()) {
+        if (passwordCheck(newPassword) == 0) {
             this.setPassword(newPassword);
         }
     }
@@ -90,6 +98,15 @@ public class User {
         if (ValidationRegex.Email.getMatcher(newEmail).find()) {
             this.setEmail(newEmail);
         }
+    }
+
+    public void showGameHistory(int count) {
+        //TODO : fill this after completing game model.
+
+    }
+
+    public boolean isGameHistoryEmpty() {
+        return this.gameInformations.isEmpty();
     }
     /*
      * getters and setters part

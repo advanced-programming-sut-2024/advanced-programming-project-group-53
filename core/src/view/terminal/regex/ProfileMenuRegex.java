@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public enum ProfileMenuRegex {
     enterUserInfo(Pattern.compile("^\\s*enter\\s+user\\s+info\\s+menu\\s*$")),
-    gameHistorySpecified(Pattern.compile("^\\s*game\\s+history\\s+-n\\s+(?<number>\\d+)\\s*$")),
+    gameHistorySpecified(Pattern.compile("^\\s*game\\s+history\\s+-n\\s+(?<number>-?\\d+)\\s*$")),
     gameHistoryNormal(Pattern.compile("^\\s*game\\s+history\\s*$"));
 
     private final Pattern pattern;

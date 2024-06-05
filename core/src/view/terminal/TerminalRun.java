@@ -1,7 +1,6 @@
 package view.terminal;
 
-import controller.LoginMenu;
-import controller.Menu;
+import controller.*;
 import model.menu.MenuName;
 import view.terminal.Message.MenuMessage;
 import view.terminal.regex.*;
@@ -13,6 +12,7 @@ public abstract class TerminalRun {
     private static Menu currentMenu = LoginMenu.getInstance();
 
     public static void loginMenuRun(Scanner scanner) {
+        LoginMenu exactlyCurrentMenu = (LoginMenu)TerminalRun.getInstance();
         while (true) {
             String line = scanner.nextLine();
             checkGeneralCommands(line, scanner);
@@ -23,18 +23,26 @@ public abstract class TerminalRun {
             }
             matcher = LoginMenuRegex.login.getMatcher(line);
             if (matcher.find()) {
-                //TODO : fill this with with controller.
+                boolean validLogin = exactlyCurrentMenu.login(matcher.group("username"),
+                        matcher.group("password"));
+                if (validLogin) runSpecificMenu(MenuName.MainMenu, scanner);
+                continue;
             }
             matcher = LoginMenuRegex.forgetPassword.getMatcher(line);
             if (matcher.find()) {
                 //TODO : fill this field with 2 regexes (answer question and set password) and
                 // confirm it in controller.
+                if (exactlyCurrentMenu.forgetPasswordUserValidation(matcher.group("username"))) {
+                    String questionLine = scanner.nextLine();
+                    matcher = LoginMenuRegex.answerQuestion.getMatcher(questionLine);
+                } else Printer.print(MenuMessage.NO_USER.message());
             } else Printer.print(MenuMessage.INVALID_COMMAND.message());
         }
     }
 
 
     public static void registerMenuRun(Scanner scanner) {
+        RegisterMenu exactlyCurrentMenu = (RegisterMenu) TerminalRun.getInstance();
         while (true) {
             String line = scanner.nextLine();
             checkGeneralCommands(line, scanner);
@@ -50,52 +58,68 @@ public abstract class TerminalRun {
     }
 
     public static void mainMenuRun(Scanner scanner) {
+        MainMenu exactlyCurrentMenu = (MainMenu) TerminalRun.getInstance();
         while (true) {
             String line = scanner.nextLine();
             checkGeneralCommands(line, scanner);
             Matcher matcher = MainMenuRegex.logout.getMatcher(line);
             if (matcher.find()) {
-                //TODO : fill this with controller.
+                exactlyCurrentMenu.logout();
+                runSpecificMenu(MenuName.LoginMenu,scanner);
             }
             matcher = MainMenuRegex.changeUsername.getMatcher(line);
             if (matcher.find()) {
-                //TODO : fill this with controller.
+                exactlyCurrentMenu.changeUsername(matcher.group("newUsername"));
+                continue;
             }
             matcher = MainMenuRegex.changePassword.getMatcher(line);
             if (matcher.find()) {
-                //TODO : fill this with controller.
+                exactlyCurrentMenu.changePassword(matcher.group("newPassword"),
+                        matcher.group("oldPassword"));
+                continue;
             }
             matcher = MainMenuRegex.changeNickname.getMatcher(line);
             if (matcher.find()) {
-                //TODO : fill this with controller.
+                exactlyCurrentMenu.changeNickname(matcher.group("newNickname"));
+                continue;
             }
             matcher = MainMenuRegex.changeEmail.getMatcher(line);
             if (matcher.find()) {
-                //TODO : fill this with controller.
+                exactlyCurrentMenu.changeEmail(matcher.group("newEmail"));
             } else Printer.print(MenuMessage.INVALID_COMMAND.message());
         }
     }
 
     public static void profileMenuRun(Scanner scanner) {
+        //TODO : complete show game history in User class.
+        ProfileMenu exactlyCurrentMenu = (ProfileMenu) TerminalRun.getInstance();
         while (true) {
             String line = scanner.nextLine();
             checkGeneralCommands(line, scanner);
             Matcher matcher = ProfileMenuRegex.enterUserInfo.getMatcher(line);
             if (matcher.find()) {
-                //TODO : fill this with controller.
+                exactlyCurrentMenu.showInformation();
+                continue;
             }
             matcher = ProfileMenuRegex.gameHistoryNormal.getMatcher(line);
             if (matcher.find()) {
-                //TODO : fill this with controller.
+                exactlyCurrentMenu.showGameHistory(5);
+                continue;
             }
             matcher = ProfileMenuRegex.gameHistorySpecified.getMatcher(line);
             if (matcher.find()) {
-                //TODO : fill this with controller.
+                int count = Integer.parseInt(matcher.group("number"));
+                if (exactlyCurrentMenu.checkCountValidation(count)) {
+                    Printer.print(MenuMessage.INVALID_NUMBER.message());
+                    continue;
+                }
+                exactlyCurrentMenu.showGameHistory(count);
             } else Printer.print(MenuMessage.INVALID_COMMAND.message());
         }
     }
 
     public static void startMenuRun(Scanner scanner) {
+        StartMenu exactlyCurrentMenu = (StartMenu) TerminalRun.getInstance();
         while (true) {
             String line = scanner.nextLine();
             checkGeneralCommands(line, scanner);
@@ -168,6 +192,7 @@ public abstract class TerminalRun {
     }
 
     public static void gameMenuRun(Scanner scanner) {
+        GameMenu exactlyCurrentMenu = (GameMenu) TerminalRun.getInstance();
         while (true) {
             String line = scanner.nextLine();
             checkGeneralCommands(line, scanner);
@@ -288,5 +313,9 @@ public abstract class TerminalRun {
             default:
                 return;
         }
+    }
+
+    public static Menu getInstance() {
+        return TerminalRun.currentMenu;
     }
 }

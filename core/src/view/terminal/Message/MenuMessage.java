@@ -13,7 +13,18 @@ public enum MenuMessage {
     MAIN_MENU("You are in main menu."),
     GAME_MENU("You are in game menu."),
     PROFILE_MENU("You are in profile menu."),
-    START_MENU("You are in start menu."),;
+    START_MENU("You are in start menu."),
+    NO_USER("No user with such username has found."),
+    INCORRECT_PASSWORD("Incorrect password!"),
+    EMPTY_GAME_HISTORY("There is no game in your game history to show!"),
+    INVALID_NUMBER("Invalid number."),
+    LOGOUT("You logged out."),
+    CHANGE_USERNAME("Username changed successfully."),
+    CHANGE_NICKNAME("Nickname changed successfully."),
+    CHANGE_EMAIL("Email changed successfully."),
+    CHANGE_PASSWORD("Password changed successfully."),
+    PASSWORD_LENGTH_ERROR("Password should at least contains 8 characters."),
+    PASSWORD_INVALID_CHARACTERS_ERROR("Password should contains just letters,digits and special characters.");
     private final String message;
 
     MenuMessage(String message) {

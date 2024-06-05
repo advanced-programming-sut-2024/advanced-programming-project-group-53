@@ -4,9 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum LoginMenuRegex {
-    login(Pattern.compile("^\\s*login(?=.*\\s+-a\\s+(?<username>\\S+)\\s*)(?=.*\\s+-a\\s+(?<password>\\S+)\\s*)" +
-            "(\\s+-[up]\\s+(\\.+)\\s*){2}\\s+" +
-            "-stay-logged-in\\s*$")),
+    login(Pattern.compile("^\\s*login(?=.*\\s+-u\\s+(?<username>\\S+)\\s*)" +
+            "(?=.*\\s+-p\\s+(?<password>\\S+)\\s*)(\\s+-[up]\\s+(\\S+)\\s*){2}\\s+-stay-logged-in\\s*$")),
     forgetPassword(Pattern.compile("^\\s*forget\\s+password\\s+-u\\s+(?<username>\\S+)\\s*$")),
     answerQuestion(Pattern.compile("^\\s*answer\\s+-q\\s+(?<questionNumber>\\d+)\\s*$")),
     setPassword(Pattern.compile("^\\s*set\\s+password\\s+-p\\s+(?<password>\\S+)\\s*$")),
