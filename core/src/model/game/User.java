@@ -1,18 +1,16 @@
 package model.game;
 
 import model.card.Faction;
-import view.terminal.Message.MenuMessage;
 import view.terminal.Printer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class User {
     private final static ArrayList<User> allUsers = new ArrayList<>();
-    private static HashMap<String, String> allSecurityQuestions;
+    private static TreeMap<String, String> allSecurityQuestionsAndAnswers;
+    private static int questionsCount;
     private static User currentUser;
     private String username;
     private String nickname;
@@ -26,18 +24,18 @@ public class User {
     private int drawCount;
     // this attributes can handle with simple methods.
     private final ArrayList<GameInformation> gameInformations;
-    private HashMap<String, String> securityQuestions;
+    private TreeMap<String, String> securityQuestions;
     private Faction lastFaction;
 
     static {
         //Initialize all security questions part in static block. at least 5 questions.
-        allSecurityQuestions = new HashMap<>();
-        allSecurityQuestions.put("What year Hitler was born?", "1889");
-        allSecurityQuestions.put("What year Hiroshima happened?", "1945");
-        allSecurityQuestions.put("How many ribs a ordinary human has?", "24");
-        allSecurityQuestions.put("What is the capital city of Iran?", "Tehran");
-        allSecurityQuestions.put("How old was Henry Kissinger when he died?","100");
-
+        allSecurityQuestionsAndAnswers = new TreeMap<>();
+        allSecurityQuestionsAndAnswers.put("What year Hitler was born?", "1889");
+        allSecurityQuestionsAndAnswers.put("What year Hiroshima happened?", "1945");
+        allSecurityQuestionsAndAnswers.put("How many ribs a ordinary human has?", "24");
+        allSecurityQuestionsAndAnswers.put("What is the capital city of Iran?", "Tehran");
+        allSecurityQuestionsAndAnswers.put("How old was Henry Kissinger when he died?","100");
+        questionsCount = 5;
     }
     public User(String username, String nickname, String email, String password) {
         this.username = username;
@@ -62,6 +60,25 @@ public class User {
         return null;
     }
 
+    public static int printAllSecurityQuestions() {
+        int counter = 1;
+        for (Map.Entry<String, String> aQuestion : allSecurityQuestionsAndAnswers.entrySet()) {
+            Printer.print(counter + ". " + aQuestion.toString() + " " + aQuestion.getKey());
+            counter++;
+        }
+        return counter - 1;
+    }
+
+    public static void putQuestion(int questionNumber) {
+        //TODO : check this part for bugs because it is not working for sure and intelliJ gives warning.
+        Set<Map.Entry<String, String>> set = allSecurityQuestionsAndAnswers.entrySet();
+        Iterator<Map.Entry<String, String>> iterator = set.iterator();
+        Map.Entry<String, String> questionAnswer = (Map.Entry<String, String>)iterator;
+        for (int i = 0; i < questionNumber; i++) {
+            questionAnswer = (Map.Entry<String, String>)iterator.next();
+        }
+        currentUser.putSecurityQuestion(questionAnswer.toString(), questionAnswer.getKey());
+    }
     public int passwordCheck(String password) {
         if (password.length() < 8) return 1;
         Matcher matcher = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]+$").matcher(password);
