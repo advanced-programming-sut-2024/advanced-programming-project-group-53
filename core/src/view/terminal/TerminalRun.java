@@ -31,10 +31,22 @@ public abstract class TerminalRun {
             }
             matcher = LoginMenuRegex.forgetPassword.getMatcher(line);
             if (matcher.find()) {
-                //TODO : make 1 method for this in user class.
-                if (exactlyCurrentMenu.forgetPasswordUserValidation(matcher.group("username"))) {
-                    String questionLine = scanner.nextLine();
-                    matcher = LoginMenuRegex.answerQuestion.getMatcher(questionLine);
+                String username = matcher.group("username");
+                if (exactlyCurrentMenu.forgetPasswordUserValidation(username)) {
+                    line = scanner.nextLine();
+                    matcher = LoginMenuRegex.answerQuestion.getMatcher(line);
+                    if (matcher.find()) {
+                        int number = Integer.parseInt(matcher.group("questionNumber"));
+                        String answer = matcher.group("answer");
+                        boolean correctAnswer = exactlyCurrentMenu.forgetPasswordAnswerQuestion(number, answer, username);
+                        if (correctAnswer) {
+                            line = scanner.nextLine();
+                            matcher = LoginMenuRegex.setPassword.getMatcher(line);
+                            if (matcher.find()) {
+                                exactlyCurrentMenu.setPassword(matcher.group("newPassword"), username);
+                            } else Printer.print(MenuMessage.INVALID_COMMAND.message());
+                        }
+                    } else Printer.print(MenuMessage.INVALID_COMMAND.message());
                 } else Printer.print(MenuMessage.NO_USER.message());
             } else Printer.print(MenuMessage.INVALID_COMMAND.message());
         }

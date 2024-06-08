@@ -14,7 +14,7 @@ public enum MenuMessage {
     GAME_MENU("You are in game menu."),
     PROFILE_MENU("You are in profile menu."),
     START_MENU("You are in start menu."),
-    NO_USER("No user with such username has found."),
+    NO_USER("No user with such username exist."),
     INCORRECT_PASSWORD("Incorrect password!"),
     EMPTY_GAME_HISTORY("There is no game in your game history to show!"),
     INVALID_NUMBER("Invalid number."),
@@ -29,7 +29,9 @@ public enum MenuMessage {
     INVALID_NICKNAME("Invalid nickname."),
     INVALID_EMAIL("Invalid email."),
     WEAK_PASSWORD("Weak password."),
-    TRY_AGAIN("TRY AGAIN...");
+    TRY_AGAIN("TRY AGAIN..."),
+    WRONG_ANSWER("Wrong answer!"),
+    PASSWORD_CHANGED("Password changed successfully.\nYou can login in your account.");
     private final String message;
 
     MenuMessage(String message) {

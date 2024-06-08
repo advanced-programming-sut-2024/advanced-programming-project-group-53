@@ -60,13 +60,13 @@ public class User {
         return null;
     }
 
-    public static int printAllSecurityQuestions() {
+    public static void printAllSecurityQuestions() {
+        //probably in future I will make this a method with int return for have current number of questions .
         int counter = 1;
         for (Map.Entry<String, String> aQuestion : allSecurityQuestionsAndAnswers.entrySet()) {
-            Printer.print(counter + ". " + aQuestion.toString() + " " + aQuestion.getKey());
+            Printer.print(counter + ". " + aQuestion.getKey() + " " + aQuestion.getValue());
             counter++;
         }
-        return counter - 1;
     }
 
     public static boolean checkQuestionNumberValidation(int number) {
@@ -77,10 +77,10 @@ public class User {
         Set<Map.Entry<String, String>> set = allSecurityQuestionsAndAnswers.entrySet();
         Iterator<Map.Entry<String, String>> iterator = set.iterator();
         Map.Entry<String, String> questionAnswer = (Map.Entry<String, String>)iterator;
-        for (int i = 0; i < questionNumber; i++) {
+        for (int i = 1; i < questionNumber; i++) {
             questionAnswer = (Map.Entry<String, String>)iterator.next();
         }
-        currentUser.putSecurityQuestion(questionAnswer.toString(), questionAnswer.getKey());
+        currentUser.putSecurityQuestion(questionAnswer.getKey(), questionAnswer.getValue());
     }
     public int passwordCheck(String password) {
         if (password.length() < 8) return 1;
@@ -89,6 +89,24 @@ public class User {
         return 0;
     }
 
+    public int checkSecurityQuestionAnswer(int number, String answer){
+        Set<Map.Entry<String, String>> set = securityQuestions.entrySet();
+        Iterator<Map.Entry<String, String>> iterator = set.iterator();
+        Map.Entry<String, String> questionAnswer = (Map.Entry<String, String>)iterator;
+        int counter = 1;
+        boolean flag = true;
+        while (iterator.hasNext()) {
+            counter++;
+            questionAnswer = iterator.next();
+            if (counter == number) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag) return 1;
+        if (!questionAnswer.getValue().equals(answer)) return 2;
+        return 0;
+    }
     public boolean checkSecurity(String answer, String question) {
         for (Map.Entry<String, String> aQuestion : securityQuestions.entrySet()) {
             if (aQuestion.toString().equals(question) && aQuestion.getKey().equals(answer))

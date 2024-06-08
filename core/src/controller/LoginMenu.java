@@ -1,10 +1,13 @@
 package controller;
 
 import model.game.User;
+import model.game.ValidationRegex;
 import model.menu.MenuName;
 import view.terminal.Message.MenuMessage;
 import view.terminal.Printer;
 import view.terminal.TerminalRun;
+
+import java.util.regex.Matcher;
 
 public class LoginMenu extends Menu {
     private static LoginMenu instance;
@@ -57,5 +60,32 @@ public class LoginMenu extends Menu {
     }
     public boolean forgetPasswordUserValidation(String username) {
         return User.findUser(username) != null;
+    }
+
+    public boolean forgetPasswordAnswerQuestion(int number, String answer, String username) {
+        User user = User.findUser(username);
+        assert user != null;
+        int state = user.checkSecurityQuestionAnswer(number, answer);
+        if (state == 1) {
+            Printer.print(MenuMessage.INVALID_NUMBER.message());
+            return false;
+        }
+        else if (state == 2) {
+            Printer.print(MenuMessage.WRONG_ANSWER.message());
+            return false;
+        }
+        return true;
+    }
+
+    public void setPassword(String newPassword, String username) {
+        User user = User.findUser(username);
+        Matcher matcher = ValidationRegex.Password.getMatcher(newPassword);
+        if (!matcher.find()) {
+            Printer.print(MenuMessage.WEAK_PASSWORD.message());
+            return;
+        }
+        assert user != null;
+        user.setPassword(newPassword);
+        Printer.print(MenuMessage.PASSWORD_CHANGED.message());
     }
 }
