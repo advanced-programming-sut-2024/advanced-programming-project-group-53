@@ -1,11 +1,11 @@
 package controller;
 
-import jdk.jpackage.internal.Log;
 import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class LoginMenuTest {
+public class LoginMenuTest {
     private LoginMenu loginMenu;
 
     @Before
@@ -13,4 +13,8 @@ class LoginMenuTest {
         loginMenu = LoginMenu.getInstance();
     }
 
+    @Test
+    public void shouldEnterMainMenu() {
+        assertTrue(loginMenu.enterMenu("MainMenu"));
+    }
 }
