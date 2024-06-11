@@ -3,6 +3,9 @@ package controller;
 import model.game.User;
 import org.junit.Before;
 import org.junit.Test;
+import view.terminal.Message.MenuMessage;
+import view.terminal.Printer;
+import view.terminal.TerminalRun;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -23,7 +26,12 @@ public class LoginMenuTest {
 
     @Test
     public void shouldEnterMainMenu() {
+        TerminalRun mockTerminalRun = mock(TerminalRun.class);
+        Printer mockPrinter = mock(Printer.class);
+
         assertTrue(loginMenu.enterMenu("MainMenu"));
+        verify(mockPrinter);
+        Printer.print(MenuMessage.ENTER_MAIN_MENU.message());
     }
 
     @Test
