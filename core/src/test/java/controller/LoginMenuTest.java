@@ -12,7 +12,6 @@ import java.io.PrintStream;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class LoginMenuTest {
     private LoginMenu loginMenu;
@@ -21,17 +20,15 @@ public class LoginMenuTest {
     @Before
     public void setUp() {
         loginMenu = LoginMenu.getInstance();
-        mockUser = mock(User.class);
     }
 
     @Test
     public void shouldEnterMainMenu() {
-        TerminalRun mockTerminalRun = mock(TerminalRun.class);
-        Printer mockPrinter = mock(Printer.class);
-
         assertTrue(loginMenu.enterMenu("MainMenu"));
-        verify(mockPrinter);
-        Printer.print(MenuMessage.ENTER_MAIN_MENU.message());
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        loginMenu.enterMenu("MainMenu");
+        assertEquals(MenuMessage.ENTER_MAIN_MENU, outContent.toString().trim());
     }
 
     @Test
