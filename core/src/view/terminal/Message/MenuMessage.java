@@ -18,7 +18,7 @@ public enum MenuMessage {
     INCORRECT_PASSWORD("Incorrect password!"),
     EMPTY_GAME_HISTORY("There is no game in your game history to show!"),
     INVALID_NUMBER("Invalid number."),
-    LOGOUT("You logged out."),
+    LOGOUT("You have logged out."),
     CHANGE_USERNAME("Username changed successfully."),
     CHANGE_NICKNAME("Nickname changed successfully."),
     CHANGE_EMAIL("Email changed successfully."),

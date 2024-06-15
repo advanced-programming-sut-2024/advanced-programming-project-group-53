@@ -338,8 +338,6 @@ public abstract class TerminalRun {
                 startMenuRun(scanner);
             case GameMenu:
                 gameMenuRun(scanner);
-            default:
-                return;
         }
     }
 

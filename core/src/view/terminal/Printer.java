@@ -1,11 +1,16 @@
 package view.terminal;
 
 import model.game.User;
+import model.view.Show;
 
 public interface Printer {
+    Show show = Show.GRAPHICAL;
+
     static void print(String text) {
-        System.out.println(text);
+        if (show != Show.GRAPHICAL)
+            System.out.println(text);//TODO: handle the bloody message destination.
     }
+
     //This is for debug part.
     static void temporaryPrinter() {
         System.out.println("This field haven't completed yet!");

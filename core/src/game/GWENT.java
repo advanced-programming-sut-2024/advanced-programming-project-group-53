@@ -1,29 +1,42 @@
 package game;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ScreenUtils;
+import view.graphic.LoginMenuView;
+import view.graphic.MenuView;
 
-public class GWENT extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-	}
+public class GWENT extends Game {
+    private MenuView menu;
+    private double width;
+    private double height;
 
-	@Override
-	public void render () {
-		ScreenUtils.clear(1, 0, 0, 1);
-		batch.begin();
-		batch.end();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
-	}
+    @Override
+    public void create() {
+        menu = new LoginMenuView(this);
+        setScreen(menu);
+        width = Gdx.graphics.getWidth();
+        height = Gdx.graphics.getHeight();
+    }
+
+    @Override
+    public void render() {
+        ScreenUtils.clear(0, 0, 0, 0);
+        super.render();
+    }
+
+    @Override
+    public void dispose() {
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+    public void changeScreen(MenuView menuView) {
+        this.setScreen(menuView);
+    }
 }
