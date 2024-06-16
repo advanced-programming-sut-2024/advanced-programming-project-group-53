@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginMenuTest {
     private LoginMenu loginMenu;
-    private User mockUser;
 
     @Before
     public void setUp() {
@@ -24,10 +23,9 @@ public class LoginMenuTest {
 
     @Test
     public void shouldEnterMainMenu() {
-        assertTrue(loginMenu.enterMenu("MainMenu"));
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
-        loginMenu.enterMenu("MainMenu");
+        assertTrue(loginMenu.enterMenu("MainMenu"));
         assertEquals(MenuMessage.ENTER_MAIN_MENU, outContent.toString().trim());
     }
 
