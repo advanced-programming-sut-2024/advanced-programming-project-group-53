@@ -37,7 +37,7 @@ allprojects {
     }
 
     dependencies {
-        implementation 'org.junit.jupiter:junit-jupiter-engine:5.11.0-M2'
+        implementation 'junit:junit:4.13.2'
     }
 }
 

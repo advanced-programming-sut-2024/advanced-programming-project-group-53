@@ -10,8 +10,7 @@ import view.terminal.TerminalRun;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.*;
 
 public class LoginMenuTest {
     private LoginMenu loginMenu;
@@ -35,6 +34,14 @@ public class LoginMenuTest {
         System.setOut(new PrintStream(outContent));
         loginMenu.showMenu();
         assertEquals("LoginMenu", outContent.toString().trim());
+    }
+
+    @Test
+    public void shouldShowInvalidMenu() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        assertFalse(loginMenu.enterMenu("aMenu"));
+        assertEquals(MenuMessage.INVALID_MENU, outContent.toString().trim());
     }
 
 
