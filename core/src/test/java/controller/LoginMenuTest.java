@@ -78,4 +78,13 @@ public class LoginMenuTest {
         assertFalse(loginMenu.forgetPasswordUserValidation("AnInvalidUsername"));
     }
 
+    @Test
+    public void shouldChangePasswordWithStrongPassword() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        loginMenu.setPassword("AnotherValidAndStrongPassword12$$", "ValidUsername");
+        assertEquals(MenuMessage.PASSWORD_CHANGED.message(), outContent.toString().trim());
+        //Todo: check that the password has actually changed or not
+    }
+
 }
