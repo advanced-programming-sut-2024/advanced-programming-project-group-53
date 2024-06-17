@@ -67,4 +67,11 @@ public class LoginMenuTest {
         assertFalse(loginMenu.login("ValidUsername", "AWrongPassword"));
         assertEquals(MenuMessage.INCORRECT_PASSWORD.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldValidateUsernameForgottenPassword() {
+        assertTrue(loginMenu.forgetPasswordUserValidation("ValidUsername"));
+    }
+
+
 }
