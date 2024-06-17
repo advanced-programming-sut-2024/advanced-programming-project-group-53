@@ -84,6 +84,6 @@ public class RegisterMenu extends Menu {
 
     @Override
     public void showMenu() {
-        Printer.print(MenuMessage.LOGIN_MENU.message());
+        Printer.print(MenuMessage.REGISTER_MENU.message());
     }
 }
