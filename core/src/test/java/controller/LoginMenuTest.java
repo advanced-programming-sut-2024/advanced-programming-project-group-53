@@ -18,6 +18,9 @@ public class LoginMenuTest {
     @Before
     public void setUp() {
         loginMenu = LoginMenu.getInstance();
+        User.resetUsers();
+        User userInstance = new User("ValidUsername","ValidNickname","Validemail@yahoo.com","ValidAndStrongPassword12$$");
+        //Todo: set some answers for security questions.
     }
 
     @Test
