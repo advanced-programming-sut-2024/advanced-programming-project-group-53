@@ -10,8 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class RegisterMenuTest {
     private RegisterMenu registerMenu;
@@ -44,5 +43,12 @@ public class RegisterMenuTest {
         System.setOut(new PrintStream(outContent));
         assertTrue(registerMenu.enterMenu("LoginMenu"));
         assertEquals(MenuMessage.ENTER_REGISTER_MENU.message(), outContent.toString().trim());
+    }
+
+    @Test
+    public void shouldShowInvalidMenu() {
+        System.setOut(new PrintStream(outContent));
+        assertFalse(registerMenu.enterMenu("aMenu"));
+        assertEquals(MenuMessage.INVALID_MENU.message(), outContent.toString().trim());
     }
 }
