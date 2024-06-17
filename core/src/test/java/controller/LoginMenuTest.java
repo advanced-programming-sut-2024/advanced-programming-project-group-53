@@ -87,4 +87,13 @@ public class LoginMenuTest {
         //Todo: check that the password has actually changed or not
     }
 
+    @Test
+    public void shouldErrorWeakPassword() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        loginMenu.setPassword("WeakPass", "ValidUsername");
+        assertEquals(MenuMessage.WEAK_PASSWORD.message(), outContent.toString().trim());
+        //Todo: check that the password hasn't changed
+    }
+
 }
