@@ -19,7 +19,7 @@ public class LoginMenuTest {
     public void setUp() {
         loginMenu = LoginMenu.getInstance();
         User.resetUsers();
-        User userInstance = new User("ValidUsername","ValidNickname","Validemail@yahoo.com","ValidAndStrongPassword12$$");
+        User userInstance = new User("ValidUsername", "ValidNickname", "Validemail@yahoo.com", "ValidAndStrongPassword12$$");
         //Todo: set some answers for security questions.
     }
 
@@ -49,8 +49,15 @@ public class LoginMenuTest {
 
     @Test
     public void shouldLoginValidAccount() {
-        assertTrue(loginMenu.login("ValidUsername","ValidAndStrongPassword12$$"));
+        assertTrue(loginMenu.login("ValidUsername", "ValidAndStrongPassword12$$"));
     }
 
+    @Test
+    public void shouldErrorNoUser() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        assertFalse(loginMenu.login("ANotExistingUsername","APassword"));
+        assertEquals(MenuMessage.NO_USER,outContent.toString().trim());
+    }
 
 }
