@@ -1,6 +1,7 @@
 package controller;
 
 import model.game.User;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import view.terminal.Message.MenuMessage;
@@ -9,16 +10,18 @@ import view.terminal.TerminalRun;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
 public class LoginMenuTest {
     private LoginMenu loginMenu;
+    private static ArrayList<User> allUsersTemp = new ArrayList<>();
 
     @Before
     public void setUp() {
         loginMenu = LoginMenu.getInstance();
-        User.resetUsers();
+        User.resetUsers(allUsersTemp);
         User userInstance = new User("ValidUsername", "ValidNickname", "Validemail@yahoo.com", "ValidAndStrongPassword12$$");
         //Todo: set some answers for security questions.
     }
@@ -96,4 +99,9 @@ public class LoginMenuTest {
         //Todo: check that the password hasn't changed
     }
     //todo: tests for security question
+
+    @After
+    public void loadUsers() {
+        User.loadUsers(allUsersTemp);
+    }
 }
