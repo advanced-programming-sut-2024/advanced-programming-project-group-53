@@ -10,6 +10,7 @@ public enum MenuMessage {
     ENTER_PROFILE_MENU("You have entered the profile menu."),
     ENTER_START_MENU("You have entered the start menu."),
     LOGIN_MENU("You are in login menu."),
+    REGISTER_MENU("You are in register menu."),
     MAIN_MENU("You are in main menu."),
     GAME_MENU("You are in game menu."),
     PROFILE_MENU("You are in profile menu."),
