@@ -51,6 +51,10 @@ public class User {
         //TODO: decide a default faction for the new players!
     }
 
+    public static void resetUsers () {
+        //used in testing process
+        allUsers.clear();
+    }
     public static User findUser(String username) {
         for (User user : allUsers) {
             if (user.getUsername().equals(username)) {
