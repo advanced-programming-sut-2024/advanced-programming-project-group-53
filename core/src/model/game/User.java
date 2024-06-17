@@ -48,6 +48,7 @@ public class User {
         this.drawCount = 0;
         this.maxPoint = 0;
         this.gameInformations = new ArrayList<>();
+        allUsers.add(this);//Farbod: couldn't find this anywhere (when a new User is initialized we need to add it to allUsers)
         //TODO: decide a default faction for the new players!
     }
 
