@@ -29,4 +29,11 @@ public class RegisterMenuTest {
         registerMenu.showMenu();
         assertEquals(MenuMessage.REGISTER_MENU.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldEnterMainMenu() {
+        System.setOut(new PrintStream(outContent));
+        registerMenu.enterMenu("MainMenu");
+        assertEquals(MenuMessage.ENTER_MAIN_MENU.message(), outContent.toString().trim());
+    }
 }
