@@ -73,5 +73,9 @@ public class LoginMenuTest {
         assertTrue(loginMenu.forgetPasswordUserValidation("ValidUsername"));
     }
 
+    @Test
+    public void shouldErrorInvalidUsernameForgottenPassword() {
+        assertFalse(loginMenu.forgetPasswordUserValidation("AnInvalidUsername"));
+    }
 
 }
