@@ -47,5 +47,10 @@ public class LoginMenuTest {
         assertEquals(MenuMessage.INVALID_MENU, outContent.toString().trim());
     }
 
+    @Test
+    public void shouldLoginValidAccount() {
+        assertTrue(loginMenu.login("ValidUsername","ValidAndStrongPassword12$$"));
+    }
+
 
 }
