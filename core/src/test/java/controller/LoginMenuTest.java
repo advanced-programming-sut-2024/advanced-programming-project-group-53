@@ -95,5 +95,5 @@ public class LoginMenuTest {
         assertEquals(MenuMessage.WEAK_PASSWORD.message(), outContent.toString().trim());
         //Todo: check that the password hasn't changed
     }
-
+    //todo: tests for security question
 }
