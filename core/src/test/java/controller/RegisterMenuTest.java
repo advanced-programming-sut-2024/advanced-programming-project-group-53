@@ -6,9 +6,9 @@ import org.junit.Before;
 
 import java.util.ArrayList;
 
-public class RegisterMenuTest extends TestCase {
+public class RegisterMenuTest {
     private RegisterMenu registerMenu;
-    ArrayList<User> allUsersTemp = new ArrayList<>();
+    private static final ArrayList<User> allUsersTemp = new ArrayList<>();
 
     @Before
     public void setUp() {
