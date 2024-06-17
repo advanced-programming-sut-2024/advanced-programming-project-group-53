@@ -56,8 +56,15 @@ public class LoginMenuTest {
     public void shouldErrorNoUser() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
-        assertFalse(loginMenu.login("ANotExistingUsername","APassword"));
-        assertEquals(MenuMessage.NO_USER,outContent.toString().trim());
+        assertFalse(loginMenu.login("ANotExistingUsername", "APassword"));
+        assertEquals(MenuMessage.NO_USER, outContent.toString().trim());
     }
 
+    @Test
+    public void shouldErrorIncorrectPassword() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        assertFalse(loginMenu.login("ValidUsername", "AWrongPassword"));
+        assertEquals(MenuMessage.INCORRECT_PASSWORD, outContent.toString().trim());
+    }
 }
