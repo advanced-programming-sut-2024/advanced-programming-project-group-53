@@ -39,4 +39,10 @@ public class RegisterMenuTest {
         assertEquals(MenuMessage.ENTER_MAIN_MENU.message(), outContent.toString().trim());
     }
 
+    @Test
+    public void shouldEnterLoginMenu() {
+        System.setOut(new PrintStream(outContent));
+        assertTrue(registerMenu.enterMenu("LoginMenu"));
+        assertEquals(MenuMessage.ENTER_LOGIN_MENU.message(), outContent.toString().trim());
+    }
 }
