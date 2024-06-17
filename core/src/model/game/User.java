@@ -52,9 +52,15 @@ public class User {
         //TODO: decide a default faction for the new players!
     }
 
-    public static void resetUsers () {
+    public static void resetUsers (ArrayList<User> allUsersTemp) {
         //used in testing process
+        allUsersTemp.addAll(allUsers);//to have a temp of all Users
         allUsers.clear();
+    }
+
+    public static void loadUsers (ArrayList<User> allUsersTemp) {
+        //used for testing
+        allUsers.addAll(allUsersTemp);
     }
     public static User findUser(String username) {
         for (User user : allUsers) {
