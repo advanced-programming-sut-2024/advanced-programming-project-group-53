@@ -132,10 +132,18 @@ public class MainMenuTest {
     }
 
     @Test
-    public void shouldNotChangePasswordToWeakPassword() {
+    public void shouldNotChangePasswordToWeakPasswordWithoutCapitalLetter() {
         System.setOut(new PrintStream(outContent));
-        mainMenu.changePassword("newPassword","Valid#Strong45password");
+        mainMenu.changePassword("password12#","Valid#Strong45password");
         assertNotEquals("password12#",User.getCurrentUser().getPassword());
+        assertEquals(MenuMessage.PASSWORD_INVALID_CHARACTERS_ERROR.message(), outContent.toString().trim());
+    }
+
+    @Test
+    public void shouldNotChangePasswordToWeakPasswordWithoutOrdinaryLetter() {
+        System.setOut(new PrintStream(outContent));
+        mainMenu.changePassword("PASSWORD12#","Valid#Strong45password");
+        assertNotEquals("PASSWORD12#",User.getCurrentUser().getPassword());
         assertEquals(MenuMessage.PASSWORD_INVALID_CHARACTERS_ERROR.message(), outContent.toString().trim());
     }
 }
