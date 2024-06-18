@@ -51,4 +51,11 @@ public class MainMenuTest {
         assertFalse(mainMenu.enterMenu("aMenu"));
         assertEquals(MenuMessage.INVALID_MENU.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldExitToLoginMenu() {
+        System.setOut(new PrintStream(outContent));
+        mainMenu.exitMenu();
+        assertEquals(MenuMessage.ENTER_LOGIN_MENU.message(), outContent.toString().trim());
+    }
 }
