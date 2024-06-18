@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
 public class MainMenuTest {
     private MainMenu mainMenu;
     private static final ArrayList<User> allUsersTemp = new ArrayList<>();
+    private static final User currentUserTemp = User.getCurrentUser();
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @Before
