@@ -52,4 +52,11 @@ public class ProfileMenuTest {
         profileMenu.showInformation();
         assertEquals("Username:   aValidUsername-1\r\nNickname:   aValid-1Nickname\r\nMaxXP:      0.0\r\nRank:       0\r\nGame Count: 0\r\nDraw Count: 0\r\nWin Count:  0\r\nLose Count: 0", outContent.toString().trim());
     }
+
+    @Test
+    public void shouldShowEmptyGameHistory() {
+        System.setOut(new PrintStream(outContent));
+        profileMenu.showGameHistory(2);//just a useless number to give to method
+        assertEquals(MenuMessage.EMPTY_GAME_HISTORY.message(), outContent.toString().trim());
+    }
 }
