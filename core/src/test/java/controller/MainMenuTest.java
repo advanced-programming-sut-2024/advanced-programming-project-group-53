@@ -122,4 +122,12 @@ public class MainMenuTest {
         assertNotEquals("newPassword",User.getCurrentUser().getPassword());
         assertEquals(MenuMessage.INCORRECT_PASSWORD.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldNotChangePasswordToShortPassword() {
+        System.setOut(new PrintStream(outContent));
+        mainMenu.changePassword("newPwd","Valid#Strong45password");
+        assertNotEquals("newPwd",User.getCurrentUser().getPassword());
+        assertEquals(MenuMessage.PASSWORD_LENGTH_ERROR.message(), outContent.toString().trim());
+    }
 }
