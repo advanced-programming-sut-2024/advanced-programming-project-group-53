@@ -115,4 +115,9 @@ public class RegisterMenuTest {
         assertFalse(registerMenu.registerValidate("aUsername", "aNickname", "email@yahoo.com", "Password   1233#"));
         assertEquals(MenuMessage.WEAK_PASSWORD.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void validInputsShouldPassValidation() {
+        assertTrue(registerMenu.registerValidate("aUsername", "aNickname", "email@yahoo.com", "Password1233#"));
+    }
 }
