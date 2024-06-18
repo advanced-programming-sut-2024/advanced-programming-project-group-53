@@ -29,4 +29,11 @@ public class MainMenuTest {
         mainMenu.showMenu();
         assertEquals(MenuMessage.MAIN_MENU.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldEnterProfileMenu() {
+        System.setOut(new PrintStream(outContent));
+        assertTrue(mainMenu.enterMenu("ProfileMenu"));
+        assertEquals(MenuMessage.ENTER_PROFILE_MENU.message(), outContent.toString().trim());
+    }
 }
