@@ -90,4 +90,12 @@ public class MainMenuTest {
         assertNotEquals("Invalid Nickname",User.getCurrentUser().getNickname());
         assertEquals(MenuMessage.INVALID_NICKNAME.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldChangeValidNickname() {
+        System.setOut(new PrintStream(outContent));
+        mainMenu.changeNickname("ValidNickname");
+        assertEquals("ValidNickname",User.getCurrentUser().getNickname());
+        assertEquals(MenuMessage.CHANGE_NICKNAME.message(), outContent.toString().trim());
+    }
 }
