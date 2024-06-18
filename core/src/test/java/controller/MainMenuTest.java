@@ -71,6 +71,15 @@ public class MainMenuTest {
     public void shouldNotChangeUsernameToInvalidUsername() {
         System.setOut(new PrintStream(outContent));
         mainMenu.changeUsername("Invalid Username");
+        assertNotEquals("Invalid Username",User.getCurrentUser().getUsername());
         assertEquals(MenuMessage.INVALID_USERNAME.message(), outContent.toString().trim());
+    }
+
+    @Test
+    public void shouldChangeValidUsername() {
+        System.setOut(new PrintStream(outContent));
+        mainMenu.changeUsername("ValidUsername");
+        assertEquals("ValidUsername",User.getCurrentUser().getUsername());
+        assertEquals(MenuMessage.CHANGE_USERNAME.message(), outContent.toString().trim());
     }
 }
