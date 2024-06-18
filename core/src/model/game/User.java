@@ -95,7 +95,7 @@ public class User {
     }
     public int passwordCheck(String password) {
         if (password.length() < 8) return 1;
-        Matcher matcher = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]+$").matcher(password);
+        Matcher matcher = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]+$").matcher(password);
         if (!matcher.find()) return 2;
         return 0;
     }
