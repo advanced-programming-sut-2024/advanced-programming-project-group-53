@@ -1,6 +1,7 @@
 package controller;
 
 import model.game.User;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import view.terminal.Message.MenuMessage;
@@ -169,5 +170,11 @@ public class MainMenuTest {
         mainMenu.changePassword("Password123@#","Valid#Strong45password");
         assertEquals("Password123@#",User.getCurrentUser().getPassword());
         assertEquals(MenuMessage.CHANGE_PASSWORD.message(), outContent.toString().trim());
+    }
+
+    @After
+    public void loadUsers() {
+        User.setCurrentUser(currentUserTemp);
+        User.loadUsers(allUsersTemp);
     }
 }
