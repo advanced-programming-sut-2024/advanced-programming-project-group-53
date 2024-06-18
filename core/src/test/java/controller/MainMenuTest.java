@@ -98,4 +98,12 @@ public class MainMenuTest {
         assertEquals("ValidNickname",User.getCurrentUser().getNickname());
         assertEquals(MenuMessage.CHANGE_NICKNAME.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldNotChangeEmailToInvalidEmail() {
+        System.setOut(new PrintStream(outContent));
+        mainMenu.changeEmail("Invalid email@yahoo");
+        assertNotEquals("Invalid email@yahoo",User.getCurrentUser().getEmail());
+        assertEquals(MenuMessage.INVALID_EMAIL.message(), outContent.toString().trim());
+    }
 }
