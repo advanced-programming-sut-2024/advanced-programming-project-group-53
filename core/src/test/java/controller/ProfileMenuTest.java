@@ -31,4 +31,11 @@ public class ProfileMenuTest {
         profileMenu.showMenu();
         assertEquals(MenuMessage.PROFILE_MENU.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldExitToMainMenu() {
+        System.setOut(new PrintStream(outContent));
+        profileMenu.exitMenu();
+        assertEquals(MenuMessage.ENTER_MAIN_MENU.message(), outContent.toString().trim());
+    }
 }
