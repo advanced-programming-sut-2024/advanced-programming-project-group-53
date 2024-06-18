@@ -163,4 +163,11 @@ public class MainMenuTest {
         assertEquals(MenuMessage.PASSWORD_INVALID_CHARACTERS_ERROR.message(), outContent.toString().trim());
     }
 
+    @Test
+    public void shouldChangePasswordToStrongPassword() {
+        System.setOut(new PrintStream(outContent));
+        mainMenu.changePassword("Password123@#","Valid#Strong45password");
+        assertEquals("Password123@#",User.getCurrentUser().getPassword());
+        assertEquals(MenuMessage.CHANGE_PASSWORD.message(), outContent.toString().trim());
+    }
 }
