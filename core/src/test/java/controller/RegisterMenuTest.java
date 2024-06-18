@@ -85,7 +85,7 @@ public class RegisterMenuTest {
     @Test
     public void passwordWithNoCapitalLettersShouldErrorWeakPassword() {
         System.setOut((new PrintStream(outContent)));
-        assertFalse(registerMenu.registerValidate("aUsername", "aNickname", "email@yahoo.com", "password"));
+        assertFalse(registerMenu.registerValidate("aUsername", "aNickname", "email@yahoo.com", "password1233#"));
         assertEquals(MenuMessage.WEAK_PASSWORD.message(), outContent.toString().trim());
     }
 }
