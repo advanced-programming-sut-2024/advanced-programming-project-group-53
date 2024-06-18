@@ -88,4 +88,11 @@ public class RegisterMenuTest {
         assertFalse(registerMenu.registerValidate("aUsername", "aNickname", "email@yahoo.com", "password1233#"));
         assertEquals(MenuMessage.WEAK_PASSWORD.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void passwordWithNoNumbersShouldErrorWeakPassword() {
+        System.setOut((new PrintStream(outContent)));
+        assertFalse(registerMenu.registerValidate("aUsername", "aNickname", "email@yahoo.com", "Password#"));
+        assertEquals(MenuMessage.WEAK_PASSWORD.message(), outContent.toString().trim());
+    }
 }
