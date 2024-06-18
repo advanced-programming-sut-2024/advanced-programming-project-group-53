@@ -65,4 +65,13 @@ public class RegisterMenuTest {
         assertFalse(registerMenu.registerValidate("aUsername", "an invalid Nickname", "email@yahoo.com", "aPassword"));
         assertEquals(MenuMessage.INVALID_NICKNAME.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldErrorInvalidEmail() {
+        assertFalse(registerMenu.registerValidate("aUsername", "aNickname", "invalid email@yahoo.com", "aPassword"));
+        assertFalse(registerMenu.registerValidate("aUsername", "aNickname", "email@yhoo.com", "aPassword"));
+        assertFalse(registerMenu.registerValidate("aUsername", "aNickname", "@yahoo.com", "aPassword"));
+        assertFalse(registerMenu.registerValidate("aUsername", "aNickname", "emailyahoo.com", "aPassword"));
+        assertFalse(registerMenu.registerValidate("aUsername", "aNickname", "email@yahoocom", "aPassword"));
+    }
 }
