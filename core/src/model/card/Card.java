@@ -5,6 +5,16 @@ public abstract class Card {
 
     abstract public boolean isSpecial();
 
+    abstract public String getName();
+
+    abstract public Type getType();
+
+    abstract public Faction getFaction();
+
+    abstract public boolean isHero();
+
+    abstract public String getAbility();
+
     public int getPower() {
         return power;
     }

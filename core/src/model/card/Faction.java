@@ -28,4 +28,15 @@ public enum Faction {
                 return null;
         }
     }
+
+    public static Faction getFactionByName(String name) {
+        for (Faction faction : Faction.values()) {
+            if (faction.name().equalsIgnoreCase(name)) {
+                if (faction == Faction.All) {
+                    return null;
+                } else return faction;
+            }
+        }
+        return null;
+    }
 }

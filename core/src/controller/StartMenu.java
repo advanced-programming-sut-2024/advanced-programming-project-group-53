@@ -1,43 +1,172 @@
 package controller;
 
+import model.card.*;
+import model.cards.Deck;
 import model.game.User;
 import model.menu.MenuName;
 import view.terminal.Message.MenuMessage;
 import view.terminal.Printer;
 import view.terminal.TerminalRun;
-
+//make this usable in offline mode when we need run two player in one device.
 public class StartMenu extends Menu {
     private static StartMenu instance;
+    private final Deck initialDeck = new Deck();
+    private final User user;
+    private Commander commanderUser;
+    private Faction userFaction;
+    private boolean hasFaction;
 
-    private StartMenu() {
+    //TODO : make it available for 2 user for interact in this menu.
+    private StartMenu(User user) {
         super.setMenuType(MenuName.StartMenu);
+        this.user = User.getCurrentUser();
+        this.userFaction = null;
+        this.hasFaction = false;
     }
 
     public static StartMenu getInstance() {
         if (instance == null)
-            instance = new StartMenu();
+            instance = new StartMenu(null);
         return instance;
     }
 
-    private static boolean passwordValidation(String password) {
-        return false;
+    public static void showFactions() {
+        Printer.print("FACTIONS:");
+        for (Faction faction : Faction.values()) {
+            Printer.print(faction.name());
+        }
     }
 
-    private static void register(String username, String nickname, String password, String confirmPassword, String email) {
-
+    public static void selectFaction(String factionName) {
+        Faction selectedFaction = Faction.getFactionByName(factionName);
+        if (selectedFaction == null) {
+            Printer.print(MenuMessage.INVALID_FACTION.message());
+            return;
+        }
+        StartMenu.getInstance().setUserFaction(selectedFaction);
+        StartMenu.getInstance().setHasFaction(true);
+        Printer.print(MenuMessage.FACTION_SELECTED.message());
+    }
+    public static void showCards() {
+        Printer.print("Unit Cards:");
+        for (UnitInformation unitInformation : UnitInformation.values()) {
+            String HeroCondition = (unitInformation.isHero()) ? "Hero" : "";
+            Printer.print(unitInformation.name() + " : " + unitInformation.power() + "-" + unitInformation.faction() +
+                    " - " + unitInformation.ability() + " " + HeroCondition);
+        }
+        Printer.print("Special Cards:");
+        for (SpecialInformation specialInformation : SpecialInformation.values()) {
+            Printer.print(specialInformation.name() + " : " + specialInformation.power() + "-" + specialInformation.faction() +
+                    " - " + specialInformation.type() + "-Ability:" + specialInformation.ability());
+        }
+    }
+    //For add card(s) with a specific count to initial deck we have before start the game.
+    public static void addToDeck(String cardName, String countStr) {
+        StartMenu currentStartMenu = StartMenu.getInstance();
+        int state = StartMenu.nameValidation(cardName);
+        if (state == 0) {
+            Printer.print(MenuMessage.THERE_IS_NO_CARD_WITH_THIS_NAME.message());
+            return;
+        }
+        int count;
+        try {
+            count = Integer.parseInt(countStr);
+        } catch (NumberFormatException e) {
+            Printer.print(MenuMessage.WRONG_NUMBER_FORMAT.message());
+            return;
+        }
+        if (count >= 10 || count <= 0) {
+            Printer.print(MenuMessage.COUNT_OUT_OF_RANGE.message());
+            return;
+        }
+        if (state == 1) {
+            UnitInformation unitInfo = UnitInformation.getUnitInformationByName(cardName);
+            assert unitInfo != null;
+            if (count > unitInfo.maxNumber()) {
+                Printer.print(MenuMessage.MORE_THAT_AVAILABILITY.message());
+                return;
+            }
+            for (int i = 0; i < count; i++) {
+                currentStartMenu.getInitialDeck().add(new Unit(unitInfo));
+            }
+        } else if (state == 2) {
+            SpecialInformation specialInfo = SpecialInformation.getSpecialInformationByName(cardName);
+            assert specialInfo != null;
+            if (count > specialInfo.maxNumber()) {
+                Printer.print(MenuMessage.MORE_THAT_AVAILABILITY.message());
+                return;
+            }
+            for (int i = 0; i < count; i++) {
+                currentStartMenu.getInitialDeck().add(new Special(specialInfo));
+            }
+        }
+        Printer.print(MenuMessage.ADD_CARD.message());
+    }
+    //For showing current initial deck.
+    public static void showDeck() {
+        Printer.print("CURRENT DECK:");
+        Deck currentDeck = StartMenu.getInstance().getInitialDeck();
+        for (int i = 0; i < currentDeck.size(); i++) {
+            Printer.print((i + 1) + ". " + currentDeck.cardAt(i).getName() + " " + currentDeck.cardAt(i).getType() + "-"
+            + currentDeck.cardAt(i).getFaction());
+        }
+    }
+    //For showing current user information.
+    public static void showCurrentUserInformation() {
+        User currentUser = StartMenu.getInstance().getUser();
+        Printer.print(currentUser.getUsername());
+        if (StartMenu.getInstance().hasFaction) Printer.print("Faction: " + StartMenu.getInstance().userFaction);
+        //TODO : make this printer for all deck size not only one current deck.(Or maybe not, according to project doc.
+        Printer.print("Current Deck Size: " + StartMenu.getInstance().getInitialDeck().size());
+        Printer.print("Unit Cards Count: " + StartMenu.getInstance().getInitialDeck().unitCounter());
+        Printer.print("Special Cards Count: " + StartMenu.getInstance().getInitialDeck().specialCounter());
+        Printer.print("Hero Cards Count: " + StartMenu.getInstance().getInitialDeck().heroCounter());
+        Printer.print("Current Deck Cards Ability: ");
+        for (int i = 0; i < StartMenu.getInstance().getInitialDeck().size(); i++) {
+            Printer.print((i + 1) + ". " + StartMenu.getInstance().getInitialDeck().cardAt(i).getName() + " ---> " +
+                    StartMenu.getInstance().getInitialDeck().cardAt(i).getAbility());
+        }
     }
 
-    private static void login(String username, String password) {
-
+    public static void showCommanders() {
+        int indexOfCommander = 1;
+        for (CommanderInformation commanderInfo : CommanderInformation.values()) {
+            //TODO : add commanders description to commander information enum.
+            Printer.print(indexOfCommander + ". " + commanderInfo.name() + " - " + commanderInfo.faction());
+            indexOfCommander++;
+        }
     }
-
-    private static void forgetPassword(String username) {
-
+    //TODO : we need to complete file part of this menu.
+    public static void selectCommander(int leaderNumber) {
+        int counter = 1;
+        if (StartMenu.getInstance().getCommanderUser() == null) {
+            Printer.print(MenuMessage.YOU_HAVE_COMMANDER.message());
+            return;
+        }
+        for (CommanderInformation commanderInfo : CommanderInformation.values()) {
+            if (counter == leaderNumber) {
+                StartMenu.getInstance().setCommanderUser(new Commander(commanderInfo));
+                Printer.print(MenuMessage.COMMANDER_SELECTED.message());
+                return;
+            }
+        }
+        Printer.print(MenuMessage.INVALID_COMMANDER_INDEX.message());
     }
-
-    private static void setPassword(String password, User user) {
-
+    //Checking for validation of card name from user input.
+    public static int nameValidation(String cardName) {
+        if (UnitInformation.getUnitInformationByName(cardName) == null) {
+            if (SpecialInformation.getSpecialInformationByName(cardName) == null) {
+                return 0;
+            } else return 2;
+        }
+        return 1;
+        /*
+        0 for state which there is no card with this name.
+        1 for when there is unit card with this name.
+        2 for when there is special card with this name.
+         */
     }
+    //Checking for count validation.
 
     @Override
     public boolean enterMenu(String name) {
@@ -60,5 +189,37 @@ public class StartMenu extends Menu {
     @Override
     public void showMenu() {
         Printer.print(MenuMessage.START_MENU.message());
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Deck getInitialDeck() {
+        return initialDeck;
+    }
+
+    public Faction getUserFaction() {
+        return userFaction;
+    }
+
+    public void setUserFaction(Faction userFaction) {
+        this.userFaction = userFaction;
+    }
+
+    public boolean isHasFaction() {
+        return hasFaction;
+    }
+
+    public void setHasFaction(boolean hasFaction) {
+        this.hasFaction = hasFaction;
+    }
+
+    public Commander getCommanderUser() {
+        return commanderUser;
+    }
+
+    public void setCommanderUser(Commander commanderUser) {
+        this.commanderUser = commanderUser;
     }
 }

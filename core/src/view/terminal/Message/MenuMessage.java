@@ -31,7 +31,17 @@ public enum MenuMessage {
     WEAK_PASSWORD("Weak password."),
     TRY_AGAIN("TRY AGAIN..."),
     WRONG_ANSWER("Wrong answer!"),
-    PASSWORD_CHANGED("Password changed successfully.\nYou can login in your account.");
+    PASSWORD_CHANGED("Password changed successfully.\nYou can login in your account."),
+    WRONG_NUMBER_FORMAT("Wrong number format."),
+    THERE_IS_NO_CARD_WITH_THIS_NAME("There is no card with this name."),
+    COUNT_OUT_OF_RANGE("Your count for this card is out of range."),
+    MORE_THAT_AVAILABILITY("This count is not available for this card."),
+    ADD_CARD("Card(s) added successfully."),
+    INVALID_FACTION("Invalid faction name."),
+    FACTION_SELECTED("Faction selected successfully."),
+    COMMANDER_SELECTED("Commander selected successfully."),
+    INVALID_COMMANDER_INDEX("Invalid commander index."),
+    YOU_HAVE_COMMANDER("You have already chosen a commander.");
     private final String message;
 
     MenuMessage(String message) {
