@@ -51,4 +51,11 @@ public class RegisterMenuTest {
         assertFalse(registerMenu.enterMenu("aMenu"));
         assertEquals(MenuMessage.INVALID_MENU.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldErrorInvalidUsername() {
+        System.setOut((new PrintStream(outContent)));
+        assertFalse(registerMenu.registerValidate("invalid  username","aNickname","email@yahoo.com","aPassword"));
+        assertEquals(MenuMessage.INVALID_USERNAME.message(), outContent.toString().trim());
+    }
 }
