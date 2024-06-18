@@ -45,4 +45,11 @@ public class ProfileMenuTest {
         assertFalse(profileMenu.enterMenu("aMenu"));
         assertEquals(MenuMessage.INVALID_MENU.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldShowUsersInformation() {
+        System.setOut(new PrintStream(outContent));
+        profileMenu.showInformation();
+        assertEquals("Username:   aValidUsername-1\r\nNickname:   aValid-1Nickname\r\nMaxXP:      0.0\r\nRank:       0\r\nGame Count: 0\r\nDraw Count: 0\r\nWin Count:  0\r\nLose Count: 0", outContent.toString().trim());
+    }
 }
