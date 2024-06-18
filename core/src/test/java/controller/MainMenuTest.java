@@ -59,4 +59,11 @@ public class MainMenuTest {
         mainMenu.exitMenu();
         assertEquals(MenuMessage.ENTER_LOGIN_MENU.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldLogOut() {
+        System.setOut(new PrintStream(outContent));
+        mainMenu.logout();
+        assertEquals(MenuMessage.LOGOUT.message(), outContent.toString().trim());
+    }
 }
