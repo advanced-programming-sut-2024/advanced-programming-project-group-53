@@ -38,4 +38,11 @@ public class ProfileMenuTest {
         profileMenu.exitMenu();
         assertEquals(MenuMessage.ENTER_MAIN_MENU.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldNotEnterAnyMenu() {
+        System.setOut(new PrintStream(outContent));
+        assertFalse(profileMenu.enterMenu("aMenu"));
+        assertEquals(MenuMessage.INVALID_MENU.message(), outContent.toString().trim());
+    }
 }
