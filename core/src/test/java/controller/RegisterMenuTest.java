@@ -2,6 +2,7 @@ package controller;
 
 import junit.framework.TestCase;
 import model.game.User;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import view.terminal.Message.MenuMessage;
@@ -119,5 +120,10 @@ public class RegisterMenuTest {
     @Test
     public void validInputsShouldPassValidation() {
         assertTrue(registerMenu.registerValidate("aUsername", "aNickname", "email@yahoo.com", "Password1233#"));
+    }
+
+    @After
+    public void loadUsers() {
+        User.loadUsers(allUsersTemp);
     }
 }
