@@ -4,6 +4,7 @@ import model.game.User;
 import org.junit.Before;
 import org.junit.Test;
 import view.terminal.Message.MenuMessage;
+import view.terminal.TerminalRun;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -35,5 +36,12 @@ public class MainMenuTest {
         System.setOut(new PrintStream(outContent));
         assertTrue(mainMenu.enterMenu("ProfileMenu"));
         assertEquals(MenuMessage.ENTER_PROFILE_MENU.message(), outContent.toString().trim());
+    }
+
+    @Test
+    public void shouldEnterGameMenu() {
+        System.setOut(new PrintStream(outContent));
+        assertTrue(mainMenu.enterMenu("GameMenu"));
+        assertEquals(MenuMessage.ENTER_GAME_MENU.message(), outContent.toString().trim());
     }
 }
