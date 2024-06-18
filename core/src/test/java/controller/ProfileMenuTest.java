@@ -1,6 +1,7 @@
 package controller;
 
 import model.game.User;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import view.terminal.Message.MenuMessage;
@@ -59,5 +60,11 @@ public class ProfileMenuTest {
         profileMenu.showGameHistory(2);//just a useless number to give to method
         assertEquals(MenuMessage.EMPTY_GAME_HISTORY.message(), outContent.toString().trim());
         //test failure because of temporary print
+    }
+
+    @After
+    public void loadUsers() {
+        User.setCurrentUser(currentUserTemp);
+        User.loadUsers(allUsersTemp);
     }
 }
