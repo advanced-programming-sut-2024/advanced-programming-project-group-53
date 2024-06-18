@@ -114,4 +114,12 @@ public class MainMenuTest {
         assertEquals("validmail@gmail.com",User.getCurrentUser().getEmail());
         assertEquals(MenuMessage.CHANGE_EMAIL.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldNotChangePasswordInCaseOfIncorrectOldPassword() {
+        System.setOut(new PrintStream(outContent));
+        mainMenu.changePassword("newPassword","ValidStrong45password");
+        assertNotEquals("newPassword",User.getCurrentUser().getPassword());
+        assertEquals(MenuMessage.INCORRECT_PASSWORD.message(), outContent.toString().trim());
+    }
 }
