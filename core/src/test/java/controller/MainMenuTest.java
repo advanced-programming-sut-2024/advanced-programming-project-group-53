@@ -154,4 +154,13 @@ public class MainMenuTest {
         assertNotEquals("Password#",User.getCurrentUser().getPassword());
         assertEquals(MenuMessage.PASSWORD_INVALID_CHARACTERS_ERROR.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldNotChangePasswordToWeakPasswordWithoutSpecialCharacters() {
+        System.setOut(new PrintStream(outContent));
+        mainMenu.changePassword("Password123","Valid#Strong45password");
+        assertNotEquals("Password123",User.getCurrentUser().getPassword());
+        assertEquals(MenuMessage.PASSWORD_INVALID_CHARACTERS_ERROR.message(), outContent.toString().trim());
+    }
+
 }
