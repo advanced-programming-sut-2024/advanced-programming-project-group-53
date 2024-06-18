@@ -58,5 +58,6 @@ public class ProfileMenuTest {
         System.setOut(new PrintStream(outContent));
         profileMenu.showGameHistory(2);//just a useless number to give to method
         assertEquals(MenuMessage.EMPTY_GAME_HISTORY.message(), outContent.toString().trim());
+        //test failure because of temporary print
     }
 }
