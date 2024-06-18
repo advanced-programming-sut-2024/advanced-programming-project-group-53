@@ -4,7 +4,6 @@ import model.game.User;
 import org.junit.Before;
 import org.junit.Test;
 import view.terminal.Message.MenuMessage;
-import view.terminal.TerminalRun;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -22,6 +21,7 @@ public class MainMenuTest {
         mainMenu = MainMenu.getInstance();
         User.resetUsers(allUsersTemp);
         User userInstance = new User("aValidUsername-1", "aValid-1Nickname", "valid2mail@gmail.com", "Valid#Strong45password");
+        User.setCurrentUser(userInstance);
     }
 
     @Test
