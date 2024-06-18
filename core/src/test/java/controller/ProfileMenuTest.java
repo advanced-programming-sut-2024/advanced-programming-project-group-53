@@ -2,8 +2,11 @@ package controller;
 
 import model.game.User;
 import org.junit.Before;
+import org.junit.Test;
+import view.terminal.Message.MenuMessage;
 
 import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -22,4 +25,10 @@ public class ProfileMenuTest {
         User.setCurrentUser(userInstance);
     }
 
+    @Test
+    public void shouldShowProfileMenu() {
+        System.setOut(new PrintStream(outContent));
+        profileMenu.showMenu();
+        assertEquals(MenuMessage.PROFILE_MENU.message(), outContent.toString().trim());
+    }
 }
