@@ -142,7 +142,8 @@
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 	"default": {
 		"font": "font",
-		"fontColor": "chocolate"
+		"fontColor": "chocolate",
+		"background": "label"
 	},
 	"title": {
 		"font": "title",

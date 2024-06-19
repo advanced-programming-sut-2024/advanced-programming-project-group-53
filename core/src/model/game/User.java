@@ -1,7 +1,7 @@
 package model.game;
 
 import model.card.Faction;
-import view.terminal.Printer;
+import view.message.Printer;
 
 import java.util.*;
 import java.util.regex.Matcher;

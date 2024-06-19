@@ -3,17 +3,17 @@ package game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ScreenUtils;
-import view.graphic.LoginMenuView;
-import view.graphic.MenuView;
+import view.graphic.View;
+import view.graphic.RegisterView;
 
 public class GWENT extends Game {
-    private MenuView menu;
+    private View menu;
     private double width;
     private double height;
 
     @Override
     public void create() {
-        menu = new LoginMenuView(this);
+        menu = new RegisterView(this);
         setScreen(menu);
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
@@ -36,7 +36,7 @@ public class GWENT extends Game {
     public double getHeight() {
         return height;
     }
-    public void changeScreen(MenuView menuView) {
-        this.setScreen(menuView);
+    public void changeScreen(View view) {
+        this.setScreen(view);
     }
 }

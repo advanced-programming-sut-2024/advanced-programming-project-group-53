@@ -25,7 +25,7 @@ public enum Faction {
             case Neutral:
                 return "Neutral";
             default:
-                return null;
+                return "";
         }
     }
 }

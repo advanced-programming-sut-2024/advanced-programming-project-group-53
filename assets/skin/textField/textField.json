@@ -20,9 +20,15 @@
 		"b": 0,
 		"a": 1
 	},
-	"GoldenYellow": {
+	"chocolate": {
+		"r": 0.8235294,
+		"g": 0.4117647,
+		"b": 0.11764706,
+		"a": 1
+	},
+	"gold": {
 		"r": 1,
-		"g": 0.8745098,
+		"g": 0.84313726,
 		"b": 0,
 		"a": 1
 	},
@@ -32,7 +38,7 @@
 		"b": 0.68333334,
 		"a": 1
 	},
-	"OldGold": {
+	"oldGold": {
 		"r": 0.8117647,
 		"g": 0.70980394,
 		"b": 0.23137255,
@@ -148,7 +154,8 @@
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 	"default": {
 		"font": "font",
-		"fontColor": "black"
+		"fontColor": "chocolate",
+		"background": "label"
 	},
 	"title": {
 		"font": "title",
@@ -236,11 +243,12 @@
 "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
 	"default": {
 		"font": "font",
-		"fontColor": "GoldenYellow",
-		"focusedFontColor": "GoldenYellow",
-		"disabledFontColor": "OldGold",
+		"fontColor": "oldGold",
+		"focusedFontColor": "gold",
+		"disabledFontColor": "oldGold",
+		"background": "textField",
 		"cursor": "cursor",
-		"messageFontColor": "OldGold"
+		"selection": "gray"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
