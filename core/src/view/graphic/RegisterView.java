@@ -22,13 +22,13 @@ public class RegisterView extends View {
     private final TextField answer;
     private final Image register;
     private final Image loginMenu;
-    private final Image exitGame;
+    private final Image exit;
 
     public RegisterView(GWENT game) {
         super(game);
         menu = RegisterMenu.getInstance();
         registerTable = new Table();
-        registerTable.setBounds(50, 50, 400, 400 / 5.92f * 3);
+        registerTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 3));
         registerTable.align(Align.center);
         textTable = new Table();
         textTable.setBounds(635, 170, 400, 400);
@@ -47,6 +47,7 @@ public class RegisterView extends View {
         register.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                register.setDrawable(new Image(new Texture(Resource.REGISTER_CLICKED.address())).getDrawable());
                 //TODO: fill it.
             }
 
@@ -64,6 +65,7 @@ public class RegisterView extends View {
         loginMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                loginMenu.setDrawable(new Image(new Texture(Resource.LOGIN_MENU_CLICKED.address())).getDrawable());
                 game.changeScreen(new LoginView(game));
             }
 
@@ -77,28 +79,31 @@ public class RegisterView extends View {
                 loginMenu.setDrawable(new Image(new Texture(Resource.LOGIN_MENU_OFF.address())).getDrawable());
             }
         });
-        exitGame = new Image(new Texture(Resource.EXIT_GAME_OFF.address()));
-        exitGame.addListener(new ClickListener() {
+        exit = new Image(new Texture(Resource.EXIT_OFF.address()));
+        exit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_CLICKED.address())).getDrawable());
                 menu.exitGame();
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                exitGame.setDrawable(new Image(new Texture(Resource.EXIT_GAME_ON.address())).getDrawable());
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_ON.address())).getDrawable());
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                exitGame.setDrawable(new Image(new Texture(Resource.EXIT_GAME_OFF.address())).getDrawable());
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_OFF.address())).getDrawable());
             }
         });
         registerTable.add(register);
         registerTable.row();
         registerTable.add(loginMenu);
         registerTable.row();
-        registerTable.add(exitGame);
+        registerTable.add(exit);
+        textTable.add(registerMessage);
+        textTable.row();
         textTable.add(username);
         textTable.row();
         textTable.add(password);

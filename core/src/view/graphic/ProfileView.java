@@ -10,22 +10,33 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.LoginMenu;
+import controller.ProfileMenu;
 import game.GWENT;
 
 public class ProfileView extends View {
     private final Table rightTable;
     private final Table middleTable;
     private final Table leftTable;
-    private final Table historyTable;
+    private final Table rightInformationTable;
+    private final Table leftInformationTable;
     private final Table usernameTable;
     private final Table passwordTable;
     private final Table nicknameTable;
     private final Table emailTable;
     private final Table saveTable;
     private final Label profileMessage;
-    private final Label historyMessage;
+    private final Label usernameMessage;
+    private final Label nicknameMessage;
+    private final Label maxScoreMessage;
+    private final Label rankMessage;
+    private final Label playCountMessage;
+    private final Label drawCountMessage;
+    private final Label winCountMessage;
+    private final Label defeatCountMessage;
     private final TextField username;
     private final TextField password;
+    private final TextField newPassword;
+    private final TextField newPasswordConfirm;
     private final TextField email;
     private final TextField nickname;
     private final Image changeUsername;
@@ -33,53 +44,68 @@ public class ProfileView extends View {
     private final Image changeEmail;
     private final Image changePassword;
     private final Image history;
-    private final Image exitGame;
+    private final Image exit;
     private final Image save;
     private final Image mainMenu;
     private boolean isOnChangeUsername = false;
     private boolean isOnChangeNickname = false;
     private boolean isOnChangeEmail = false;
     private boolean isOnChangePassword = false;
-    private boolean isOnHistory = false;
 
     public ProfileView(GWENT game) {
         super(game);
-        menu = LoginMenu.getInstance();
+        menu = ProfileMenu.getInstance();
         rightTable = new Table();
-        rightTable.setBounds(574, 50, 400, 400 / 2.96f);
+        rightTable.setBounds(574, 50, 400, (float) (400 * 0.1458 * 2));
         rightTable.align(Align.center);
         middleTable = new Table();
-        middleTable.setBounds(312, 850, 400, 400 / 2.96f);
+        middleTable.setBounds(312, 810, 400, (float) (400 * 0.1458 * 3));
         middleTable.align(Align.center);
         leftTable = new Table();
-        leftTable.setBounds(50, 50, 400, 400 / 2.96f);
+        leftTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 2));
         leftTable.align(Align.center);
-        historyTable = new Table();
-        historyTable.setBounds(600, 600, 400, 400);
-        historyTable.align(Align.center);
+        rightInformationTable = new Table();
+        rightInformationTable.setBounds(724, 338, 400, 400);
+        rightInformationTable.align(Align.center);
+        leftInformationTable = new Table();
+        leftInformationTable.setBounds(-100, 338, 400, 400);
+        leftInformationTable.align(Align.center);
         usernameTable = new Table();
-        usernameTable.setBounds(312, 400, 400, 400 / 5.92f);
+        usernameTable.setBounds(312, 400, 400, (float) (400 * 0.1458));
         usernameTable.align(Align.center);
         emailTable = new Table();
-        emailTable.setBounds(312, 400, 400, 400 / 5.92f);
+        emailTable.setBounds(312, 400, 400, (float) (400 * 0.1458));
         emailTable.align(Align.center);
         nicknameTable = new Table();
-        nicknameTable.setBounds(312, 400, 400, 400 / 5.92f);
+        nicknameTable.setBounds(312, 400, 400, (float) (400 * 0.1458));
         nicknameTable.align(Align.center);
         passwordTable = new Table();
-        passwordTable.setBounds(312, 400, 400, 400 / 5.92f);
+        passwordTable.setBounds(312, 430, 400, (float) (400 * 0.1458));
         passwordTable.align(Align.center);
         saveTable = new Table();
-        saveTable.setBounds(312, 300, 400, 400 / 5.92f);
+        saveTable.setBounds(312, 300, 400, (float) (400 * 0.1458));
         saveTable.align(Align.center);
         profileMessage = new Label("profile message", label);//TODO: handle message.
-        historyMessage = new Label("history message", label);
+        usernameMessage = new Label("username", label);//TODO: handle message.
+        nicknameMessage = new Label("nickname", label);//TODO: handle message.
+        maxScoreMessage = new Label("max score", label);//TODO: handle message.
+        rankMessage = new Label("rank", label);//TODO: handle message.
+        playCountMessage = new Label("play count", label);//TODO: handle message.
+        drawCountMessage = new Label("draw count", label);//TODO: handle message.
+        winCountMessage = new Label("win", label);//TODO: handle message.
+        defeatCountMessage = new Label("defeat", label);//TODO: handle message.
         username = new TextField("", textField);
         username.setMessageText("username");
         password = new TextField("", textField);
         password.setMessageText("password");
         password.setPasswordCharacter('*');
         password.setPasswordMode(true);
+        newPassword = new TextField("", textField);
+        newPassword.setMessageText("new password");
+        newPassword.setPasswordMode(true);
+        newPasswordConfirm = new TextField("", textField);
+        newPasswordConfirm.setMessageText("confirm");
+        newPasswordConfirm.setPasswordMode(true);
         email = new TextField("", textField);
         email.setMessageText("email");
         nickname = new TextField("", textField);
@@ -107,6 +133,7 @@ public class ProfileView extends View {
                     nicknameTable.clear();
                     emailTable.clear();
                     passwordTable.clear();
+                    saveTable.clear();
                     saveTable.add(save);
                 }
             }
@@ -146,6 +173,7 @@ public class ProfileView extends View {
                     usernameTable.clear();
                     emailTable.clear();
                     passwordTable.clear();
+                    saveTable.clear();
                     saveTable.add(save);
                 }
             }
@@ -185,6 +213,7 @@ public class ProfileView extends View {
                     usernameTable.clear();
                     nicknameTable.clear();
                     passwordTable.clear();
+                    saveTable.clear();
                     saveTable.add(save);
                 }
             }
@@ -221,9 +250,14 @@ public class ProfileView extends View {
                     passwordTable.add(profileMessage);
                     passwordTable.row();
                     passwordTable.add(password);
+                    passwordTable.row();
+                    passwordTable.add(newPassword);
+                    passwordTable.row();
+                    passwordTable.add(newPasswordConfirm);
                     usernameTable.clear();
                     nicknameTable.clear();
                     emailTable.clear();
+                    saveTable.clear();
                     saveTable.add(save);
                 }
             }
@@ -245,25 +279,17 @@ public class ProfileView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 history.setDrawable(new Image(new Texture(Resource.HISTORY_CLICKED.address())).getDrawable());
-                if (isOnHistory) {
-                    isOnHistory = false;
-                    historyTable.clear();
-                } else {
-                    isOnHistory = true;
-                    historyTable.add(historyMessage);//TODO: handle message.
-                }
+                game.changeScreen(new HistoryView(game));
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (!isOnHistory)
-                    history.setDrawable(new Image(new Texture(Resource.HISTORY_ON.address())).getDrawable());
+                history.setDrawable(new Image(new Texture(Resource.HISTORY_ON.address())).getDrawable());
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if (!isOnHistory)
-                    history.setDrawable(new Image(new Texture(Resource.HISTORY_OFF.address())).getDrawable());
+                history.setDrawable(new Image(new Texture(Resource.HISTORY_OFF.address())).getDrawable());
             }
         });
         mainMenu = new Image(new Texture(Resource.MAIN_MENU_OFF.address()));
@@ -284,22 +310,22 @@ public class ProfileView extends View {
                 mainMenu.setDrawable(new Image(new Texture(Resource.MAIN_MENU_OFF.address())).getDrawable());
             }
         });
-        exitGame = new Image(new Texture(Resource.EXIT_GAME_OFF.address()));
-        exitGame.addListener(new ClickListener() {
+        exit = new Image(new Texture(Resource.EXIT_OFF.address()));
+        exit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                exitGame.setDrawable(new Image(new Texture(Resource.EXIT_GAME_CLICKED.address())).getDrawable());
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_CLICKED.address())).getDrawable());
                 menu.exitGame();
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                exitGame.setDrawable(new Image(new Texture(Resource.EXIT_GAME_ON.address())).getDrawable());
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_ON.address())).getDrawable());
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                exitGame.setDrawable(new Image(new Texture(Resource.EXIT_GAME_OFF.address())).getDrawable());
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_OFF.address())).getDrawable());
             }
         });
         save = new Image(new Texture(Resource.SAVE_OFF.address()));
@@ -328,6 +354,22 @@ public class ProfileView extends View {
         middleTable.add(history);
         middleTable.row();
         middleTable.add(mainMenu);
+        middleTable.row();
+        middleTable.add(exit);
+        leftInformationTable.add(usernameMessage);
+        leftInformationTable.row();
+        leftInformationTable.add(nicknameMessage);
+        leftInformationTable.row();
+        leftInformationTable.add(maxScoreMessage);
+        leftInformationTable.row();
+        leftInformationTable.add(rankMessage);
+        rightInformationTable.add(playCountMessage);
+        rightInformationTable.row();
+        rightInformationTable.add(drawCountMessage);
+        rightInformationTable.row();
+        rightInformationTable.add(winCountMessage);
+        rightInformationTable.row();
+        rightInformationTable.add(defeatCountMessage);
         stage.addActor(background);
         stage.addActor(leftTable);
         stage.addActor(middleTable);
@@ -337,7 +379,8 @@ public class ProfileView extends View {
         stage.addActor(emailTable);
         stage.addActor(nicknameTable);
         stage.addActor(saveTable);
-        stage.addActor(historyTable);
+        stage.addActor(leftInformationTable);
+        stage.addActor(rightInformationTable);
     }
 
     @Override

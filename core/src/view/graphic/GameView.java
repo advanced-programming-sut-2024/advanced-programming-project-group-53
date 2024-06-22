@@ -1,4 +1,14 @@
 package view.graphic;
 
-public class GameView {
+import game.GWENT;
+
+public class GameView extends View {
+    public GameView(GWENT game) {
+        super(game);
+    }
+
+    @Override
+    protected void backgroundLoader() {
+
+    }
 }

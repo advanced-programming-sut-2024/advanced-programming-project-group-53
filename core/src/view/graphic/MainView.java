@@ -4,64 +4,82 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.LoginMenu;
+import controller.MainMenu;
 import game.GWENT;
 
 public class MainView extends View {
     private final Table mainTable;
     private final Table logoutTable;
-    private final Image gameMenu;
-    private final Image profileMenu;
+    private final Image chooseDeck;
+    private final Image profile;
+    private final Image ranking;
     private final Image logout;
-    private final Image exitGame;
+    private final Image exit;
 
     public MainView(GWENT game) {
         super(game);
-        menu = LoginMenu.getInstance();
+        menu = MainMenu.getInstance();
         mainTable = new Table();
-        mainTable.setBounds(50, 50, 400, 400 / 1.97f);
+        mainTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 4));
         mainTable.align(Align.center);
         logoutTable = new Table();
-        logoutTable.setBounds(574, 50, 400, 400 / 5.92f);
+        logoutTable.setBounds(574, 50, 400, (float) (400 * 0.1458));
         logoutTable.align(Align.center);
-        gameMenu = new Image(new Texture(Resource.GAME_MENU_OFF.address()));
-        gameMenu.addListener(new ClickListener() {
+        chooseDeck = new Image(new Texture(Resource.CHOOSE_DECK_OFF.address()));
+        chooseDeck.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                gameMenu.setDrawable(new Image(new Texture(Resource.GAME_MENU_CLICKED.address())).getDrawable());
+                chooseDeck.setDrawable(new Image(new Texture(Resource.CHOOSE_DECK_CLICKED.address())).getDrawable());
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                gameMenu.setDrawable(new Image(new Texture(Resource.GAME_MENU_ON.address())).getDrawable());
+                chooseDeck.setDrawable(new Image(new Texture(Resource.CHOOSE_DECK_ON.address())).getDrawable());
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                gameMenu.setDrawable(new Image(new Texture(Resource.GAME_MENU_OFF.address())).getDrawable());
+                chooseDeck.setDrawable(new Image(new Texture(Resource.CHOOSE_DECK_OFF.address())).getDrawable());
             }
         });
-        profileMenu = new Image(new Texture(Resource.PROFILE_MENU_OFF.address()));
-        profileMenu.addListener(new ClickListener() {
+        profile = new Image(new Texture(Resource.PROFILE_OFF.address()));
+        profile.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                profileMenu.setDrawable(new Image(new Texture(Resource.PROFILE_MENU_CLICKED.address())).getDrawable());
+                profile.setDrawable(new Image(new Texture(Resource.PROFILE_CLICKED.address())).getDrawable());
                 game.changeScreen(new ProfileView(game));
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                profileMenu.setDrawable(new Image(new Texture(Resource.PROFILE_MENU_ON.address())).getDrawable());
+                profile.setDrawable(new Image(new Texture(Resource.PROFILE_ON.address())).getDrawable());
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                profileMenu.setDrawable(new Image(new Texture(Resource.PROFILE_MENU_OFF.address())).getDrawable());
+                profile.setDrawable(new Image(new Texture(Resource.PROFILE_OFF.address())).getDrawable());
+            }
+        });
+        ranking = new Image(new Texture(Resource.RANKING_OFF.address()));
+        ranking.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ranking.setDrawable(new Image(new Texture(Resource.RANKING_CLICKED.address())).getDrawable());
+                game.changeScreen(new RankingView(game));
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                ranking.setDrawable(new Image(new Texture(Resource.RANKING_ON.address())).getDrawable());
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                ranking.setDrawable(new Image(new Texture(Resource.RANKING_OFF.address())).getDrawable());
             }
         });
         logout = new Image(new Texture(Resource.LOGOUT_OFF.address()));
@@ -81,29 +99,31 @@ public class MainView extends View {
                 logout.setDrawable(new Image(new Texture(Resource.LOGOUT_OFF.address())).getDrawable());
             }
         });
-        exitGame = new Image(new Texture(Resource.EXIT_GAME_OFF.address()));
-        exitGame.addListener(new ClickListener() {
+        exit = new Image(new Texture(Resource.EXIT_OFF.address()));
+        exit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                exitGame.setDrawable(new Image(new Texture(Resource.EXIT_GAME_CLICKED.address())).getDrawable());
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_CLICKED.address())).getDrawable());
                 menu.exitGame();
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                exitGame.setDrawable(new Image(new Texture(Resource.EXIT_GAME_ON.address())).getDrawable());
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_ON.address())).getDrawable());
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                exitGame.setDrawable(new Image(new Texture(Resource.EXIT_GAME_OFF.address())).getDrawable());
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_OFF.address())).getDrawable());
             }
         });
-        mainTable.add(gameMenu);
+        mainTable.add(chooseDeck);
         mainTable.row();
-        mainTable.add(profileMenu);
+        mainTable.add(profile);
         mainTable.row();
-        mainTable.add(exitGame);
+        mainTable.add(ranking);
+        mainTable.row();
+        mainTable.add(exit);
         logoutTable.add(logout);
         stage.addActor(background);
         stage.addActor(mainTable);

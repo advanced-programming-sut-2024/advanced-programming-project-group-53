@@ -27,7 +27,7 @@ public class LoginView extends View {
     private final TextField newPasswordConfirm;
     private final Image login;
     private final Image forgetPassword;
-    private final Image exitGame;
+    private final Image exit;
     private final Image registerMenu;
     private final Image savePassword;
     private final Image skip;//TODO: delete this.
@@ -37,19 +37,19 @@ public class LoginView extends View {
         super(game);
         menu = LoginMenu.getInstance();
         loginTable = new Table();
-        loginTable.setBounds(50, 50, 400, 400 / 5.92f * 3);
+        loginTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 3));
         loginTable.align(Align.center);
         textTable = new Table();
         textTable.setBounds(700, 170, 400, 400);
         textTable.align(Align.center);
         registerTable = new Table();
-        registerTable.setBounds(574, 50, 400, 400 / 5.92f);
+        registerTable.setBounds(574, 50, 400, (float) (400 * 0.1458));
         registerTable.align(Align.center);
         forgetPasswordTable = new Table();
         forgetPasswordTable.setBounds(50, 350, 400, 400);
         forgetPasswordTable.align(Align.center);
         changePasswordTable = new Table();
-        changePasswordTable.setBounds(50, 350, 400, 400 / 5.92f);
+        changePasswordTable.setBounds(50, 350, 400, (float) (400 * 0.1458));
         changePasswordTable.align(Align.center);
         loginMessage = new Label("login error message", label);//TODO: handle message.
         username = new TextField("", textField);
@@ -112,22 +112,22 @@ public class LoginView extends View {
                     forgetPassword.setDrawable(new Image(new Texture(Resource.FORGET_PASSWORD_OFF.address())).getDrawable());
             }
         });
-        exitGame = new Image(new Texture(Resource.EXIT_GAME_OFF.address()));
-        exitGame.addListener(new ClickListener() {
+        exit = new Image(new Texture(Resource.EXIT_OFF.address()));
+        exit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                exitGame.setDrawable(new Image(new Texture(Resource.EXIT_GAME_CLICKED.address())).getDrawable());
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_CLICKED.address())).getDrawable());
                 menu.exitGame();
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                exitGame.setDrawable(new Image(new Texture(Resource.EXIT_GAME_ON.address())).getDrawable());
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_ON.address())).getDrawable());
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                exitGame.setDrawable(new Image(new Texture(Resource.EXIT_GAME_OFF.address())).getDrawable());
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_OFF.address())).getDrawable());
             }
         });
         registerMenu = new Image(new Texture(Resource.REGISTER_MENU_OFF.address()));
@@ -193,7 +193,7 @@ public class LoginView extends View {
         loginTable.row();
         loginTable.add(forgetPassword);
         loginTable.row();
-        loginTable.add(exitGame);
+        loginTable.add(exit);
         registerTable.add(registerMenu);
         registerTable.row();
         registerTable.add(skip);
