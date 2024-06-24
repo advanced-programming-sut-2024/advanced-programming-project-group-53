@@ -1,39 +1,34 @@
 package model.game;
 
 import model.card.Card;
+import model.card.Commander;
 import model.card.Faction;
 import model.cards.AllCard;
 import model.cards.Deck;
 import model.cards.DiscardPile;
 import model.cards.Hand;
 
-import java.util.ArrayList;
-
 public class Player {
     private final User user;
     private final Deck deck;
     private final Hand hand;
     private final DiscardPile discardPile;
+    private final Commander commander;
     private final AllCard allCard;
     private final Faction faction;
     private int point;
     //remember to check if commander card is needed or not
-    public Player(User user, Deck deck, Hand hand, AllCard allCard, Faction faction) {
+    public Player(User user, Deck deck, Faction faction, Commander commander) {
         //TODO: check allCard configuration and application.
         this.user = user;
         this.deck = deck;
-        this.allCard = allCard;
-        this.hand = hand;
         this.discardPile = new DiscardPile();
+        this.commander = commander;
         this.faction = faction;
+        this.hand = null;
+        this.allCard = null;
     }
 
-    public void addToDeck(Card card) {
-
-    }
-    public void deleteFromDeck(Card card) {
-
-    }
 
 
     public User getUser() {
@@ -65,5 +60,9 @@ public class Player {
 
     public Faction getFaction() {
         return faction;
+    }
+
+    public Commander getCommander() {
+        return commander;
     }
 }
