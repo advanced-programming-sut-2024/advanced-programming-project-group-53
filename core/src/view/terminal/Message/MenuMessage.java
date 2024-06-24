@@ -48,7 +48,8 @@ public enum MenuMessage {
     YOU_CAN_JUST_CHANGE("You can just change the turn."),
     CARDS_QUANTITY_VALIDATION("You should have at least 22 unit card and at most 10 special cards."),
     YOU_HAVE_NOT_SELECTED_FACTION("You haven't selected faction yet."),
-    YOU_HAVE_NOT_SELECTED_COMMANDER("You haven't selected a commander.");
+    YOU_HAVE_NOT_SELECTED_COMMANDER("You haven't selected a commander."),
+    GAME_CREATED_SUCCESSFULLY("Game created successfully.");
     private final String message;
 
     MenuMessage(String message) {

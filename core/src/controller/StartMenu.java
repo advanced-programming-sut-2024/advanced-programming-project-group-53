@@ -31,15 +31,32 @@ public class StartMenu extends Menu {
 
     public static StartMenu getInstance() {
         if (instance == null)
-            instance = new StartMenu(User.getCurrentUser(), User.getCurrentUser().getOpponent());
+            setInstance();
         return instance;
+    }
+
+    public static void setInstance() {
+        instance = new StartMenu(User.getCurrentUser(), User.getCurrentUser().getOpponent());
+    }
+
+    public static boolean createGame(String username) {
+        User opponent = User.findUser(username);
+        if (opponent == null) {
+            Printer.print(MenuMessage.NO_USER.message());
+            return false;
+        }
+        User user = User.getCurrentUser();
+        user.setOpponent(opponent);
+        opponent.setOpponent(opponent);
+        StartMenu.setInstance();
+        Printer.print(MenuMessage.GAME_CREATED_SUCCESSFULLY.message());
+        return true;
     }
 
     public static void showFactions() {
         Printer.print("FACTIONS:");
-        for (Faction faction : Faction.values()) {
+        for (Faction faction : Faction.values())
             Printer.print(faction.name());
-        }
     }
 
     public static void selectFaction(String factionName) {
@@ -235,13 +252,14 @@ public class StartMenu extends Menu {
                 currentStartMenu.getCommanderUser());
         currentStartMenu.setPlayer2(userPlayer);
         User.setCurrentUser(currentStartMenu.getUser1());
+        currentStartMenu.enterMenu("Game");
         return true;
     }
 
     @Override
     public boolean enterMenu(String name) {
         if (MenuName.getMenu(name) == MenuName.GameMenu) {
-            TerminalRun.changeCurrentMenu(GameMenu.getInstance());
+            TerminalRun.changeCurrentMenu(GameMenu.getInstance(this.player1, this.player2));
             Printer.print(MenuMessage.ENTER_GAME_MENU.message());
             return true;
         } else {

@@ -9,6 +9,7 @@ import model.game.User;
 
 public class Table {
     private final ArrayList<Player> players;
+    private final Player player1, player2;
     private Player currentPlayer;
     private Player winner;
     private Player loser;
@@ -20,8 +21,14 @@ public class Table {
         this.players = new ArrayList<>();
         this.players.add(player1);
         this.players.add(player2);
+        this.player1 = player1;
+        this.player2 = player2;
         this.rounds = new ArrayList<>();
         this.currentPlayer = player1;
+    }
+
+    public void preGameConfigs() {
+
     }
 
     public void changeTurn() {
@@ -58,26 +65,6 @@ public class Table {
 
     public Playground getPlayGround() {
         return playGround;
-    }
-
-    public ArrayList<Card> getSpells(int which) {
-        ArrayList<Card> spells = new ArrayList<>();
-        // TODO : iterate and add spells card to the return value of this method.
-        return spells;
-    }
-
-    public void showAllCardInFaction() {
-        //TODO : complete and move print part to view package
-        System.out.println("Unit Cards:");
-        for (UnitInformation unitInfo: UnitInformation.values()){
-            if (unitInfo.faction().equals(currentPlayer.getFaction()))
-                System.out.println(unitInfo.name());
-        }
-        System.out.println("Special Cards:");
-        for (SpecialInformation specialInfo: SpecialInformation.values()) {
-            if (specialInfo.faction().equals(currentPlayer.getFaction()))
-                System.out.println(specialInfo.name());
-        }
     }
 
     public ArrayList<Round> getRounds() {
