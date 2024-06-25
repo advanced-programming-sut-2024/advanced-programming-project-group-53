@@ -220,5 +220,10 @@ public class StartMenuTest {
         assertEquals(MenuMessage.ADD_CARD.message(), outContent.toString().trim());
     }
 
-
+    @Test
+    public void shouldAddValidAvailableSpecialCard() {
+        System.setOut(new PrintStream(outContent));
+        assertTrue(StartMenu.addToDeck("SkelligeStorm","2"));
+        assertEquals(MenuMessage.ADD_CARD.message(), outContent.toString().trim());
+    }
 }
