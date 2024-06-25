@@ -135,4 +135,12 @@ public class StartMenuTest {
         assertEquals(MenuMessage.FACTION_SELECTED.message(),outContent.toString().trim());
         assertEquals("Skellige",startMenu.getUserFaction().toString());
     }
+
+    @Test
+    public void shouldSelectNeutralFaction() {
+        System.setOut(new PrintStream(outContent));
+        StartMenu.selectFaction("Neutral");
+        assertEquals(MenuMessage.FACTION_SELECTED.message(),outContent.toString().trim());
+        assertEquals("Neutral",startMenu.getUserFaction().toString());
+    }
 }
