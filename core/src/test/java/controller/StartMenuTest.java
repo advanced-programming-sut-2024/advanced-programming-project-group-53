@@ -61,4 +61,11 @@ public class StartMenuTest {
         assertTrue(startMenu.enterMenu("GameMenu"));
         assertEquals(MenuMessage.ENTER_GAME_MENU.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldErrorInvalidMenu() {
+        System.setOut(new PrintStream(outContent));
+        assertFalse(startMenu.enterMenu("aMenu"));
+        assertEquals(MenuMessage.INVALID_MENU.message(), outContent.toString().trim());
+    }
 }
