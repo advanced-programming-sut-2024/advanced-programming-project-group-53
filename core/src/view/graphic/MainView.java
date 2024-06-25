@@ -34,6 +34,7 @@ public class MainView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 chooseDeck.setDrawable(new Image(new Texture(Resource.CHOOSE_DECK_CLICKED.address())).getDrawable());
+                game.changeScreen(new StartViewFaction(game));
             }
 
             @Override

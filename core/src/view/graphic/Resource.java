@@ -4,9 +4,15 @@ public enum Resource {
     LABEL("skin/label/label.json"),
     SCROLL_PANE("skin/scrollPane/scrollPane.json"),
     TEXT_FIELD("skin/textField/textField.json"),
+    CHANGE_COMMANDER_ON("button/changeCommander/on.png"),
+    CHANGE_COMMANDER_OFF("button/changeCommander/off.png"),
+    CHANGE_COMMANDER_CLICKED("button/changeCommander/clicked.png"),
     CHANGE_EMAIL_ON("button/changeEmail/on.png"),
     CHANGE_EMAIL_OFF("button/changeEmail/off.png"),
     CHANGE_EMAIL_CLICKED("button/changeEmail/clicked.png"),
+    CHANGE_FACTION_ON("button/changeFaction/on.png"),
+    CHANGE_FACTION_OFF("button/changeFaction/off.png"),
+    CHANGE_FACTION_CLICKED("button/changeFaction/clicked.png"),
     CHANGE_NICKNAME_ON("button/changeNickname/on.png"),
     CHANGE_NICKNAME_OFF("button/changeNickname/off.png"),
     CHANGE_NICKNAME_CLICKED("button/changeNickname/clicked.png"),
@@ -76,7 +82,8 @@ public enum Resource {
     PROFILE_BACKGROUND("background/profile.jpg"),
     HISTORY_BACKGROUND("background/history.jpg"),
     START_BACKGROUND("background/start.jpeg"),
-    RANKING_BACKGROUND("background/ranking.jpeg"),;
+    RANKING_BACKGROUND("background/ranking.jpeg"),
+    ;
     private final String address;
 
     Resource(String address) {

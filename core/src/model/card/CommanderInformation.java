@@ -1,36 +1,42 @@
 package model.card;
 
 public enum CommanderInformation {
-    EredinBreaccGlas_BringerOfDeath(Faction.Monsters),
-    EredinBreaccGlas_KingOfTheWildHunt(Faction.Monsters),
-    EredinBreaccGlas_DestroyerOfWorlds(Faction.Monsters),
-    EredinBreaccGlas_CommanderOfTheRedRiders(Faction.Monsters),
-    EredinBreaccGlas_TheTreacherous(Faction.Monsters),
-    EmhyrVarEmreis_TheWhiteFlame(Faction.NilfgaardianEmpire),
-    EmhyrVarEmreis_TheRelentless(Faction.NilfgaardianEmpire),
-    EmhyrVarEmreis_EmperorOfNilfgaard(Faction.NilfgaardianEmpire),
-    EmhyrVarEmreis_HisImperialMajesty(Faction.NilfgaardianEmpire),
-    EmhyrVarEmreis_InvaderOfTheNorth(Faction.NilfgaardianEmpire),
-    FrancescaFindabair_QueenOfDolBlathanna(Faction.Scoiatael),
-    FrancescaFindabair_TheBeautiful(Faction.Scoiatael),
-    FrancescaFindabair_DaisyOfTheValley(Faction.Scoiatael),
-    FrancescaFindabair_PureBloodElf(Faction.Scoiatael),
-    FrancescaFindabair_HopeOfTheAenSeidhe(Faction.Scoiatael),
-    Foltest_TheSiegeMaster(Faction.NorthernRealms),
-    Foltest_TheSteelForged(Faction.NorthernRealms),
-    Foltest_KingOfTemeria(Faction.NorthernRealms),
-    Foltest_LordCommanderOfTheNorth(Faction.NorthernRealms),
-    Foltest_SonOfMedell(Faction.NorthernRealms),
-    TWO_COMMANDER_SKELLIGE_CrachAnCraite(Faction.Skellige),
-    TWO_COMMANDER_SKELLIGE_KingBran(Faction.Skellige);
+    EredinBreaccGlas_BringerOfDeath(Faction.Monsters, "card/monsters/commander/monsters_eredin_silver.jpg"),
+    EredinBreaccGlas_KingOfTheWildHunt(Faction.Monsters, "card/monsters/commander/monsters_eredin_bronze.jpg"),
+    EredinBreaccGlas_DestroyerOfWorlds(Faction.Monsters, "card/monsters/commander/monsters_eredin_gold.jpg"),
+    EredinBreaccGlas_CommanderOfTheRedRiders(Faction.Monsters, "card/monsters/commander/monsters_eredin_copper.jpg"),
+    EredinBreaccGlas_TheTreacherous(Faction.Monsters, "card/monsters/commander/monsters_eredin_the_treacherous.jpg"),
+    EmhyrVarEmreis_TheWhiteFlame(Faction.NilfgaardianEmpire, "card/nilfgaard/commander/nilfgaard_emhyr_silver.jpg"),
+    EmhyrVarEmreis_TheRelentless(Faction.NilfgaardianEmpire, "card/nilfgaard/commander/nilfgaard_emhyr_gold.jpg"),
+    EmhyrVarEmreis_EmperorOfNilfgaard(Faction.NilfgaardianEmpire, "card/nilfgaard/commander/nilfgaard_emhyr_bronze.jpg"),
+    EmhyrVarEmreis_HisImperialMajesty(Faction.NilfgaardianEmpire, "card/nilfgaard/commander/nilfgaard_emhyr_copper.jpg"),
+    EmhyrVarEmreis_InvaderOfTheNorth(Faction.NilfgaardianEmpire, "card/nilfgaard/commander/nilfgaard_emhyr_invader_of_the_north.jpg"),
+    FrancescaFindabair_QueenOfDolBlathanna(Faction.Scoiatael, "card/scoiatael/commander/scoiatael_francesca_silver.jpg"),
+    FrancescaFindabair_TheBeautiful(Faction.Scoiatael, "card/scoiatael/commander/scoiatael_francesca_gold.jpg"),
+    FrancescaFindabair_DaisyOfTheValley(Faction.Scoiatael, "card/scoiatael/commander/scoiatael_francesca_copper.jpg"),
+    FrancescaFindabair_PureBloodElf(Faction.Scoiatael, "card/scoiatael/commander/scoiatael_francesca_bronze.jpg"),
+    FrancescaFindabair_HopeOfTheAenSeidhe(Faction.Scoiatael, "card/scoiatael/commander/scoiatael_francesca_hope_of_the_aen_seidhe.jpg"),
+    Foltest_TheSiegeMaster(Faction.NorthernRealms, "card/realms/commander/realms_foltest_silver.jpg"),
+    Foltest_TheSteelForged(Faction.NorthernRealms, "card/realms/commander/realms_foltest_gold.jpg"),
+    Foltest_KingOfTemeria(Faction.NorthernRealms, "card/realms/commander/realms_foltest_copper.jpg"),
+    Foltest_LordCommanderOfTheNorth(Faction.NorthernRealms, "card/realms/commander/realms_foltest_bronze.jpg"),
+    Foltest_SonOfMedell(Faction.NorthernRealms, "card/realms/commander/realms_foltest_son_of_medell.jpg"),
+    TWO_COMMANDER_SKELLIGE_CrachAnCraite(Faction.Skellige, "card/skellige/commander/skellige_crach_an_craite.jpg"),
+    TWO_COMMANDER_SKELLIGE_KingBran(Faction.Skellige, "card/skellige/commander/skellige_king_bran.jpg");
     private final Faction faction;
+    private final String address;
 
-    CommanderInformation(Faction faction) {
+    CommanderInformation(Faction faction, String address) {
         this.faction = faction;
+        this.address = address;
     }
 
     public Faction faction() {
         return this.faction;
+    }
+
+    public String address() {
+        return this.address;
     }
 
     @Override
