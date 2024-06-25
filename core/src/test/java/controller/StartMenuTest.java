@@ -187,4 +187,10 @@ public class StartMenuTest {
         assertEquals(0,StartMenu.nameAndCountValidation("Albrich","0"));
         assertEquals(MenuMessage.COUNT_OUT_OF_RANGE.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void ShouldReturnValidState() {
+        assertEquals(1,StartMenu.nameAndCountValidation("Albrich","3"));
+        assertEquals(2,StartMenu.nameAndCountValidation("SkelligeStorm","3"));
+    }
 }
