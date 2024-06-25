@@ -163,14 +163,21 @@ public class StartMenuTest {
     @Test
     public void ShouldErrorInvalidCardAndCount() {
         System.setOut(new PrintStream(outContent));
-        StartMenu.nameAndCountValidation("InvalidName","1");
+        assertEquals(0,StartMenu.nameAndCountValidation("InvalidName","1"));
         assertEquals(MenuMessage.THERE_IS_NO_CARD_WITH_THIS_NAME.message(), outContent.toString().trim());
     }
 
     @Test
     public void ShouldErrorInvalidCountString() {
         System.setOut(new PrintStream(outContent));
-        StartMenu.nameAndCountValidation("Albrich","sd1");
+        assertEquals(0,StartMenu.nameAndCountValidation("Albrich","sd1"));
         assertEquals(MenuMessage.WRONG_NUMBER_FORMAT.message(), outContent.toString().trim());
+    }
+
+    @Test
+    public void ShouldErrorOutOfRangeCountStringUpperBound() {
+        System.setOut(new PrintStream(outContent));
+        assertEquals(0,StartMenu.nameAndCountValidation("Albrich","10"));
+        assertEquals(MenuMessage.COUNT_OUT_OF_RANGE.message(), outContent.toString().trim());
     }
 }
