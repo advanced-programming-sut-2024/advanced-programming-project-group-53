@@ -200,9 +200,16 @@ public class StartMenuTest {
     }
 
     @Test
-    public void shouldErrorMoreThanAvailable() {
+    public void shouldErrorMoreThanAvailableUnit() {
         System.setOut(new PrintStream(outContent));
         assertFalse(StartMenu.addToDeck("Albrich","8"));
+        assertEquals(MenuMessage.MORE_THAT_AVAILABILITY.message(), outContent.toString().trim());
+    }
+
+    @Test
+    public void shouldErrorMoreThanAvailableSpecial() {
+        System.setOut(new PrintStream(outContent));
+        assertFalse(StartMenu.addToDeck("SkelligeStorm","8"));
         assertEquals(MenuMessage.MORE_THAT_AVAILABILITY.message(), outContent.toString().trim());
     }
 }
