@@ -1,5 +1,6 @@
 package controller;
 
+import model.card.Card;
 import model.game.GameInformation;
 import model.game.Player;
 import model.game.Table;
@@ -26,6 +27,11 @@ public class GameMenu extends Menu {
         instance = new GameMenu(player1, player2);
     }
 
+    public static boolean vetoCards(int cardNumber) {
+        //TODO: fill this after preConfig
+        return true;
+    }
+
     @Override
     public boolean enterMenu(String name) {
         Printer.print(MenuMessage.INVALID_MENU.message());
@@ -41,5 +47,9 @@ public class GameMenu extends Menu {
     @Override
     public void showMenu() {
         Printer.print(MenuMessage.GAME_MENU.message());
+    }
+
+    public Table getTable() {
+        return table;
     }
 }
