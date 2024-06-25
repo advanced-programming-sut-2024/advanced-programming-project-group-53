@@ -160,4 +160,11 @@ public class StartMenuTest {
         assertEquals(2,StartMenu.nameValidation("SkelligeStorm"));
     }
 
+    @Test
+    public void ShouldErrorInvalidCardAndCount() {
+        System.setOut(new PrintStream(outContent));
+        StartMenu.nameAndCountValidation("InvalidName","1");
+        assertEquals(MenuMessage.THERE_IS_NO_CARD_WITH_THIS_NAME.message(), outContent.toString().trim());
+    }
+
 }
