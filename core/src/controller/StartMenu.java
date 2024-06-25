@@ -15,7 +15,7 @@ public class StartMenu extends Menu {
     private final User user1, user2;
     private Player player1, player2;
     private Commander commanderUser;
-    private Faction userFaction;
+    private Faction userFaction;//User has a faction field in it
     private boolean hasFaction;
 
     //TODO : make it available for 2 user for interact in this menu.
