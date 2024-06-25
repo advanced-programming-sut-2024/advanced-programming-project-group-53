@@ -152,4 +152,11 @@ public class StartMenuTest {
         StartMenu.selectFaction("aFaction");
         assertEquals(MenuMessage.INVALID_FACTION.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldReturnInvalidCardCode() {
+        assertEquals(0,StartMenu.nameValidation("InvalidCard"));
+    }
+
+
 }
