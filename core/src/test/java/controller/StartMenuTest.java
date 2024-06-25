@@ -226,4 +226,18 @@ public class StartMenuTest {
         assertTrue(StartMenu.addToDeck("SkelligeStorm","2"));
         assertEquals(MenuMessage.ADD_CARD.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void showAccurateDeck() {
+        System.setOut(new PrintStream(outContent));
+        assertTrue(StartMenu.addToDeck("SkelligeStorm","2"));
+        assertTrue(StartMenu.addToDeck("Albrich","1"));
+        StartMenu.showDeck();
+        assertEquals("Card(s) added successfully.\r\n" +
+                "Card(s) added successfully.\r\n" +
+                "CURRENT DECK:\r\n" +
+                "1. SkelligeStorm Weather-null\r\n" +
+                "2. SkelligeStorm Weather-null\r\n" +
+                "3. Albrich RangedCombat-Nilfgaardian Empire", outContent.toString().trim());
+    }
 }
