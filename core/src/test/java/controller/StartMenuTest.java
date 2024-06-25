@@ -259,4 +259,32 @@ public class StartMenuTest {
                 "2. SkelligeStorm ---> None\r\n" +
                 "3. Albrich ---> None", outContent.toString().trim());
     }
+
+    @Test
+    public void shouldShowCommanders() {
+        System.setOut(new PrintStream(outContent));
+        StartMenu.showCommanders();
+        assertEquals("1. EredinBreaccGlas_BringerOfDeath - Monsters\r\n" +
+                "2. EredinBreaccGlas_KingOfTheWildHunt - Monsters\r\n" +
+                "3. EredinBreaccGlas_DestroyerOfWorlds - Monsters\r\n" +
+                "4. EredinBreaccGlas_CommanderOfTheRedRiders - Monsters\r\n" +
+                "5. EredinBreaccGlas_TheTreacherous - Monsters\r\n" +
+                "6. EmhyrVarEmreis_TheWhiteFlame - Nilfgaardian Empire\r\n" +
+                "7. EmhyrVarEmreis_TheRelentless - Nilfgaardian Empire\r\n" +
+                "8. EmhyrVarEmreis_EmperorOfNilfgaard - Nilfgaardian Empire\r\n" +
+                "9. EmhyrVarEmreis_HisImperialMajesty - Nilfgaardian Empire\r\n" +
+                "10. EmhyrVarEmreis_InvaderOfTheNorth - Nilfgaardian Empire\r\n" +
+                "11. FrancescaFindabair_QueenOfDolBlathanna - Scoia'tael\r\n" +
+                "12. FrancescaFindabair_TheBeautiful - Scoia'tael\r\n" +
+                "13. FrancescaFindabair_DaisyOfTheValley - Scoia'tael\r\n" +
+                "14. FrancescaFindabair_PureBloodElf - Scoia'tael\r\n" +
+                "15. FrancescaFindabair_HopeOfTheAenSeidhe - Scoia'tael\r\n" +
+                "16. Foltest_TheSiegeMaster - Northern Realms\r\n" +
+                "17. Foltest_TheSteelForged - Northern Realms\r\n" +
+                "18. Foltest_KingOfTemeria - Northern Realms\r\n" +
+                "19. Foltest_LordCommanderOfTheNorth - Northern Realms\r\n" +
+                "20. Foltest_SonOfMedell - Northern Realms\r\n" +
+                "21. TWO_COMMANDER_SKELLIGE_CrachAnCraite - Skellige\r\n" +
+                "22. TWO_COMMANDER_SKELLIGE_KingBran - Skellige", outContent.toString().trim());
+    }
 }
