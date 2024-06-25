@@ -63,7 +63,8 @@ public class MainMenu extends Menu {
     @Override
     public boolean enterMenu(String name) {
         if (MenuName.getMenu(name) == MenuName.GameMenu) {
-            TerminalRun.changeCurrentMenu(GameMenu.getInstance());
+            //Todo: inputs of the getInstance methods are missing
+            //TerminalRun.changeCurrentMenu(GameMenu.getInstance());
             Printer.print(MenuMessage.ENTER_GAME_MENU.message());
             return true;
         } else if (MenuName.getMenu(name) == MenuName.ProfileMenu) {
