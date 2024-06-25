@@ -193,4 +193,9 @@ public class StartMenuTest {
         assertEquals(1,StartMenu.nameAndCountValidation("Albrich","3"));
         assertEquals(2,StartMenu.nameAndCountValidation("SkelligeStorm","3"));
     }
+
+    @Test
+    public void shouldNotAddInvalidCardToDeck() {
+        assertFalse(StartMenu.addToDeck("InvalidCard","2"));
+    }
 }
