@@ -302,4 +302,11 @@ public class StartMenuTest {
         StartMenu.selectCommander(1);
         assertEquals(MenuMessage.COMMANDER_SELECTED.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldErrorIndexCommander() {
+        System.setOut(new PrintStream(outContent));
+        StartMenu.selectCommander(100);
+        assertEquals(MenuMessage.INVALID_COMMANDER_INDEX.message(), outContent.toString().trim());
+    }
 }
