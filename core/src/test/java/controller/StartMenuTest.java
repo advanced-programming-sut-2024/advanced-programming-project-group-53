@@ -24,5 +24,9 @@ public class StartMenuTest {
         User.setCurrentUser(userInstance1);
     }
 
+    @Before
+    public void getMenuInstance() {
+        startMenu = StartMenu.getInstance();
+    }
 
 }
