@@ -295,4 +295,11 @@ public class StartMenuTest {
         StartMenu.selectCommander(1);
         assertEquals(MenuMessage.YOU_HAVE_COMMANDER.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldSelectCommander() {
+        System.setOut(new PrintStream(outContent));
+        StartMenu.selectCommander(1);
+        assertEquals(MenuMessage.COMMANDER_SELECTED.message(), outContent.toString().trim());
+    }
 }
