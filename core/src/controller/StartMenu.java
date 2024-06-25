@@ -47,7 +47,7 @@ public class StartMenu extends Menu {
         }
         User user = User.getCurrentUser();
         user.setOpponent(opponent);
-        opponent.setOpponent(opponent);
+        opponent.setOpponent(opponent);//shouldn't the input be user?
         StartMenu.setInstance();
         Printer.print(MenuMessage.GAME_CREATED_SUCCESSFULLY.message());
         return true;
