@@ -7,7 +7,6 @@ import model.cards.Deck;
 import model.game.Player;
 import model.game.User;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import view.terminal.Message.MenuMessage;
 
@@ -96,4 +95,13 @@ public class StartMenuTest {
                 "Neutral\r\n" +
                 "All", outContent.toString().trim());
     }
+
+    @Test
+    public void shouldSelectMonstersFaction() {
+        System.setOut(new PrintStream(outContent));
+        StartMenu.selectFaction("Monsters");
+        assertEquals(MenuMessage.FACTION_SELECTED.message(),outContent.toString().trim());
+        assertEquals("Monsters",startMenu.getUserFaction().toString());
+    }
+
 }
