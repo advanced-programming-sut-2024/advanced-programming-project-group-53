@@ -167,4 +167,10 @@ public class StartMenuTest {
         assertEquals(MenuMessage.THERE_IS_NO_CARD_WITH_THIS_NAME.message(), outContent.toString().trim());
     }
 
+    @Test
+    public void ShouldErrorInvalidCountString() {
+        System.setOut(new PrintStream(outContent));
+        StartMenu.nameAndCountValidation("Albrich","sd1");
+        assertEquals(MenuMessage.WRONG_NUMBER_FORMAT.message(), outContent.toString().trim());
+    }
 }
