@@ -163,4 +163,9 @@ public class StartMenuTest {
         assertEquals(1,StartMenu.nameValidation("Albrich"));
     }
 
+    @Test
+    public void shouldReturnSpecialCardCode() {
+        assertEquals(2,StartMenu.nameValidation("SkelligeStorm"));
+    }
+
 }
