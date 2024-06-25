@@ -158,5 +158,9 @@ public class StartMenuTest {
         assertEquals(0,StartMenu.nameValidation("InvalidCard"));
     }
 
+    @Test
+    public void shouldReturnUnitCardCode() {
+        assertEquals(1,StartMenu.nameValidation("Albrich"));
+    }
 
 }
