@@ -228,7 +228,7 @@ public class StartMenuTest {
     }
 
     @Test
-    public void showAccurateDeck() {
+    public void shouldShowAccurateDeck() {
         System.setOut(new PrintStream(outContent));
         assertTrue(StartMenu.addToDeck("SkelligeStorm","2"));
         assertTrue(StartMenu.addToDeck("Albrich","1"));
@@ -239,5 +239,24 @@ public class StartMenuTest {
                 "1. SkelligeStorm Weather-null\r\n" +
                 "2. SkelligeStorm Weather-null\r\n" +
                 "3. Albrich RangedCombat-Nilfgaardian Empire", outContent.toString().trim());
+    }
+
+    @Test
+    public void shouldShowUsersInfo() {
+        System.setOut(new PrintStream(outContent));
+        assertTrue(StartMenu.addToDeck("SkelligeStorm","2"));
+        assertTrue(StartMenu.addToDeck("Albrich","1"));
+        StartMenu.showCurrentUserInformation();
+        assertEquals("Card(s) added successfully.\r\n" +
+                "Card(s) added successfully.\r\n" +
+                "aValidUsername-1\r\n" +
+                "Current Deck Size: 3\r\n" +
+                "Unit Cards Count: 1\r\n" +
+                "Special Cards Count: 2\r\n" +
+                "Hero Cards Count: 0\r\n" +
+                "Current Deck Cards Ability: \r\n" +
+                "1. SkelligeStorm ---> None\r\n" +
+                "2. SkelligeStorm ---> None\r\n" +
+                "3. Albrich ---> None", outContent.toString().trim());
     }
 }
