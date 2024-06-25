@@ -198,4 +198,11 @@ public class StartMenuTest {
     public void shouldNotAddInvalidCardToDeck() {
         assertFalse(StartMenu.addToDeck("InvalidCard","2"));
     }
+
+    @Test
+    public void shouldErrorMoreThanAvailable() {
+        System.setOut(new PrintStream(outContent));
+        assertFalse(StartMenu.addToDeck("Albrich","8"));
+        assertEquals(MenuMessage.MORE_THAT_AVAILABILITY.message(), outContent.toString().trim());
+    }
 }
