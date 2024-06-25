@@ -31,8 +31,8 @@ public class StartMenuTest {
         Deck deckinstance2 = new Deck();
         Commander commander1 = new Commander(CommanderInformation.EredinBreaccGlas_CommanderOfTheRedRiders);
         Commander commander2 = new Commander(CommanderInformation.Foltest_LordCommanderOfTheNorth);
-        Player playerInstance1 = new Player(userInstance1,deckinstance1,Faction.Monsters, commander1);
-        Player playerInstance2 = new Player(userInstance2,deckinstance2,Faction.NorthernRealms,commander2);
+        Player playerInstance1 = new Player(userInstance1, deckinstance1, Faction.Monsters, commander1);
+        Player playerInstance2 = new Player(userInstance2, deckinstance2, Faction.NorthernRealms, commander2);
         User.setCurrentUser(userInstance1);
         userInstance1.setOpponent(userInstance2);
         StartMenu.setInstance();
@@ -44,14 +44,14 @@ public class StartMenuTest {
     public void shouldShowStartMenu() {
         System.setOut(new PrintStream(outContent));
         startMenu.showMenu();
-        assertEquals(MenuMessage.START_MENU.message(),outContent.toString().trim());
+        assertEquals(MenuMessage.START_MENU.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldExitMenu() {
         System.setOut(new PrintStream(outContent));
         startMenu.exitMenu();
-        assertEquals(MenuMessage.ENTER_MAIN_MENU.message(),outContent.toString().trim());
+        assertEquals(MenuMessage.ENTER_MAIN_MENU.message(), outContent.toString().trim());
     }
 
     @Test
@@ -100,47 +100,56 @@ public class StartMenuTest {
     public void shouldSelectMonstersFaction() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectFaction("Monsters");
-        assertEquals(MenuMessage.FACTION_SELECTED.message(),outContent.toString().trim());
-        assertEquals("Monsters",startMenu.getUserFaction().toString());
+        assertEquals(MenuMessage.FACTION_SELECTED.message(), outContent.toString().trim());
+        assertEquals("Monsters", startMenu.getUserFaction().toString());
     }
 
     @Test
     public void shouldSelectNilfgaardianEmpireFaction() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectFaction("NilfgaardianEmpire");
-        assertEquals(MenuMessage.FACTION_SELECTED.message(),outContent.toString().trim());
-        assertEquals("Nilfgaardian Empire",startMenu.getUserFaction().toString());
+        assertEquals(MenuMessage.FACTION_SELECTED.message(), outContent.toString().trim());
+        assertEquals("Nilfgaardian Empire", startMenu.getUserFaction().toString());
     }
 
     @Test
     public void shouldSelectNorthernRealmsFaction() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectFaction("NorthernRealms");
-        assertEquals(MenuMessage.FACTION_SELECTED.message(),outContent.toString().trim());
-        assertEquals("Northern Realms",startMenu.getUserFaction().toString());
+        assertEquals(MenuMessage.FACTION_SELECTED.message(), outContent.toString().trim());
+        assertEquals("Northern Realms", startMenu.getUserFaction().toString());
     }
 
     @Test
     public void shouldSelectScoiataelFaction() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectFaction("Scoiatael");
-        assertEquals(MenuMessage.FACTION_SELECTED.message(),outContent.toString().trim());
-        assertEquals("Scoia'tael",startMenu.getUserFaction().toString());
+        assertEquals(MenuMessage.FACTION_SELECTED.message(), outContent.toString().trim());
+        assertEquals("Scoia'tael", startMenu.getUserFaction().toString());
     }
 
     @Test
     public void shouldSelectSkelligeFaction() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectFaction("Skellige");
-        assertEquals(MenuMessage.FACTION_SELECTED.message(),outContent.toString().trim());
-        assertEquals("Skellige",startMenu.getUserFaction().toString());
+        assertEquals(MenuMessage.FACTION_SELECTED.message(), outContent.toString().trim());
+        assertEquals("Skellige", startMenu.getUserFaction().toString());
     }
 
     @Test
     public void shouldSelectNeutralFaction() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectFaction("Neutral");
-        assertEquals(MenuMessage.FACTION_SELECTED.message(),outContent.toString().trim());
-        assertEquals("Neutral",startMenu.getUserFaction().toString());
+        assertEquals(MenuMessage.FACTION_SELECTED.message(), outContent.toString().trim());
+        assertEquals("Neutral", startMenu.getUserFaction().toString());
+    }
+
+    //todo: check if All(in factions) need a selection test.(maybe even a test to be unselectable.
+
+    @Test
+    public void shouldErrorInvalidFaction() {
+        System.setOut(new PrintStream(outContent));
+        StartMenu.selectFaction("aFaction");
+        assertEquals(MenuMessage.INVALID_FACTION.message(), outContent.toString().trim());
     }
 }
