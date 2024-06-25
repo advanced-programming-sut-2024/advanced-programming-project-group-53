@@ -167,7 +167,7 @@ public class StartMenu extends Menu {
     //TODO : we need to complete file part of this menu.
     public static void selectCommander(int leaderNumber) {
         int counter = 1;
-        if (StartMenu.getInstance().getCommanderUser() == null) {
+        if (StartMenu.getInstance().getCommanderUser() == null) {//shouldn't be != null ??
             Printer.print(MenuMessage.YOU_HAVE_COMMANDER.message());
             return;
         }
