@@ -128,4 +128,11 @@ public class StartMenuTest {
         assertEquals("Scoia'tael",startMenu.getUserFaction().toString());
     }
 
+    @Test
+    public void shouldSelectSkelligeFaction() {
+        System.setOut(new PrintStream(outContent));
+        StartMenu.selectFaction("Skellige");
+        assertEquals(MenuMessage.FACTION_SELECTED.message(),outContent.toString().trim());
+        assertEquals("Skellige",startMenu.getUserFaction().toString());
+    }
 }
