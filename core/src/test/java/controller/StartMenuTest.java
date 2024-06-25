@@ -68,4 +68,11 @@ public class StartMenuTest {
         assertFalse(startMenu.enterMenu("aMenu"));
         assertEquals(MenuMessage.INVALID_MENU.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldErrorInvalidUsername() {
+        System.setOut(new PrintStream(outContent));
+        assertFalse(StartMenu.createGame("invalidUsername12#"));
+        assertEquals(MenuMessage.NO_USER.message(), outContent.toString().trim());
+    }
 }
