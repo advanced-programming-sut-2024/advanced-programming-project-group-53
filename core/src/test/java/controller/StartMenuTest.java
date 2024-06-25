@@ -4,8 +4,10 @@ import model.game.User;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import view.terminal.Message.MenuMessage;
 
 import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -27,6 +29,13 @@ public class StartMenuTest {
     @Before
     public void getMenuInstance() {
         startMenu = StartMenu.getInstance();
+    }
+
+    @Test
+    public void shouldShowStartMenu() {
+        System.setOut(new PrintStream(outContent));
+        startMenu.showMenu();
+        assertEquals(MenuMessage.START_MENU.message(),outContent.toString().trim());
     }
 
 }
