@@ -154,17 +154,9 @@ public class StartMenuTest {
     }
 
     @Test
-    public void shouldReturnInvalidCardCode() {
+    public void shouldReturnAccurateCardCode() {
         assertEquals(0,StartMenu.nameValidation("InvalidCard"));
-    }
-
-    @Test
-    public void shouldReturnUnitCardCode() {
         assertEquals(1,StartMenu.nameValidation("Albrich"));
-    }
-
-    @Test
-    public void shouldReturnSpecialCardCode() {
         assertEquals(2,StartMenu.nameValidation("SkelligeStorm"));
     }
 
