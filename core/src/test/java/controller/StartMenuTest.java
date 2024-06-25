@@ -54,4 +54,11 @@ public class StartMenuTest {
         startMenu.exitMenu();
         assertEquals(MenuMessage.ENTER_MAIN_MENU.message(),outContent.toString().trim());
     }
+
+    @Test
+    public void shouldEnterGameMenu() {
+        System.setOut(new PrintStream(outContent));
+        assertTrue(startMenu.enterMenu("GameMenu"));
+        assertEquals(MenuMessage.ENTER_GAME_MENU.message(), outContent.toString().trim());
+    }
 }
