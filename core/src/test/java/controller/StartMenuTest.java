@@ -212,4 +212,13 @@ public class StartMenuTest {
         assertFalse(StartMenu.addToDeck("SkelligeStorm","8"));
         assertEquals(MenuMessage.MORE_THAT_AVAILABILITY.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldAddValidAvailableUnitCard() {
+        System.setOut(new PrintStream(outContent));
+        assertTrue(StartMenu.addToDeck("Albrich","1"));
+        assertEquals(MenuMessage.ADD_CARD.message(), outContent.toString().trim());
+    }
+
+
 }
