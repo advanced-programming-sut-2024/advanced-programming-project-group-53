@@ -180,4 +180,11 @@ public class StartMenuTest {
         assertEquals(0,StartMenu.nameAndCountValidation("Albrich","10"));
         assertEquals(MenuMessage.COUNT_OUT_OF_RANGE.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void ShouldErrorOutOfRangeCountStringLowerBound() {
+        System.setOut(new PrintStream(outContent));
+        assertEquals(0,StartMenu.nameAndCountValidation("Albrich","0"));
+        assertEquals(MenuMessage.COUNT_OUT_OF_RANGE.message(), outContent.toString().trim());
+    }
 }
