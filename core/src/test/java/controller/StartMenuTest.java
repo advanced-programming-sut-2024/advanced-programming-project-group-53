@@ -82,4 +82,18 @@ public class StartMenuTest {
         assertTrue(StartMenu.createGame("aValidUsername-2"));
         assertEquals(MenuMessage.GAME_CREATED_SUCCESSFULLY.message(), outContent.toString().trim());
     }
+
+    @Test
+    public void shouldShowFaction() {
+        System.setOut(new PrintStream(outContent));
+        StartMenu.showFactions();
+        assertEquals("FACTIONS:\r\n" +
+                "Monsters\r\n" +
+                "NilfgaardianEmpire\r\n" +
+                "NorthernRealms\r\n" +
+                "Scoiatael\r\n" +
+                "Skellige\r\n" +
+                "Neutral\r\n" +
+                "All", outContent.toString().trim());
+    }
 }
