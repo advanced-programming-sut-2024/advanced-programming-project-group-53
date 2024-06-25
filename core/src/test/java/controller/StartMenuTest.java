@@ -155,83 +155,83 @@ public class StartMenuTest {
 
     @Test
     public void shouldReturnAccurateCardCode() {
-        assertEquals(0,StartMenu.nameValidation("InvalidCard"));
-        assertEquals(1,StartMenu.nameValidation("Albrich"));
-        assertEquals(2,StartMenu.nameValidation("SkelligeStorm"));
+        assertEquals(0, StartMenu.nameValidation("InvalidCard"));
+        assertEquals(1, StartMenu.nameValidation("Albrich"));
+        assertEquals(2, StartMenu.nameValidation("SkelligeStorm"));
     }
 
     @Test
     public void ShouldErrorInvalidCardAndCount() {
         System.setOut(new PrintStream(outContent));
-        assertEquals(0,StartMenu.nameAndCountValidation("InvalidName","1"));
+        assertEquals(0, StartMenu.nameAndCountValidation("InvalidName", "1"));
         assertEquals(MenuMessage.THERE_IS_NO_CARD_WITH_THIS_NAME.message(), outContent.toString().trim());
     }
 
     @Test
     public void ShouldErrorInvalidCountString() {
         System.setOut(new PrintStream(outContent));
-        assertEquals(0,StartMenu.nameAndCountValidation("Albrich","sd1"));
+        assertEquals(0, StartMenu.nameAndCountValidation("Albrich", "sd1"));
         assertEquals(MenuMessage.WRONG_NUMBER_FORMAT.message(), outContent.toString().trim());
     }
 
     @Test
     public void ShouldErrorOutOfRangeCountStringUpperBound() {
         System.setOut(new PrintStream(outContent));
-        assertEquals(0,StartMenu.nameAndCountValidation("Albrich","10"));
+        assertEquals(0, StartMenu.nameAndCountValidation("Albrich", "10"));
         assertEquals(MenuMessage.COUNT_OUT_OF_RANGE.message(), outContent.toString().trim());
     }
 
     @Test
     public void ShouldErrorOutOfRangeCountStringLowerBound() {
         System.setOut(new PrintStream(outContent));
-        assertEquals(0,StartMenu.nameAndCountValidation("Albrich","0"));
+        assertEquals(0, StartMenu.nameAndCountValidation("Albrich", "0"));
         assertEquals(MenuMessage.COUNT_OUT_OF_RANGE.message(), outContent.toString().trim());
     }
 
     @Test
     public void ShouldReturnValidState() {
-        assertEquals(1,StartMenu.nameAndCountValidation("Albrich","3"));
-        assertEquals(2,StartMenu.nameAndCountValidation("SkelligeStorm","3"));
+        assertEquals(1, StartMenu.nameAndCountValidation("Albrich", "3"));
+        assertEquals(2, StartMenu.nameAndCountValidation("SkelligeStorm", "3"));
     }
 
     @Test
     public void shouldNotAddInvalidCardToDeck() {
-        assertFalse(StartMenu.addToDeck("InvalidCard","2"));
+        assertFalse(StartMenu.addToDeck("InvalidCard", "2"));
     }
 
     @Test
     public void shouldErrorMoreThanAvailableUnit() {
         System.setOut(new PrintStream(outContent));
-        assertFalse(StartMenu.addToDeck("Albrich","8"));
+        assertFalse(StartMenu.addToDeck("Albrich", "8"));
         assertEquals(MenuMessage.MORE_THAT_AVAILABILITY.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldErrorMoreThanAvailableSpecial() {
         System.setOut(new PrintStream(outContent));
-        assertFalse(StartMenu.addToDeck("SkelligeStorm","8"));
+        assertFalse(StartMenu.addToDeck("SkelligeStorm", "8"));
         assertEquals(MenuMessage.MORE_THAT_AVAILABILITY.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldAddValidAvailableUnitCard() {
         System.setOut(new PrintStream(outContent));
-        assertTrue(StartMenu.addToDeck("Albrich","1"));
+        assertTrue(StartMenu.addToDeck("Albrich", "1"));
         assertEquals(MenuMessage.ADD_CARD.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldAddValidAvailableSpecialCard() {
         System.setOut(new PrintStream(outContent));
-        assertTrue(StartMenu.addToDeck("SkelligeStorm","2"));
+        assertTrue(StartMenu.addToDeck("SkelligeStorm", "2"));
         assertEquals(MenuMessage.ADD_CARD.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldShowAccurateDeck() {
         System.setOut(new PrintStream(outContent));
-        assertTrue(StartMenu.addToDeck("SkelligeStorm","2"));
-        assertTrue(StartMenu.addToDeck("Albrich","1"));
+        assertTrue(StartMenu.addToDeck("SkelligeStorm", "2"));
+        assertTrue(StartMenu.addToDeck("Albrich", "1"));
         StartMenu.showDeck();
         assertEquals("Card(s) added successfully.\r\n" +
                 "Card(s) added successfully.\r\n" +
@@ -244,8 +244,8 @@ public class StartMenuTest {
     @Test
     public void shouldShowUsersInfo() {
         System.setOut(new PrintStream(outContent));
-        assertTrue(StartMenu.addToDeck("SkelligeStorm","2"));
-        assertTrue(StartMenu.addToDeck("Albrich","1"));
+        assertTrue(StartMenu.addToDeck("SkelligeStorm", "2"));
+        assertTrue(StartMenu.addToDeck("Albrich", "1"));
         StartMenu.showCurrentUserInformation();
         assertEquals("Card(s) added successfully.\r\n" +
                 "Card(s) added successfully.\r\n" +
@@ -286,5 +286,13 @@ public class StartMenuTest {
                 "20. Foltest_SonOfMedell - Northern Realms\r\n" +
                 "21. TWO_COMMANDER_SKELLIGE_CrachAnCraite - Skellige\r\n" +
                 "22. TWO_COMMANDER_SKELLIGE_KingBran - Skellige", outContent.toString().trim());
+    }
+
+    @Test
+    public void shouldErrorYouHaveACommander() {
+        System.setOut(new PrintStream(outContent));
+        startMenu.setCommanderUser(new Commander(CommanderInformation.Foltest_LordCommanderOfTheNorth));
+        StartMenu.selectCommander(1);
+        assertEquals(MenuMessage.YOU_HAVE_COMMANDER.message(), outContent.toString().trim());
     }
 }
