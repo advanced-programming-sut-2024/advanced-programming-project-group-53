@@ -112,4 +112,12 @@ public class StartMenuTest {
         assertEquals("Nilfgaardian Empire",startMenu.getUserFaction().toString());
     }
 
+    @Test
+    public void shouldSelectNorthernRealmsFaction() {
+        System.setOut(new PrintStream(outContent));
+        StartMenu.selectFaction("NorthernRealms");
+        assertEquals(MenuMessage.FACTION_SELECTED.message(),outContent.toString().trim());
+        assertEquals("NorthernRealms",startMenu.getUserFaction().toString());
+    }
+
 }
