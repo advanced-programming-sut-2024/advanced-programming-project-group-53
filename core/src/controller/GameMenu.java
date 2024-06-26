@@ -125,7 +125,8 @@ public class GameMenu extends Menu {
             return false;
         }
         if (state == 5) {
-            //TODO : fill this with add card part
+            currentPlayer.getHand().removeCard(card.getName());
+            return true;
         }
         return true;
     }

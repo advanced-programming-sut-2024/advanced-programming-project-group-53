@@ -2,7 +2,6 @@ package model.card;
 
 public class Unit extends Card {
     private final UnitInformation information;
-    private int power;
 
     public Unit(UnitInformation information) {
         this.information = information;
@@ -41,5 +40,12 @@ public class Unit extends Card {
     @Override
     public String getAbility() {
         return information.ability().name();
+    }
+
+    public static Unit getInstanceByName(String cardName) {
+        for (UnitInformation unitInfo : UnitInformation.values())
+            if (unitInfo.name().equalsIgnoreCase(cardName))
+                return new Unit(unitInfo);
+        return null;
     }
 }

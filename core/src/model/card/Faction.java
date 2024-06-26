@@ -36,13 +36,9 @@ public enum Faction {
     }
 
     public static Faction getFactionByName(String name) {
-        for (Faction faction : Faction.values()) {
-            if (faction.name().equalsIgnoreCase(name)) {
-                if (faction == Faction.All) {
-                    return null;
-                } else return faction;
-            }
-        }
+        for (Faction faction : Faction.values())
+            if (faction.name().equalsIgnoreCase(name))
+                return faction;
         return null;
     }
 }

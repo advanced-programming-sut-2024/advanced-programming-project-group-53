@@ -1,9 +1,6 @@
 package model.game;
 
-import model.card.Ability;
-import model.card.Card;
-import model.card.Special;
-import model.card.Type;
+import model.card.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,8 +65,57 @@ public class Playground {
     }
 
 
-    public void addCard(Card card, int rowNumber) {
-        //TODO : fill this with ds for add and removing cards.
+    public void addCardWithoutSpecialDraw(Card card, int rowNumber, Player currentPlayer) {
+        unitCardsGround.get(rowNumber).add(Unit.getInstanceByName(card.getName()));
+        if (card.getAbility().equalsIgnoreCase(Ability.MoralBoost.name())) {
+            for (Card unitCard : unitCardsGround.get(rowNumber))
+                if (!unitCard.getName().equalsIgnoreCase(card.getName()))
+                    unitCard.increasePower(1);
+            return;
+        }
+        if (card.getAbility().equalsIgnoreCase(Ability.Mardroeme.name())) {
+            replaceCards(new Unit(UnitInformation.Berserker), new Unit(UnitInformation.Vidkaarl), rowNumber);
+            replaceCards(new Unit(UnitInformation.YoungBerserker), new Unit(UnitInformation.YoungVidkaarl), rowNumber);
+            return;
+        }
+        if (card.getAbility().equalsIgnoreCase(Ability.Muster.name())) {
+            //I won't handle that part that if we play all muster cards of our deck and hand , check for if row 9 card capacity filled or not.
+            //TODO : think about how to deal with user deck and card in playground.
+        }
+        if (card.getAbility().equalsIgnoreCase(Ability.Spy.name())) {
+            //TODO : fill this .
+        }
+        if (card.getAbility().equalsIgnoreCase(Ability.Medic.name())) {
+            //TODO : fill this .
+        }
+        if (card.getAbility().equalsIgnoreCase(Ability.TightBond.name())) {
+            //TODO : fill this .
+        }
+        if (card.getAbility().equalsIgnoreCase(Ability.CommandersHorn.name())) {
+            //TODO : fill this .
+        }
+        if (card.getAbility().equalsIgnoreCase(Ability.Scorch.name())) {
+            //TODO : fill this .
+        }
+    }
+
+    public void replaceCards(Card currentCard, Card replace, int rowNumber) {
+        ArrayList<Card> row = unitCardsGround.get(rowNumber);
+        ArrayList<Integer> indexes = getCardsIndex(currentCard.getName(), row);
+        for (Integer index : indexes)
+            row.set(index, Unit.getInstanceByName(replace.getName()));
+    }
+
+    public ArrayList<Integer> getCardsIndex(String cardName, ArrayList<Card> cards) {
+        int counter = 0;
+        ArrayList<Integer> allIndexes = new ArrayList<>();
+        for (Card card : cards) {
+            if (card.getName().equalsIgnoreCase(cardName)) {
+                allIndexes.add(counter);
+            }
+            counter++;
+        }
+        return allIndexes;
     }
     //cards Ability methods
     //TODO : list all needed abilities in there

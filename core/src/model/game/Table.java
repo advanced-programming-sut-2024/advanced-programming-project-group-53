@@ -57,9 +57,7 @@ public class Table {
         ArrayList<Card> unitCardsInRow = playGround.getUnitCardsInRow(row);
         if (unitCardsInRow.size() == 9)
             return false;
-        if (card.getAbility().equalsIgnoreCase(Ability.Muster.name())) {
-
-        }
+        this.playGround.addCardWithoutSpecialDraw(card, row, getPlayers(0));
         return true;
     }
 

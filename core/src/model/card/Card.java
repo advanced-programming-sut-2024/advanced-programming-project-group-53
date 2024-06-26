@@ -27,7 +27,7 @@ public abstract class Card {
         this.power -= hit;
     }
 
-    public void heal(int heal) {
+    public void increasePower(int heal) {
         this.power += heal;
     }
 
