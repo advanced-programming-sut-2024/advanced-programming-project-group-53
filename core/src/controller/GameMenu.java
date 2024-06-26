@@ -1,5 +1,8 @@
 package controller;
 
+import model.game.GameInformation;
+import model.game.Player;
+import model.game.Table;
 import model.menu.MenuName;
 import view.terminal.Message.MenuMessage;
 import view.terminal.Printer;
@@ -7,71 +10,20 @@ import view.terminal.TerminalRun;
 
 public class GameMenu extends Menu {
     private static GameMenu instance;
-
-    private GameMenu() {
+    private final Table table;
+    private GameMenu(Player player1, Player player2) {
         super.setMenuType(MenuName.GameMenu);
+        this.table = new Table(player1, player2);
     }
 
-    public static GameMenu getInstance() {
+    public static GameMenu getInstance(Player player1, Player player2) {
         if (instance == null)
-            instance = new GameMenu();
+            setInstance(player1, player2);
         return instance;
     }
 
-    private static void createGame(String player) {
-
-    }
-
-    private static void showFaction() {
-
-    }
-
-    private static void setFaction() {
-
-    }
-
-    private static void showCardsOfFaction() {
-
-    }
-
-    private static void showDeck() {
-
-    }
-
-    private static void showInformation() {
-
-    }
-
-    private static void deleteFromDeck(String cardName, int count) {
-
-    }
-
-    private static void addToDeck(String cardName, int count) {
-
-    }
-
-    private static void saveDeck(String address) {
-
-    }
-
-    private static void loadDeck(String address) {
-
-    }
-
-    private static void showCommander() {
-
-    }
-
-    private static void selectCommander(int commanderNumber) {
-
-    }
-
-    private static void startGame() {
-
-    }
-
-    private static void passTurn() {
-
+    public static void setInstance(Player player1, Player player2) {
+        instance = new GameMenu(player1, player2);
     }
 
     @Override

@@ -189,4 +189,13 @@ public enum UnitInformation {//TODO: There is a description for these.
     public Ability ability() {
         return ability;
     }
+
+    public static UnitInformation getUnitInformationByName(String name) {
+        for (UnitInformation unitInformation : UnitInformation.values()) {
+            if (unitInformation.name().equalsIgnoreCase(name)) {
+                return unitInformation;
+            }
+        }
+        return null;
+    }
 }

@@ -2,9 +2,11 @@ package model.card;
 
 public class Unit extends Card {
     private final UnitInformation information;
+    private int power;
 
     public Unit(UnitInformation information) {
         this.information = information;
+        super.setPower(information.power());
     }
 
     public UnitInformation getInformation() {
@@ -14,5 +16,30 @@ public class Unit extends Card {
     @Override
     public boolean isSpecial() {
         return false;
+    }
+
+    @Override
+    public String getName() {
+        return this.information.name();
+    }
+
+    @Override
+    public Type getType() {
+        return information.type();
+    }
+
+    @Override
+    public Faction getFaction() {
+        return information.faction();
+    }
+
+    @Override
+    public boolean isHero() {
+        return this.information.isHero();
+    }
+
+    @Override
+    public String getAbility() {
+        return information.ability().name();
     }
 }

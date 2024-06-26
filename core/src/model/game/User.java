@@ -12,6 +12,7 @@ public class User {
     private static TreeMap<String, String> allSecurityQuestionsAndAnswers;
     private static int questionsCount;
     private static User currentUser;
+    private User opponent;
     private String username;
     private String nickname;
     private String email;
@@ -42,6 +43,7 @@ public class User {
         this.nickname = nickname;
         this.email = email;
         this.password = password;
+        this.opponent = null;
         this.gameCount = 0;
         this.winCount = 0;
         this.loseCount = 0;
@@ -258,6 +260,14 @@ public class User {
 
     public void setLastFaction(Faction lastFaction) {
         this.lastFaction = lastFaction;
+    }
+
+    public User getOpponent() {
+        return opponent;
+    }
+
+    public void setOpponent(User opponent) {
+        this.opponent = opponent;
     }
     /*
      * getters and setters part

@@ -43,4 +43,13 @@ public enum SpecialInformation {
     public Ability ability() {
         return ability;
     }
+
+    public static SpecialInformation getSpecialInformationByName(String name) {
+        for (SpecialInformation specialInformation : SpecialInformation.values()) {
+            if (specialInformation.name().equalsIgnoreCase(name)) {
+                return specialInformation;
+            }
+        }
+        return null;
+    }
 }

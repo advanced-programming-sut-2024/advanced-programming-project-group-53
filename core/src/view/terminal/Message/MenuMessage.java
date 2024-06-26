@@ -31,7 +31,25 @@ public enum MenuMessage {
     WEAK_PASSWORD("Weak password."),
     TRY_AGAIN("TRY AGAIN..."),
     WRONG_ANSWER("Wrong answer!"),
-    PASSWORD_CHANGED("Password changed successfully.\nYou can login in your account.");
+    PASSWORD_CHANGED("Password changed successfully.\nYou can login in your account."),
+    WRONG_NUMBER_FORMAT("Wrong number format."),
+    THERE_IS_NO_CARD_WITH_THIS_NAME("There is no card with this name."),
+    COUNT_OUT_OF_RANGE("Your count for this card is out of range."),
+    MORE_THAT_AVAILABILITY("This count is not available for this card."),
+    ADD_CARD("Card(s) added successfully."),
+    INVALID_FACTION("Invalid faction name."),
+    FACTION_SELECTED("Faction selected successfully."),
+    COMMANDER_SELECTED("Commander selected successfully."),
+    INVALID_COMMANDER_INDEX("Invalid commander index."),
+    YOU_HAVE_COMMANDER("You have already chosen a commander."),
+    YOU_HAVE_LESS("Your deck contains less cards of this type."),
+    CARD_DELETE("Card(s) deleted successfully."),
+    YOU_CAM_JUST_START("You can't pass the turn, just start the game"),
+    YOU_CAN_JUST_CHANGE("You can just change the turn."),
+    CARDS_QUANTITY_VALIDATION("You should have at least 22 unit card and at most 10 special cards."),
+    YOU_HAVE_NOT_SELECTED_FACTION("You haven't selected faction yet."),
+    YOU_HAVE_NOT_SELECTED_COMMANDER("You haven't selected a commander."),
+    GAME_CREATED_SUCCESSFULLY("Game created successfully.");
     private final String message;
 
     MenuMessage(String message) {
