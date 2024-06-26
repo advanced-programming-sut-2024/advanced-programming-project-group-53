@@ -3,6 +3,7 @@ package model.cards;
 import model.card.Ability;
 import model.card.Card;
 import model.card.Unit;
+import model.card.UnitInformation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -107,6 +108,19 @@ public abstract class Cards {
             }
         }
         return allMusters;
+    }
+
+    public ArrayList<Unit> allMaidens() {
+        Iterator<Card> iterator = cards.iterator();
+        ArrayList<Unit> allMaidens = new ArrayList<>();
+        while (iterator.hasNext()) {
+            Card card = iterator.next();
+            if (card.getName().equalsIgnoreCase(UnitInformation.ClanDrummondShieldmaiden.name())) {
+                allMaidens.add(Unit.getInstanceByName(card.getName()));
+                iterator.remove();
+            }
+        }
+        return allMaidens;
     }
 
     @Override

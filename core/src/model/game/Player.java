@@ -90,11 +90,28 @@ public class Player {
 
     public ArrayList<Unit> allMusters() {
         ArrayList<Unit> handMusters = hand.allMusters();
-        ArrayList<Unit> deckMuster = deck.allMusters();
+        ArrayList<Unit> deckMusters = deck.allMusters();
         ArrayList<Unit> allMusters = new ArrayList<>();
+        for (Unit unit : handMusters)
+            hand.removeCard(unit.getName());
+        for (Unit unit : deckMusters)
+            deck.removeCard(unit.getName());
         allMusters.addAll(handMusters);
-        allMusters.addAll(deckMuster);
+        allMusters.addAll(deckMusters);
         return allMusters;
+    }
+
+    public ArrayList<Unit> allMaidenShields() {
+        ArrayList<Unit> handMaidens = hand.allMaidens();
+        ArrayList<Unit> deckMaidens = deck.allMaidens();
+        ArrayList<Unit> allMaidens = new ArrayList<>();
+        for (Unit unit : handMaidens)
+            hand.removeCard(unit.getName());
+        for (Unit unit : deckMaidens)
+            deck.removeCard(unit.getName());
+        allMaidens.addAll(handMaidens);
+        allMaidens.addAll(deckMaidens);
+        return allMaidens;
     }
 
     public Card getRandomCardFromDiscardPile() {
@@ -116,5 +133,12 @@ public class Player {
 
     public void addToDiscardPiles(Card card) {
         discardPiles.add(card);
+    }
+
+    public void spyAbility() {
+        deck.shuffle();
+        Card card1 = deck.cardAt(0), card2 = deck.cardAt(1);
+        hand.add(card1);hand.add(card2);
+        deck.removeCard(card1.getName());deck.removeCard(card2.getName());
     }
 }
