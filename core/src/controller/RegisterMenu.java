@@ -3,8 +3,8 @@ package controller;
 import model.game.User;
 import model.game.ValidationRegex;
 import model.menu.MenuName;
-import view.terminal.Message.MenuMessage;
-import view.terminal.Printer;
+import view.message.MenuMessage;
+import view.message.Printer;
 import view.terminal.TerminalRun;
 
 import java.util.regex.Matcher;

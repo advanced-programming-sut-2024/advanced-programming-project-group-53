@@ -2,7 +2,8 @@ package view.terminal;
 
 import controller.*;
 import model.menu.MenuName;
-import view.terminal.Message.MenuMessage;
+import view.message.Printer;
+import view.message.MenuMessage;
 import view.terminal.regex.*;
 
 import java.util.Scanner;
@@ -338,8 +339,6 @@ public abstract class TerminalRun {
                 startMenuRun(scanner);
             case GameMenu:
                 gameMenuRun(scanner);
-            default:
-                return;
         }
     }
 

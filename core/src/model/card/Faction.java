@@ -1,13 +1,21 @@
 package model.card;
 
 public enum Faction {
-    Monsters,
-    NilfgaardianEmpire,
-    NorthernRealms,
-    Scoiatael,
-    Skellige,
-    Neutral,
-    All;
+    Monsters("card/faction/monsters.jpg"),
+    NilfgaardianEmpire("card/faction/nilfgaard.jpg"),
+    NorthernRealms("card/faction/realms.jpg"),
+    Scoiatael("card/faction/scoiatael.jpg"),
+    Skellige("card/faction/skellige.jpg"),
+    Neutral("");
+    private final String address;
+
+    Faction(String address) {
+        this.address = address;
+    }
+
+    public String address() {
+        return address;
+    }
 
     @Override
     public String toString() {
@@ -22,10 +30,8 @@ public enum Faction {
                 return "Scoia'tael";
             case Skellige:
                 return "Skellige";
-            case Neutral:
-                return "Neutral";
             default:
-                return null;
+                return "";
         }
     }
 

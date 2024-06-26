@@ -4,8 +4,8 @@ import model.game.GameInformation;
 import model.game.Player;
 import model.game.Table;
 import model.menu.MenuName;
-import view.terminal.Message.MenuMessage;
-import view.terminal.Printer;
+import view.message.MenuMessage;
+import view.message.Printer;
 import view.terminal.TerminalRun;
 
 public class GameMenu extends Menu {

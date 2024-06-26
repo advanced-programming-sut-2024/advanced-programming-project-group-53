@@ -5,8 +5,8 @@ import model.cards.Deck;
 import model.game.Player;
 import model.game.User;
 import model.menu.MenuName;
-import view.terminal.Message.MenuMessage;
-import view.terminal.Printer;
+import view.message.MenuMessage;
+import view.message.Printer;
 import view.terminal.TerminalRun;
 //make this usable in offline mode when we need run two player in one device.
 public class StartMenu extends Menu {
