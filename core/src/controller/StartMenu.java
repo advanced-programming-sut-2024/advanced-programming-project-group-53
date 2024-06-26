@@ -61,7 +61,7 @@ public class StartMenu extends Menu {
 
     public static void selectFaction(String factionName) {
         Faction selectedFaction = Faction.getFactionByName(factionName);
-        if (selectedFaction == null  || selectedFaction == Faction.All) {
+        if (selectedFaction == null  || selectedFaction == Faction.Neutral) {
             Printer.print(MenuMessage.INVALID_FACTION.message());
             return;
         }
@@ -123,7 +123,7 @@ public class StartMenu extends Menu {
         if (state == 1) {
             UnitInformation unitInfo = UnitInformation.getUnitInformationByName(cardName);
             assert unitInfo != null;
-            if (unitInfo.faction() != getInstance().getUserFaction() && unitInfo.faction() != Faction.All) {
+            if (unitInfo.faction() != getInstance().getUserFaction() && unitInfo.faction() != Faction.Neutral) {
                 Printer.print(MenuMessage.INVALID_FACTION.message());
                 return false;
             }
@@ -137,7 +137,7 @@ public class StartMenu extends Menu {
         } else if (state == 2) {
             SpecialInformation specialInfo = SpecialInformation.getSpecialInformationByName(cardName);
             assert specialInfo != null;
-            if (specialInfo.faction() != getInstance().getUserFaction() && specialInfo.faction() != Faction.All) {
+            if (specialInfo.faction() != getInstance().getUserFaction() && specialInfo.faction() != Faction.Neutral) {
                 Printer.print(MenuMessage.INVALID_FACTION.message());
                 return false;
             }
@@ -291,7 +291,8 @@ public class StartMenu extends Menu {
     @Override
     public boolean enterMenu(String name) {
         if (MenuName.getMenu(name) == MenuName.GameMenu) {
-            TerminalRun.changeCurrentMenu(GameMenu.getInstance(this.player1, this.player2));
+            GameMenu.setInstance(this.player1, this.player2);
+            TerminalRun.changeCurrentMenu(GameMenu.getInstance());
             Printer.print(MenuMessage.ENTER_GAME_MENU.message());
             return true;
         } else {
