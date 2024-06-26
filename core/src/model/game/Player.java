@@ -8,15 +8,17 @@ import model.cards.Deck;
 import model.cards.DiscardPile;
 import model.cards.Hand;
 
+import java.util.Collections;
+
 public class Player {
     private final User user;
     private final Deck deck;
     private final Hand hand;
     private final DiscardPile discardPile;
     private final Commander commander;
-    private final AllCard allCard;
     private final Faction faction;
     private int point;
+    private int hp = 2;
     //remember to check if commander card is needed or not
     public Player(User user, Deck deck, Faction faction, Commander commander) {
         //TODO: check allCard configuration and application.
@@ -25,11 +27,29 @@ public class Player {
         this.discardPile = new DiscardPile();
         this.commander = commander;
         this.faction = faction;
-        this.hand = null;
-        this.allCard = null;
+        this.hand = new Hand();
     }
 
+    public void initialHandSelection() {
+        this.hand.setCards(this.deck.shuffleAndSelect());
+    }
 
+    public void vetoPlayer(String cardName) {
+        this.discardPile.add(this.hand.getCard(cardName));
+        this.hand.removeCard(cardName);
+        deck.shuffle();
+        String name = deck.cardAt(0).getName();
+        hand.add(deck.cardAt(0));
+        deck.removeCard(name);
+    }
+
+    public Card getCardFromDeck(int cardNumber) {
+        return this.deck.cardAt(cardNumber);
+    }
+
+    public Card getCardFromHand(int cardNumber) {
+        return this.hand.cardAt(cardNumber);
+    }
 
     public User getUser() {
         return user;
@@ -54,9 +74,6 @@ public class Player {
         return discardPile;
     }
 
-    public AllCard getAllCard() {
-        return allCard;
-    }
 
     public Faction getFaction() {
         return faction;
@@ -64,5 +81,13 @@ public class Player {
 
     public Commander getCommander() {
         return commander;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 }

@@ -30,4 +30,12 @@ public abstract class Card {
     public void heal(int heal) {
         this.power += heal;
     }
+
+    @Override
+    public String toString() {
+        String isHero = (this.isHero()) ? "HERO" : "";
+        String isSpecial = (this.isSpecial()) ? "SPECIAL" : "UNIT";
+        return this.getName() + " " + this.getType() + " -- " + this.getFaction() +
+                " - " + this.getAbility() + "-" + this.getPower() + "---->" + isHero + "_" + isSpecial;
+    }
 }

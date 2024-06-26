@@ -1,10 +1,11 @@
 package model.game;
 
-import model.card.Card;
-import model.card.SpecialInformation;
-import model.card.UnitInformation;
+import model.card.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
+
 import model.game.User;
 
 public class Table {
@@ -16,6 +17,7 @@ public class Table {
     private ArrayList<Round> rounds;
     private GameInformation gameInformation;
     private Playground playGround;
+    private int roundNumber;
 
     public Table(Player player1, Player player2) {
         this.players = new ArrayList<>();
@@ -25,15 +27,43 @@ public class Table {
         this.player2 = player2;
         this.rounds = new ArrayList<>();
         this.currentPlayer = player1;
+        this.roundNumber = 1;
+        preGameConfigs();
     }
 
     public void preGameConfigs() {
+        if (player1.getFaction() == Faction.Scoiatael)
+            if (player2.getFaction() == Faction.Scoiatael) {
+                boolean choice = (new Random()).nextBoolean();
+                if (choice)
+                    changeCurrentPlayer();
+            }
+        else if (player2.getFaction() == Faction.Scoiatael)
+            changeCurrentPlayer();
+        handCardRandomSelection();
+    }
 
+    public void handCardRandomSelection() {
+        players.get(0).initialHandSelection();
+        players.get(1).initialHandSelection();
+    }
+    public void changeCurrentPlayer() {
+        Collections.swap(players, 0, 1);
+        currentPlayer = players.get(0);
+    }
+
+    public boolean putCard(Card card, int row) {
+        //TODO : fill this one.
+        ArrayList<Card> unitCardsInRow = playGround.getUnitCardsInRow(row);
+        if (unitCardsInRow.size() == 9)
+            return false;
+        if (card.getAbility().equalsIgnoreCase(Ability.Muster.name())) {
+
+        }
+        return true;
     }
 
     public void changeTurn() {
-        //TODO : I made this field as simple as possible but don't remember to complete it .
-        // probably I will use it in controller
         Collections.swap(players, 0, 1);
         currentPlayer = players.get(0);
     }
@@ -43,10 +73,6 @@ public class Table {
         //TODO : specify attributes that are needed for save a game correctly .
         this.gameInformation = new GameInformation(winner, loser, this.rounds);
         return null;
-    }
-    public boolean checkCardPosition(Card card, int position) {
-        //TODO : check that card type is suitable for the selected position .
-        return false;
     }
 
     public GameInformation getGame() {
@@ -74,4 +100,15 @@ public class Table {
     public void setRounds(ArrayList<Round> rounds) {
         this.rounds = rounds;
     }
+
+    public int getRoundNumber() {
+        return roundNumber;
+    }
+
+    public void setRoundNumber(int roundNumber) {
+        this.roundNumber = roundNumber;
+    }
+
+
+    //Card Abilities list
 }

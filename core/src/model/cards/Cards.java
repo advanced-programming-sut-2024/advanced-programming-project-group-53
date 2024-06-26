@@ -5,10 +5,11 @@ import model.card.Unit;
 import model.card.UnitInformation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public abstract class Cards {
-    private final ArrayList<Card> cards;
+    private ArrayList<Card> cards;
     public Cards() {
         cards = new ArrayList<>();
     }
@@ -26,10 +27,31 @@ public abstract class Cards {
             return cards.get(index);
         return null;
     }
+    public boolean removeCard(String cardName) {
+        for (Card card : cards)
+            if (card.getName().equalsIgnoreCase(cardName)) {
+                cards.remove(card);
+                return true;
+            }
+        return false;
+    }
+
+    public Card getCard(String cardName) {
+        for (Card card : cards) {
+            if (card.getName().equalsIgnoreCase(cardName)) return card;
+        }
+        return null;
+    }
+    public void shuffle() {
+        Collections.shuffle(cards);
+    }
     public ArrayList<Card> getCards() {
         return cards;
     }
 
+    public void setCards(ArrayList<Card> cards) {
+        this.cards = cards;
+    }
     public int specifiedCardCounter(String cardName) {
         int counter = 0;
         for (Card card : cards)
@@ -72,5 +94,19 @@ public abstract class Cards {
             if (card.isHero()) counter++;
         }
         return counter;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("Remaining Cards:\n");
+        for (Card card : cards) {
+            String isHero = (card.isHero()) ? "HERO" : "";
+            String isSpecial = (card.isSpecial()) ? "SPECIAL" : "UNIT";
+            result.append(card.getName()).append(" ").append(card.getType()).append(" -- ").append(card.getFaction()).
+                    append(" - ").append(card.getAbility()).append("_").append(isSpecial).append(card.getPower()).
+                    append("_").append(isHero).append("\n");
+        }
+        return result.toString();
     }
 }

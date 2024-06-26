@@ -15,7 +15,7 @@ public class StartMenu extends Menu {
     private final User user1, user2;
     private Player player1, player2;
     private Commander commanderUser;
-    private Faction userFaction;//User has a faction field in it
+    private Faction userFaction;
     private boolean hasFaction;
 
     //TODO : make it available for 2 user for interact in this menu.
@@ -47,7 +47,7 @@ public class StartMenu extends Menu {
         }
         User user = User.getCurrentUser();
         user.setOpponent(opponent);
-        opponent.setOpponent(opponent);//shouldn't the input be user?
+        opponent.setOpponent(opponent);
         StartMenu.setInstance();
         Printer.print(MenuMessage.GAME_CREATED_SUCCESSFULLY.message());
         return true;
@@ -61,7 +61,7 @@ public class StartMenu extends Menu {
 
     public static void selectFaction(String factionName) {
         Faction selectedFaction = Faction.getFactionByName(factionName);
-        if (selectedFaction == null) {
+        if (selectedFaction == null  || selectedFaction == Faction.All) {
             Printer.print(MenuMessage.INVALID_FACTION.message());
             return;
         }
@@ -70,16 +70,24 @@ public class StartMenu extends Menu {
         Printer.print(MenuMessage.FACTION_SELECTED.message());
     }
     public static void showCards() {
+        if (!getInstance().isHasFaction()) {
+            Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
+            return;
+        }
         Printer.print("Unit Cards:");
         for (UnitInformation unitInformation : UnitInformation.values()) {
-            String HeroCondition = (unitInformation.isHero()) ? "Hero" : "";
-            Printer.print(unitInformation.name() + " : " + unitInformation.power() + "-" + unitInformation.faction() +
-                    " - " + unitInformation.ability() + " " + HeroCondition);
+            if (unitInformation.faction() == getInstance().getUserFaction()) {
+                String HeroCondition = (unitInformation.isHero()) ? "Hero" : "";
+                Printer.print(unitInformation.name() + " : " + unitInformation.power() + "-" + unitInformation.faction() +
+                        " -Ability: " + unitInformation.ability() + " " + HeroCondition);
+            }
         }
         Printer.print("Special Cards:");
         for (SpecialInformation specialInformation : SpecialInformation.values()) {
-            Printer.print(specialInformation.name() + " : " + specialInformation.power() + "-" + specialInformation.faction() +
-                    " - " + specialInformation.type() + "-Ability:" + specialInformation.ability());
+            if (specialInformation.faction() == getInstance().getUserFaction()) {
+                Printer.print(specialInformation.name() + " : " + specialInformation.power() + "-" + specialInformation.faction() +
+                        " - " + specialInformation.type() + "-Ability:" + specialInformation.ability());
+            }
         }
     }
     public static int nameAndCountValidation(String cardName, String countStr) {
@@ -103,14 +111,23 @@ public class StartMenu extends Menu {
     }
     //For add card(s) with a specific count to initial deck we have before start the game.
     public static boolean addToDeck(String cardName, String countStr) {
+        if (!getInstance().isHasFaction()) {
+            Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
+            return false;
+        }
         StartMenu currentStartMenu = StartMenu.getInstance();
         int state = StartMenu.nameAndCountValidation(cardName, countStr);
         if (state == 0) return false;
         int count = Integer.parseInt(countStr);
+        int countCurrentDeck = getInstance().initialDeck.specifiedCardCounter(cardName);
         if (state == 1) {
             UnitInformation unitInfo = UnitInformation.getUnitInformationByName(cardName);
             assert unitInfo != null;
-            if (count > unitInfo.maxNumber()) {
+            if (unitInfo.faction() != getInstance().getUserFaction() && unitInfo.faction() != Faction.All) {
+                Printer.print(MenuMessage.INVALID_FACTION.message());
+                return false;
+            }
+            if (count + countCurrentDeck > unitInfo.maxNumber()) {
                 Printer.print(MenuMessage.MORE_THAT_AVAILABILITY.message());
                 return false;
             }
@@ -120,7 +137,11 @@ public class StartMenu extends Menu {
         } else if (state == 2) {
             SpecialInformation specialInfo = SpecialInformation.getSpecialInformationByName(cardName);
             assert specialInfo != null;
-            if (count > specialInfo.maxNumber()) {
+            if (specialInfo.faction() != getInstance().getUserFaction() && specialInfo.faction() != Faction.All) {
+                Printer.print(MenuMessage.INVALID_FACTION.message());
+                return false;
+            }
+            if (count + countCurrentDeck > specialInfo.maxNumber()) {
                 Printer.print(MenuMessage.MORE_THAT_AVAILABILITY.message());
                 return false;
             }
@@ -158,24 +179,31 @@ public class StartMenu extends Menu {
     }
 
     public static void showCommanders() {
-        int indexOfCommander = 1;
-        for (CommanderInformation commanderInfo : CommanderInformation.values()) {
-            Printer.print(indexOfCommander + ". " + commanderInfo.name() + " - " + commanderInfo.faction());
-            indexOfCommander++;
+        if (!getInstance().isHasFaction()) {
+            Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
+            return;
         }
+        int indexOfCommander = 1;
+        for (CommanderInformation commanderInfo : CommanderInformation.values())
+            if (commanderInfo.faction() == getInstance().getUserFaction())
+                Printer.print(indexOfCommander++ + ". " + commanderInfo.name() + " - " + commanderInfo.faction());
+
     }
     //TODO : we need to complete file part of this menu.
     public static void selectCommander(int leaderNumber) {
         int counter = 1;
-        if (StartMenu.getInstance().getCommanderUser() != null) {//shouldn't be != null ??
-            Printer.print(MenuMessage.YOU_HAVE_COMMANDER.message());
+        if (!getInstance().isHasFaction()) {
+            Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
             return;
         }
         for (CommanderInformation commanderInfo : CommanderInformation.values()) {
-            if (counter == leaderNumber) {
-                StartMenu.getInstance().setCommanderUser(new Commander(commanderInfo));
-                Printer.print(MenuMessage.COMMANDER_SELECTED.message());
-                return;
+            if (commanderInfo.faction() == getInstance().getUserFaction()) {
+                if (counter == leaderNumber) {
+                    StartMenu.getInstance().setCommanderUser(new Commander(commanderInfo));
+                    Printer.print(MenuMessage.COMMANDER_SELECTED.message());
+                    return;
+                }
+                counter++;
             }
         }
         Printer.print(MenuMessage.INVALID_COMMANDER_INDEX.message());
@@ -196,6 +224,10 @@ public class StartMenu extends Menu {
     }
 
     public static boolean deleteFromDeck(String cardName, String numberStr) {
+        if (!getInstance().isHasFaction()) {
+            Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
+            return false;
+        }
         StartMenu currentStartMenu = StartMenu.getInstance();
         int state = nameAndCountValidation(cardName, numberStr);
         if (state == 0) return false;

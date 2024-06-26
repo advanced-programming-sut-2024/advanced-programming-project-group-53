@@ -50,7 +50,12 @@ public enum MenuMessage {
     CARDS_QUANTITY_VALIDATION("You should have at least 22 unit card and at most 10 special cards."),
     YOU_HAVE_NOT_SELECTED_FACTION("You haven't selected faction yet."),
     YOU_HAVE_NOT_SELECTED_COMMANDER("You haven't selected a commander."),
-    GAME_CREATED_SUCCESSFULLY("Game created successfully.");
+    GAME_CREATED_SUCCESSFULLY("Game created successfully."),
+    YOU_CANT_VETO("You can't veto cards after round 1!"),
+    YOU_JUST_ONLY_HAVE_ONE("You just only have one card of this type."),
+    VETO_CARD("Veto card successfully."),
+    INVALID_PLAYGROUND_NUMBER("Invalid playground number."),
+    INVALID_RANGE("Invalid range.");
     private final String message;
 
     MenuMessage(String message) {
