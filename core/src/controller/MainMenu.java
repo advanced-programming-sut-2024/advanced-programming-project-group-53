@@ -26,6 +26,7 @@ public class MainMenu extends Menu {
     }
 
     public void changeUsername(String newUsername) {
+        //todo: check if the new Username hasn't existed before
         boolean changed = User.getCurrentUser().changeUsername(newUsername);
         if (changed) Printer.print(MenuMessage.CHANGE_USERNAME.message());
         else Printer.print(MenuMessage.INVALID_USERNAME.message());

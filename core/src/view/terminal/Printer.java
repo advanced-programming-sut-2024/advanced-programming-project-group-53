@@ -27,6 +27,6 @@ public interface Printer {
     }
 
     static void passwordValidation(int state) {
-
+        //TODO : fill this with states of short length and no special characters .
     }
 }

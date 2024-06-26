@@ -23,6 +23,7 @@ public class RegisterMenu extends Menu {
     }
 
     public boolean registerValidate(String username, String nickname, String email, String password) {
+        //todo: check if a user with the given username doesn't already exist
         Matcher matcher = ValidationRegex.Username.getMatcher(username);
         if (!matcher.find()) {
             Printer.print(MenuMessage.INVALID_USERNAME.message());
@@ -84,6 +85,6 @@ public class RegisterMenu extends Menu {
 
     @Override
     public void showMenu() {
-        Printer.print(MenuMessage.LOGIN_MENU.message());
+        Printer.print(MenuMessage.REGISTER_MENU.message());
     }
 }

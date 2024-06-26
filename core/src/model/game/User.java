@@ -50,9 +50,20 @@ public class User {
         this.drawCount = 0;
         this.maxPoint = 0;
         this.gameInformations = new ArrayList<>();
+        allUsers.add(this);//Farbod: couldn't find this anywhere (when a new User is initialized we need to add it to allUsers)
         //TODO: decide a default faction for the new players!
     }
 
+    public static void resetUsers (ArrayList<User> allUsersTemp) {
+        //used in testing process
+        allUsersTemp.addAll(allUsers);//to have a temp of all Users
+        allUsers.clear();
+    }
+
+    public static void loadUsers (ArrayList<User> allUsersTemp) {
+        //used for testing
+        allUsers.addAll(allUsersTemp);
+    }
     public static User findUser(String username) {
         for (User user : allUsers) {
             if (user.getUsername().equals(username)) {
@@ -86,7 +97,7 @@ public class User {
     }
     public int passwordCheck(String password) {
         if (password.length() < 8) return 1;
-        Matcher matcher = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]+$").matcher(password);
+        Matcher matcher = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]+$").matcher(password);
         if (!matcher.find()) return 2;
         return 0;
     }
