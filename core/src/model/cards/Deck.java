@@ -1,6 +1,7 @@
 package model.cards;
 
 import model.card.Card;
+import model.card.Unit;
 
 import java.util.ArrayList;
 import java.util.Collections;

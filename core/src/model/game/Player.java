@@ -1,20 +1,17 @@
 package model.game;
 
-import model.card.Card;
-import model.card.Commander;
-import model.card.Faction;
-import model.cards.AllCard;
+import model.card.*;
 import model.cards.Deck;
 import model.cards.DiscardPile;
 import model.cards.Hand;
 
-import java.util.Collections;
+import java.util.ArrayList;
 
 public class Player {
     private final User user;
     private final Deck deck;
     private final Hand hand;
-    private final DiscardPile discardPile;
+    private final DiscardPile discardPiles;
     private final Commander commander;
     private final Faction faction;
     private int point;
@@ -24,7 +21,7 @@ public class Player {
         //TODO: check allCard configuration and application.
         this.user = user;
         this.deck = deck;
-        this.discardPile = new DiscardPile();
+        this.discardPiles = new DiscardPile();
         this.commander = commander;
         this.faction = faction;
         this.hand = new Hand();
@@ -35,7 +32,7 @@ public class Player {
     }
 
     public void vetoPlayer(String cardName) {
-        this.discardPile.add(this.hand.getCard(cardName));
+        this.discardPiles.add(this.hand.getCard(cardName));
         this.hand.removeCard(cardName);
         deck.shuffle();
         String name = deck.cardAt(0).getName();
@@ -70,8 +67,8 @@ public class Player {
         return hand;
     }
 
-    public DiscardPile getDiscardPile() {
-        return discardPile;
+    public DiscardPile getDiscardPiles() {
+        return discardPiles;
     }
 
 
@@ -89,5 +86,35 @@ public class Player {
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public ArrayList<Unit> allMusters() {
+        ArrayList<Unit> handMusters = hand.allMusters();
+        ArrayList<Unit> deckMuster = deck.allMusters();
+        ArrayList<Unit> allMusters = new ArrayList<>();
+        allMusters.addAll(handMusters);
+        allMusters.addAll(deckMuster);
+        return allMusters;
+    }
+
+    public Card getRandomCardFromDiscardPile() {
+        if (discardPiles.size() == 0) return null;
+        discardPiles.shuffle();
+        Card card = discardPiles.cardAt(0);
+        discardPiles.remove(card);
+        return card;
+    }
+
+    public void medicAbility() {
+        Card card = getRandomCardFromDiscardPile();
+        if (card == null) return;
+        Card cardForHand;
+        if (card.isSpecial()) cardForHand = Special.getInstanceByName(card.getName());
+        else cardForHand = Unit.getInstanceByName(card.getName());
+        hand.add(cardForHand);
+    }
+
+    public void addToDiscardPiles(Card card) {
+        discardPiles.add(card);
     }
 }

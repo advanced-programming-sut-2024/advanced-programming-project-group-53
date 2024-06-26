@@ -72,9 +72,9 @@ public class GameMenu extends Menu {
         Player currentPlayer = getInstance().table.getPlayers(0);
         Player opponentPlayer = getInstance().table.getPlayers(1);
         Printer.print("YOUR DISCARD PILE(S):");
-        Printer.print(currentPlayer.getDiscardPile().toString());
+        Printer.print(currentPlayer.getDiscardPiles().toString());
         Printer.print("OPPONENT DISCARD PILE(S):");
-        Printer.print(opponentPlayer.getDiscardPile().toString());
+        Printer.print(opponentPlayer.getDiscardPiles().toString());
     }
 
     public static boolean cardsInRow(int row) {
@@ -107,7 +107,7 @@ public class GameMenu extends Menu {
         if (counter == 0) Printer.print("No Special in play.");
     }
 
-    public static boolean placeCardInRow(int cardNumber, int rowNumber) {
+    public static boolean placeCardInRow(int cardNumber, int rowNumber, int index) {
         Table table = getInstance().getTable();
         Player currentPlayer = table.getPlayers(0);
         Card card = currentPlayer.getCardFromHand(cardNumber);
@@ -115,13 +115,14 @@ public class GameMenu extends Menu {
             Printer.print(MenuMessage.INVALID_NUMBER.message());
             return false;
         }
-        int state = table.getPlayGround().cardRangeChecker(card, rowNumber);
-        if (state == 0 || state == 3) {
+        int state = table.getPlayGround().cardRangeChecker(card, rowNumber, index);
+        if (state == -1 || state == 0) {
             Printer.print(MenuMessage.INVALID_PLAYGROUND_NUMBER.message());
             return false;
         }
-        if (state == 2) {
-            Printer.print(MenuMessage.INVALID_RANGE.message());
+        if (state == 4) {
+            currentPlayer.getHand().removeCard(card.getName());
+            table.getPlayGround().placeNoneSpyUnit(card, rowNumber, table.getPlayers(0), table.getPlayers(1));
             return false;
         }
         if (state == 5) {

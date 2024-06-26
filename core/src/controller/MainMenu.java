@@ -60,6 +60,21 @@ public class MainMenu extends Menu {
         else Printer.print(MenuMessage.INVALID_EMAIL.message());
     }
 
+    public static boolean createGame(String username) {
+        User opponent = User.findUser(username);
+        if (opponent == null) {
+            Printer.print(MenuMessage.NO_USER.message());
+            return false;
+        }
+        User user = User.getCurrentUser();
+        user.setOpponent(opponent);
+        opponent.setOpponent(opponent);
+        Printer.print(MenuMessage.GAME_CREATED_SUCCESSFULLY.message());
+        StartMenu.setInstance();
+        getInstance().enterMenu(MenuName.StartMenu.name());
+        return true;
+    }
+
     @Override
     public boolean enterMenu(String name) {
         if (MenuName.getMenu(name) == MenuName.StartMenu) {

@@ -41,4 +41,11 @@ public class Special extends Card {
     public SpecialInformation getSpecialInformation() {
         return specialInformation;
     }
+
+    public static Special getInstanceByName(String cardName) {
+        for (SpecialInformation specialInfo : SpecialInformation.values())
+            if (specialInfo.name().equalsIgnoreCase(cardName))
+                return new Special(specialInfo);
+        return null;
+    }
 }

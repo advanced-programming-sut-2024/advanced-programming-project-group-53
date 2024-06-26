@@ -39,20 +39,6 @@ public class StartMenu extends Menu {
         instance = new StartMenu(User.getCurrentUser(), User.getCurrentUser().getOpponent());
     }
 
-    public static boolean createGame(String username) {
-        User opponent = User.findUser(username);
-        if (opponent == null) {
-            Printer.print(MenuMessage.NO_USER.message());
-            return false;
-        }
-        User user = User.getCurrentUser();
-        user.setOpponent(opponent);
-        opponent.setOpponent(opponent);
-        StartMenu.setInstance();
-        Printer.print(MenuMessage.GAME_CREATED_SUCCESSFULLY.message());
-        return true;
-    }
-
     public static void showFactions() {
         Printer.print("FACTIONS:");
         for (Faction faction : Faction.values())

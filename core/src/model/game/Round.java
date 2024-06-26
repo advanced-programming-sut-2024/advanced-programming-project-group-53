@@ -2,10 +2,10 @@ package model.game;
 
 public class Round {
     //probably these are only information that we need for rounds
-    private final User currentPlayer;
+    private final String currentPlayerName;
     private double firstPlayerPoint, secondPlayerPoint;
     public Round(User currentPlayer, double firstPlayerPoint, double secondPlayerPoint) {
-        this.currentPlayer = currentPlayer;
+        this.currentPlayerName = currentPlayer.getUsername();
         this.firstPlayerPoint = firstPlayerPoint;
         this.secondPlayerPoint = secondPlayerPoint;
     }
@@ -26,7 +26,7 @@ public class Round {
         this.secondPlayerPoint = secondPlayerPoint;
     }
 
-    public User getCurrentPlayer() {
-        return currentPlayer;
+    public String getCurrentPlayer() {
+        return currentPlayerName;
     }
 }

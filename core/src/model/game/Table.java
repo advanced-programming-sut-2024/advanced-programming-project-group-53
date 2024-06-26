@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import model.game.User;
-
 public class Table {
     private final ArrayList<Player> players;
     private final Player player1, player2;
@@ -57,7 +55,7 @@ public class Table {
         ArrayList<Card> unitCardsInRow = playGround.getUnitCardsInRow(row);
         if (unitCardsInRow.size() == 9)
             return false;
-        this.playGround.addCardWithoutSpecialDraw(card, row, getPlayers(0));
+        this.playGround.placeNoneSpyUnit(card, row, getPlayers(0), getPlayers(1));
         return true;
     }
 

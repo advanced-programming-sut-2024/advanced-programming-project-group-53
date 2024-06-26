@@ -1,8 +1,8 @@
 package model.cards;
 
+import model.card.Ability;
 import model.card.Card;
 import model.card.Unit;
-import model.card.UnitInformation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -94,6 +94,19 @@ public abstract class Cards {
             if (card.isHero()) counter++;
         }
         return counter;
+    }
+
+    public ArrayList<Unit> allMusters() {
+        Iterator<Card> iterator = cards.iterator();
+        ArrayList<Unit> allMusters = new ArrayList<>();
+        while (iterator.hasNext()) {
+            Card card = iterator.next();
+            if (card.getAbility().equalsIgnoreCase(Ability.Muster.name())) {
+                allMusters.add(Unit.getInstanceByName(card.getName()));
+                iterator.remove();
+            }
+        }
+        return allMusters;
     }
 
     @Override
