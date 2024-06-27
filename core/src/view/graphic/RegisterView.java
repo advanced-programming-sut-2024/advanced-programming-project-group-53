@@ -16,9 +16,11 @@ public class RegisterView extends View {
     private final Table registerTable;
     private final Table textTable;
     private final Label registerMessage;
-    private final Label question;
+    private final TextField question;
     private final TextField username;
+    private final TextField nickname;
     private final TextField password;
+    private final TextField email;
     private final TextField answer;
     private final Image register;
     private final Image loginMenu;
@@ -33,14 +35,19 @@ public class RegisterView extends View {
         textTable = new Table();
         textTable.setBounds(635, 170, 400, 400);
         textTable.align(Align.center);
-        registerMessage = new Label("ohhhhhhhhhhh", label);//TODO: The bloody message.
-        question = new Label("Question", label);//TODO: !.
+        registerMessage = new Label("", label);
         username = new TextField("", textField);
         username.setMessageText("username");
+        nickname = new TextField("", textField);
+        nickname.setMessageText("nickname");
+        email = new TextField("", textField);
+        email.setMessageText("email");
         password = new TextField("", textField);
         password.setMessageText("password");
         password.setPasswordCharacter('*');
         password.setPasswordMode(true);
+        question = new TextField("", textField);
+        question.setMessageText("question");
         answer = new TextField("", textField);
         answer.setMessageText("answer");
         register = new Image(new Texture(Resource.REGISTER_OFF.address()));
@@ -48,7 +55,12 @@ public class RegisterView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 register.setDrawable(new Image(new Texture(Resource.REGISTER_CLICKED.address())).getDrawable());
-                //TODO: fill it.
+                ((RegisterMenu) menu).register(username.getText(),
+                        nickname.getText(),
+                        email.getText(),
+                        password.getText(),
+                        question.getText(),
+                        answer.getText());
             }
 
             @Override
@@ -119,5 +131,13 @@ public class RegisterView extends View {
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.REGISTER_BACKGROUND.address()));
+    }
+
+    public void setRegisterMessage(String message) {
+        registerMessage.setText(message);
+    }
+
+    public void setQuestion(String questionText) {
+        question.setText(questionText);
     }
 }
