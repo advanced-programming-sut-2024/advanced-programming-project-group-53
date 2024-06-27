@@ -294,6 +294,14 @@ public class Playground {
         return powerSum >= 10;
     }
 
+    public boolean suitableToScorchWithHero(int row) {
+        ArrayList<Card> unitCardsInRow = unitCardsGround.get(row);
+        int powerSum = 0;
+        for (Card card : unitCardsInRow)
+            powerSum += card.getPower();
+        return powerSum >= 10;
+    }
+
     public void removeCardsWithMaxPowerScorch(int row, Player currentPlayer, Player opponent) {
         if (suitableToScorch(row)) {
             ArrayList<Card> unitCardsInRow = unitCardsGround.get(row);
@@ -312,5 +320,65 @@ public class Playground {
                 unitCardsInRow.remove(card);
             }
         }
+    }
+
+    public void removeCardsWithMaxPowerScorchWithHero(int row, Player currentPlayer, Player opponent) {
+        if (suitableToScorchWithHero(row)) {
+            ArrayList<Card> unitCardsInRow = unitCardsGround.get(row);
+            ArrayList<Card> cardsToRemove = new ArrayList<>();
+            Card cardMax = Unit.getInstanceByName(UnitInformation.Cow.name());
+            for (Card unitCard : unitCardsInRow) {
+                assert cardMax != null;
+                if (unitCard.getPower() >= cardMax.getPower()) {
+                    cardsToRemove.add(unitCard);
+                    cardMax = unitCard;
+                }
+            }
+            for (Card card : cardsToRemove) {
+                if (row > 2) opponent.addToDiscardPiles(card);
+                else currentPlayer.addToDiscardPiles(card);
+                unitCardsInRow.remove(card);
+            }
+        }
+    }
+
+    public void simpleRemoveCardWithMaxPower(int row, Player currentPlayer, Player opponent) {
+        ArrayList<Card> unitCardsInRow = unitCardsGround.get(row);
+        ArrayList<Card> cardsToRemove = new ArrayList<>();
+        Card cardMax = Unit.getInstanceByName(UnitInformation.Cow.name());
+        for (Card unitCard : unitCardsInRow) {
+            assert cardMax != null;
+            if (unitCard.getPower() >= cardMax.getPower()) {
+                cardsToRemove.add(unitCard);
+                cardMax = unitCard;
+            }
+        }
+        for (Card card : cardsToRemove) {
+            if (row > 2) opponent.addToDiscardPiles(card);
+            else currentPlayer.addToDiscardPiles(card);
+            unitCardsInRow.remove(card);
+        }
+    }
+
+    //methods for leader abilities
+    public void setWeatherConditionAt(boolean condition, int place) {
+        weatherCondition.set(place, condition);
+    }
+
+    public boolean haveCommandersHornAt(int row) {
+        for (Card card : unitCardsGround.get(row))
+            if (card.getAbility().equalsIgnoreCase(Ability.CommandersHorn.name()))
+                return true;
+        for (Special special : specials)
+            if (special.getAbility().equalsIgnoreCase(Ability.CommandersHorn.name()))
+                return true;
+        return false;
+    }
+
+    public void spyCardBuff() {
+        for (ArrayList<Card> row : unitCardsGround)
+            for (Card card : row)
+                if (card.getAbility().equalsIgnoreCase(Ability.Spy.name()))
+                    card.setPower(card.getPower() * 2);
     }
 }

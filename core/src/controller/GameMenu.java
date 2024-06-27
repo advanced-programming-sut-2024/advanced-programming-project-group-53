@@ -1,6 +1,8 @@
 package controller;
 
 import model.card.Card;
+import model.card.Commander;
+import model.card.Faction;
 import model.card.Special;
 import model.game.Player;
 import model.game.Playground;
@@ -148,6 +150,26 @@ public class GameMenu extends Menu {
         return false;
     }
 
+    public static boolean commanderExecution() {
+        if (getInstance().getTable().getPlayers(0).isCommanderUsed()) {
+            Printer.print(MenuMessage.YOU_USED_YOUR_COMMANDER.message());
+            return false;
+        }
+        Table table = getInstance().getTable();
+        Player player = table.getPlayers(0);
+        Commander commander = player.getCommander();
+        if (player.getFaction() == Faction.NorthernRealms) {
+
+        } else if (player.getFaction() == Faction.NilfgaardianEmpire) {
+
+        } else if (player.getFaction() == Faction.Monsters) {
+
+        } else if (player.getFaction() == Faction.Scoiatael) {
+
+        } else if (player.getFaction() == Faction.Skellige) {
+
+        }
+    }
     @Override
     public boolean enterMenu(String name) {
         Printer.print(MenuMessage.INVALID_MENU.message());

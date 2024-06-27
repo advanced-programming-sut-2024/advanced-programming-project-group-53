@@ -16,12 +16,14 @@ public class Player {
     private final Faction faction;
     private int point;
     private int hp = 2;
+    private boolean commanderUsed;
     //remember to check if commander card is needed or not
     public Player(User user, Deck deck, Faction faction, Commander commander) {
         //TODO: check allCard configuration and application.
         this.user = user;
         this.deck = deck;
         this.discardPiles = new DiscardPile();
+        this.commanderUsed = false;
         this.commander = commander;
         this.faction = faction;
         this.hand = new Hand();
@@ -140,5 +142,21 @@ public class Player {
         Card card1 = deck.cardAt(0), card2 = deck.cardAt(1);
         hand.add(card1);hand.add(card2);
         deck.removeCard(card1.getName());deck.removeCard(card2.getName());
+    }
+
+    public boolean isCommanderUsed() {
+        return commanderUsed;
+    }
+
+    public void setCommanderUsed(boolean commanderUsed) {
+        this.commanderUsed = commanderUsed;
+    }
+
+    //for leaders abilities
+    public void invaderAbility() {
+        this.discardPiles.shuffle();
+        Card card = discardPiles.cardAt(0);
+        this.hand.add(card);
+        this.discardPiles.remove(card);
     }
 }
