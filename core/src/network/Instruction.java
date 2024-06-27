@@ -1,4 +1,4 @@
-package com.mygdx.game.network;
+package network;
 
 public class Instruction {
     private final Command command;

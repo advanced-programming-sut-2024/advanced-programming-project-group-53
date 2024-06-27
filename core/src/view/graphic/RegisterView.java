@@ -55,12 +55,12 @@ public class RegisterView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 register.setDrawable(new Image(new Texture(Resource.REGISTER_CLICKED.address())).getDrawable());
-                ((RegisterMenu) menu).register(username.getText(),
+                /*((RegisterMenu) menu).register(username.getText(),
                         nickname.getText(),
                         email.getText(),
                         password.getText(),
                         question.getText(),
-                        answer.getText());
+                        answer.getText());*/
             }
 
             @Override

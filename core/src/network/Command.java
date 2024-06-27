@@ -1,7 +1,8 @@
-package com.mygdx.game.network;
+package network;
 
 public enum Command {
     EXIT,
+    LOGIN
     ;
     public static Command fromString(String command) {
         switch (command) {

@@ -1,11 +1,10 @@
-package com.mygdx.game.network;
+package network;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.net.Socket;
 
-public class Client {
+public class Connector {
     private Socket socket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
@@ -16,7 +15,8 @@ public class Client {
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             return true;
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            System.out.println("Connection failed");
             return false;
         }
     }
@@ -25,7 +25,8 @@ public class Client {
         try {
             dataOutputStream.writeUTF(new Instruction(command, arguments).toString());
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.out.println("Sending message failed");
             return false;
         }
     }
@@ -33,7 +34,8 @@ public class Client {
     public Instruction receiveMessage() {
         try {
             return Instruction.fromString(dataInputStream.readUTF());
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.out.println("Receiving message failed");
             return null;
         }
     }
@@ -46,16 +48,17 @@ public class Client {
             dataInputStream.close();
             dataOutputStream.close();
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.out.println("Disconnecting failed");
             return false;
         }
     }
 
-    public void start() {
+    public Instruction perform(Instruction instruction) {
         this.establishConnection("localhost", 8080);
-        Instruction instruction;
-        do {
-            instruction = receiveMessage();
-        } while (instruction.command() != Command.EXIT);
+        this.sendMessage(instruction.command(), instruction.arguments());
+        Instruction result =  this.receiveMessage();
+        this.endConnection();
+        return result;
     }
 }

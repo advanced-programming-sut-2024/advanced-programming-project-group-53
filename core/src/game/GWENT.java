@@ -3,7 +3,6 @@ package game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ScreenUtils;
-import network.Client;
 import view.graphic.View;
 import view.graphic.RegisterView;
 
@@ -11,11 +10,6 @@ public class GWENT extends Game {
     private View menu;
     private double width;
     private double height;
-    private Client client;
-
-    public GWENT(Client client) {
-        this.client = client;
-    }
 
     @Override
     public void create() {

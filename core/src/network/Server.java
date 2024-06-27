@@ -1,4 +1,4 @@
-package com.mygdx.game.network;
+package network;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,13 +13,14 @@ public class Server {
         }
     }
     public void start() {
+        System.out.println("Server started on port " + serverSocket.getLocalPort() + " with IP " + serverSocket.getInetAddress().getHostAddress());
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                Handler handler = new Handler(socket);
-                handler.start();
-                handler.join();
-            } catch (Exception ignored) {
+                new Handler(socket);
+                System.out.println("Accepted");
+            } catch (Exception e) {
+                System.out.println("Not accepted");
             }
         }
     }
