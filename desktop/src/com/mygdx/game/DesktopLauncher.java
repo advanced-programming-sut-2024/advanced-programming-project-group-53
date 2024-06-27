@@ -2,7 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import network.Client;
+import com.mygdx.game.network.Client;
 import game.GWENT;
 
 public class DesktopLauncher {

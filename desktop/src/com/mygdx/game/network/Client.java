@@ -1,4 +1,4 @@
-package network;
+package com.mygdx.game.network;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

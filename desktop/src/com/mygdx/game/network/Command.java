@@ -1,4 +1,4 @@
-package network;
+package com.mygdx.game.network;
 
 public enum Command {
     EXIT,

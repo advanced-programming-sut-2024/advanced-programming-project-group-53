@@ -1,4 +1,4 @@
-package network;
+package com.mygdx.game.network;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,7 +20,6 @@ public class Server {
                 handler.start();
                 handler.join();
             } catch (Exception ignored) {
-
             }
         }
     }
