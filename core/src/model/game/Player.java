@@ -159,4 +159,11 @@ public class Player {
         this.hand.add(card);
         this.discardPiles.remove(card);
     }
+
+    public void shuffleDiscardPilesAndAdd() {
+        ArrayList<Card> cards = discardPiles.getCards();
+        discardPiles.shuffle();
+        hand.addAll(discardPiles.getCards());
+        discardPiles.makeEmpty();
+    }
 }

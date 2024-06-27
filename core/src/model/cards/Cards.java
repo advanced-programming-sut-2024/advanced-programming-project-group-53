@@ -120,6 +120,17 @@ public abstract class Cards {
         return allMaidens;
     }
 
+    public void makeEmpty() {
+        Iterator<Card> iterator = cards.iterator();
+        while (iterator.hasNext()) {
+            iterator.remove();
+        }
+    }
+
+    public void addAll(ArrayList<Card> cards) {
+        this.cards.addAll(cards);
+    }
+
     //For SiegeMaster ability
     public Card impenetrableFogGetter() {
         for (Card card : cards)

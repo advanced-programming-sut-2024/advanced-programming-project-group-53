@@ -158,17 +158,20 @@ public class GameMenu extends Menu {
         Table table = getInstance().getTable();
         Player player = table.getPlayers(0);
         Commander commander = player.getCommander();
+        ArrayList<Card> cardsToWorkWith;
         if (player.getFaction() == Faction.NorthernRealms) {
-
+            cardsToWorkWith = table.executeNorthern(commander);
         } else if (player.getFaction() == Faction.NilfgaardianEmpire) {
-
+            cardsToWorkWith = table.executeNilfgaardian(commander);
         } else if (player.getFaction() == Faction.Monsters) {
-
+            cardsToWorkWith = table.executeMonsters(commander);
         } else if (player.getFaction() == Faction.Scoiatael) {
-
+            cardsToWorkWith = table.executeScoiatael(commander);
         } else if (player.getFaction() == Faction.Skellige) {
-
+            cardsToWorkWith = table.executeSkellige(commander);
         }
+        //TODO : do something with cardsToWorkWith with graphical interface.
+        return true;
     }
     @Override
     public boolean enterMenu(String name) {

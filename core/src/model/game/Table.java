@@ -108,7 +108,7 @@ public class Table {
 
 
     //leaders Abilities
-    public ArrayList<Card> executeNorthernLeader(Commander commander) {
+    public ArrayList<Card> executeNorthern(Commander commander) {
         Player currentPlayer = getPlayers(0);
         Player opponent = getPlayers(1);
         if (commander.getCommanderInformation() == CommanderInformation.Foltest_TheSiegeMaster) {
@@ -237,6 +237,21 @@ public class Table {
         }
         if (commander.getCommanderInformation() == CommanderInformation.FrancescaFindabair_HopeOfTheAenSeidhe) {
             //TODO : fill this for this commander about agile unit.
+            return null;
+        }
+        return null;
+    }
+
+    public ArrayList<Card> executeSkellige(Commander commander) {
+        Player currentPlayer = getPlayers(0);
+        Player opponent = getPlayers(1);
+        if (commander.getCommanderInformation() == CommanderInformation.TWO_COMMANDER_SKELLIGE_CrachAnCraite) {
+            currentPlayer.shuffleDiscardPilesAndAdd();
+            opponent.shuffleDiscardPilesAndAdd();
+            return null;
+        }
+        if (commander.getCommanderInformation() == CommanderInformation.TWO_COMMANDER_SKELLIGE_KingBran) {
+            //TODO : complete this commander.
             return null;
         }
         return null;
