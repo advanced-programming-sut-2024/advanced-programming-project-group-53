@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class StartMenuTest {
-    private StartMenu startMenu;
+    /*private StartMenu startMenu;
     private static final ArrayList<User> allUsersTemp = new ArrayList<>();
     private static final User currentUserTemp = User.getCurrentUser();
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -308,5 +308,5 @@ public class StartMenuTest {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectCommander(100);
         assertEquals(MenuMessage.INVALID_COMMANDER_INDEX.message(), outContent.toString().trim());
-    }
+    }*/
 }

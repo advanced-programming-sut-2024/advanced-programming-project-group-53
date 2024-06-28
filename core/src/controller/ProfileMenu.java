@@ -7,10 +7,10 @@ import view.message.Printer;
 import view.terminal.TerminalRun;
 
 public class ProfileMenu extends Menu {
-    private static ProfileMenu instance;
+    /*private static ProfileMenu instance;
 
     private ProfileMenu() {
-        super.setMenuType(MenuName.ProfileMenu);
+        super.setMenuName(MenuName.ProfileMenu);
     }
 
     public static ProfileMenu getInstance() {
@@ -50,5 +50,5 @@ public class ProfileMenu extends Menu {
     @Override
     public void showMenu() {
         Printer.print(MenuMessage.PROFILE_MENU.message());
-    }
+    }*/
 }

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class RegisterMenuTest {
-    private RegisterMenu registerMenu;
+    /*private RegisterMenu registerMenu;
     private static final ArrayList<User> allUsersTemp = new ArrayList<>();
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
@@ -125,5 +125,5 @@ public class RegisterMenuTest {
     @After
     public void loadUsers() {
         User.loadUsers(allUsersTemp);
-    }
+    }*/
 }

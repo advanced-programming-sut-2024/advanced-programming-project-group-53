@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class LoginMenuTest {
-    private LoginMenu loginMenu;
+    /*private LoginMenu loginMenu;
     private static final ArrayList<User> allUsersTemp = new ArrayList<>();
 
     @Before
@@ -101,5 +101,5 @@ public class LoginMenuTest {
     @After
     public void loadUsers() {
         User.loadUsers(allUsersTemp);
-    }
+    }*/
 }

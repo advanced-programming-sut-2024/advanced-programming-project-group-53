@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import game.GWENT;
 import controller.LoginMenu;
+import network.Instruction;
 
 public class LoginView extends View {
     private final Table textTable;
@@ -35,7 +36,7 @@ public class LoginView extends View {
 
     public LoginView(GWENT game) {
         super(game);
-        menu = LoginMenu.getInstance();
+        //menu = LoginMenu.getInstance();
         loginTable = new Table();
         loginTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 3));
         loginTable.align(Align.center);
@@ -63,7 +64,7 @@ public class LoginView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 login.setDrawable(new Image(new Texture(Resource.LOGIN_CLICKED.address())).getDrawable());
-                ((LoginMenu) menu).login(username.getText(), password.getText());
+                //((LoginMenu) menu).login(username.getText(), password.getText());
                 username.setText("");
                 password.setText("");
             }
@@ -208,5 +209,10 @@ public class LoginView extends View {
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.LOGIN_BACKGROUND.address()));
+    }
+
+    @Override
+    protected void perform(Instruction instruction) {
+
     }
 }

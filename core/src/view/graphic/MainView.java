@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import controller.LoginMenu;
 import controller.MainMenu;
 import game.GWENT;
+import network.Instruction;
 
 public class MainView extends View {
     private final Table mainTable;
@@ -134,5 +135,10 @@ public class MainView extends View {
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.MAIN_BACKGROUND.address()));
+    }
+
+    @Override
+    protected void perform(Instruction instruction) {
+
     }
 }

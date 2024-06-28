@@ -17,7 +17,7 @@ public class GameMenu extends Menu {
     private final Table table;
 
     private GameMenu(Player player1, Player player2) {
-        super.setMenuType(MenuName.GameMenu);
+        super.setMenuName(MenuName.GameMenu);
         this.table = new Table(player1, player2);
     }
 
@@ -30,7 +30,7 @@ public class GameMenu extends Menu {
         return instance;
     }
 
-    public static boolean vetoCards(int cardNumber) {
+    /*public static boolean vetoCards(int cardNumber) {
         GameMenu game = GameMenu.getInstance();
         Table table = game.getTable();
         Player currentPlayer = table.getPlayers(0);
@@ -132,7 +132,7 @@ public class GameMenu extends Menu {
         return true;
     }
 
-    @Override
+    /*@Override
     public boolean enterMenu(String name) {
         Printer.print(MenuMessage.INVALID_MENU.message());
         return false;
@@ -151,5 +151,5 @@ public class GameMenu extends Menu {
 
     public Table getTable() {
         return table;
-    }
+    }*/
 }

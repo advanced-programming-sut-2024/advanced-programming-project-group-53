@@ -11,6 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.RegisterMenu;
 import game.GWENT;
+import network.Command;
+import network.Connector;
+import network.Instruction;
+
+import java.util.Objects;
 
 public class RegisterView extends View {
     private final Table registerTable;
@@ -55,12 +60,15 @@ public class RegisterView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 register.setDrawable(new Image(new Texture(Resource.REGISTER_CLICKED.address())).getDrawable());
-                /*((RegisterMenu) menu).register(username.getText(),
+                Connector connector = new Connector();
+                Instruction response = connector.perform(new Instruction(Command.REGISTER,
+                        username.getText(),
                         nickname.getText(),
                         email.getText(),
                         password.getText(),
                         question.getText(),
-                        answer.getText());*/
+                        answer.getText()));
+                perform(response);
             }
 
             @Override
@@ -133,11 +141,19 @@ public class RegisterView extends View {
         background = new Image(new Texture(Resource.REGISTER_BACKGROUND.address()));
     }
 
-    public void setRegisterMessage(String message) {
-        registerMessage.setText(message);
-    }
-
-    public void setQuestion(String questionText) {
-        question.setText(questionText);
+    @Override
+    protected void perform(Instruction instruction) {
+        if (instruction.command() == Command.REGISTER_MESSAGE) {
+            StringBuilder builder = new StringBuilder();
+            for (String string: instruction.arguments())
+                builder.append(string);
+            registerMessage.setText(builder.toString());
+            username.setText("");
+            nickname.setText("");
+            email.setText("");
+            password.setText("");
+            question.setText("");
+            answer.setText("");
+        }
     }
 }

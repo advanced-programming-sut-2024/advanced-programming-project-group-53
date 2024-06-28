@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.ProfileMenu;
 import game.GWENT;
+import network.Instruction;
 
 public class HistoryView extends View {
 
@@ -26,7 +27,7 @@ public class HistoryView extends View {
 
     public HistoryView(GWENT game) {
         super(game);
-        menu = ProfileMenu.getInstance();
+        //menu = ProfileMenu.getInstance();
         OptionTable = new Table();
         OptionTable.setBounds(62, 913, 900, 61);
         OptionTable.align(Align.center);
@@ -137,5 +138,10 @@ public class HistoryView extends View {
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.HISTORY_BACKGROUND.address()));
+    }
+
+    @Override
+    protected void perform(Instruction instruction) {
+
     }
 }

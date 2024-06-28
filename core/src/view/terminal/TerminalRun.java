@@ -10,9 +10,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public abstract class TerminalRun {
-    private static Menu currentMenu = LoginMenu.getInstance();
+   // private static Menu currentMenu = LoginMenu.getInstance();
 
-    public static void loginMenuRun(Scanner scanner) {
+    /*public static void loginMenuRun(Scanner scanner) {
         LoginMenu exactlyCurrentMenu = (LoginMenu)TerminalRun.getMenuInstance();
         while (true) {
             String line = scanner.nextLine();
@@ -344,5 +344,5 @@ public abstract class TerminalRun {
 
     public static Menu getMenuInstance() {
         return TerminalRun.currentMenu;
-    }
+    }*/
 }

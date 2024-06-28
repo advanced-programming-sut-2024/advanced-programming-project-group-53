@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controller.StartMenu;
 import game.GWENT;
 import model.card.*;
+import network.Instruction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -248,5 +249,10 @@ public class StartViewCard extends View {
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.START_BACKGROUND.address()));
+    }
+
+    @Override
+    protected void perform(Instruction instruction) {
+
     }
 }

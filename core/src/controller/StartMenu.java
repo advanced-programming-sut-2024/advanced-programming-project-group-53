@@ -20,7 +20,7 @@ public class StartMenu extends Menu {
 
     //TODO : make it available for 2 user for interact in this menu.
     private StartMenu(User user1,User user2) {
-        super.setMenuType(MenuName.StartMenu);
+        super.setMenuName(MenuName.StartMenu);
         this.user1 = user1;
         this.user2 = user2;
         this.initialDeck = new Deck();
@@ -36,7 +36,7 @@ public class StartMenu extends Menu {
     }
 
     public static void setInstance() {
-        instance = new StartMenu(User.getCurrentUser(), User.getCurrentUser().getOpponent());
+        //instance = new StartMenu(User.getCurrentUser(), User.getCurrentUser().getOpponent());
     }
 
     public static void showFactions() {
@@ -149,8 +149,8 @@ public class StartMenu extends Menu {
     }
     //For showing current user information.
     public static void showCurrentUserInformation() {
-        User currentUser = User.getCurrentUser();
-        Printer.print(currentUser.getUsername());
+        //User currentUser = User.getCurrentUser();
+        //Printer.print(currentUser.username());
         if (StartMenu.getInstance().hasFaction) Printer.print("Faction: " + StartMenu.getInstance().userFaction);
         //TODO : make this printer for all deck size not only one current deck.(Or maybe not, according to project doc.
         Printer.print("Current Deck Size: " + StartMenu.getInstance().getInitialDeck().size());
@@ -244,7 +244,7 @@ public class StartMenu extends Menu {
 
     public static boolean changeTurn() {
         StartMenu currentStartMenu = StartMenu.getInstance();
-        if (currentStartMenu.user2.equals(User.getCurrentUser())) {
+        /*if (currentStartMenu.user2.equals(User.getCurrentUser())) {
             Printer.print(MenuMessage.YOU_CAM_JUST_START.message());
             return false;
         }
@@ -255,13 +255,13 @@ public class StartMenu extends Menu {
         currentStartMenu.setUserFaction(null);
         currentStartMenu.setHasFaction(false);
         currentStartMenu.setInitialDeck(new Deck());
-        User.setCurrentUser(currentStartMenu.getUser2());
+        User.setCurrentUser(currentStartMenu.getUser2());*/
         return true;
     }
     
     public static boolean startGame() {
         StartMenu currentStartMenu = StartMenu.getInstance();
-        if (currentStartMenu.getUser1().equals(User.getCurrentUser())) {
+        /*if (currentStartMenu.getUser1().equals(User.getCurrentUser())) {
             Printer.print(MenuMessage.YOU_CAN_JUST_CHANGE.message());
             return false;
         }
@@ -270,11 +270,11 @@ public class StartMenu extends Menu {
                 currentStartMenu.getCommanderUser());
         currentStartMenu.setPlayer2(userPlayer);
         User.setCurrentUser(currentStartMenu.getUser1());
-        currentStartMenu.enterMenu("Game");
+        currentStartMenu.enterMenu("Game");*/
         return true;
     }
 
-    @Override
+    /*@Override
     public boolean enterMenu(String name) {
         if (MenuName.getMenu(name) == MenuName.GameMenu) {
             GameMenu.setInstance(this.player1, this.player2);
@@ -296,7 +296,7 @@ public class StartMenu extends Menu {
     @Override
     public void showMenu() {
         Printer.print(MenuMessage.START_MENU.message());
-    }
+    }*/
 
     public User getUser1() {
         return user1;

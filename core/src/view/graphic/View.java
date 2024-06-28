@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import controller.Menu;
 import game.GWENT;
+import network.Instruction;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -19,6 +20,7 @@ public abstract class View implements Screen {
     protected Skin textField;
     protected Image background;
     protected Menu menu;
+
     public View(GWENT game) {
         this.game = game;
         skinLoader();
@@ -27,6 +29,7 @@ public abstract class View implements Screen {
         input.setInputProcessor(stage);
         stage.setViewport(new FillViewport(background.getWidth(), background.getHeight()));
     }
+
     protected void skinLoader() {
         AssetManager assetManager = new AssetManager();
         assetManager.load(Resource.LABEL.address(), Skin.class);
@@ -37,10 +40,15 @@ public abstract class View implements Screen {
         scrollPane = assetManager.get(Resource.SCROLL_PANE.address(), Skin.class);
         textField = assetManager.get(Resource.TEXT_FIELD.address(), Skin.class);
     }
+
     protected abstract void backgroundLoader();
+
+    protected abstract void perform(Instruction instruction);
+
     public void settingUpdater() {
         //TODO: fill it maybe.
     }
+
     @Override
     public void show() {
 

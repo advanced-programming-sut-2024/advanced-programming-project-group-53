@@ -5,21 +5,16 @@ import model.menu.MenuName;
 public abstract class Menu {
     private MenuName menuName;
 
-    public abstract boolean enterMenu(String name);
-
-    public abstract void exitMenu();
-
-    public abstract void showMenu();
-
     public void exitGame() {
-        System.exit(0);//TODO: Save sth.
+        System.exit(0);
+        //TODO: Save sth.
     }
 
-    public void setMenuType(MenuName menuName) {
+    public void setMenuName(MenuName menuName) {
         this.menuName = menuName;
     }
 
-    public MenuName getMenuType() {
+    public MenuName menuName() {
         return this.menuName;
     }
 }

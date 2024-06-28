@@ -4,8 +4,6 @@ import model.game.User;
 import model.game.ValidationRegex;
 import model.menu.MenuName;
 import view.message.MenuMessage;
-import view.message.Printer;
-import view.terminal.TerminalRun;
 
 import java.util.regex.Matcher;
 
@@ -13,7 +11,7 @@ public class RegisterMenu extends Menu {
     private static RegisterMenu instance;
 
     private RegisterMenu() {
-        super.setMenuType(MenuName.RegisterMenu);
+        super.setMenuName(MenuName.RegisterMenu);
     }
 
     public static RegisterMenu getInstance() {
@@ -22,69 +20,51 @@ public class RegisterMenu extends Menu {
         return instance;
     }
 
-    public boolean registerValidate(String username, String nickname, String email, String password) {
-        //todo: check if a user with the given username doesn't already exist
+    public String registerValidate(String username, String nickname, String email, String password) {
+        return usernameValidation(username) +
+                nicknameValidation(nickname) +
+                emailValidation(email) +
+                passwordValidation(password);
+    }
+
+    public String register(String username, String nickname, String email, String password, String question, String answer) {
+        String result = registerValidate(username, nickname, email, password);
+        if (result.isEmpty())
+            new User(username, nickname, email, password, question, answer);
+        return result;
+    }
+
+    public String usernameValidation(String username) {
         Matcher matcher = ValidationRegex.Username.getMatcher(username);
-        if (!matcher.find()) {
-            Printer.print(MenuMessage.INVALID_USERNAME.message());
-            return false;
-        }
-        matcher = ValidationRegex.Nickname.getMatcher(nickname);
-        if (!matcher.find()) {
-            Printer.print(MenuMessage.INVALID_NICKNAME.message());
-            return false;
-        }
-        matcher = ValidationRegex.Email.getMatcher(email);
-        if (!matcher.find()) {
-            Printer.print(MenuMessage.INVALID_EMAIL.message());
-            return false;
-        }
-        matcher = ValidationRegex.Password.getMatcher(password);
-        if (!matcher.find()) {
-            Printer.print(MenuMessage.WEAK_PASSWORD.message());
-            return false;
-        }
-        User.printAllSecurityQuestions();
-        return true;
+        StringBuilder result = new StringBuilder();
+        if (!matcher.find())
+            result.append(MenuMessage.INVALID_USERNAME.message()).append("\n");
+        return result.toString();
     }
 
-    public void register(String username, String nickname, String email, String password, int number) {
-        User user = new User(username, nickname, email, password);
-        User.setCurrentUser(user);
-        User.putQuestion(number);
-        TerminalRun.changeCurrentMenu(LoginMenu.getInstance());
+    public String nicknameValidation(String nickname) {
+        Matcher matcher = ValidationRegex.Nickname.getMatcher(nickname);
+        StringBuilder result = new StringBuilder();
+        if (!matcher.find())
+            result.append(MenuMessage.INVALID_NICKNAME.message()).append("\n");
+        return result.toString();
     }
 
-    public boolean pickQuestion(int number) {
-        if (!User.checkQuestionNumberValidation(number)) {
-            Printer.print(MenuMessage.INVALID_NUMBER.message());
-            return false;
+    public String emailValidation(String email) {
+        Matcher matcher = ValidationRegex.Email.getMatcher(email);
+        StringBuilder result = new StringBuilder();
+        if (!matcher.find())
+            result.append(MenuMessage.INVALID_EMAIL.message()).append("\n");
+        return result.toString();
+    }
+
+    public String passwordValidation(String password) {
+        Matcher matcher = ValidationRegex.Password.getMatcher(password);
+        StringBuilder result = new StringBuilder();
+        if (!matcher.find()) {
+            result.append(MenuMessage.WEAK_PASSWORD.message()).append("\n");
+            //TODO: suggest a password.
         }
-        return true;
-    }
-    @Override
-    public boolean enterMenu(String name) {
-        if (MenuName.getMenu(name) == MenuName.MainMenu) {
-            TerminalRun.changeCurrentMenu(MainMenu.getInstance());
-            Printer.print(MenuMessage.ENTER_MAIN_MENU.message());
-            return true;
-        } else if (MenuName.getMenu(name) == MenuName.LoginMenu) {
-            TerminalRun.changeCurrentMenu(LoginMenu.getInstance());
-            Printer.print(MenuMessage.ENTER_REGISTER_MENU.message());
-            return true;
-        } else {
-            Printer.print(MenuMessage.INVALID_MENU.message());
-            return false;
-        }
-    }
-
-    @Override
-    public void exitMenu() {
-        exitGame();
-    }
-
-    @Override
-    public void showMenu() {
-        Printer.print(MenuMessage.REGISTER_MENU.message());
+        return result.toString();
     }
 }

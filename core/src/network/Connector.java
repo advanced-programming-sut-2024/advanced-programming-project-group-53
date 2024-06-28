@@ -1,64 +1,57 @@
 package network;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class Connector {
     private Socket socket;
-    private DataInputStream dataInputStream;
-    private DataOutputStream dataOutputStream;
+    private DataInputStream dis;
+    private DataOutputStream dos;
 
-    public boolean establishConnection(String address, int port) {
+    public void establishConnection(String address, int port) {
         try {
             socket = new Socket(address, port);
-            dataInputStream = new DataInputStream(socket.getInputStream());
-            dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            return true;
+            dis = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            dos = new DataOutputStream(socket.getOutputStream());
         } catch (Exception e) {
             System.out.println("Connection failed");
-            return false;
         }
     }
 
-    public boolean sendMessage(Command command, String... arguments) {
+    public void sendMessage(Instruction instruction) {
         try {
-            dataOutputStream.writeUTF(new Instruction(command, arguments).toString());
-            return true;
+            dos.writeUTF(instruction.toString());
         } catch (Exception e) {
             System.out.println("Sending message failed");
-            return false;
         }
     }
 
     public Instruction receiveMessage() {
         try {
-            return Instruction.fromString(dataInputStream.readUTF());
+            return Instruction.fromString(dis.readUTF());
         } catch (Exception e) {
             System.out.println("Receiving message failed");
             return null;
         }
     }
 
-    public boolean endConnection() {
+    public void endConnection() {
         if (socket == null)
-            return true;
+            return;
         try {
             socket.close();
-            dataInputStream.close();
-            dataOutputStream.close();
-            return true;
+            dis.close();
+            dos.close();
         } catch (Exception e) {
             System.out.println("Disconnecting failed");
-            return false;
         }
     }
 
     public Instruction perform(Instruction instruction) {
         this.establishConnection("localhost", 8080);
-        this.sendMessage(instruction.command(), instruction.arguments());
-        Instruction result =  this.receiveMessage();
+        this.sendMessage(instruction);
+        Instruction response = this.receiveMessage();
         this.endConnection();
-        return result;
+        return response;
     }
 }

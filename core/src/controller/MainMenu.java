@@ -10,7 +10,7 @@ public class MainMenu extends Menu {
     private static MainMenu instance;
 
     private MainMenu() {
-        super.setMenuType(MenuName.MainMenu);
+        super.setMenuName(MenuName.MainMenu);
     }
 
     public static MainMenu getInstance() {
@@ -19,7 +19,7 @@ public class MainMenu extends Menu {
         return instance;
     }
 
-    public void logout() {
+   /* public void logout() {
         User.setCurrentUser(null);
         TerminalRun.changeCurrentMenu(LoginMenu.getInstance());
         Printer.print(MenuMessage.LOGOUT.message());
@@ -100,5 +100,5 @@ public class MainMenu extends Menu {
     @Override
     public void showMenu() {
         Printer.print(MenuMessage.MAIN_MENU.message());
-    }
+    }*/
 }

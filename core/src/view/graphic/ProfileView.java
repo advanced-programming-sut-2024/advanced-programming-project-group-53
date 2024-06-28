@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import controller.LoginMenu;
 import controller.ProfileMenu;
 import game.GWENT;
+import network.Instruction;
 
 public class ProfileView extends View {
     private final Table rightTable;
@@ -54,7 +55,7 @@ public class ProfileView extends View {
 
     public ProfileView(GWENT game) {
         super(game);
-        menu = ProfileMenu.getInstance();
+        //menu = ProfileMenu.getInstance();
         rightTable = new Table();
         rightTable.setBounds(574, 50, 400, (float) (400 * 0.1458 * 2));
         rightTable.align(Align.center);
@@ -386,5 +387,10 @@ public class ProfileView extends View {
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.PROFILE_BACKGROUND.address()));
+    }
+
+    @Override
+    protected void perform(Instruction instruction) {
+
     }
 }

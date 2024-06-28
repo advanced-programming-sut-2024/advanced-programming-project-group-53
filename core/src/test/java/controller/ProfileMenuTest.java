@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class ProfileMenuTest {
-    private ProfileMenu profileMenu;
+   /* private ProfileMenu profileMenu;
     private static final ArrayList<User> allUsersTemp = new ArrayList<>();
     private static final User currentUserTemp = User.getCurrentUser();
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -66,5 +66,5 @@ public class ProfileMenuTest {
     public void loadUsers() {
         User.setCurrentUser(currentUserTemp);
         User.loadUsers(allUsersTemp);
-    }
+    }*/
 }

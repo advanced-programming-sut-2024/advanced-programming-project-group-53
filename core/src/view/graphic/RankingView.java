@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controller.MainMenu;
 import game.GWENT;
+import network.Instruction;
 
 import java.util.ArrayList;
 
@@ -92,5 +93,10 @@ public class RankingView extends View {
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.RANKING_BACKGROUND.address()));
+    }
+
+    @Override
+    protected void perform(Instruction instruction) {
+
     }
 }

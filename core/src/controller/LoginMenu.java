@@ -10,10 +10,10 @@ import view.terminal.TerminalRun;
 import java.util.regex.Matcher;
 
 public class LoginMenu extends Menu {
-    private static LoginMenu instance;
+    /*private static LoginMenu instance;
 
     private LoginMenu() {
-        super.setMenuType(MenuName.LoginMenu);
+        super.setMenuName(MenuName.LoginMenu);
     }
 
     public static LoginMenu getInstance() {
@@ -87,5 +87,5 @@ public class LoginMenu extends Menu {
         assert user != null;
         user.setPassword(newPassword);
         Printer.print(MenuMessage.PASSWORD_CHANGED.message());
-    }
+    }*/
 }

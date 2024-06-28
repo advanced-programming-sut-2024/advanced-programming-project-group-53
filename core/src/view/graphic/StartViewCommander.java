@@ -12,6 +12,7 @@ import controller.StartMenu;
 import game.GWENT;
 import model.card.CommanderInformation;
 import model.card.Faction;
+import network.Instruction;
 
 import java.util.HashMap;
 
@@ -137,5 +138,10 @@ public class StartViewCommander extends View {
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.START_BACKGROUND.address()));
+    }
+
+    @Override
+    protected void perform(Instruction instruction) {
+
     }
 }

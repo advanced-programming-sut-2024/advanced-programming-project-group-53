@@ -1,6 +1,7 @@
 package view.graphic;
 
 import game.GWENT;
+import network.Instruction;
 
 public class GameView extends View {
     public GameView(GWENT game) {
@@ -9,6 +10,11 @@ public class GameView extends View {
 
     @Override
     protected void backgroundLoader() {
+
+    }
+
+    @Override
+    protected void perform(Instruction instruction) {
 
     }
 }

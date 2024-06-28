@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import controller.StartMenu;
 import game.GWENT;
 import model.card.Faction;
+import network.Instruction;
 
 import java.util.HashMap;
 
@@ -162,5 +163,10 @@ public class StartViewFaction extends View {
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.START_BACKGROUND.address()));
+    }
+
+    @Override
+    protected void perform(Instruction instruction) {
+
     }
 }
