@@ -1,5 +1,7 @@
 package network;
 
+import game.GWENT;
+
 import java.io.*;
 import java.net.Socket;
 

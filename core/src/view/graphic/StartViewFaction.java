@@ -118,7 +118,7 @@ public class StartViewFaction extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mainMenu.setDrawable(new Image(new Texture(Resource.MAIN_MENU_CLICKED.address())).getDrawable());
-                game.changeScreen(new MainView(game));
+                //game.changeScreen(new MainView(game));
             }
 
             @Override

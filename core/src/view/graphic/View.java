@@ -20,6 +20,7 @@ public abstract class View implements Screen {
     protected Skin textField;
     protected Image background;
     protected Menu menu;
+    protected String currentUsername;
 
     public View(GWENT game) {
         this.game = game;
@@ -45,15 +46,6 @@ public abstract class View implements Screen {
 
     protected abstract void perform(Instruction instruction);
 
-    public void settingUpdater() {
-        //TODO: fill it maybe.
-    }
-
-    @Override
-    public void show() {
-
-    }
-
     @Override
     public void render(float deltaTime) {
         stage.act(deltaTime);
@@ -66,22 +58,23 @@ public abstract class View implements Screen {
     }
 
     @Override
-    public void pause() {
+    public void dispose() {
+        stage.dispose();
+    }
 
+    @Override
+    public void show() {
+    }
+
+    @Override
+    public void pause() {
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        stage.dispose();
     }
 }

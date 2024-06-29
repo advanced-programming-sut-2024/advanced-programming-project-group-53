@@ -1,22 +1,18 @@
 package game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ScreenUtils;
+import view.graphic.LoginView;
+import view.graphic.RankingView;
 import view.graphic.View;
-import view.graphic.RegisterView;
 
 public class GWENT extends Game {
-    private View menu;
-    private double width;
-    private double height;
+    private View view;
 
     @Override
     public void create() {
-        menu = new RegisterView(this);
-        setScreen(menu);
-        width = Gdx.graphics.getWidth();
-        height = Gdx.graphics.getHeight();
+        view = new RankingView(this, "a");
+        setScreen(view);
     }
 
     @Override
@@ -29,14 +25,9 @@ public class GWENT extends Game {
     public void dispose() {
     }
 
-    public double getWidth() {
-        return width;
-    }
-
-    public double getHeight() {
-        return height;
-    }
     public void changeScreen(View view) {
+        this.view.dispose();
+        this.view = view;
         this.setScreen(view);
     }
 }

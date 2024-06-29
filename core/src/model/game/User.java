@@ -23,6 +23,10 @@ public class User {
     private TreeMap<String, String> securityQuestions;
     private Faction lastFaction;
 
+    static {
+        allUsers.add(new User("a", "b", "c", "d", "e", "f"));//TODO: delete at the end of project.
+    }
+
     public User(String username, String nickname, String email, String password, String question, String answer) {
         this.username = username;
         this.nickname = nickname;
@@ -82,6 +86,10 @@ public class User {
         return email;
     }
 
+    public String password() {
+        return password;
+    }
+
     public double maxPoint() {
         return maxPoint;
     }
@@ -136,6 +144,10 @@ public class User {
 
     public void setLastFaction(Faction lastFaction) {
         this.lastFaction = lastFaction;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String question() {

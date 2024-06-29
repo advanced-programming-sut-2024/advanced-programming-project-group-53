@@ -18,8 +18,9 @@ public class RankingView extends View {
     private final Image exit;
     private final ScrollPane ranking;
 
-    public RankingView(GWENT game) {
+    public RankingView(GWENT game, String currentUsername) {
         super(game);
+        this.currentUsername = currentUsername;
         menu = MainMenu.getInstance();
         lines = new VerticalGroup();
         lines.space(10);
@@ -46,7 +47,7 @@ public class RankingView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mainMenu.setDrawable(new Image(new Texture(Resource.MAIN_MENU_CLICKED.address())).getDrawable());
-                game.changeScreen(new MainView(game));
+                game.changeScreen(new MainView(game, currentUsername));
             }
 
             @Override
@@ -81,7 +82,7 @@ public class RankingView extends View {
         for (Label player : players)
             lines.addActor(player);
         ranking = new ScrollPane(lines, scrollPane);
-        ranking.setPosition(512 - ranking.getWidth() / 2, 800 - ranking.getHeight() / 2);
+        ranking.setBounds(650 - 200, 650 - 200, 400, 400);
         ranking.setFlickScroll(true);
         ranking.setFadeScrollBars(false);
         stage.addActor(background);

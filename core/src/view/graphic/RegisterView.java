@@ -3,10 +3,7 @@ package view.graphic;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.RegisterMenu;
@@ -18,8 +15,6 @@ import network.Instruction;
 import java.util.Objects;
 
 public class RegisterView extends View {
-    private final Table registerTable;
-    private final Table textTable;
     private final Label registerMessage;
     private final TextField question;
     private final TextField username;
@@ -34,12 +29,13 @@ public class RegisterView extends View {
     public RegisterView(GWENT game) {
         super(game);
         menu = RegisterMenu.getInstance();
-        registerTable = new Table();
+        Table registerTable = new Table();
         registerTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 3));
         registerTable.align(Align.center);
-        textTable = new Table();
-        textTable.setBounds(635, 170, 400, 400);
-        textTable.align(Align.center);
+        VerticalGroup textGroup = new VerticalGroup();
+        textGroup.setBounds(635, 170, 400, 400);
+        textGroup.align(Align.center);
+        textGroup.space(10);
         registerMessage = new Label("", label);
         username = new TextField("", textField);
         username.setMessageText("username");
@@ -51,6 +47,10 @@ public class RegisterView extends View {
         password.setMessageText("password");
         password.setPasswordCharacter('*');
         password.setPasswordMode(true);
+        TextField confirmPassword = new TextField("", textField);
+        confirmPassword.setMessageText("confirm");
+        confirmPassword.setPasswordMode(true);
+        confirmPassword.setPasswordCharacter('*');
         question = new TextField("", textField);
         question.setMessageText("question");
         answer = new TextField("", textField);
@@ -122,18 +122,17 @@ public class RegisterView extends View {
         registerTable.add(loginMenu);
         registerTable.row();
         registerTable.add(exit);
-        textTable.add(registerMessage);
-        textTable.row();
-        textTable.add(username);
-        textTable.row();
-        textTable.add(password);
-        textTable.row();
-        textTable.add(question);
-        textTable.row();
-        textTable.add(answer);
+        textGroup.addActor(registerMessage);
+        textGroup.addActor(username);
+        textGroup.addActor(nickname);
+        textGroup.addActor(email);
+        textGroup.addActor(password);
+        textGroup.addActor(confirmPassword);
+        textGroup.addActor(question);
+        textGroup.addActor(answer);
         stage.addActor(background);
         stage.addActor(registerTable);
-        stage.addActor(textTable);
+        stage.addActor(textGroup);
     }
 
     @Override
@@ -143,17 +142,21 @@ public class RegisterView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
-        if (instruction.command() == Command.REGISTER_MESSAGE) {
-            StringBuilder builder = new StringBuilder();
-            for (String string: instruction.arguments())
-                builder.append(string);
-            registerMessage.setText(builder.toString());
-            username.setText("");
-            nickname.setText("");
-            email.setText("");
-            password.setText("");
-            question.setText("");
-            answer.setText("");
+        if (Objects.requireNonNull(instruction.command()) == Command.REGISTER_MESSAGE) {
+            if (instruction.argumentCount() == 0)
+                game.changeScreen(new LoginView(game));
+            else {
+                StringBuilder builder = new StringBuilder();
+                for (String string : instruction.arguments())
+                    builder.append(string).append(" ");
+                registerMessage.setText(builder.toString().trim());
+                username.setText("");
+                nickname.setText("");
+                email.setText("");
+                password.setText("");
+                question.setText("");
+                answer.setText("");
+            }
         }
     }
 }

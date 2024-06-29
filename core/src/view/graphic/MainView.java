@@ -7,29 +7,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import controller.LoginMenu;
 import controller.MainMenu;
 import game.GWENT;
 import network.Instruction;
 
 public class MainView extends View {
-    private final Table mainTable;
-    private final Table logoutTable;
     private final Image chooseDeck;
     private final Image profile;
     private final Image ranking;
     private final Image logout;
     private final Image exit;
 
-    public MainView(GWENT game) {
+    public MainView(GWENT game, String currentUsername) {
         super(game);
+        this.currentUsername = currentUsername;
         menu = MainMenu.getInstance();
-        mainTable = new Table();
+        Table mainTable = new Table();
         mainTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 4));
         mainTable.align(Align.center);
-        logoutTable = new Table();
-        logoutTable.setBounds(574, 50, 400, (float) (400 * 0.1458));
-        logoutTable.align(Align.center);
         chooseDeck = new Image(new Texture(Resource.CHOOSE_DECK_OFF.address()));
         chooseDeck.addListener(new ClickListener() {
             @Override
@@ -53,7 +48,7 @@ public class MainView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 profile.setDrawable(new Image(new Texture(Resource.PROFILE_CLICKED.address())).getDrawable());
-                game.changeScreen(new ProfileView(game));
+                game.changeScreen(new ProfileView(game, currentUsername));
             }
 
             @Override
@@ -71,7 +66,7 @@ public class MainView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ranking.setDrawable(new Image(new Texture(Resource.RANKING_CLICKED.address())).getDrawable());
-                game.changeScreen(new RankingView(game));
+                game.changeScreen(new RankingView(game, currentUsername));
             }
 
             @Override
@@ -85,10 +80,12 @@ public class MainView extends View {
             }
         });
         logout = new Image(new Texture(Resource.LOGOUT_OFF.address()));
+        logout.setPosition(574, 50);
         logout.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 logout.setDrawable(new Image(new Texture(Resource.LOGOUT_CLICKED.address())).getDrawable());
+                game.changeScreen(new LoginView(game));
             }
 
             @Override
@@ -126,10 +123,9 @@ public class MainView extends View {
         mainTable.add(ranking);
         mainTable.row();
         mainTable.add(exit);
-        logoutTable.add(logout);
         stage.addActor(background);
         stage.addActor(mainTable);
-        stage.addActor(logoutTable);
+        stage.addActor(logout);
     }
 
     @Override
@@ -139,6 +135,5 @@ public class MainView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
-
     }
 }

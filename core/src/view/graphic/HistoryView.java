@@ -11,11 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.ProfileMenu;
 import game.GWENT;
+import network.Command;
+import network.Connector;
 import network.Instruction;
 
-public class HistoryView extends View {
+import java.util.Objects;
 
-    private final Table OptionTable;
+public class HistoryView extends View {
     private final Label history;
     private final TextField number;
     private final Image normal;
@@ -25,16 +27,17 @@ public class HistoryView extends View {
     private boolean isOnNormal = false;
     private boolean isOnSpecified = false;
 
-    public HistoryView(GWENT game) {
+    public HistoryView(GWENT game, String currentUsername) {
         super(game);
-        //menu = ProfileMenu.getInstance();
-        OptionTable = new Table();
-        OptionTable.setBounds(62, 913, 900, 61);
-        OptionTable.align(Align.center);
-        history = new Label("history", label);
-        history.setPosition(512 - history.getWidth() / 2, 512 - history.getHeight() / 2);
+        this.currentUsername = currentUsername;
+        menu = ProfileMenu.getInstance();
+        Table optionTable = new Table();
+        optionTable.setBounds(62, 913, 900, 61);
+        optionTable.align(Align.center);
         number = new TextField("", textField);
         number.setMessageText("number");
+        history = new Label("", label);
+        history.setPosition(512 - history.getWidth() / 2, 512 - history.getHeight() / 2);
         normal = new Image(new Texture(Resource.NORMAL_OFF.address()));
         normal.addListener(new ClickListener() {
             @Override
@@ -46,6 +49,10 @@ public class HistoryView extends View {
                     specified.setDrawable(new Image(new Texture(Resource.SPECIFIED_OFF.address())).getDrawable());
                     isOnSpecified = false;
                     isOnNormal = true;
+                    perform(new Connector().perform(new Instruction(Command.HISTORY_INFORMATION,
+                            currentUsername,
+                            "true",
+                            number.getText())));
                 }
             }
 
@@ -72,6 +79,10 @@ public class HistoryView extends View {
                     normal.setDrawable(new Image(new Texture(Resource.NORMAL_OFF.address())).getDrawable());
                     isOnNormal = false;
                     isOnSpecified = true;
+                    perform(new Connector().perform(new Instruction(Command.HISTORY_INFORMATION,
+                            currentUsername,
+                            "false",
+                            number.getText())));
                 }
             }
 
@@ -93,7 +104,7 @@ public class HistoryView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 profile.setDrawable(new Image(new Texture(Resource.PROFILE_CLICKED.address())).getDrawable());
-                game.changeScreen(new ProfileView(game));
+                game.changeScreen(new ProfileView(game, currentUsername));
             }
 
             @Override
@@ -125,12 +136,12 @@ public class HistoryView extends View {
                 exit.setDrawable(new Image(new Texture(Resource.EXIT_OFF.address())).getDrawable());
             }
         });
-        OptionTable.add(normal);
-        OptionTable.add(number);
-        OptionTable.add(specified);
+        optionTable.add(normal);
+        optionTable.add(number);
+        optionTable.add(specified);
         stage.addActor(background);
         stage.addActor(history);
-        stage.addActor(OptionTable);
+        stage.addActor(optionTable);
         stage.addActor(exit);
         stage.addActor(profile);
     }
@@ -142,6 +153,8 @@ public class HistoryView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
-
+        String[] arguments = instruction.arguments();
+        if (Objects.requireNonNull(instruction.command()) == Command.HISTORY_MESSAGE)
+            history.setText(arguments[0]);
     }
 }

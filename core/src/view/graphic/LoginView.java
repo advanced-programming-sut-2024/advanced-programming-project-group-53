@@ -9,17 +9,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import game.GWENT;
 import controller.LoginMenu;
+import game.GWENT;
+import network.Command;
+import network.Connector;
 import network.Instruction;
 
+import java.util.Objects;
+
 public class LoginView extends View {
-    private final Table textTable;
-    private final Table loginTable;
-    private final Table registerTable;
-    private final Table forgetPasswordTable;
-    private final Table changePasswordTable;
+    private final VerticalGroup forgetPasswordGroup1;
+    private final VerticalGroup forgetPasswordGroup2;
     private final Label loginMessage;
+    private final Label forgetPasswordMessage;
     private final Label question;
     private final TextField username;
     private final TextField password;
@@ -30,29 +32,30 @@ public class LoginView extends View {
     private final Image forgetPassword;
     private final Image exit;
     private final Image registerMenu;
-    private final Image savePassword;
-    private final Image skip;//TODO: delete this.
-    private boolean isOnForgetPassword = false;
+    private final Image save;
+    private boolean isOnForgetPassword1 = false;
+    private boolean isOnForgetPassword2 = false;
 
     public LoginView(GWENT game) {
         super(game);
-        //menu = LoginMenu.getInstance();
-        loginTable = new Table();
+        menu = LoginMenu.getInstance();
+        Table loginTable = new Table();
         loginTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 3));
         loginTable.align(Align.center);
-        textTable = new Table();
-        textTable.setBounds(700, 170, 400, 400);
-        textTable.align(Align.center);
-        registerTable = new Table();
-        registerTable.setBounds(574, 50, 400, (float) (400 * 0.1458));
-        registerTable.align(Align.center);
-        forgetPasswordTable = new Table();
-        forgetPasswordTable.setBounds(50, 350, 400, 400);
-        forgetPasswordTable.align(Align.center);
-        changePasswordTable = new Table();
-        changePasswordTable.setBounds(50, 350, 400, (float) (400 * 0.1458));
-        changePasswordTable.align(Align.center);
-        loginMessage = new Label("login error message", label);//TODO: handle message.
+        VerticalGroup textGroup = new VerticalGroup();
+        textGroup.setBounds(700, 170, 400, 400);
+        textGroup.align(Align.center);
+        textGroup.space(10);
+        forgetPasswordGroup1 = new VerticalGroup();
+        forgetPasswordGroup1.setBounds(50, 350, 400, 400);
+        forgetPasswordGroup1.align(Align.center);
+        forgetPasswordGroup1.space(10);
+        forgetPasswordGroup2 = new VerticalGroup();
+        forgetPasswordGroup2.setBounds(50, 350, 400, 400);
+        forgetPasswordGroup2.align(Align.center);
+        forgetPasswordGroup2.space(10);
+        loginMessage = new Label("", label);
+        forgetPasswordMessage = new Label("", label);
         username = new TextField("", textField);
         username.setMessageText("username");
         password = new TextField("", textField);
@@ -64,9 +67,7 @@ public class LoginView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 login.setDrawable(new Image(new Texture(Resource.LOGIN_CLICKED.address())).getDrawable());
-                //((LoginMenu) menu).login(username.getText(), password.getText());
-                username.setText("");
-                password.setText("");
+                perform(new Connector().perform(new Instruction(Command.LOGIN, username.getText(), password.getText())));
             }
 
             @Override
@@ -84,32 +85,30 @@ public class LoginView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 forgetPassword.setDrawable(new Image(new Texture(Resource.FORGET_PASSWORD_CLICKED.address())).getDrawable());
-                if (isOnForgetPassword) {
-                    isOnForgetPassword = false;
-                    forgetPasswordTable.clear();
-                    changePasswordTable.clear();
+                new Connector().perform(new Instruction(Command.QUESTION));
+                if (isOnForgetPassword1) {
+                    isOnForgetPassword1 = false;
+                    forgetPasswordGroup1.clear();
+                } else if (isOnForgetPassword2) {
+                    isOnForgetPassword2 = false;
+                    forgetPasswordGroup2.clear();
                 } else {
-                    isOnForgetPassword = true;
-                    forgetPasswordTable.add(question);
-                    forgetPasswordTable.row();
-                    forgetPasswordTable.add(answer);
-                    forgetPasswordTable.row();
-                    forgetPasswordTable.add(newPassword);
-                    forgetPasswordTable.row();
-                    forgetPasswordTable.add(newPasswordConfirm);
-                    changePasswordTable.add(savePassword);
+                    isOnForgetPassword1 = true;
+                    forgetPasswordGroup1.addActor(forgetPasswordMessage);
+                    forgetPasswordGroup1.addActor(username);
+                    forgetPasswordGroup1.addActor(save);
                 }
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (!isOnForgetPassword)
+                if (!isOnForgetPassword1)
                     forgetPassword.setDrawable(new Image(new Texture(Resource.FORGET_PASSWORD_ON.address())).getDrawable());
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if (!isOnForgetPassword)
+                if (!isOnForgetPassword1)
                     forgetPassword.setDrawable(new Image(new Texture(Resource.FORGET_PASSWORD_OFF.address())).getDrawable());
             }
         });
@@ -132,6 +131,7 @@ public class LoginView extends View {
             }
         });
         registerMenu = new Image(new Texture(Resource.REGISTER_MENU_OFF.address()));
+        registerMenu.setPosition(574, 50);
         registerMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -149,7 +149,7 @@ public class LoginView extends View {
                 registerMenu.setDrawable(new Image(new Texture(Resource.REGISTER_MENU_OFF.address())).getDrawable());
             }
         });
-        question = new Label("question", label);//TODO: handle question.
+        question = new Label("", label);
         answer = new TextField("", textField);
         answer.setMessageText("answer");
         newPassword = new TextField("", textField);
@@ -160,50 +160,45 @@ public class LoginView extends View {
         newPasswordConfirm.setMessageText("confirm");
         newPasswordConfirm.setPasswordCharacter('*');
         newPasswordConfirm.setPasswordMode(true);
-        savePassword = new Image(new Texture(Resource.SAVE_OFF.address()));
-        savePassword.addListener(new ClickListener() {
+        save = new Image(new Texture(Resource.SAVE_OFF.address()));
+        save.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                savePassword.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
-                //TODO: fill it.
+                save.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
+                if (isOnForgetPassword1)
+                    perform(new Connector().perform(new Instruction(Command.USERNAME_CHECK, username.getText())));
+                else if (isOnForgetPassword2)
+                    perform(new Instruction(Command.FORGET_PASSWORD,
+                            answer.getText(),
+                            newPassword.getText(),
+                            newPasswordConfirm.getText(),
+                            username.getText()));
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                savePassword.setDrawable(new Image(new Texture(Resource.SAVE_ON.address())).getDrawable());
+                save.setDrawable(new Image(new Texture(Resource.SAVE_ON.address())).getDrawable());
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                savePassword.setDrawable(new Image(new Texture(Resource.SAVE_OFF.address())).getDrawable());
+                save.setDrawable(new Image(new Texture(Resource.SAVE_OFF.address())).getDrawable());
             }
         });
-        skip = new Image(new Texture(Resource.MAIN_MENU_ON.address()));
-        skip.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.changeScreen(new MainView(game));
-            }
-        });
-        textTable.add(loginMessage);
-        textTable.row();
-        textTable.add(username);
-        textTable.row();
-        textTable.add(password);
+        textGroup.addActor(loginMessage);
+        textGroup.addActor(username);
+        textGroup.addActor(password);
         loginTable.add(login);
         loginTable.row();
         loginTable.add(forgetPassword);
         loginTable.row();
         loginTable.add(exit);
-        registerTable.add(registerMenu);
-        registerTable.row();
-        registerTable.add(skip);
         stage.addActor(background);
-        stage.addActor(textTable);
+        stage.addActor(textGroup);
         stage.addActor(loginTable);
-        stage.addActor(registerTable);
-        stage.addActor(forgetPasswordTable);
-        stage.addActor(changePasswordTable);
+        stage.addActor(registerMenu);
+        stage.addActor(forgetPasswordGroup1);
+        stage.addActor(forgetPasswordGroup2);
     }
 
     @Override
@@ -213,6 +208,33 @@ public class LoginView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
-
+        String[] arguments = instruction.arguments();
+        switch (instruction.command()) {
+            case FORGET_PASSWORD_MESSAGE_USER:
+                if (Objects.equals(arguments[0], "")) {
+                    forgetPasswordGroup1.clear();
+                    isOnForgetPassword1 = false;
+                    perform(new Instruction(Command.QUESTION, username.getText()));
+                    forgetPasswordGroup2.addActor(forgetPasswordMessage);
+                    forgetPasswordGroup2.addActor(question);
+                    forgetPasswordGroup2.addActor(answer);
+                    forgetPasswordGroup2.addActor(newPassword);
+                    forgetPasswordGroup2.addActor(newPasswordConfirm);
+                    forgetPasswordGroup2.addActor(save);
+                    isOnForgetPassword2 = true;
+                }
+                forgetPasswordMessage.setText(arguments[0]);
+                username.setText("");
+                break;
+            case QUESTION_MESSAGE:
+                question.setText(arguments[0]);
+                break;
+            case LOGIN_MESSAGE:
+                if (Objects.equals(arguments[0], ""))
+                    game.changeScreen(new MainView(game, username.getText()));
+                else
+                    loginMessage.setText(arguments[0]);
+                break;
+        }
     }
 }

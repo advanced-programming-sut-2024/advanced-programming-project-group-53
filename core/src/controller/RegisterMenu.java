@@ -27,8 +27,11 @@ public class RegisterMenu extends Menu {
                 passwordValidation(password);
     }
 
-    public String register(String username, String nickname, String email, String password, String question, String answer) {
-        String result = registerValidate(username, nickname, email, password);
+    public String register(String username, String nickname, String email, String password, String confirmPassword,String question, String answer) {
+        String result = "";
+        if (!password.equals(confirmPassword))
+            result = MenuMessage.PASSWORD_IS_NOT_THE_SAME.message();
+        result +=  registerValidate(username, nickname, email, password);
         if (result.isEmpty())
             new User(username, nickname, email, password, question, answer);
         return result;
