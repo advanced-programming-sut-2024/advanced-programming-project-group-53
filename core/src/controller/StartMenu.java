@@ -1,11 +1,19 @@
 package controller;
 
+import com.google.gson.Gson;
 import model.card.*;
 import model.cards.Deck;
 import model.game.User;
 import model.menu.MenuName;
 import view.message.MenuMessage;
 import view.message.Printer;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 //make this usable in offline mode when we need run two player in one device.
 public class StartMenu extends Menu {
     private static StartMenu instance;
@@ -292,6 +300,23 @@ public class StartMenu extends Menu {
         Printer.print(MenuMessage.START_MENU.message());
     }*/
 
+
+    public void saveDeck(String username, String deckName) {
+        if (getInitialDeck().specialCounter() > 10 || getInitialDeck().unitCounter() < 22) return;
+        File home = new File(System.getProperty("user.home"));
+        Path path = Paths.get(home.getPath());
+        String pathToSave = path + "/decks/" + username + "/" + deckName;
+
+        File thisDeck = new File(pathToSave);
+        Gson gson = new Gson();
+        try {
+            FileWriter writer = new FileWriter(thisDeck);
+            gson.toJson(getInitialDeck(), writer);
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public Deck getInitialDeck() {
         return initialDeck;
