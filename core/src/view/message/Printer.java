@@ -15,7 +15,7 @@ public interface Printer {
     static void temporaryPrinter() {
         System.out.println("This field haven't completed yet!");
     }
-
+/*
     static void printUserInfo() {
         User user = User.getCurrentUser();
         if (user == null) {
@@ -30,6 +30,8 @@ public interface Printer {
         System.out.println("Win Count:  " + user.getWinCount());
         System.out.println("Lose Count: " + user.getLoseCount());
     }
+
+ */
 
     static void passwordValidation(int state) {
         //TODO : fill this with states of short length and no special characters .

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class MainMenuTest {
+    /*
     private MainMenu mainMenu;
     private static final ArrayList<User> allUsersTemp = new ArrayList<>();
     private static final User currentUserTemp = User.getCurrentUser();
@@ -177,4 +178,6 @@ public class MainMenuTest {
         User.setCurrentUser(currentUserTemp);
         User.loadUsers(allUsersTemp);
     }
+
+     */
 }

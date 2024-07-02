@@ -5,7 +5,7 @@ public class Round {
     private final String currentPlayerName;
     private double firstPlayerPoint, secondPlayerPoint;
     public Round(User currentPlayer, double firstPlayerPoint, double secondPlayerPoint) {
-        this.currentPlayerName = currentPlayer.getUsername();
+        this.currentPlayerName = currentPlayer.username();
         this.firstPlayerPoint = firstPlayerPoint;
         this.secondPlayerPoint = secondPlayerPoint;
     }

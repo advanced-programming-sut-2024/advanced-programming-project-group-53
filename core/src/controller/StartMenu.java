@@ -2,27 +2,23 @@ package controller;
 
 import model.card.*;
 import model.cards.Deck;
-import model.game.Player;
 import model.game.User;
 import model.menu.MenuName;
 import view.message.MenuMessage;
 import view.message.Printer;
-import view.terminal.TerminalRun;
 //make this usable in offline mode when we need run two player in one device.
 public class StartMenu extends Menu {
     private static StartMenu instance;
     private Deck initialDeck;
-    private final User user1, user2;
-    private Player player1, player2;
+    private final User user;
     private Commander commanderUser;
     private Faction userFaction;
     private boolean hasFaction;
 
     //TODO : make it available for 2 user for interact in this menu.
-    private StartMenu(User user1,User user2) {
-        super.setMenuType(MenuName.StartMenu);
-        this.user1 = user1;
-        this.user2 = user2;
+    private StartMenu(String username) {
+        super.setMenuName(MenuName.StartMenu);
+        this.user = User.findUser(username);
         this.initialDeck = new Deck();
         this.userFaction = null;
         this.hasFaction = false;
@@ -30,13 +26,11 @@ public class StartMenu extends Menu {
     }
 
     public static StartMenu getInstance() {
-        if (instance == null)
-            setInstance();
         return instance;
     }
 
-    public static void setInstance() {
-        instance = new StartMenu(User.getCurrentUser(), User.getCurrentUser().getOpponent());
+    public static void setInstance(String username) {
+        instance = new StartMenu(username);
     }
 
     public static void showFactions() {
@@ -45,7 +39,7 @@ public class StartMenu extends Menu {
             Printer.print(faction.name());
     }
 
-    public static void selectFaction(String factionName) {
+    public static void selectFaction(String factionName, String username) {
         Faction selectedFaction = Faction.getFactionByName(factionName);
         if (selectedFaction == null  || selectedFaction == Faction.Neutral) {
             Printer.print(MenuMessage.INVALID_FACTION.message());
@@ -55,7 +49,7 @@ public class StartMenu extends Menu {
         StartMenu.getInstance().setHasFaction(true);
         Printer.print(MenuMessage.FACTION_SELECTED.message());
     }
-    public static void showCards() {
+    public static void showCards(String username) {
         if (!getInstance().isHasFaction()) {
             Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
             return;
@@ -96,7 +90,7 @@ public class StartMenu extends Menu {
         return state;
     }
     //For add card(s) with a specific count to initial deck we have before start the game.
-    public static boolean addToDeck(String cardName, String countStr) {
+    public static boolean addToDeck(String cardName, String countStr, String username) {
         if (!getInstance().isHasFaction()) {
             Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
             return false;
@@ -139,18 +133,18 @@ public class StartMenu extends Menu {
         return true;
     }
     //For showing current initial deck.
-    public static void showDeck() {
+    public static void showDeck(String username) {
         Printer.print("CURRENT DECK:");
         Deck currentDeck = StartMenu.getInstance().getInitialDeck();
         for (int i = 0; i < currentDeck.size(); i++) {
             Printer.print((i + 1) + ". " + currentDeck.cardAt(i).getName() + " " + currentDeck.cardAt(i).getType() + "-"
-            + currentDeck.cardAt(i).getFaction());
+                    + currentDeck.cardAt(i).getFaction());
         }
     }
     //For showing current user information.
-    public static void showCurrentUserInformation() {
-        User currentUser = User.getCurrentUser();
-        Printer.print(currentUser.getUsername());
+    public static void showCurrentUserInformation(String username) {
+        //User currentUser = User.getCurrentUser();
+        //Printer.print(currentUser.username());
         if (StartMenu.getInstance().hasFaction) Printer.print("Faction: " + StartMenu.getInstance().userFaction);
         //TODO : make this printer for all deck size not only one current deck.(Or maybe not, according to project doc.
         Printer.print("Current Deck Size: " + StartMenu.getInstance().getInitialDeck().size());
@@ -164,7 +158,7 @@ public class StartMenu extends Menu {
         }
     }
 
-    public static void showCommanders() {
+    public static void showCommanders(String username) {
         if (!getInstance().isHasFaction()) {
             Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
             return;
@@ -176,7 +170,7 @@ public class StartMenu extends Menu {
 
     }
     //TODO : we need to complete file part of this menu.
-    public static void selectCommander(int leaderNumber) {
+    public static void selectCommander(int leaderNumber, String username) {
         int counter = 1;
         if (!getInstance().isHasFaction()) {
             Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
@@ -209,7 +203,7 @@ public class StartMenu extends Menu {
          */
     }
 
-    public static boolean deleteFromDeck(String cardName, String numberStr) {
+    public static boolean deleteFromDeck(String cardName, String numberStr, String username) {
         if (!getInstance().isHasFaction()) {
             Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
             return false;
@@ -243,7 +237,7 @@ public class StartMenu extends Menu {
     }
 
     public static boolean changeTurn() {
-        StartMenu currentStartMenu = StartMenu.getInstance();
+        /*StartMenu currentStartMenu = StartMenu.getInstance();
         if (currentStartMenu.user2.equals(User.getCurrentUser())) {
             Printer.print(MenuMessage.YOU_CAM_JUST_START.message());
             return false;
@@ -255,12 +249,12 @@ public class StartMenu extends Menu {
         currentStartMenu.setUserFaction(null);
         currentStartMenu.setHasFaction(false);
         currentStartMenu.setInitialDeck(new Deck());
-        User.setCurrentUser(currentStartMenu.getUser2());
+        User.setCurrentUser(currentStartMenu.getUser2());*/
         return true;
     }
-    
+
     public static boolean startGame() {
-        StartMenu currentStartMenu = StartMenu.getInstance();
+        /*StartMenu currentStartMenu = StartMenu.getInstance();
         if (currentStartMenu.getUser1().equals(User.getCurrentUser())) {
             Printer.print(MenuMessage.YOU_CAN_JUST_CHANGE.message());
             return false;
@@ -270,11 +264,11 @@ public class StartMenu extends Menu {
                 currentStartMenu.getCommanderUser());
         currentStartMenu.setPlayer2(userPlayer);
         User.setCurrentUser(currentStartMenu.getUser1());
-        currentStartMenu.enterMenu("Game");
+        currentStartMenu.enterMenu("Game");*/
         return true;
     }
 
-    @Override
+    /*@Override
     public boolean enterMenu(String name) {
         if (MenuName.getMenu(name) == MenuName.GameMenu) {
             GameMenu.setInstance(this.player1, this.player2);
@@ -296,16 +290,13 @@ public class StartMenu extends Menu {
     @Override
     public void showMenu() {
         Printer.print(MenuMessage.START_MENU.message());
-    }
+    }*/
 
-    public User getUser1() {
-        return user1;
-    }
 
     public Deck getInitialDeck() {
         return initialDeck;
     }
-    
+
     public void setInitialDeck(Deck deck) {
         this.initialDeck = deck;
     }
@@ -334,23 +325,7 @@ public class StartMenu extends Menu {
         this.commanderUser = commanderUser;
     }
 
-    public User getUser2() {
-        return user2;
-    }
-
-    public Player getPlayer1() {
-        return player1;
-    }
-
-    public void setPlayer1(Player player1) {
-        this.player1 = player1;
-    }
-
-    public Player getPlayer2() {
-        return player2;
-    }
-
-    public void setPlayer2(Player player2) {
-        this.player2 = player2;
+    public User getUser() {
+        return user;
     }
 }
