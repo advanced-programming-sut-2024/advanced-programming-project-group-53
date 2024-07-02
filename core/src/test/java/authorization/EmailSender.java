@@ -10,7 +10,7 @@ public class EmailSender {
 
         // Sender's email ID and password
         final String from = "hgp.master@gmail.com";
-        final String password = "h7491685230";
+        final String password = "ygxh ztnj vsid bxqx";
 
         // SMTP server information
         String host = "smtp.gmail.com";
