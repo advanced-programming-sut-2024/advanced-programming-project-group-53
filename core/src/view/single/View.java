@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import controller.Menu;
 import game.GWENT;
+import view.graphic.Resource;
 
 import static com.badlogic.gdx.Gdx.input;
 

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controller.MainMenu;
 import game.GWENT;
 import model.game.User;
+import view.graphic.Resource;
 
 import java.util.ArrayList;
 

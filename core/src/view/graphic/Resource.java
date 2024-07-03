@@ -52,6 +52,9 @@ public enum Resource {
     MAIN_MENU_ON("button/mainMenu/on.png"),
     MAIN_MENU_OFF("button/mainMenu/off.png"),
     MAIN_MENU_CLICKED("button/mainMenu/clicked.png"),
+    MULTI_ON("button/multi/on.png"),
+    MULTI_OFF("button/multi/off.png"),
+    MULTI_CLICKED("button/multi/clicked.png"),
     NORMAL_ON("button/normal/on.png"),
     NORMAL_OFF("button/normal/off.png"),
     NORMAL_CLICKED("button/normal/clicked.png"),
@@ -70,6 +73,9 @@ public enum Resource {
     SAVE_ON("button/save/on.png"),
     SAVE_OFF("button/save/off.png"),
     SAVE_CLICKED("button/save/clicked.png"),
+    SINGLE_ON("button/single/on.png"),
+    SINGLE_OFF("button/single/off.png"),
+    SINGLE_CLICKED("button/single/clicked.png"),
     SPECIFIED_ON("button/specified/on.png"),
     SPECIFIED_OFF("button/specified/off.png"),
     SPECIFIED_CLICKED("button/specified/clicked.png"),
@@ -84,6 +90,7 @@ public enum Resource {
     START_BACKGROUND("background/start.jpeg"),
     RANKING_BACKGROUND("background/ranking.jpeg"),
     GAME_BACKGROUND("background/game.png"),
+    FIRST_BACKGROUND("background/first.jpeg"),
     ;
     private final String address;
 

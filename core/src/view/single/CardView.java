@@ -13,6 +13,7 @@ import model.card.CommanderInformation;
 import model.card.Faction;
 import model.card.SpecialInformation;
 import model.card.UnitInformation;
+import view.graphic.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;

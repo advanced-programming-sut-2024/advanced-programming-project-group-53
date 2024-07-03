@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.RegisterMenu;
 import game.GWENT;
+import view.graphic.Resource;
 
 import java.util.Objects;
 
