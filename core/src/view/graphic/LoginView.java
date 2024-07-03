@@ -85,7 +85,7 @@ public class LoginView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 forgetPassword.setDrawable(new Image(new Texture(Resource.FORGET_PASSWORD_CLICKED.address())).getDrawable());
-                new Connector().perform(new Instruction(Command.QUESTION));
+                perform(new Connector().perform(new Instruction(Command.QUESTION)));
                 if (isOnForgetPassword1) {
                     isOnForgetPassword1 = false;
                     forgetPasswordGroup1.clear();
@@ -136,7 +136,7 @@ public class LoginView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 registerMenu.setDrawable(new Image(new Texture(Resource.REGISTER_MENU_CLICKED.address())).getDrawable());
-                game.changeScreen(new RegisterView(game));
+             //   game.changeScreen(new RegisterView(game));
             }
 
             @Override
@@ -208,6 +208,7 @@ public class LoginView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
+        System.out.println(instruction);
         String[] arguments = instruction.arguments();
         switch (instruction.command()) {
             case FORGET_PASSWORD_MESSAGE_USER:
@@ -230,11 +231,11 @@ public class LoginView extends View {
                 question.setText(arguments[0]);
                 break;
             case LOGIN_MESSAGE:
-                if (Objects.equals(arguments[0], ""))
-                    game.changeScreen(new MainView(game, username.getText()));
+              /*  if (Objects.equals(arguments[0], "empty"))
+                  //  game.changeScreen(new MainView(game, username.getText()));
                 else
                     loginMessage.setText(arguments[0]);
-                break;
+                break;*/
         }
     }
 }

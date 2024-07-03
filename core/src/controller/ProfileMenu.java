@@ -3,8 +3,6 @@ package controller;
 import model.game.User;
 import model.menu.MenuName;
 import view.message.MenuMessage;
-import view.message.Printer;
-import view.terminal.TerminalRun;
 
 import java.util.Objects;
 
@@ -53,8 +51,10 @@ public class ProfileMenu extends Menu {
 
     public String changeUsername(String newUsername, String oldUsername) {
         String result = RegisterMenu.getInstance().usernameValidation(newUsername);
-        if (Objects.equals(result, ""))
+        if (Objects.equals(result, "")) {
             User.findUser(oldUsername).changeUsername(newUsername);
+            return "empty";
+        }
         return result;
     }
 
@@ -69,7 +69,7 @@ public class ProfileMenu extends Menu {
             return result;
         else {
             user.setPassword(newPassword);
-            return "";
+            return "empty";
         }
     }
 
@@ -80,7 +80,7 @@ public class ProfileMenu extends Menu {
             return result;
         else {
             user.changeNickname(newNickname);
-            return "";
+            return "empty";
         }
     }
 
@@ -91,7 +91,7 @@ public class ProfileMenu extends Menu {
             return result;
         else {
             user.changeEmail(newEmail);
-            return "";
+            return "empty";
         }
     }
 }

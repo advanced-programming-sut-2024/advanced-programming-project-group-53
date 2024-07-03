@@ -1,14 +1,12 @@
-package view.graphic;
+package view.single;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import controller.Menu;
 import game.GWENT;
-import network.Instruction;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -21,6 +19,8 @@ public abstract class View implements Screen {
     protected Image background;
     protected Menu menu;
     protected String currentUsername;
+    protected String username1;
+    protected String username2;
 
     public View(GWENT game) {
         this.game = game;
@@ -42,8 +42,6 @@ public abstract class View implements Screen {
     }
 
     protected abstract void backgroundLoader();
-
-    protected abstract void perform(Instruction instruction);
 
     @Override
     public void render(float deltaTime) {

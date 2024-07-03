@@ -1,53 +1,44 @@
-package view.graphic;
+package view.single;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controller.MainMenu;
 import game.GWENT;
-import network.Instruction;
+import model.game.User;
 
 import java.util.ArrayList;
 
 public class RankingView extends View {
-    private final VerticalGroup lines;
-    private final ArrayList<Label> players;
     private final Image mainMenu;
     private final Image exit;
-    private final ScrollPane ranking;
 
     public RankingView(GWENT game, String currentUsername) {
         super(game);
         this.currentUsername = currentUsername;
         menu = MainMenu.getInstance();
-        lines = new VerticalGroup();
+        VerticalGroup lines = new VerticalGroup();
         lines.space(10);
-        players = new ArrayList<>();//TODO: give it the players!
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
+        ArrayList<Label> players = new ArrayList<>();
+        for (User user : User.ranking()) {
+            String username = user.username();
+            if (username.equals(currentUsername))
+                players.add(new Label("* " + user.username() + " *", label));
+            else
+                players.add(new Label(user.username() + username, label));
+        }
         mainMenu = new Image(new Texture(Resource.MAIN_MENU_OFF.address()));
         mainMenu.setPosition(574, 50);
         mainMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mainMenu.setDrawable(new Image(new Texture(Resource.MAIN_MENU_CLICKED.address())).getDrawable());
-               // game.changeScreen(new MainView(game, currentUsername));
+                game.changeScreen(new MainView(game, currentUsername));
             }
 
             @Override
@@ -81,7 +72,7 @@ public class RankingView extends View {
         });
         for (Label player : players)
             lines.addActor(player);
-        ranking = new ScrollPane(lines, scrollPane);
+        ScrollPane ranking = new ScrollPane(lines, scrollPane);
         ranking.setBounds(650 - 200, 650 - 200, 400, 400);
         ranking.setFlickScroll(true);
         ranking.setFadeScrollBars(false);
@@ -94,10 +85,5 @@ public class RankingView extends View {
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.RANKING_BACKGROUND.address()));
-    }
-
-    @Override
-    protected void perform(Instruction instruction) {
-
     }
 }

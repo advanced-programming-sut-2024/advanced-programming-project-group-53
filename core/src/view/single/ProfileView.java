@@ -1,4 +1,4 @@
-package view.graphic;
+package view.single;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -8,9 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.ProfileMenu;
 import game.GWENT;
-import network.Command;
-import network.Connector;
-import network.Instruction;
 
 import java.util.Objects;
 
@@ -22,12 +19,6 @@ public class ProfileView extends View {
     private final Label profileMessage;
     private final Label usernameMessage;
     private final Label nicknameMessage;
-    private final Label maxScoreMessage;
-    private final Label rankMessage;
-    private final Label playCountMessage;
-    private final Label drawCountMessage;
-    private final Label winCountMessage;
-    private final Label defeatCountMessage;
     private final TextField username;
     private final TextField password;
     private final TextField newPassword;
@@ -47,9 +38,9 @@ public class ProfileView extends View {
     private boolean isOnChangeEmail = false;
     private boolean isOnChangePassword = false;
 
-    public ProfileView(GWENT game, String currentUsername) {
+    public ProfileView(GWENT game, String currentUsername1) {
         super(game);
-        this.currentUsername = currentUsername;
+        this.currentUsername = currentUsername1;
         menu = ProfileMenu.getInstance();
         Table rightTable = new Table();
         rightTable.setBounds(574, 50, 400, (float) (400 * 0.1458 * 2));
@@ -85,13 +76,22 @@ public class ProfileView extends View {
         profileMessage = new Label("", label);
         usernameMessage = new Label("", label);
         nicknameMessage = new Label("", label);
-        maxScoreMessage = new Label("", label);
-        rankMessage = new Label("", label);
-        playCountMessage = new Label("", label);
-        drawCountMessage = new Label("", label);
-        winCountMessage = new Label("", label);
-        defeatCountMessage = new Label("", label);
-        perform(new Connector().perform(new Instruction(Command.PROFILE_INFORMATION, currentUsername)));
+        Label maxScoreMessage = new Label("", label);
+        Label rankMessage = new Label("", label);
+        Label playCountMessage = new Label("", label);
+        Label drawCountMessage = new Label("", label);
+        Label winCountMessage = new Label("", label);
+        Label defeatCountMessage = new Label("", label);
+        String information = ((ProfileMenu) menu).getInformation(currentUsername);
+        String[] informationSplit = information.split(" ");
+        usernameMessage.setText(informationSplit[0]);
+        nicknameMessage.setText(informationSplit[1]);
+        maxScoreMessage.setText(informationSplit[2]);
+        rankMessage.setText(informationSplit[3]);
+        playCountMessage.setText(informationSplit[4]);
+        drawCountMessage.setText(informationSplit[5]);
+        winCountMessage.setText(informationSplit[6]);
+        defeatCountMessage.setText(informationSplit[7]);
         username = new TextField("", textField);
         username.setMessageText("username");
         password = new TextField("", textField);
@@ -263,7 +263,7 @@ public class ProfileView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 history.setDrawable(new Image(new Texture(Resource.HISTORY_CLICKED.address())).getDrawable());
-                //game.changeScreen(new HistoryView(game, currentUsername));
+                game.changeScreen(new HistoryView(game, currentUsername));
             }
 
             @Override
@@ -281,7 +281,7 @@ public class ProfileView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mainMenu.setDrawable(new Image(new Texture(Resource.MAIN_MENU_CLICKED.address())).getDrawable());
-            //    game.changeScreen(new MainView(game, currentUsername));
+                game.changeScreen(new MainView(game, currentUsername));
             }
 
             @Override
@@ -317,24 +317,51 @@ public class ProfileView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 save.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
-                if (isOnChangeUsername)
-                    perform(new Connector().perform(new Instruction(Command.CHANGE_USERNAME,
+                if (isOnChangeUsername) {
+                    String response = ((ProfileMenu) menu).changeUsername(
                             username.getText(),
-                            currentUsername)));
-                else if (isOnChangeNickname)
-                    perform(new Connector().perform(new Instruction(Command.CHANGE_NICKNAME,
+                            currentUsername);
+                    if (Objects.equals(response, "empty")) {
+                        isOnChangeUsername = false;
+                        usernameGroup.clear();
+                        changeUsername.setDrawable(new Image(new Texture(Resource.CHANGE_USERNAME_OFF.address())).getDrawable());
+                        changeUsername(username.getText());
+                    } else
+                        profileMessage.setText(response.trim());
+                } else if (isOnChangeNickname) {
+                    String response = ((ProfileMenu) menu).changeNickname(
                             nickname.getText(),
-                            currentUsername)));
-                else if (isOnChangeEmail)
-                    perform(new Connector().perform(new Instruction(Command.CHANGE_EMAIL,
+                            currentUsername);
+                    if (Objects.equals(response, "empty")) {
+                        isOnChangeNickname = false;
+                        nicknameGroup.clear();
+                        changeNickname.setDrawable(new Image(new Texture(Resource.CHANGE_NICKNAME_OFF.address())).getDrawable());
+                        changeNickname(nickname.getText());
+                    } else
+                        profileMessage.setText(response.trim());
+                } else if (isOnChangeEmail) {
+                    String response = ((ProfileMenu) menu).changeEmail(
                             email.getText(),
-                            currentUsername)));
-                else if (isOnChangePassword)
-                    perform(new Connector().perform(new Instruction(Command.CHANGE_PASSWORD,
+                            currentUsername);
+                    if (Objects.equals(response, "empty")) {
+                        isOnChangeEmail = false;
+                        emailGroup.clear();
+                        changeEmail.setDrawable(new Image(new Texture(Resource.CHANGE_EMAIL_OFF.address())).getDrawable());
+                    } else
+                        profileMessage.setText(response.trim());
+                } else if (isOnChangePassword) {
+                    String response = ((ProfileMenu) menu).changePassword(
                             password.getText(),
                             newPassword.getText(),
                             newPasswordConfirm.getText(),
-                            currentUsername)));
+                            currentUsername);
+                    if (Objects.equals(response, "empty")) {
+                        isOnChangePassword = false;
+                        passwordGroup.clear();
+                        changePassword.setDrawable(new Image(new Texture(Resource.CHANGE_PASSWORD_OFF.address())).getDrawable());
+                    } else
+                        profileMessage.setText(response.trim());
+                }
             }
 
             @Override
@@ -382,55 +409,11 @@ public class ProfileView extends View {
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.PROFILE_BACKGROUND.address()));
     }
-
-    @Override
-    protected void perform(Instruction instruction) {
-        String[] arguments = instruction.arguments();
-        switch (instruction.command()) {
-            case PROFILE_MESSAGE:
-                usernameMessage.setText(arguments[0]);
-                nicknameMessage.setText(arguments[1]);
-                maxScoreMessage.setText(arguments[2]);
-                rankMessage.setText(arguments[3]);
-                playCountMessage.setText(arguments[4]);
-                drawCountMessage.setText(arguments[5]);
-                winCountMessage.setText(arguments[6]);
-                defeatCountMessage.setText(arguments[7]);
-                break;
-            case CHANGE_FIELD_MESSAGE:
-                if (!Objects.equals(arguments[0], ""))
-                    profileMessage.setText(arguments[0]);
-                else {
-                    if (isOnChangeUsername) {
-                        isOnChangeUsername = false;
-                        usernameGroup.clear();
-                        changeUsername.setDrawable(new Image(new Texture(Resource.CHANGE_USERNAME_OFF.address())).getDrawable());
-                    } else if (isOnChangeNickname) {
-                        isOnChangeNickname = false;
-                        nicknameGroup.clear();
-                        changeNickname.setDrawable(new Image(new Texture(Resource.CHANGE_NICKNAME_OFF.address())).getDrawable());
-                    } else if (isOnChangeEmail) {
-                        isOnChangeEmail = false;
-                        emailGroup.clear();
-                        changeEmail.setDrawable(new Image(new Texture(Resource.CHANGE_EMAIL_OFF.address())).getDrawable());
-                    } else if (isOnChangePassword) {
-                        isOnChangePassword = false;
-                        passwordGroup.clear();
-                        changePassword.setDrawable(new Image(new Texture(Resource.CHANGE_PASSWORD_OFF.address())).getDrawable());
-                    }
-                }
-                if (isOnChangeUsername)
-                    username.setText("");
-                else if (isOnChangeNickname)
-                    nickname.setText("");
-                else if (isOnChangeEmail)
-                    email.setText("");
-                else if (isOnChangePassword) {
-                    password.setText("");
-                    newPassword.setText("");
-                    newPasswordConfirm.setText("");
-                }
-                break;
-        }
+    private void changeUsername(String newUsername) {
+        currentUsername = newUsername;
+        usernameMessage.setText(newUsername);
+    }
+    private void changeNickname(String newNickname) {
+        nicknameMessage.setText(newNickname);
     }
 }

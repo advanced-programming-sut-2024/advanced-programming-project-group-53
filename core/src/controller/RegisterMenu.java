@@ -21,18 +21,22 @@ public class RegisterMenu extends Menu {
     }
 
     public String registerValidate(String username, String nickname, String email, String password) {
-        return usernameValidation(username) +
+        String result = usernameValidation(username) +
                 nicknameValidation(nickname) +
                 emailValidation(email) +
                 passwordValidation(password);
+        if (result.isEmpty())
+            return "empty";
+        else
+            return result;
     }
 
     public String register(String username, String nickname, String email, String password, String confirmPassword,String question, String answer) {
         String result = "";
         if (!password.equals(confirmPassword))
-            result = MenuMessage.PASSWORD_IS_NOT_THE_SAME.message();
+            result += MenuMessage.PASSWORD_IS_NOT_THE_SAME.message();
         result +=  registerValidate(username, nickname, email, password);
-        if (result.isEmpty())
+        if (result.equals("empty"))
             new User(username, nickname, email, password, question, answer);
         return result;
     }

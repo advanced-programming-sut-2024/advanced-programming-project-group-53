@@ -25,6 +25,7 @@ public class User {
 
     static {
         allUsers.add(new User("a", "b", "c", "d", "e", "f"));//TODO: delete at the end of project.
+        allUsers.add(new User("g", "h", "i", "j", "k", "l"));
     }
 
     public User(String username, String nickname, String email, String password, String question, String answer) {
@@ -152,5 +153,9 @@ public class User {
 
     public String question() {
         return question;
+    }
+    public static ArrayList<User> ranking() {
+        return allUsers;
+        //TODO: sort!
     }
 }

@@ -1,16 +1,8 @@
 package controller;
 
-import model.card.Card;
-import model.card.Special;
 import model.game.Player;
-import model.game.Playground;
 import model.game.Table;
 import model.menu.MenuName;
-import view.message.MenuMessage;
-import view.message.Printer;
-import view.terminal.TerminalRun;
-
-import java.util.ArrayList;
 
 public class GameMenu extends Menu {
     private static GameMenu instance;
@@ -130,23 +122,6 @@ public class GameMenu extends Menu {
             return true;
         }
         return true;
-    }
-
-    /*@Override
-    public boolean enterMenu(String name) {
-        Printer.print(MenuMessage.INVALID_MENU.message());
-        return false;
-    }
-
-    @Override
-    public void exitMenu() {
-        TerminalRun.changeCurrentMenu(StartMenu.getInstance());
-        Printer.print(MenuMessage.ENTER_START_MENU.message());
-    }
-
-    @Override
-    public void showMenu() {
-        Printer.print(MenuMessage.GAME_MENU.message());
     }
 
     public Table getTable() {

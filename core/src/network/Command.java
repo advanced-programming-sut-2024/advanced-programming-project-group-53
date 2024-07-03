@@ -20,6 +20,16 @@ public enum Command {
     CHANGE_PASSWORD,
     HISTORY_INFORMATION,
     HISTORY_MESSAGE,
+    RANKING_INFORMATION,//TODO:!
+    RANKING_MESSAGE,//TODO:!
+    DECK_INFORMATION,
+    DECK_MESSAGE,
+    HAND_INFORMATION,
+    HAND_MESSAGE,
+    DISCARD_PILE_INFORMATION,
+    DISCARD_PILE_MESSAGE,
+    LOOK_FOR_OPPONENT,
+    SAVE_DECK,
     ;
 
     public static Command fromString(String command) {
@@ -62,6 +72,26 @@ public enum Command {
                 return HISTORY_INFORMATION;
             case "HISTORY_MESSAGE":
                 return HISTORY_MESSAGE;
+            case "RANKING_INFORMATION":
+                return RANKING_INFORMATION;
+            case "RANKING_MESSAGE":
+                return RANKING_MESSAGE;
+            case "DECK_INFORMATION":
+                return DECK_INFORMATION;
+            case "DECK_MESSAGE":
+                return DECK_MESSAGE;
+            case "HAND_INFORMATION":
+                return HAND_INFORMATION;
+            case "HAND_MESSAGE":
+                return HAND_MESSAGE;
+            case "DISCARD_PILE_INFORMATION":
+                return DISCARD_PILE_INFORMATION;
+            case "DISCARD_PILE_MESSAGE":
+                return DISCARD_PILE_MESSAGE;
+            case "LOOK_FOR_OPPONENT":
+                return LOOK_FOR_OPPONENT;
+            case "SAVE_DECK":
+                return SAVE_DECK;
             default:
                 return null;
         }

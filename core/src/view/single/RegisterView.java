@@ -1,4 +1,4 @@
-package view.graphic;
+package view.single;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -8,9 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.RegisterMenu;
 import game.GWENT;
-import network.Command;
-import network.Connector;
-import network.Instruction;
 
 import java.util.Objects;
 
@@ -60,13 +57,24 @@ public class RegisterView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 register.setDrawable(new Image(new Texture(Resource.REGISTER_CLICKED.address())).getDrawable());
-                perform(new Connector().perform(new Instruction(Command.REGISTER,
+                String response = ((RegisterMenu) menu).register(
                         username.getText(),
                         nickname.getText(),
                         email.getText(),
                         password.getText(),
+                        confirmPassword.getText(),
                         question.getText(),
-                        answer.getText())));
+                        answer.getText());
+                if (Objects.equals(response, "empty")) {
+                    username.setText("");
+                    nickname.setText("");
+                    email.setText("");
+                    password.setText("");
+                    confirmPassword.setText("");
+                    question.setText("");
+                    answer.setText("");
+                } else
+                    registerMessage.setText(response.trim());
             }
 
             @Override
@@ -84,7 +92,7 @@ public class RegisterView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 loginMenu.setDrawable(new Image(new Texture(Resource.LOGIN_MENU_CLICKED.address())).getDrawable());
-              //  game.changeScreen(new LoginView(game));
+                game.changeScreen(new LoginView(game));
             }
 
             @Override
@@ -136,26 +144,5 @@ public class RegisterView extends View {
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.REGISTER_BACKGROUND.address()));
-    }
-
-    @Override
-    protected void perform(Instruction instruction) {
-        System.out.println(instruction);
-        if (Objects.requireNonNull(instruction.command()) == Command.REGISTER_MESSAGE) {
-           /* if (Objects.equals(instruction.arguments()[0], "empty"))
-                game.changeScreen(new LoginView(game));
-            else {
-                StringBuilder builder = new StringBuilder();
-                for (String string : instruction.arguments())
-                    builder.append(string).append(" ");
-                registerMessage.setText(builder.toString().trim());
-                username.setText("");
-                nickname.setText("");
-                email.setText("");
-                password.setText("");
-                question.setText("");
-                answer.setText("");
-            }*/
-        }
     }
 }

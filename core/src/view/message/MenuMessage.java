@@ -15,7 +15,7 @@ public enum MenuMessage {
     GAME_MENU("You are in game menu."),
     PROFILE_MENU("You are in profile menu."),
     START_MENU("You are in start menu."),
-    NO_USER("No user with such username exist."),
+    NO_USER("No user with such username exists."),
     INCORRECT_PASSWORD("Incorrect password!"),
     EMPTY_GAME_HISTORY("There is no game in your game history to show!"),
     INVALID_NUMBER("Invalid number."),

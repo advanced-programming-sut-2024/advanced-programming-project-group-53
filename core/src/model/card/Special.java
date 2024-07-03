@@ -38,8 +38,9 @@ public class Special extends Card {
         return specialInformation.ability().name();
     }
 
-    public SpecialInformation getSpecialInformation() {
-        return specialInformation;
+    @Override
+    public String address() {
+        return specialInformation.address();
     }
 
     public static Special getInstanceByName(String cardName) {

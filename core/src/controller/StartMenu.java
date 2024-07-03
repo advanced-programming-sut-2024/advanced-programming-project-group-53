@@ -6,8 +6,7 @@ import model.game.Player;
 import model.game.User;
 import model.menu.MenuName;
 import view.message.MenuMessage;
-import view.message.Printer;
-import view.terminal.TerminalRun;
+
 //make this usable in offline mode when we need run two player in one device.
 public class StartMenu extends Menu {
     private static StartMenu instance;
@@ -39,7 +38,7 @@ public class StartMenu extends Menu {
         //instance = new StartMenu(User.getCurrentUser(), User.getCurrentUser().getOpponent());
     }
 
-    public static void showFactions() {
+    /*public static void showFactions() {
         Printer.print("FACTIONS:");
         for (Faction faction : Faction.values())
             Printer.print(faction.name());
@@ -206,7 +205,7 @@ public class StartMenu extends Menu {
         0 for state which there is no card with this name.
         1 for when there is unit card with this name.
         2 for when there is special card with this name.
-         */
+
     }
 
     public static boolean deleteFromDeck(String cardName, String numberStr) {
@@ -255,7 +254,7 @@ public class StartMenu extends Menu {
         currentStartMenu.setUserFaction(null);
         currentStartMenu.setHasFaction(false);
         currentStartMenu.setInitialDeck(new Deck());
-        User.setCurrentUser(currentStartMenu.getUser2());*/
+        User.setCurrentUser(currentStartMenu.getUser2());
         return true;
     }
     
@@ -270,7 +269,7 @@ public class StartMenu extends Menu {
                 currentStartMenu.getCommanderUser());
         currentStartMenu.setPlayer2(userPlayer);
         User.setCurrentUser(currentStartMenu.getUser1());
-        currentStartMenu.enterMenu("Game");*/
+        currentStartMenu.enterMenu("Game");
         return true;
     }
 

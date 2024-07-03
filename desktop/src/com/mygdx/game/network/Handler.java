@@ -1,8 +1,10 @@
-package network;
+package com.mygdx.game.network;
 
 import controller.LoginMenu;
 import controller.ProfileMenu;
 import controller.RegisterMenu;
+import network.Command;
+import network.Instruction;
 
 import java.io.*;
 import java.net.Socket;
@@ -68,6 +70,14 @@ public class Handler {
                 return new Instruction(Command.HISTORY_MESSAGE, ProfileMenu.getInstance().showGameHistory(arguments[0],
                         arguments[1],
                         arguments[2]));
+            case RANKING_INFORMATION:
+                return null;//TODO:!
+            case DECK_INFORMATION:
+                return null;//TODO:!
+            case HAND_INFORMATION:
+                return null;//TODO:!
+            case DISCARD_PILE_INFORMATION:
+                return null;//TODO:!
             default:
                 return null;
         }

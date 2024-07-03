@@ -1,4 +1,4 @@
-package view.graphic;
+package view.single;
 
 public enum Resource {
     LABEL("skin/label/label.json"),

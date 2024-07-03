@@ -15,6 +15,8 @@ public abstract class Card {
 
     abstract public String getAbility();
 
+    public abstract String address();
+
     public int getPower() {
         return power;
     }

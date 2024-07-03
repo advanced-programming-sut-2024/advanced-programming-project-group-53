@@ -1,4 +1,4 @@
-package view.graphic;
+package view.single;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,11 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.ProfileMenu;
 import game.GWENT;
-import network.Command;
-import network.Connector;
-import network.Instruction;
-
-import java.util.Objects;
 
 public class HistoryView extends View {
     private final Label history;
@@ -49,10 +44,11 @@ public class HistoryView extends View {
                     specified.setDrawable(new Image(new Texture(Resource.SPECIFIED_OFF.address())).getDrawable());
                     isOnSpecified = false;
                     isOnNormal = true;
-                    perform(new Connector().perform(new Instruction(Command.HISTORY_INFORMATION,
+                    String response = ((ProfileMenu) menu).showGameHistory(
                             currentUsername,
                             "true",
-                            number.getText())));
+                            number.getText());
+                    history.setText(response);
                 }
             }
 
@@ -79,10 +75,11 @@ public class HistoryView extends View {
                     normal.setDrawable(new Image(new Texture(Resource.NORMAL_OFF.address())).getDrawable());
                     isOnNormal = false;
                     isOnSpecified = true;
-                    perform(new Connector().perform(new Instruction(Command.HISTORY_INFORMATION,
+                    String response = ((ProfileMenu) menu).showGameHistory(
                             currentUsername,
                             "false",
-                            number.getText())));
+                            number.getText());
+                    history.setText(response);
                 }
             }
 
@@ -104,7 +101,7 @@ public class HistoryView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 profile.setDrawable(new Image(new Texture(Resource.PROFILE_CLICKED.address())).getDrawable());
-               // game.changeScreen(new ProfileView(game, currentUsername));
+                game.changeScreen(new ProfileView(game, currentUsername));
             }
 
             @Override
@@ -149,12 +146,5 @@ public class HistoryView extends View {
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.HISTORY_BACKGROUND.address()));
-    }
-
-    @Override
-    protected void perform(Instruction instruction) {
-        String[] arguments = instruction.arguments();
-        if (Objects.requireNonNull(instruction.command()) == Command.HISTORY_MESSAGE)
-            history.setText(arguments[0]);
     }
 }

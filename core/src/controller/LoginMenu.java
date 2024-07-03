@@ -1,14 +1,10 @@
 package controller;
 
 import model.game.User;
-import model.game.ValidationRegex;
 import model.menu.MenuName;
 import view.message.MenuMessage;
-import view.message.Printer;
-import view.terminal.TerminalRun;
 
 import java.util.Objects;
-import java.util.regex.Matcher;
 
 public class LoginMenu extends Menu {
     private static LoginMenu instance;
@@ -29,14 +25,14 @@ public class LoginMenu extends Menu {
             return MenuMessage.NO_USER.message();
         else if (!user.password().equals(password))
             return MenuMessage.INCORRECT_PASSWORD.message();
-        return "";
+        return "empty";
     }
 
     public String userValidation(String username) {
         User user = User.findUser(username);
         if (user == null)
             return MenuMessage.NO_USER.message();
-        return username;
+        return "empty";
     }
 
     public String question(String username) {
@@ -47,7 +43,7 @@ public class LoginMenu extends Menu {
         User user = User.findUser(username);
         if (!user.checkSecurityAnswer(answer))
             return MenuMessage.WRONG_ANSWER.message();
-        if (newPassword.equals(newPasswordConfirm))
+        if (!newPassword.equals(newPasswordConfirm))
             return MenuMessage.PASSWORD_IS_NOT_THE_SAME.message();
         String result = RegisterMenu.getInstance().passwordValidation(newPassword);
         if (!Objects.equals(result, ""))
