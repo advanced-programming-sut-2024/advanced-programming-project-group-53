@@ -2,14 +2,12 @@ package controller;
 
 import model.game.Player;
 import model.game.Table;
-import model.menu.MenuName;
 
 public class GameMenu extends Menu {
     private static GameMenu instance;
     private final Table table;
 
     private GameMenu(Player player1, Player player2) {
-        super.setMenuName(MenuName.GameMenu);
         this.table = new Table(player1, player2);
     }
 
@@ -27,21 +25,21 @@ public class GameMenu extends Menu {
         Table table = game.getTable();
         Player currentPlayer = table.getPlayers(0);
         if (table.getRoundNumber() != 1) {
-            Printer.print(MenuMessage.YOU_CANT_VETO.message());
+            Printer.print(Message.YOU_CANT_VETO.message());
             return false;
         }
         if (cardNumber > currentPlayer.getHand().size() || cardNumber <= 0) {
-            Printer.print(MenuMessage.INVALID_NUMBER.message());
+            Printer.print(Message.INVALID_NUMBER.message());
             return false;
         }
         String cardName = currentPlayer.getHand().cardAt(cardNumber - 1).getName();
         boolean isSpecial = currentPlayer.getHand().cardAt(cardNumber - 1).isSpecial();
         if (currentPlayer.getHand().specifiedCardCounter(cardName) == 1) {
-            Printer.print(MenuMessage.YOU_JUST_ONLY_HAVE_ONE.message());
+            Printer.print(Message.YOU_JUST_ONLY_HAVE_ONE.message());
             return false;
         }
         currentPlayer.vetoPlayer(cardName);
-        Printer.print(MenuMessage.VETO_CARD.message());
+        Printer.print(Message.VETO_CARD.message());
         return true;
     }
 
@@ -52,7 +50,7 @@ public class GameMenu extends Menu {
         } else {
             Card card = currentPlayer.getHand().cardAt(position);
             if (card == null) {
-                Printer.print(MenuMessage.INVALID_NUMBER.message());
+                Printer.print(Message.INVALID_NUMBER.message());
                 return false;
             }
             Printer.print(card.toString());
@@ -73,7 +71,7 @@ public class GameMenu extends Menu {
         Table table = getInstance().getTable();
         Playground playground = table.getPlayGround();
         if (playground.rowNumberValidation(row)) {
-            Printer.print(MenuMessage.INVALID_NUMBER.message());
+            Printer.print(Message.INVALID_NUMBER.message());
             return false;
         }
         ArrayList<Card> unitCardsInRow = playground.getUnitCardsInRow(row);
@@ -104,12 +102,12 @@ public class GameMenu extends Menu {
         Player currentPlayer = table.getPlayers(0);
         Card card = currentPlayer.getCardFromHand(cardNumber);
         if (card == null) {
-            Printer.print(MenuMessage.INVALID_NUMBER.message());
+            Printer.print(Message.INVALID_NUMBER.message());
             return false;
         }
         int state = table.getPlayGround().cardRangeChecker(card, rowNumber, index);
         if (state == -1 || state == 0) {
-            Printer.print(MenuMessage.INVALID_PLAYGROUND_NUMBER.message());
+            Printer.print(Message.INVALID_PLAYGROUND_NUMBER.message());
             return false;
         }
         if (state == 4) {

@@ -14,6 +14,7 @@ import game.GWENT;
 import network.Command;
 import network.Connector;
 import network.Instruction;
+import view.Resource;
 
 import java.util.Objects;
 
@@ -25,6 +26,7 @@ public class LoginView extends View {
     private final Label question;
     private final TextField username;
     private final TextField password;
+    private final TextField forgetPasswordUsername;
     private final TextField answer;
     private final TextField newPassword;
     private final TextField newPasswordConfirm;
@@ -54,11 +56,13 @@ public class LoginView extends View {
         forgetPasswordGroup2.setBounds(50, 350, 400, 400);
         forgetPasswordGroup2.align(Align.center);
         forgetPasswordGroup2.space(10);
-        loginMessage = new Label("", label);
-        forgetPasswordMessage = new Label("", label);
-        username = new TextField("", textField);
+        loginMessage = new Label("", skin);
+        forgetPasswordMessage = new Label("", skin);
+        username = new TextField("", skin);
         username.setMessageText("username");
-        password = new TextField("", textField);
+        forgetPasswordUsername = new TextField("", skin);
+        forgetPasswordUsername.setMessageText("username");
+        password = new TextField("", skin);
         password.setMessageText("password");
         password.setPasswordCharacter('*');
         password.setPasswordMode(true);
@@ -85,7 +89,6 @@ public class LoginView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 forgetPassword.setDrawable(new Image(new Texture(Resource.FORGET_PASSWORD_CLICKED.address())).getDrawable());
-                perform(new Connector().perform(new Instruction(Command.QUESTION)));
                 if (isOnForgetPassword1) {
                     isOnForgetPassword1 = false;
                     forgetPasswordGroup1.clear();
@@ -95,7 +98,7 @@ public class LoginView extends View {
                 } else {
                     isOnForgetPassword1 = true;
                     forgetPasswordGroup1.addActor(forgetPasswordMessage);
-                    forgetPasswordGroup1.addActor(username);
+                    forgetPasswordGroup1.addActor(forgetPasswordUsername);
                     forgetPasswordGroup1.addActor(save);
                 }
             }
@@ -136,7 +139,7 @@ public class LoginView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 registerMenu.setDrawable(new Image(new Texture(Resource.REGISTER_MENU_CLICKED.address())).getDrawable());
-             //   game.changeScreen(new RegisterView(game));
+                game.changeScreen(new RegisterView(game));
             }
 
             @Override
@@ -149,14 +152,14 @@ public class LoginView extends View {
                 registerMenu.setDrawable(new Image(new Texture(Resource.REGISTER_MENU_OFF.address())).getDrawable());
             }
         });
-        question = new Label("", label);
-        answer = new TextField("", textField);
+        question = new Label("", skin);
+        answer = new TextField("", skin);
         answer.setMessageText("answer");
-        newPassword = new TextField("", textField);
+        newPassword = new TextField("", skin);
         newPassword.setMessageText("password");
         newPassword.setPasswordCharacter('*');
         newPassword.setPasswordMode(true);
-        newPasswordConfirm = new TextField("", textField);
+        newPasswordConfirm = new TextField("", skin);
         newPasswordConfirm.setMessageText("confirm");
         newPasswordConfirm.setPasswordCharacter('*');
         newPasswordConfirm.setPasswordMode(true);
@@ -168,11 +171,11 @@ public class LoginView extends View {
                 if (isOnForgetPassword1)
                     perform(new Connector().perform(new Instruction(Command.USERNAME_CHECK, username.getText())));
                 else if (isOnForgetPassword2)
-                    perform(new Instruction(Command.FORGET_PASSWORD,
+                    perform(new Connector().perform(new Instruction(Command.FORGET_PASSWORD,
                             answer.getText(),
                             newPassword.getText(),
                             newPasswordConfirm.getText(),
-                            username.getText()));
+                            forgetPasswordUsername.getText())));
             }
 
             @Override
@@ -209,13 +212,18 @@ public class LoginView extends View {
     @Override
     protected void perform(Instruction instruction) {
         System.out.println(instruction);
-        String[] arguments = instruction.arguments();
+        String[] response = instruction.arguments();
+        String empty = response[0];
+        StringBuilder builder = new StringBuilder();
+        for (String string : instruction.arguments())
+            builder.append(string).append(" ");
+        String arguments = builder.toString().trim();
         switch (instruction.command()) {
             case FORGET_PASSWORD_MESSAGE_USER:
-                if (Objects.equals(arguments[0], "")) {
+                if (Objects.equals(empty, "empty")) {
                     forgetPasswordGroup1.clear();
                     isOnForgetPassword1 = false;
-                    perform(new Instruction(Command.QUESTION, username.getText()));
+                    perform(new Connector().perform(new Instruction(Command.QUESTION, forgetPasswordUsername.getText())));
                     forgetPasswordGroup2.addActor(forgetPasswordMessage);
                     forgetPasswordGroup2.addActor(question);
                     forgetPasswordGroup2.addActor(answer);
@@ -223,19 +231,28 @@ public class LoginView extends View {
                     forgetPasswordGroup2.addActor(newPasswordConfirm);
                     forgetPasswordGroup2.addActor(save);
                     isOnForgetPassword2 = true;
+                    forgetPasswordMessage.setText("");
+                } else {
+                    forgetPasswordMessage.setText(arguments);
+                    forgetPasswordUsername.setText("");
                 }
-                forgetPasswordMessage.setText(arguments[0]);
-                username.setText("");
                 break;
             case QUESTION_MESSAGE:
-                question.setText(arguments[0]);
+                question.setText(arguments);
+                break;
+            case FORGET_PASSWORD_MESSAGE_PASSWORD:
+                if (Objects.equals(empty, "empty")) {
+                    forgetPasswordGroup2.clear();
+                    isOnForgetPassword2 = false;
+                } else
+                    forgetPasswordMessage.setText(arguments);
                 break;
             case LOGIN_MESSAGE:
-              /*  if (Objects.equals(arguments[0], "empty"))
-                  //  game.changeScreen(new MainView(game, username.getText()));
+                if (Objects.equals(empty, "empty"))
+                    game.changeScreen(new MainView(game, username.getText()));
                 else
-                    loginMessage.setText(arguments[0]);
-                break;*/
+                    loginMessage.setText(arguments);
+                break;
         }
     }
 }

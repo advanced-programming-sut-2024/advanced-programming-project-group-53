@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.MainMenu;
 import game.GWENT;
-import view.graphic.Resource;
+import view.Resource;
 
 public class MainView extends View {
     private final Image chooseDeck;

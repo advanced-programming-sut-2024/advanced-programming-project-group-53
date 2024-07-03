@@ -7,16 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import controller.Menu;
 import game.GWENT;
-import view.graphic.Resource;
+import view.Resource;
 
 import static com.badlogic.gdx.Gdx.input;
 
 public abstract class View implements Screen {
     protected GWENT game;
     protected Stage stage;
-    protected Skin label;
-    protected Skin scrollPane;
-    protected Skin textField;
+    protected Skin skin;
     protected Image background;
     protected Menu menu;
     protected String currentUsername;
@@ -33,13 +31,9 @@ public abstract class View implements Screen {
 
     protected void skinLoader() {
         AssetManager assetManager = new AssetManager();
-        assetManager.load(Resource.LABEL.address(), Skin.class);
-        assetManager.load(Resource.SCROLL_PANE.address(), Skin.class);
-        assetManager.load(Resource.TEXT_FIELD.address(), Skin.class);
+        assetManager.load(Resource.SKIN.address(), Skin.class);
         assetManager.finishLoading();
-        label = assetManager.get(Resource.LABEL.address(), Skin.class);
-        scrollPane = assetManager.get(Resource.SCROLL_PANE.address(), Skin.class);
-        textField = assetManager.get(Resource.TEXT_FIELD.address(), Skin.class);
+        skin = assetManager.get(Resource.SKIN.address(), Skin.class);
     }
 
     protected abstract void backgroundLoader();

@@ -4,10 +4,7 @@ import model.card.*;
 import model.cards.Deck;
 import model.game.Player;
 import model.game.User;
-import model.menu.MenuName;
-import view.message.MenuMessage;
 
-//make this usable in offline mode when we need run two player in one device.
 public class StartMenu extends Menu {
     private static StartMenu instance;
     private Deck initialDeck;
@@ -19,7 +16,6 @@ public class StartMenu extends Menu {
 
     //TODO : make it available for 2 user for interact in this menu.
     private StartMenu(User user1,User user2) {
-        super.setMenuName(MenuName.StartMenu);
         this.user1 = user1;
         this.user2 = user2;
         this.initialDeck = new Deck();
@@ -47,16 +43,16 @@ public class StartMenu extends Menu {
     public static void selectFaction(String factionName) {
         Faction selectedFaction = Faction.getFactionByName(factionName);
         if (selectedFaction == null  || selectedFaction == Faction.Neutral) {
-            Printer.print(MenuMessage.INVALID_FACTION.message());
+            Printer.print(Message.INVALID_FACTION.message());
             return;
         }
         StartMenu.getInstance().setUserFaction(selectedFaction);
         StartMenu.getInstance().setHasFaction(true);
-        Printer.print(MenuMessage.FACTION_SELECTED.message());
+        Printer.print(Message.FACTION_SELECTED.message());
     }
     public static void showCards() {
         if (!getInstance().isHasFaction()) {
-            Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
+            Printer.print(Message.YOU_HAVE_NOT_SELECTED_FACTION.message());
             return;
         }
         Printer.print("Unit Cards:");
@@ -78,18 +74,18 @@ public class StartMenu extends Menu {
     public static int nameAndCountValidation(String cardName, String countStr) {
         int state = StartMenu.nameValidation(cardName);
         if (state == 0) {
-            Printer.print(MenuMessage.THERE_IS_NO_CARD_WITH_THIS_NAME.message());
+            Printer.print(Message.THERE_IS_NO_CARD_WITH_THIS_NAME.message());
             return 0;
         }
         int count;
         try {
             count = Integer.parseInt(countStr);
         } catch (NumberFormatException e) {
-            Printer.print(MenuMessage.WRONG_NUMBER_FORMAT.message());
+            Printer.print(Message.WRONG_NUMBER_FORMAT.message());
             return 0;
         }
         if (count >= 10 || count <= 0) {
-            Printer.print(MenuMessage.COUNT_OUT_OF_RANGE.message());
+            Printer.print(Message.COUNT_OUT_OF_RANGE.message());
             return 0;
         }
         return state;
@@ -97,7 +93,7 @@ public class StartMenu extends Menu {
     //For add card(s) with a specific count to initial deck we have before start the game.
     public static boolean addToDeck(String cardName, String countStr) {
         if (!getInstance().isHasFaction()) {
-            Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
+            Printer.print(Message.YOU_HAVE_NOT_SELECTED_FACTION.message());
             return false;
         }
         StartMenu currentStartMenu = StartMenu.getInstance();
@@ -109,11 +105,11 @@ public class StartMenu extends Menu {
             UnitInformation unitInfo = UnitInformation.getUnitInformationByName(cardName);
             assert unitInfo != null;
             if (unitInfo.faction() != getInstance().getUserFaction() && unitInfo.faction() != Faction.Neutral) {
-                Printer.print(MenuMessage.INVALID_FACTION.message());
+                Printer.print(Message.INVALID_FACTION.message());
                 return false;
             }
             if (count + countCurrentDeck > unitInfo.maxNumber()) {
-                Printer.print(MenuMessage.MORE_THAT_AVAILABILITY.message());
+                Printer.print(Message.MORE_THAT_AVAILABILITY.message());
                 return false;
             }
             for (int i = 0; i < count; i++) {
@@ -123,18 +119,18 @@ public class StartMenu extends Menu {
             SpecialInformation specialInfo = SpecialInformation.getSpecialInformationByName(cardName);
             assert specialInfo != null;
             if (specialInfo.faction() != getInstance().getUserFaction() && specialInfo.faction() != Faction.Neutral) {
-                Printer.print(MenuMessage.INVALID_FACTION.message());
+                Printer.print(Message.INVALID_FACTION.message());
                 return false;
             }
             if (count + countCurrentDeck > specialInfo.maxNumber()) {
-                Printer.print(MenuMessage.MORE_THAT_AVAILABILITY.message());
+                Printer.print(Message.MORE_THAT_AVAILABILITY.message());
                 return false;
             }
             for (int i = 0; i < count; i++) {
                 currentStartMenu.getInitialDeck().add(new Special(specialInfo));
             }
         }
-        Printer.print(MenuMessage.ADD_CARD.message());
+        Printer.print(Message.ADD_CARD.message());
         return true;
     }
     //For showing current initial deck.
@@ -165,7 +161,7 @@ public class StartMenu extends Menu {
 
     public static void showCommanders() {
         if (!getInstance().isHasFaction()) {
-            Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
+            Printer.print(Message.YOU_HAVE_NOT_SELECTED_FACTION.message());
             return;
         }
         int indexOfCommander = 1;
@@ -178,20 +174,20 @@ public class StartMenu extends Menu {
     public static void selectCommander(int leaderNumber) {
         int counter = 1;
         if (!getInstance().isHasFaction()) {
-            Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
+            Printer.print(Message.YOU_HAVE_NOT_SELECTED_FACTION.message());
             return;
         }
         for (CommanderInformation commanderInfo : CommanderInformation.values()) {
             if (commanderInfo.faction() == getInstance().getUserFaction()) {
                 if (counter == leaderNumber) {
                     StartMenu.getInstance().setCommanderUser(new Commander(commanderInfo));
-                    Printer.print(MenuMessage.COMMANDER_SELECTED.message());
+                    Printer.print(Message.COMMANDER_SELECTED.message());
                     return;
                 }
                 counter++;
             }
         }
-        Printer.print(MenuMessage.INVALID_COMMANDER_INDEX.message());
+        Printer.print(Message.INVALID_COMMANDER_INDEX.message());
     }
     //Checking for validation of card name from user input.
     public static int nameValidation(String cardName) {
@@ -210,7 +206,7 @@ public class StartMenu extends Menu {
 
     public static boolean deleteFromDeck(String cardName, String numberStr) {
         if (!getInstance().isHasFaction()) {
-            Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
+            Printer.print(Message.YOU_HAVE_NOT_SELECTED_FACTION.message());
             return false;
         }
         StartMenu currentStartMenu = StartMenu.getInstance();
@@ -218,24 +214,24 @@ public class StartMenu extends Menu {
         if (state == 0) return false;
         int count = Integer.parseInt(numberStr);
         if (count > currentStartMenu.getInitialDeck().specifiedCardCounter(cardName)) {
-            Printer.print(MenuMessage.YOU_HAVE_LESS.message());
+            Printer.print(Message.YOU_HAVE_LESS.message());
             return false;
         }
         currentStartMenu.getInitialDeck().deleteCard(cardName, count);
-        Printer.print(MenuMessage.CARD_DELETE.message());
+        Printer.print(Message.CARD_DELETE.message());
         return true;
     }
     public static boolean playerBuildingValidation(StartMenu currentStartMenu) {
         if (!currentStartMenu.getInitialDeck().checkDeckValidation()) {
-            Printer.print(MenuMessage.CARDS_QUANTITY_VALIDATION.message());
+            Printer.print(Message.CARDS_QUANTITY_VALIDATION.message());
             return true;
         }
         if (!currentStartMenu.hasFaction) {
-            Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_FACTION.message());
+            Printer.print(Message.YOU_HAVE_NOT_SELECTED_FACTION.message());
             return true;
         }
         if (currentStartMenu.getCommanderUser() == null) {
-            Printer.print(MenuMessage.YOU_HAVE_NOT_SELECTED_COMMANDER.message());
+            Printer.print(Message.YOU_HAVE_NOT_SELECTED_COMMANDER.message());
             return true;
         }
         return false;
@@ -244,7 +240,7 @@ public class StartMenu extends Menu {
     public static boolean changeTurn() {
         StartMenu currentStartMenu = StartMenu.getInstance();
         /*if (currentStartMenu.user2.equals(User.getCurrentUser())) {
-            Printer.print(MenuMessage.YOU_CAM_JUST_START.message());
+            Printer.print(Message.YOU_CAM_JUST_START.message());
             return false;
         }
         if (playerBuildingValidation(currentStartMenu)) return false;
@@ -261,7 +257,7 @@ public class StartMenu extends Menu {
     public static boolean startGame() {
         StartMenu currentStartMenu = StartMenu.getInstance();
         /*if (currentStartMenu.getUser1().equals(User.getCurrentUser())) {
-            Printer.print(MenuMessage.YOU_CAN_JUST_CHANGE.message());
+            Printer.print(Message.YOU_CAN_JUST_CHANGE.message());
             return false;
         }
         if (playerBuildingValidation(currentStartMenu)) return false;
@@ -278,10 +274,10 @@ public class StartMenu extends Menu {
         if (MenuName.getMenu(name) == MenuName.GameMenu) {
             GameMenu.setInstance(this.player1, this.player2);
             TerminalRun.changeCurrentMenu(GameMenu.getInstance());
-            Printer.print(MenuMessage.ENTER_GAME_MENU.message());
+            Printer.print(Message.ENTER_GAME_MENU.message());
             return true;
         } else {
-            Printer.print(MenuMessage.INVALID_MENU.message());
+            Printer.print(Message.INVALID_MENU.message());
             return false;
         }
     }
@@ -289,12 +285,12 @@ public class StartMenu extends Menu {
     @Override
     public void exitMenu() {
         TerminalRun.changeCurrentMenu(MainMenu.getInstance());
-        Printer.print(MenuMessage.ENTER_MAIN_MENU.message());
+        Printer.print(Message.ENTER_MAIN_MENU.message());
     }
 
     @Override
     public void showMenu() {
-        Printer.print(MenuMessage.START_MENU.message());
+        Printer.print(Message.START_MENU.message());
     }*/
 
     public User getUser1() {

@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controller.MainMenu;
 import game.GWENT;
 import model.game.User;
-import view.graphic.Resource;
+import view.Resource;
 
 import java.util.ArrayList;
 
@@ -29,9 +29,9 @@ public class RankingView extends View {
         for (User user : User.ranking()) {
             String username = user.username();
             if (username.equals(currentUsername))
-                players.add(new Label("* " + user.username() + " *", label));
+                players.add(new Label("* " + user.username() + " *", skin));
             else
-                players.add(new Label(user.username() + username, label));
+                players.add(new Label(user.username() + username, skin));
         }
         mainMenu = new Image(new Texture(Resource.MAIN_MENU_OFF.address()));
         mainMenu.setPosition(574, 50);
@@ -73,7 +73,7 @@ public class RankingView extends View {
         });
         for (Label player : players)
             lines.addActor(player);
-        ScrollPane ranking = new ScrollPane(lines, scrollPane);
+        ScrollPane ranking = new ScrollPane(lines, skin);
         ranking.setBounds(650 - 200, 650 - 200, 400, 400);
         ranking.setFlickScroll(true);
         ranking.setFadeScrollBars(false);

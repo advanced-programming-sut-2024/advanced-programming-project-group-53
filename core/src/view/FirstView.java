@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import game.GWENT;
-import view.graphic.Resource;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -16,13 +15,14 @@ public class FirstView implements Screen {
     private final Stage stage;
     private final Image single;
     private final Image multi;
+    private final Image exit;
 
     public FirstView(GWENT game) {
         stage = new Stage();
         input.setInputProcessor(stage);
         Image background = new Image(new Texture(Resource.FIRST_BACKGROUND.address()));
         single = new Image(new Texture(Resource.SINGLE_OFF.address()));
-        single.setPosition(512, 512);
+        single.setPosition(524, 512);
         single.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -59,9 +59,29 @@ public class FirstView implements Screen {
                 multi.setDrawable(new Image(new Texture(Resource.MULTI_OFF.address())).getDrawable());
             }
         });
+        exit = new Image(new Texture(Resource.EXIT_OFF.address()));
+        exit.setPosition(312, 450);
+        exit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_CLICKED.address())).getDrawable());
+                System.exit(0);
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_ON.address())).getDrawable());
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                exit.setDrawable(new Image(new Texture(Resource.EXIT_OFF.address())).getDrawable());
+            }
+        });
         stage.addActor(background);
         stage.addActor(single);
         stage.addActor(multi);
+        stage.addActor(exit);
     }
 
     @Override

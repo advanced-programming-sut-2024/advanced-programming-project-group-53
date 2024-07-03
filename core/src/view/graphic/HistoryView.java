@@ -14,6 +14,7 @@ import game.GWENT;
 import network.Command;
 import network.Connector;
 import network.Instruction;
+import view.Resource;
 
 import java.util.Objects;
 
@@ -34,9 +35,9 @@ public class HistoryView extends View {
         Table optionTable = new Table();
         optionTable.setBounds(62, 913, 900, 61);
         optionTable.align(Align.center);
-        number = new TextField("", textField);
+        number = new TextField("", skin);
         number.setMessageText("number");
-        history = new Label("", label);
+        history = new Label("", skin);
         history.setPosition(512 - history.getWidth() / 2, 512 - history.getHeight() / 2);
         normal = new Image(new Texture(Resource.NORMAL_OFF.address()));
         normal.addListener(new ClickListener() {
@@ -104,7 +105,7 @@ public class HistoryView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 profile.setDrawable(new Image(new Texture(Resource.PROFILE_CLICKED.address())).getDrawable());
-               // game.changeScreen(new ProfileView(game, currentUsername));
+                game.changeScreen(new ProfileView(game, currentUsername));
             }
 
             @Override

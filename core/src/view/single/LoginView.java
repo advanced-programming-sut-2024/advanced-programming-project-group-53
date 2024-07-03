@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.LoginMenu;
 import game.GWENT;
-import view.graphic.Resource;
+import view.Resource;
 
 import java.util.Objects;
 
@@ -48,11 +48,11 @@ public class LoginView extends View {
         forgetPasswordGroup2.setBounds(50, 350, 400, 400);
         forgetPasswordGroup2.align(Align.center);
         forgetPasswordGroup2.space(10);
-        loginMessage = new Label("", label);
-        forgetPasswordMessage = new Label("", label);
-        username = new TextField("", textField);
+        loginMessage = new Label("", skin);
+        forgetPasswordMessage = new Label("", skin);
+        username = new TextField("", skin);
         username.setMessageText("username");
-        password = new TextField("", textField);
+        password = new TextField("", skin);
         password.setMessageText("password");
         password.setPasswordCharacter('*');
         password.setPasswordMode(true);
@@ -146,15 +146,15 @@ public class LoginView extends View {
                 registerMenu.setDrawable(new Image(new Texture(Resource.REGISTER_MENU_OFF.address())).getDrawable());
             }
         });
-        forgetPasswordUsername = new TextField("", textField);
-        question = new Label("", label);
-        answer = new TextField("", textField);
+        forgetPasswordUsername = new TextField("", skin);
+        question = new Label("", skin);
+        answer = new TextField("", skin);
         answer.setMessageText("answer");
-        newPassword = new TextField("", textField);
+        newPassword = new TextField("", skin);
         newPassword.setMessageText("password");
         newPassword.setPasswordCharacter('*');
         newPassword.setPasswordMode(true);
-        newPasswordConfirm = new TextField("", textField);
+        newPasswordConfirm = new TextField("", skin);
         newPasswordConfirm.setMessageText("confirm");
         newPasswordConfirm.setPasswordCharacter('*');
         newPasswordConfirm.setPasswordMode(true);
@@ -219,7 +219,8 @@ public class LoginView extends View {
         stage.addActor(forgetPasswordGroup1);
         stage.addActor(forgetPasswordGroup2);
     }
-    public LoginView(GWENT game,String username1) {
+
+    public LoginView(GWENT game, String username1) {
         super(game);
         this.username1 = username1;
         menu = LoginMenu.getInstance();
@@ -238,11 +239,11 @@ public class LoginView extends View {
         forgetPasswordGroup2.setBounds(50, 350, 400, 400);
         forgetPasswordGroup2.align(Align.center);
         forgetPasswordGroup2.space(10);
-        loginMessage = new Label("", label);
-        forgetPasswordMessage = new Label("", label);
-        username = new TextField("", textField);
+        loginMessage = new Label("", skin);
+        forgetPasswordMessage = new Label("", skin);
+        username = new TextField("", skin);
         username.setMessageText("username");
-        password = new TextField("", textField);
+        password = new TextField("", skin);
         password.setMessageText("password");
         password.setPasswordCharacter('*');
         password.setPasswordMode(true);
@@ -253,7 +254,7 @@ public class LoginView extends View {
                 login.setDrawable(new Image(new Texture(Resource.LOGIN_CLICKED.address())).getDrawable());
                 String response = ((LoginMenu) menu).login(username.getText(), password.getText());
                 if (Objects.equals(response, "empty"))
-                    game.changeScreen(new FactionView(game, username.getText(),username1));
+                    game.changeScreen(new FactionView(game, username.getText(), username1));
                 else
                     loginMessage.setText(response.trim());
             }
@@ -299,15 +300,15 @@ public class LoginView extends View {
                     forgetPassword.setDrawable(new Image(new Texture(Resource.FORGET_PASSWORD_OFF.address())).getDrawable());
             }
         });
-        forgetPasswordUsername = new TextField("", textField);
-        question = new Label("", label);
-        answer = new TextField("", textField);
+        forgetPasswordUsername = new TextField("", skin);
+        question = new Label("", skin);
+        answer = new TextField("", skin);
         answer.setMessageText("answer");
-        newPassword = new TextField("", textField);
+        newPassword = new TextField("", skin);
         newPassword.setMessageText("password");
         newPassword.setPasswordCharacter('*');
         newPassword.setPasswordMode(true);
-        newPasswordConfirm = new TextField("", textField);
+        newPasswordConfirm = new TextField("", skin);
         newPasswordConfirm.setMessageText("confirm");
         newPasswordConfirm.setPasswordCharacter('*');
         newPasswordConfirm.setPasswordMode(true);

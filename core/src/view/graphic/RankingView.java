@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controller.MainMenu;
 import game.GWENT;
 import network.Instruction;
+import view.Resource;
 
 import java.util.ArrayList;
 
@@ -25,29 +26,15 @@ public class RankingView extends View {
         lines = new VerticalGroup();
         lines.space(10);
         players = new ArrayList<>();//TODO: give it the players!
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
-        players.add(new Label("ali", label));
+        players.add(new Label("ali", skin));
+        players.add(new Label("ali", skin));
         mainMenu = new Image(new Texture(Resource.MAIN_MENU_OFF.address()));
         mainMenu.setPosition(574, 50);
         mainMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mainMenu.setDrawable(new Image(new Texture(Resource.MAIN_MENU_CLICKED.address())).getDrawable());
-               // game.changeScreen(new MainView(game, currentUsername));
+                game.changeScreen(new MainView(game, currentUsername));
             }
 
             @Override
@@ -81,7 +68,7 @@ public class RankingView extends View {
         });
         for (Label player : players)
             lines.addActor(player);
-        ranking = new ScrollPane(lines, scrollPane);
+        ranking = new ScrollPane(lines, skin);
         ranking.setBounds(650 - 200, 650 - 200, 400, 400);
         ranking.setFlickScroll(true);
         ranking.setFadeScrollBars(false);

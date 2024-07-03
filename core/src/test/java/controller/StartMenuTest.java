@@ -1,21 +1,5 @@
 package controller;
 
-import model.card.Commander;
-import model.card.CommanderInformation;
-import model.card.Faction;
-import model.cards.Deck;
-import model.game.Player;
-import model.game.User;
-import org.junit.Before;
-import org.junit.Test;
-import view.message.MenuMessage;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-
-import static org.junit.Assert.*;
-
 public class StartMenuTest {
     /*private StartMenu startMenu;
     private static final ArrayList<User> allUsersTemp = new ArrayList<>();
@@ -44,42 +28,42 @@ public class StartMenuTest {
     public void shouldShowStartMenu() {
         System.setOut(new PrintStream(outContent));
         startMenu.showMenu();
-        assertEquals(MenuMessage.START_MENU.message(), outContent.toString().trim());
+        assertEquals(Message.START_MENU.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldExitMenu() {
         System.setOut(new PrintStream(outContent));
         startMenu.exitMenu();
-        assertEquals(MenuMessage.ENTER_MAIN_MENU.message(), outContent.toString().trim());
+        assertEquals(Message.ENTER_MAIN_MENU.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldEnterGameMenu() {
         System.setOut(new PrintStream(outContent));
         assertTrue(startMenu.enterMenu("GameMenu"));
-        assertEquals(MenuMessage.ENTER_GAME_MENU.message(), outContent.toString().trim());
+        assertEquals(Message.ENTER_GAME_MENU.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldErrorInvalidMenu() {
         System.setOut(new PrintStream(outContent));
         assertFalse(startMenu.enterMenu("aMenu"));
-        assertEquals(MenuMessage.INVALID_MENU.message(), outContent.toString().trim());
+        assertEquals(Message.INVALID_MENU.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldErrorInvalidUsername() {
         System.setOut(new PrintStream(outContent));
 //        assertFalse(StartMenu.createGame("invalidUsername12#"));
-        assertEquals(MenuMessage.NO_USER.message(), outContent.toString().trim());
+        assertEquals(Message.NO_USER.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldStartGame() {
         System.setOut(new PrintStream(outContent));
 //        assertTrue(StartMenu.createGame("aValidUsername-2"));
-        assertEquals(MenuMessage.GAME_CREATED_SUCCESSFULLY.message(), outContent.toString().trim());
+        assertEquals(Message.GAME_CREATED_SUCCESSFULLY.message(), outContent.toString().trim());
     }
 
     @Test
@@ -100,7 +84,7 @@ public class StartMenuTest {
     public void shouldSelectMonstersFaction() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectFaction("Monsters");
-        assertEquals(MenuMessage.FACTION_SELECTED.message(), outContent.toString().trim());
+        assertEquals(Message.FACTION_SELECTED.message(), outContent.toString().trim());
         assertEquals("Monsters", startMenu.getUserFaction().toString());
     }
 
@@ -108,7 +92,7 @@ public class StartMenuTest {
     public void shouldSelectNilfgaardianEmpireFaction() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectFaction("NilfgaardianEmpire");
-        assertEquals(MenuMessage.FACTION_SELECTED.message(), outContent.toString().trim());
+        assertEquals(Message.FACTION_SELECTED.message(), outContent.toString().trim());
         assertEquals("Nilfgaardian Empire", startMenu.getUserFaction().toString());
     }
 
@@ -116,7 +100,7 @@ public class StartMenuTest {
     public void shouldSelectNorthernRealmsFaction() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectFaction("NorthernRealms");
-        assertEquals(MenuMessage.FACTION_SELECTED.message(), outContent.toString().trim());
+        assertEquals(Message.FACTION_SELECTED.message(), outContent.toString().trim());
         assertEquals("Northern Realms", startMenu.getUserFaction().toString());
     }
 
@@ -124,7 +108,7 @@ public class StartMenuTest {
     public void shouldSelectScoiataelFaction() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectFaction("Scoiatael");
-        assertEquals(MenuMessage.FACTION_SELECTED.message(), outContent.toString().trim());
+        assertEquals(Message.FACTION_SELECTED.message(), outContent.toString().trim());
         assertEquals("Scoia'tael", startMenu.getUserFaction().toString());
     }
 
@@ -132,7 +116,7 @@ public class StartMenuTest {
     public void shouldSelectSkelligeFaction() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectFaction("Skellige");
-        assertEquals(MenuMessage.FACTION_SELECTED.message(), outContent.toString().trim());
+        assertEquals(Message.FACTION_SELECTED.message(), outContent.toString().trim());
         assertEquals("Skellige", startMenu.getUserFaction().toString());
     }
 
@@ -140,7 +124,7 @@ public class StartMenuTest {
     public void shouldSelectNeutralFaction() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectFaction("Neutral");
-        assertEquals(MenuMessage.FACTION_SELECTED.message(), outContent.toString().trim());
+        assertEquals(Message.FACTION_SELECTED.message(), outContent.toString().trim());
         assertEquals("Neutral", startMenu.getUserFaction().toString());
     }
 
@@ -150,7 +134,7 @@ public class StartMenuTest {
     public void shouldErrorInvalidFaction() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectFaction("aFaction");
-        assertEquals(MenuMessage.INVALID_FACTION.message(), outContent.toString().trim());
+        assertEquals(Message.INVALID_FACTION.message(), outContent.toString().trim());
     }
 
     @Test
@@ -164,28 +148,28 @@ public class StartMenuTest {
     public void ShouldErrorInvalidCardAndCount() {
         System.setOut(new PrintStream(outContent));
         assertEquals(0, StartMenu.nameAndCountValidation("InvalidName", "1"));
-        assertEquals(MenuMessage.THERE_IS_NO_CARD_WITH_THIS_NAME.message(), outContent.toString().trim());
+        assertEquals(Message.THERE_IS_NO_CARD_WITH_THIS_NAME.message(), outContent.toString().trim());
     }
 
     @Test
     public void ShouldErrorInvalidCountString() {
         System.setOut(new PrintStream(outContent));
         assertEquals(0, StartMenu.nameAndCountValidation("Albrich", "sd1"));
-        assertEquals(MenuMessage.WRONG_NUMBER_FORMAT.message(), outContent.toString().trim());
+        assertEquals(Message.WRONG_NUMBER_FORMAT.message(), outContent.toString().trim());
     }
 
     @Test
     public void ShouldErrorOutOfRangeCountStringUpperBound() {
         System.setOut(new PrintStream(outContent));
         assertEquals(0, StartMenu.nameAndCountValidation("Albrich", "10"));
-        assertEquals(MenuMessage.COUNT_OUT_OF_RANGE.message(), outContent.toString().trim());
+        assertEquals(Message.COUNT_OUT_OF_RANGE.message(), outContent.toString().trim());
     }
 
     @Test
     public void ShouldErrorOutOfRangeCountStringLowerBound() {
         System.setOut(new PrintStream(outContent));
         assertEquals(0, StartMenu.nameAndCountValidation("Albrich", "0"));
-        assertEquals(MenuMessage.COUNT_OUT_OF_RANGE.message(), outContent.toString().trim());
+        assertEquals(Message.COUNT_OUT_OF_RANGE.message(), outContent.toString().trim());
     }
 
     @Test
@@ -203,28 +187,28 @@ public class StartMenuTest {
     public void shouldErrorMoreThanAvailableUnit() {
         System.setOut(new PrintStream(outContent));
         assertFalse(StartMenu.addToDeck("Albrich", "8"));
-        assertEquals(MenuMessage.MORE_THAT_AVAILABILITY.message(), outContent.toString().trim());
+        assertEquals(Message.MORE_THAT_AVAILABILITY.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldErrorMoreThanAvailableSpecial() {
         System.setOut(new PrintStream(outContent));
         assertFalse(StartMenu.addToDeck("SkelligeStorm", "8"));
-        assertEquals(MenuMessage.MORE_THAT_AVAILABILITY.message(), outContent.toString().trim());
+        assertEquals(Message.MORE_THAT_AVAILABILITY.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldAddValidAvailableUnitCard() {
         System.setOut(new PrintStream(outContent));
         assertTrue(StartMenu.addToDeck("Albrich", "1"));
-        assertEquals(MenuMessage.ADD_CARD.message(), outContent.toString().trim());
+        assertEquals(Message.ADD_CARD.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldAddValidAvailableSpecialCard() {
         System.setOut(new PrintStream(outContent));
         assertTrue(StartMenu.addToDeck("SkelligeStorm", "2"));
-        assertEquals(MenuMessage.ADD_CARD.message(), outContent.toString().trim());
+        assertEquals(Message.ADD_CARD.message(), outContent.toString().trim());
     }
 
     @Test
@@ -293,20 +277,20 @@ public class StartMenuTest {
         System.setOut(new PrintStream(outContent));
         startMenu.setCommanderUser(new Commander(CommanderInformation.Foltest_LordCommanderOfTheNorth));
         StartMenu.selectCommander(1);
-        assertEquals(MenuMessage.YOU_HAVE_COMMANDER.message(), outContent.toString().trim());
+        assertEquals(Message.YOU_HAVE_COMMANDER.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldSelectCommander() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectCommander(1);
-        assertEquals(MenuMessage.COMMANDER_SELECTED.message(), outContent.toString().trim());
+        assertEquals(Message.COMMANDER_SELECTED.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldErrorIndexCommander() {
         System.setOut(new PrintStream(outContent));
         StartMenu.selectCommander(100);
-        assertEquals(MenuMessage.INVALID_COMMANDER_INDEX.message(), outContent.toString().trim());
+        assertEquals(Message.INVALID_COMMANDER_INDEX.message(), outContent.toString().trim());
     }*/
 }

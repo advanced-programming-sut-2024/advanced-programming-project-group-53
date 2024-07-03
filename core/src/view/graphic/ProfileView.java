@@ -11,6 +11,7 @@ import game.GWENT;
 import network.Command;
 import network.Connector;
 import network.Instruction;
+import view.Resource;
 
 import java.util.Objects;
 
@@ -82,31 +83,31 @@ public class ProfileView extends View {
         passwordGroup.setBounds(312, 430, 400, (float) (400 * 0.1458));
         passwordGroup.align(Align.center);
         passwordGroup.space(10);
-        profileMessage = new Label("", label);
-        usernameMessage = new Label("", label);
-        nicknameMessage = new Label("", label);
-        maxScoreMessage = new Label("", label);
-        rankMessage = new Label("", label);
-        playCountMessage = new Label("", label);
-        drawCountMessage = new Label("", label);
-        winCountMessage = new Label("", label);
-        defeatCountMessage = new Label("", label);
+        profileMessage = new Label("", skin);
+        usernameMessage = new Label("", skin);
+        nicknameMessage = new Label("", skin);
+        maxScoreMessage = new Label("", skin);
+        rankMessage = new Label("", skin);
+        playCountMessage = new Label("", skin);
+        drawCountMessage = new Label("", skin);
+        winCountMessage = new Label("", skin);
+        defeatCountMessage = new Label("", skin);
         perform(new Connector().perform(new Instruction(Command.PROFILE_INFORMATION, currentUsername)));
-        username = new TextField("", textField);
+        username = new TextField("", skin);
         username.setMessageText("username");
-        password = new TextField("", textField);
+        password = new TextField("", skin);
         password.setMessageText("password");
         password.setPasswordCharacter('*');
         password.setPasswordMode(true);
-        newPassword = new TextField("", textField);
+        newPassword = new TextField("", skin);
         newPassword.setMessageText("new password");
         newPassword.setPasswordMode(true);
-        newPasswordConfirm = new TextField("", textField);
+        newPasswordConfirm = new TextField("", skin);
         newPasswordConfirm.setMessageText("confirm");
         newPasswordConfirm.setPasswordMode(true);
-        email = new TextField("", textField);
+        email = new TextField("", skin);
         email.setMessageText("email");
-        nickname = new TextField("", textField);
+        nickname = new TextField("", skin);
         nickname.setMessageText("nickname");
         changeUsername = new Image(new Texture(Resource.CHANGE_USERNAME_OFF.address()));
         changeUsername.addListener(new ClickListener() {
@@ -281,7 +282,7 @@ public class ProfileView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mainMenu.setDrawable(new Image(new Texture(Resource.MAIN_MENU_CLICKED.address())).getDrawable());
-            //    game.changeScreen(new MainView(game, currentUsername));
+                game.changeScreen(new MainView(game, currentUsername));
             }
 
             @Override

@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.ProfileMenu;
 import game.GWENT;
-import view.graphic.Resource;
+import view.Resource;
 
 public class HistoryView extends View {
     private final Label history;
@@ -30,9 +30,9 @@ public class HistoryView extends View {
         Table optionTable = new Table();
         optionTable.setBounds(62, 913, 900, 61);
         optionTable.align(Align.center);
-        number = new TextField("", textField);
+        number = new TextField("", skin);
         number.setMessageText("number");
-        history = new Label("", label);
+        history = new Label("", skin);
         history.setPosition(512 - history.getWidth() / 2, 512 - history.getHeight() / 2);
         normal = new Image(new Texture(Resource.NORMAL_OFF.address()));
         normal.addListener(new ClickListener() {

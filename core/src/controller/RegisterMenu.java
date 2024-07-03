@@ -2,8 +2,7 @@ package controller;
 
 import model.game.User;
 import model.game.ValidationRegex;
-import model.menu.MenuName;
-import view.message.MenuMessage;
+import view.Message;
 
 import java.util.regex.Matcher;
 
@@ -11,7 +10,6 @@ public class RegisterMenu extends Menu {
     private static RegisterMenu instance;
 
     private RegisterMenu() {
-        super.setMenuName(MenuName.RegisterMenu);
     }
 
     public static RegisterMenu getInstance() {
@@ -33,8 +31,10 @@ public class RegisterMenu extends Menu {
 
     public String register(String username, String nickname, String email, String password, String confirmPassword,String question, String answer) {
         String result = "";
-        if (!password.equals(confirmPassword))
-            result += MenuMessage.PASSWORD_IS_NOT_THE_SAME.message();
+        if (!password.equals(confirmPassword)) {
+            result += Message.PASSWORD_IS_NOT_THE_SAME.message();
+            return result;
+        }
         result +=  registerValidate(username, nickname, email, password);
         if (result.equals("empty"))
             new User(username, nickname, email, password, question, answer);
@@ -45,7 +45,7 @@ public class RegisterMenu extends Menu {
         Matcher matcher = ValidationRegex.Username.getMatcher(username);
         StringBuilder result = new StringBuilder();
         if (!matcher.find())
-            result.append(MenuMessage.INVALID_USERNAME.message()).append("\n");
+            result.append(Message.INVALID_USERNAME.message());
         return result.toString();
     }
 
@@ -53,7 +53,7 @@ public class RegisterMenu extends Menu {
         Matcher matcher = ValidationRegex.Nickname.getMatcher(nickname);
         StringBuilder result = new StringBuilder();
         if (!matcher.find())
-            result.append(MenuMessage.INVALID_NICKNAME.message()).append("\n");
+            result.append(Message.INVALID_NICKNAME.message());
         return result.toString();
     }
 
@@ -61,7 +61,7 @@ public class RegisterMenu extends Menu {
         Matcher matcher = ValidationRegex.Email.getMatcher(email);
         StringBuilder result = new StringBuilder();
         if (!matcher.find())
-            result.append(MenuMessage.INVALID_EMAIL.message()).append("\n");
+            result.append(Message.INVALID_EMAIL.message());
         return result.toString();
     }
 
@@ -69,7 +69,7 @@ public class RegisterMenu extends Menu {
         Matcher matcher = ValidationRegex.Password.getMatcher(password);
         StringBuilder result = new StringBuilder();
         if (!matcher.find()) {
-            result.append(MenuMessage.WEAK_PASSWORD.message()).append("\n");
+            result.append(Message.WEAK_PASSWORD.message());
             //TODO: suggest a password.
         }
         return result.toString();

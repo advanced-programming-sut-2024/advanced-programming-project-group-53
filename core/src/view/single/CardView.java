@@ -13,7 +13,7 @@ import model.card.CommanderInformation;
 import model.card.Faction;
 import model.card.SpecialInformation;
 import model.card.UnitInformation;
-import view.graphic.Resource;
+import view.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -220,13 +220,13 @@ public class CardView extends View {
             }
         });
         deckUpdater();
-        ScrollPane cardScroll = new ScrollPane(card, scrollPane);
+        ScrollPane cardScroll = new ScrollPane(card, skin);
         cardScroll.setWidth(450);
         cardScroll.setHeight(800);
         cardScroll.setPosition(50, 212);
         cardScroll.setFlickScroll(true);
         cardScroll.setFadeScrollBars(false);
-        ScrollPane deckScroll = new ScrollPane(deck, scrollPane);
+        ScrollPane deckScroll = new ScrollPane(deck, skin);
         deckScroll.setWidth(450);
         deckScroll.setHeight(800);
         deckScroll.setPosition(524, 212);
@@ -379,13 +379,13 @@ public class CardView extends View {
             }
         });
         deckUpdater();
-        ScrollPane cardScroll = new ScrollPane(card, scrollPane);
+        ScrollPane cardScroll = new ScrollPane(card, skin);
         cardScroll.setWidth(450);
         cardScroll.setHeight(800);
         cardScroll.setPosition(50, 212);
         cardScroll.setFlickScroll(true);
         cardScroll.setFadeScrollBars(false);
-        ScrollPane deckScroll = new ScrollPane(deck, scrollPane);
+        ScrollPane deckScroll = new ScrollPane(deck, skin);
         deckScroll.setWidth(450);
         deckScroll.setHeight(800);
         deckScroll.setPosition(524, 212);

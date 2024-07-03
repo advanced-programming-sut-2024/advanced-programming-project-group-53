@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import controller.MainMenu;
 import game.GWENT;
 import network.Instruction;
+import view.Resource;
 
 public class MainView extends View {
     private final Image chooseDeck;
@@ -30,7 +31,7 @@ public class MainView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 chooseDeck.setDrawable(new Image(new Texture(Resource.CHOOSE_DECK_CLICKED.address())).getDrawable());
-               // game.changeScreen(new FactionView(game));
+                game.changeScreen(new FactionView(game, currentUsername));
             }
 
             @Override
@@ -48,7 +49,7 @@ public class MainView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 profile.setDrawable(new Image(new Texture(Resource.PROFILE_CLICKED.address())).getDrawable());
-               // game.changeScreen(new ProfileView(game, currentUsername));
+                game.changeScreen(new ProfileView(game, currentUsername));
             }
 
             @Override
@@ -66,7 +67,7 @@ public class MainView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ranking.setDrawable(new Image(new Texture(Resource.RANKING_CLICKED.address())).getDrawable());
-               // game.changeScreen(new RankingView(game, currentUsername));
+                game.changeScreen(new RankingView(game, currentUsername));
             }
 
             @Override
@@ -85,7 +86,7 @@ public class MainView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 logout.setDrawable(new Image(new Texture(Resource.LOGOUT_CLICKED.address())).getDrawable());
-             ///   game.changeScreen(new LoginView(game));
+                game.changeScreen(new LoginView(game));
             }
 
             @Override

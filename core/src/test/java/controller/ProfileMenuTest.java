@@ -1,17 +1,5 @@
 package controller;
 
-import model.game.User;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import view.message.MenuMessage;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-
-import static org.junit.Assert.*;
-
 public class ProfileMenuTest {
    /* private ProfileMenu profileMenu;
     private static final ArrayList<User> allUsersTemp = new ArrayList<>();
@@ -30,21 +18,21 @@ public class ProfileMenuTest {
     public void shouldShowProfileMenu() {
         System.setOut(new PrintStream(outContent));
         profileMenu.showMenu();
-        assertEquals(MenuMessage.PROFILE_MENU.message(), outContent.toString().trim());
+        assertEquals(Message.PROFILE_MENU.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldExitToMainMenu() {
         System.setOut(new PrintStream(outContent));
         profileMenu.exitMenu();
-        assertEquals(MenuMessage.ENTER_MAIN_MENU.message(), outContent.toString().trim());
+        assertEquals(Message.ENTER_MAIN_MENU.message(), outContent.toString().trim());
     }
 
     @Test
     public void shouldNotEnterAnyMenu() {
         System.setOut(new PrintStream(outContent));
         assertFalse(profileMenu.enterMenu("aMenu"));
-        assertEquals(MenuMessage.INVALID_MENU.message(), outContent.toString().trim());
+        assertEquals(Message.INVALID_MENU.message(), outContent.toString().trim());
     }
 
     @Test
@@ -58,7 +46,7 @@ public class ProfileMenuTest {
     public void shouldShowEmptyGameHistory() {
         System.setOut(new PrintStream(outContent));
         profileMenu.showGameHistory(2);//just a useless number to give to method
-        assertEquals(MenuMessage.EMPTY_GAME_HISTORY.message(), outContent.toString().trim());
+        assertEquals(Message.EMPTY_GAME_HISTORY.message(), outContent.toString().trim());
         //test failure because of temporary print
     }
 

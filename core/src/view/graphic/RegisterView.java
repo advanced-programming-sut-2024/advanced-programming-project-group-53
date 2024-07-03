@@ -11,6 +11,7 @@ import game.GWENT;
 import network.Command;
 import network.Connector;
 import network.Instruction;
+import view.Resource;
 
 import java.util.Objects;
 
@@ -36,24 +37,24 @@ public class RegisterView extends View {
         textGroup.setBounds(635, 170, 400, 400);
         textGroup.align(Align.center);
         textGroup.space(10);
-        registerMessage = new Label("", label);
-        username = new TextField("", textField);
+        registerMessage = new Label("", skin);
+        username = new TextField("", skin);
         username.setMessageText("username");
-        nickname = new TextField("", textField);
+        nickname = new TextField("", skin);
         nickname.setMessageText("nickname");
-        email = new TextField("", textField);
+        email = new TextField("", skin);
         email.setMessageText("email");
-        password = new TextField("", textField);
+        password = new TextField("", skin);
         password.setMessageText("password");
         password.setPasswordCharacter('*');
         password.setPasswordMode(true);
-        TextField confirmPassword = new TextField("", textField);
+        TextField confirmPassword = new TextField("", skin);
         confirmPassword.setMessageText("confirm");
         confirmPassword.setPasswordMode(true);
         confirmPassword.setPasswordCharacter('*');
-        question = new TextField("", textField);
+        question = new TextField("", skin);
         question.setMessageText("question");
-        answer = new TextField("", textField);
+        answer = new TextField("", skin);
         answer.setMessageText("answer");
         register = new Image(new Texture(Resource.REGISTER_OFF.address()));
         register.addListener(new ClickListener() {
@@ -65,6 +66,7 @@ public class RegisterView extends View {
                         nickname.getText(),
                         email.getText(),
                         password.getText(),
+                        confirmPassword.getText(),
                         question.getText(),
                         answer.getText())));
             }
@@ -84,7 +86,7 @@ public class RegisterView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 loginMenu.setDrawable(new Image(new Texture(Resource.LOGIN_MENU_CLICKED.address())).getDrawable());
-              //  game.changeScreen(new LoginView(game));
+                game.changeScreen(new LoginView(game));
             }
 
             @Override
@@ -140,9 +142,8 @@ public class RegisterView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
-        System.out.println(instruction);
         if (Objects.requireNonNull(instruction.command()) == Command.REGISTER_MESSAGE) {
-           /* if (Objects.equals(instruction.arguments()[0], "empty"))
+            if (Objects.equals(instruction.arguments()[0], "empty"))
                 game.changeScreen(new LoginView(game));
             else {
                 StringBuilder builder = new StringBuilder();
@@ -155,7 +156,7 @@ public class RegisterView extends View {
                 password.setText("");
                 question.setText("");
                 answer.setText("");
-            }*/
+            }
         }
     }
 }

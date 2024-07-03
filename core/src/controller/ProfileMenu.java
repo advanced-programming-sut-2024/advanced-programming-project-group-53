@@ -1,8 +1,7 @@
 package controller;
 
 import model.game.User;
-import model.menu.MenuName;
-import view.message.MenuMessage;
+import view.Message;
 
 import java.util.Objects;
 
@@ -10,7 +9,6 @@ public class ProfileMenu extends Menu {
     private static ProfileMenu instance;
 
     private ProfileMenu() {
-        super.setMenuName(MenuName.ProfileMenu);
     }
 
     public static ProfileMenu getInstance() {
@@ -42,7 +40,7 @@ public class ProfileMenu extends Menu {
         else
             number = Integer.parseInt(numberString);
         if (user.isGameHistoryEmpty())
-            return MenuMessage.EMPTY_GAME_HISTORY.message();
+            return Message.EMPTY_GAME_HISTORY.message();
         else {
             //TODO : fill this in user field for showing game history.
             return "TEMP";
@@ -61,9 +59,9 @@ public class ProfileMenu extends Menu {
     public String changePassword(String oldPassword, String newPassword, String newPasswordConfirm, String username) {
         User user = User.findUser(username);
         if (!user.password().equals(oldPassword))
-            return MenuMessage.INCORRECT_PASSWORD.message();
+            return Message.INCORRECT_PASSWORD.message();
         if (!newPassword.equals(newPasswordConfirm))
-            return MenuMessage.PASSWORD_IS_NOT_THE_SAME.message();
+            return Message.PASSWORD_IS_NOT_THE_SAME.message();
         String result = RegisterMenu.getInstance().passwordValidation(newPassword);
         if (!Objects.equals(result, ""))
             return result;

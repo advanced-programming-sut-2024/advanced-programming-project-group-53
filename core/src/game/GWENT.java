@@ -1,14 +1,21 @@
 package game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.ScreenUtils;
 import view.FirstView;
+import view.Resource;
 
 public class GWENT extends Game {
+    private Music music;
 
     @Override
     public void create() {
         setScreen(new FirstView(this));
+        music = Gdx.audio.newMusic(Gdx.files.internal(Resource.FIRST_MUSIC.address()));
+        music.setLooping(true);
+        music.play();
     }
 
     @Override
@@ -24,10 +31,48 @@ public class GWENT extends Game {
     public void changeScreen(view.graphic.View view) {
         this.screen.dispose();
         this.setScreen(view);
+        music.stop();
+        if (view instanceof view.graphic.LoginView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.LOGIN_MUSIC.address()));
+        else if (view instanceof view.graphic.RegisterView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.REGISTER_MUSIC.address()));
+        else if (view instanceof view.graphic.MainView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.MAIN_MUSIC.address()));
+        else if (view instanceof view.graphic.ProfileView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.PROFILE_MUSIC.address()));
+        else if (view instanceof view.graphic.HistoryView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.HISTORY_MUSIC.address()));
+        else if (view instanceof view.graphic.RankingView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.RANKING_MUSIC.address()));
+        else if (view instanceof view.graphic.FactionView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.START_MUSIC.address()));
+        else if (view instanceof view.graphic.GameView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.GAME_MUSIC.address()));
+        music.setLooping(true);
+        music.play();
     }
 
     public void changeScreen(view.single.View view) {
         this.screen.dispose();
         this.setScreen(view);
+        music.pause();
+        if (view instanceof view.single.LoginView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.LOGIN_MUSIC.address()));
+        else if (view instanceof view.single.RegisterView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.REGISTER_MUSIC.address()));
+        else if (view instanceof view.single.MainView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.MAIN_MUSIC.address()));
+        else if (view instanceof view.single.ProfileView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.PROFILE_MUSIC.address()));
+        else if (view instanceof view.single.HistoryView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.HISTORY_MUSIC.address()));
+        else if (view instanceof view.single.RankingView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.RANKING_MUSIC.address()));
+        else if (view instanceof view.single.FactionView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.START_MUSIC.address()));
+        else if (view instanceof view.single.GameView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.GAME_MUSIC.address()));
+        music.setLooping(true);
+        music.play();
     }
 }

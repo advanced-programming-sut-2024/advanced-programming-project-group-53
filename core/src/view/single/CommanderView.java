@@ -11,7 +11,7 @@ import controller.StartMenu;
 import game.GWENT;
 import model.card.CommanderInformation;
 import model.card.Faction;
-import view.graphic.Resource;
+import view.Resource;
 
 import java.util.HashMap;
 
@@ -28,7 +28,7 @@ public class CommanderView extends View {
         commanderImages = new HashMap<>();
         VerticalGroup commanderVerticalGroup = new VerticalGroup();
         commanderVerticalGroup.space(10);
-        ScrollPane commanderScroll = new ScrollPane(commanderVerticalGroup, scrollPane);
+        ScrollPane commanderScroll = new ScrollPane(commanderVerticalGroup, skin);
         for (CommanderInformation commanderInformation : CommanderInformation.values()) {
             if (commanderInformation.faction() == faction) {
                 Image image = new Image(new Texture(commanderInformation.address()));
@@ -138,7 +138,7 @@ public class CommanderView extends View {
         commanderImages = new HashMap<>();
         VerticalGroup commanderVerticalGroup = new VerticalGroup();
         commanderVerticalGroup.space(10);
-        ScrollPane commanderScroll = new ScrollPane(commanderVerticalGroup, scrollPane);
+        ScrollPane commanderScroll = new ScrollPane(commanderVerticalGroup, skin);
         for (CommanderInformation commanderInformation : CommanderInformation.values()) {
             if (commanderInformation.faction() == faction) {
                 Image image = new Image(new Texture(commanderInformation.address()));
