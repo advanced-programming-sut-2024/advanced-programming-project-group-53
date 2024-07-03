@@ -103,60 +103,56 @@ public class RegisterMenu extends Menu {
         return result.toString();
     }
 
+    public static void sendAuthorizationEmail(String username, String toEmail){
+        String to = toEmail;
 
-    public static void sendEmailWithAuthorization(String toEmail, String username) {
-        //set message headers
+        // Sender's email ID and password
+        final String from = "hgp.master@gmail.com";
+        final String password = "ygxh ztnj vsid bxqx";
+
+        // SMTP server information
+        String host = "smtp.gmail.com";
+        String port = "587";
+
+        // Set properties
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.port", port);
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.ssl.protocols", "TLSv1.3");
+
+        String subject = "Gwent authorization for user : " + username;
+        String code = Hashing.sha256().hashString(username, StandardCharsets.UTF_8).toString();
+        String content = "YOUR AUTHORIZATION CODE: " + code;
+        // Get the Session object
+        Session session = Session.getInstance(properties, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(from, password);
+            }
+        });
         try {
-            final String fromEmail = "hgp.master@gmail.com"; //requires valid gmail id
-            final String password = "h7491685230"; // correct password for gmail id// can be any email id
+            // Create a default MimeMessage object
+            javax.mail.Message message = new MimeMessage(session);
 
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
-            props.put("mail.smtp.port", "587"); //TLS Port
-            props.put("mail.smtp.auth", "true"); //enable authentication
-            props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
-            //create Authenticator object to pass in Session.getInstance argument
-            Authenticator auth = new Authenticator() {
-                //override the getPasswordAuthentication method
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(fromEmail, password);
-                }
-            };
-            Session session = Session.getInstance(props, auth);
-            String subject = "Gwent authorization to user :" + username;
-            String code = Hashing.sha256().hashString(username, StandardCharsets.UTF_8).toString();
-            String content = "YOUR AUTHORIZATION CODE: " + code;
-            sendEmail(session, toEmail, subject, content);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public static void sendEmail(Session session, String toEmail, String subject, String body){
-        try
-        {
-            MimeMessage msg = new MimeMessage(session);
-            //set message headers
-            msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
-            msg.addHeader("format", "flowed");
-            msg.addHeader("Content-Transfer-Encoding", "8bit");
+            // Set From: header field
+            message.setFrom(new InternetAddress(from));
 
-            msg.setFrom(new InternetAddress("no_reply@example.com", "NoReply-JD"));
+            // Set To: header field
+            message.setRecipients(javax.mail.Message.RecipientType.TO, InternetAddress.parse(to));
 
-            msg.setReplyTo(InternetAddress.parse("no_reply@example.com", false));
+            // Set Subject: header field
+            message.setSubject(subject);
 
-            msg.setSubject(subject, "UTF-8");
+            // Set the actual message
+            message.setText(content);
 
-            msg.setText(body, "UTF-8");
+            // Send the message
+            Transport.send(message);
 
-            msg.setSentDate(new Date());
+            System.out.println("Email sent successfully!");
 
-            msg.setRecipients(javax.mail.Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
-            System.out.println("Message is ready");
-            Transport.send(msg);
-
-            System.out.println("EMail Sent Successfully!!");
-        }
-        catch (Exception e) {
+        } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
