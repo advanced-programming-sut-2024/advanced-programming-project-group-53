@@ -24,15 +24,12 @@ import com.google.api.services.gmail.model.Message;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.sql.DataSource;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
 
@@ -104,58 +101,37 @@ public class RegisterMenu extends Menu {
     }
 
     public static void sendAuthorizationEmail(String username, String toEmail){
-        String to = toEmail;
-
-        // Sender's email ID and password
         final String from = "hgp.master@gmail.com";
         final String password = "ygxh ztnj vsid bxqx";
-
-        // SMTP server information
         String host = "smtp.gmail.com";
         String port = "587";
-
-        // Set properties
         Properties properties = new Properties();
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", port);
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.ssl.protocols", "TLSv1.3");
-
         String subject = "Gwent authorization for user : " + username;
-        String code = Hashing.sha256().hashString(username, StandardCharsets.UTF_8).toString();
-        String content = "YOUR AUTHORIZATION CODE: " + code;
-        // Get the Session object
+        String code = ((Integer)(new Random().nextInt(9000) + 1000)).toString();
+        String content = "YOUR AUTHORIZATION CODE: \n" + code;
         Session session = Session.getInstance(properties, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(from, password);
             }
         });
         try {
-            // Create a default MimeMessage object
             javax.mail.Message message = new MimeMessage(session);
-
-            // Set From: header field
             message.setFrom(new InternetAddress(from));
-
-            // Set To: header field
-            message.setRecipients(javax.mail.Message.RecipientType.TO, InternetAddress.parse(to));
-
-            // Set Subject: header field
+            message.setRecipients(javax.mail.Message.RecipientType.TO, InternetAddress.parse(toEmail));
             message.setSubject(subject);
-
-            // Set the actual message
             message.setText(content);
-
-            // Send the message
             Transport.send(message);
-
-            System.out.println("Email sent successfully!");
-
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
+
+    //This method for sending email needs to google cloud credential that it needs to living out of Iran, so we won't use it in project, but I store it for future and project view.
     public static class GMailer {
         private static Credential getCredentials(final NetHttpTransport httpTransport, GsonFactory jsonFactory)
                 throws IOException {

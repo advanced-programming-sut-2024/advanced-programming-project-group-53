@@ -46,6 +46,7 @@ allprojects {
         implementation 'com.google.apis:google-api-services-gmail:v1-rev20220404-2.0.0'
         implementation group: 'com.google.apis', name: 'google-api-services-gmail', version: 'v1-rev110-1.25.0'
         implementation 'com.google.auth:google-auth-library-oauth2-http:1.11.0'
+        implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.46.0.0'
     }
 }
 
