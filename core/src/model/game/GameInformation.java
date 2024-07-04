@@ -12,8 +12,8 @@ public class GameInformation {
     private final String loserName;
     public GameInformation(Player winner, Player loser, ArrayList<Round> rounds) {
         // before this store it in user probably will handle by team.
-        this.winnerName = winner.getUser().getUsername();
-        this.loserName = loser.getUser().getUsername();
+        this.winnerName = winner.getUser().username();
+        this.loserName = loser.getUser().username();
         this.rounds = rounds;
     }
 

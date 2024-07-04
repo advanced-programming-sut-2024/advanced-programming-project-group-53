@@ -1,19 +1,44 @@
 package controller;
 
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.googleapis.json.GoogleJsonError;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.util.Base64;
+import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.services.gmail.Gmail;
+import com.google.api.services.gmail.GmailScopes;
+import com.google.api.services.gmail.model.Draft;
+import com.google.common.hash.Hashing;
 import model.game.User;
 import model.game.ValidationRegex;
 import model.menu.MenuName;
 import view.message.MenuMessage;
-import view.message.Printer;
-import view.terminal.TerminalRun;
+import com.google.api.services.gmail.model.Message;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
+import java.util.Properties;
+import java.util.Random;
+import java.util.Set;
 import java.util.regex.Matcher;
 
 public class RegisterMenu extends Menu {
     private static RegisterMenu instance;
+    private String validationCode; //this is for email validation.
 
     private RegisterMenu() {
-        super.setMenuType(MenuName.RegisterMenu);
+        super.setMenuName(MenuName.RegisterMenu);
     }
 
     public static RegisterMenu getInstance() {
@@ -22,69 +47,153 @@ public class RegisterMenu extends Menu {
         return instance;
     }
 
-    public boolean registerValidate(String username, String nickname, String email, String password) {
-        //todo: check if a user with the given username doesn't already exist
+    public String registerValidate(String username, String nickname, String email, String password) {
+        return usernameValidation(username) +
+                nicknameValidation(nickname) +
+                emailValidation(email) +
+                passwordValidation(password);
+    }
+
+    public String register(String username, String nickname, String email, String password, String confirmPassword,String question, String answer) {
+        String result = "";
+        if (!password.equals(confirmPassword))
+            result = MenuMessage.PASSWORD_IS_NOT_THE_SAME.message();
+        result +=  registerValidate(username, nickname, email, password);
+        if (result.isEmpty())
+            new User(username, nickname, email, password, question, answer);
+        return result;
+    }
+
+    public String usernameValidation(String username) {
         Matcher matcher = ValidationRegex.Username.getMatcher(username);
-        if (!matcher.find()) {
-            Printer.print(MenuMessage.INVALID_USERNAME.message());
-            return false;
-        }
-        matcher = ValidationRegex.Nickname.getMatcher(nickname);
-        if (!matcher.find()) {
-            Printer.print(MenuMessage.INVALID_NICKNAME.message());
-            return false;
-        }
-        matcher = ValidationRegex.Email.getMatcher(email);
-        if (!matcher.find()) {
-            Printer.print(MenuMessage.INVALID_EMAIL.message());
-            return false;
-        }
-        matcher = ValidationRegex.Password.getMatcher(password);
-        if (!matcher.find()) {
-            Printer.print(MenuMessage.WEAK_PASSWORD.message());
-            return false;
-        }
-        User.printAllSecurityQuestions();
-        return true;
+        StringBuilder result = new StringBuilder();
+        if (!matcher.find())
+            result.append(MenuMessage.INVALID_USERNAME.message()).append("\n");
+        return result.toString();
     }
 
-    public void register(String username, String nickname, String email, String password, int number) {
-        User user = new User(username, nickname, email, password);
-        User.setCurrentUser(user);
-        User.putQuestion(number);
-        TerminalRun.changeCurrentMenu(LoginMenu.getInstance());
+    public String nicknameValidation(String nickname) {
+        Matcher matcher = ValidationRegex.Nickname.getMatcher(nickname);
+        StringBuilder result = new StringBuilder();
+        if (!matcher.find())
+            result.append(MenuMessage.INVALID_NICKNAME.message()).append("\n");
+        return result.toString();
     }
 
-    public boolean pickQuestion(int number) {
-        if (!User.checkQuestionNumberValidation(number)) {
-            Printer.print(MenuMessage.INVALID_NUMBER.message());
-            return false;
+    public String emailValidation(String email) {
+        Matcher matcher = ValidationRegex.Email.getMatcher(email);
+        StringBuilder result = new StringBuilder();
+        if (!matcher.find())
+            result.append(MenuMessage.INVALID_EMAIL.message()).append("\n");
+        return result.toString();
+    }
+
+    public String passwordValidation(String password) {
+        Matcher matcher = ValidationRegex.Password.getMatcher(password);
+        StringBuilder result = new StringBuilder();
+        if (!matcher.find()) {
+            result.append(MenuMessage.WEAK_PASSWORD.message()).append("\n");
+            //This part is to suggest a password that is generated by sha256 hashing algorithm.
+            String suggestedPassword = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+            result.append(suggestedPassword).append("\n");
         }
-        return true;
+        return result.toString();
     }
-    @Override
-    public boolean enterMenu(String name) {
-        if (MenuName.getMenu(name) == MenuName.MainMenu) {
-            TerminalRun.changeCurrentMenu(MainMenu.getInstance());
-            Printer.print(MenuMessage.ENTER_MAIN_MENU.message());
-            return true;
-        } else if (MenuName.getMenu(name) == MenuName.LoginMenu) {
-            TerminalRun.changeCurrentMenu(LoginMenu.getInstance());
-            Printer.print(MenuMessage.ENTER_REGISTER_MENU.message());
-            return true;
-        } else {
-            Printer.print(MenuMessage.INVALID_MENU.message());
-            return false;
+
+    public static void sendAuthorizationEmail(String username, String toEmail){
+        final String from = "hgp.master@gmail.com";
+        final String password = "ygxh ztnj vsid bxqx";
+        String host = "smtp.gmail.com";
+        String port = "587";
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.port", port);
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.ssl.protocols", "TLSv1.3");
+        String subject = "Gwent authorization for user : " + username;
+        String code = ((Integer)(new Random().nextInt(9000) + 1000)).toString();
+        String content = "YOUR AUTHORIZATION CODE: \n" + code;
+        Session session = Session.getInstance(properties, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(from, password);
+            }
+        });
+        try {
+            javax.mail.Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(from));
+            message.setRecipients(javax.mail.Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject(subject);
+            message.setText(content);
+            Transport.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
     }
 
-    @Override
-    public void exitMenu() {
-        exitGame();
-    }
+    //This method for sending email needs to google cloud credential that it needs to living out of Iran, so we won't use it in project, but I store it for future and project view.
+    public static class GMailer {
+        private static Credential getCredentials(final NetHttpTransport httpTransport, GsonFactory jsonFactory)
+                throws IOException {
+            GoogleClientSecrets clientSecrets =
+                    GoogleClientSecrets.load(jsonFactory
+                            , new InputStreamReader(GMailer.class.getResourceAsStream("/...json")));
 
-    @Override
-    public void showMenu() {
-        Printer.print(MenuMessage.REGISTER_MENU.message());
+            // Build flow and trigger user authorization request.
+            GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+                    httpTransport, jsonFactory, clientSecrets, Set.of(GmailScopes.GMAIL_SEND))
+                    .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
+                    .setAccessType("offline")
+                    .build();
+            LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+            //returns an authorized Credential object.
+            return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+        }
+
+        public void sendMail(String subject, String msg) throws Exception {
+            final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+            GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
+            Gmail service = new Gmail.Builder(httpTransport, jsonFactory, getCredentials(httpTransport, jsonFactory))
+                    .setApplicationName("GWENT authorization")
+                    .build();
+
+            // Encode as MIME message
+            Properties props = new Properties();
+            Session session = Session.getDefaultInstance(props, null);
+            MimeMessage email = new MimeMessage(session);
+            email.setFrom(new InternetAddress("hgp.master@gmail.com"));
+            email.addRecipient(javax.mail.Message.RecipientType.TO,
+                    new InternetAddress("safariamirparsa@gmail.com"));
+            email.setSubject(subject);
+            email.setText(msg);
+            // Encode and wrap the MIME message into a gmail message
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            email.writeTo(buffer);
+            byte[] rawMessageBytes = buffer.toByteArray();
+            String encodedEmail = Base64.encodeBase64URLSafeString(rawMessageBytes);
+            com.google.api.services.gmail.model.Message message = new Message();
+            message.setRaw(encodedEmail);
+
+            try {
+                // Create the draft message
+                Draft draft = new Draft();
+                draft.setMessage(message);
+                draft = service.users().drafts().create("me", draft).execute();
+                System.out.println("Draft id: " + draft.getId());
+                System.out.println(draft.toPrettyString());
+            } catch (GoogleJsonResponseException e) {
+                // TODO(developer) - handle error appropriately
+                GoogleJsonError error = e.getDetails();
+                if (error.getCode() == 403) {
+                    System.err.println("Unable to create draft: " + e.getDetails());
+                } else {
+                    throw e;
+                }
+            }
+        }
+
+        public static void main(String[] args) throws Exception {
+            new GMailer().sendMail("subject", "msg");
+        }
     }
 }

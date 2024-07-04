@@ -55,7 +55,9 @@ public enum MenuMessage {
     YOU_JUST_ONLY_HAVE_ONE("You just only have one card of this type."),
     VETO_CARD("Veto card successfully."),
     INVALID_PLAYGROUND_NUMBER("Invalid playground number."),
-    INVALID_RANGE("Invalid range.");
+    INVALID_RANGE("Invalid range."),
+    PASSWORD_IS_NOT_THE_SAME("Password is not the same."),
+    ;
     private final String message;
 
     MenuMessage(String message) {

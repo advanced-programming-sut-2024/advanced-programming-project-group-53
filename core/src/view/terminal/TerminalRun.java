@@ -8,7 +8,7 @@ import view.terminal.regex.*;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
-
+/*
 public abstract class TerminalRun {
     private static Menu currentMenu = LoginMenu.getInstance();
 
@@ -346,3 +346,4 @@ public abstract class TerminalRun {
         return TerminalRun.currentMenu;
     }
 }
+*/

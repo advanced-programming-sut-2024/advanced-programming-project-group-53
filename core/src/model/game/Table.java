@@ -47,7 +47,7 @@ public class Table {
     }
     public void changeCurrentPlayer() {
         Collections.swap(players, 0, 1);
-        currentPlayer = players.get(0);
+        currentPlayer = players.getFirst();
     }
 
     public boolean putCard(Card card, int row) {
@@ -61,7 +61,7 @@ public class Table {
 
     public void changeTurn() {
         Collections.swap(players, 0, 1);
-        currentPlayer = players.get(0);
+        currentPlayer = players.getFirst();
     }
 
     public GameInformation saveGame() {

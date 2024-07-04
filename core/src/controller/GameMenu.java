@@ -5,10 +5,8 @@ import model.card.Special;
 import model.game.Player;
 import model.game.Playground;
 import model.game.Table;
-import model.menu.MenuName;
 import view.message.MenuMessage;
 import view.message.Printer;
-import view.terminal.TerminalRun;
 
 import java.util.ArrayList;
 
@@ -17,7 +15,6 @@ public class GameMenu extends Menu {
     private final Table table;
 
     private GameMenu(Player player1, Player player2) {
-        super.setMenuType(MenuName.GameMenu);
         this.table = new Table(player1, player2);
     }
 
@@ -25,9 +22,8 @@ public class GameMenu extends Menu {
         return instance;
     }
 
-    public static GameMenu setInstance(Player player1, Player player2) {
+    public static void setInstance(Player player1, Player player2) {
         instance = new GameMenu(player1, player2);
-        return instance;
     }
 
     public static boolean vetoCards(int cardNumber) {
@@ -130,23 +126,6 @@ public class GameMenu extends Menu {
             return true;
         }
         return true;
-    }
-
-    @Override
-    public boolean enterMenu(String name) {
-        Printer.print(MenuMessage.INVALID_MENU.message());
-        return false;
-    }
-
-    @Override
-    public void exitMenu() {
-        TerminalRun.changeCurrentMenu(StartMenu.getInstance());
-        Printer.print(MenuMessage.ENTER_START_MENU.message());
-    }
-
-    @Override
-    public void showMenu() {
-        Printer.print(MenuMessage.GAME_MENU.message());
     }
 
     public Table getTable() {
