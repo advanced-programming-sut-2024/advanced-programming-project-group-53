@@ -1,6 +1,8 @@
 package controller;
 
 import model.card.Card;
+import model.card.Commander;
+import model.card.Faction;
 import model.card.Special;
 import model.game.Player;
 import model.game.Playground;
@@ -22,8 +24,9 @@ public class GameMenu extends Menu {
         return instance;
     }
 
-    public static void setInstance(Player player1, Player player2) {
+    public static GameMenu setInstance(Player player1, Player player2) {
         instance = new GameMenu(player1, player2);
+        return instance;
     }
 
     public static boolean vetoCards(int cardNumber) {
@@ -116,18 +119,56 @@ public class GameMenu extends Menu {
             Printer.print(MenuMessage.INVALID_PLAYGROUND_NUMBER.message());
             return false;
         }
-        if (state == 4) {
+        if (state == 1) {
+            currentPlayer.getHand().removeCard(card.getName());
+            table.getPlayGround().placeSpellCard(card, table.getPlayers(0), table.getPlayers(1));
+            return true;
+        }
+        if (state == 2) {
+            currentPlayer.getHand().removeCard(card.getName());
+            table.getPlayGround().placeSpyUnitCard(rowNumber, card , currentPlayer);
+            return true;
+        }
+        if (state == 3) {
             currentPlayer.getHand().removeCard(card.getName());
             table.getPlayGround().placeNoneSpyUnit(card, rowNumber, table.getPlayers(0), table.getPlayers(1));
-            return false;
+            return true;
+        }
+        if (state == 4) {
+            currentPlayer.getHand().removeCard(card.getName());
+            table.getPlayGround().decoyAbility(rowNumber, index, currentPlayer);
+            return true;
         }
         if (state == 5) {
             currentPlayer.getHand().removeCard(card.getName());
+            table.getPlayGround().placeSpecialCard(rowNumber, card);
             return true;
         }
+        return false;
+    }
+    public static boolean commanderExecution() {
+        if (getInstance().getTable().getPlayers(0).isCommanderUsed()) {
+            Printer.print(MenuMessage.YOU_USED_YOUR_COMMANDER.message());
+            return false;
+        }
+        Table table = getInstance().getTable();
+        Player player = table.getPlayers(0);
+        Commander commander = player.getCommander();
+        ArrayList<Card> cardsToWorkWith;
+        if (player.getFaction() == Faction.NorthernRealms) {
+            cardsToWorkWith = table.executeNorthern(commander);
+        } else if (player.getFaction() == Faction.NilfgaardianEmpire) {
+            cardsToWorkWith = table.executeNilfgaardian(commander);
+        } else if (player.getFaction() == Faction.Monsters) {
+            cardsToWorkWith = table.executeMonsters(commander);
+        } else if (player.getFaction() == Faction.Scoiatael) {
+            cardsToWorkWith = table.executeScoiatael(commander);
+        } else if (player.getFaction() == Faction.Skellige) {
+            cardsToWorkWith = table.executeSkellige(commander);
+        }
+        //TODO : do something with cardsToWorkWith with graphical interface.
         return true;
     }
-
     public Table getTable() {
         return table;
     }

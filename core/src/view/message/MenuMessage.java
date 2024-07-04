@@ -57,6 +57,7 @@ public enum MenuMessage {
     INVALID_PLAYGROUND_NUMBER("Invalid playground number."),
     INVALID_RANGE("Invalid range."),
     PASSWORD_IS_NOT_THE_SAME("Password is not the same."),
+    YOU_USED_YOUR_COMMANDER("You have already used your commander.")
     ;
     private final String message;
 

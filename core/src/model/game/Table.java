@@ -4,6 +4,7 @@ import model.card.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Random;
 
 public class Table {
@@ -106,5 +107,153 @@ public class Table {
     }
 
 
-    //Card Abilities list
+    //leaders Abilities
+    public ArrayList<Card> executeNorthern(Commander commander) {
+        Player currentPlayer = getPlayers(0);
+        Player opponent = getPlayers(1);
+        if (commander.getCommanderInformation() == CommanderInformation.Foltest_TheSiegeMaster) {
+            if (currentPlayer.getDeck().impenetrableFogGetter() == null) {
+                if (currentPlayer.getHand().impenetrableFogGetter() != null)
+                    playGround.placeSpellCard(Objects.requireNonNull(Special.getInstanceByName(SpecialInformation.
+                                    ImpenetrableFog.name())), currentPlayer,
+                                    opponent);
+            } else
+                playGround.placeSpellCard(Objects.requireNonNull(Special.getInstanceByName(SpecialInformation.
+                                ImpenetrableFog.name())), currentPlayer,
+                                opponent);
+            return null;
+        }
+        if (commander.getCommanderInformation() == CommanderInformation.Foltest_TheSteelForged) {
+            playGround.placeSpellCard(Objects.requireNonNull(Special.getInstanceByName(SpecialInformation.
+                            ClearWeather.name())),
+                            currentPlayer, opponent);
+            playGround.setWeatherConditionAt(false, 0);
+            return null;
+        }
+        if (commander.getCommanderInformation() == CommanderInformation.Foltest_KingOfTemeria) {
+            if (playGround.haveCommandersHornAt(2)) return null;
+            playGround.commandersHornAbility(2);
+            return null;
+        }
+        if (commander.getCommanderInformation() == CommanderInformation.Foltest_LordCommanderOfTheNorth) {
+            playGround.removeCardsWithMaxPowerScorch(3, currentPlayer, opponent);
+            return null;
+        }
+        if (commander.getCommanderInformation() == CommanderInformation.Foltest_SonOfMedell)
+            playGround.removeCardsWithMaxPowerScorch(3, currentPlayer, opponent);
+        return null;
+    }
+
+    public ArrayList<Card> executeNilfgaardian(Commander commander) {
+        Player currentPlayer = getPlayers(0);
+        Player opponent = getPlayers(1);
+        if (commander.getCommanderInformation() == CommanderInformation.EmhyrVarEmreis_TheWhiteFlame) {
+            if (currentPlayer.getDeck().torrentialRainGetter() == null) {
+                if (currentPlayer.getHand().torrentialRainGetter() != null)
+                    playGround.placeSpellCard(Objects.requireNonNull(Special.getInstanceByName(SpecialInformation.
+                                    TorrentialRain.name())), currentPlayer,
+                                    opponent);
+            } else
+                playGround.placeSpellCard(Objects.requireNonNull(Special.getInstanceByName(SpecialInformation.
+                                TorrentialRain.name())), currentPlayer,
+                                opponent);
+            return null;
+        }
+        if (commander.getCommanderInformation() == CommanderInformation.EmhyrVarEmreis_HisImperialMajesty) {
+            opponent.getHand().shuffle();
+            ArrayList<Card> cardsToShow = new ArrayList<>();
+            cardsToShow.add(opponent.getHand().cardAt(0));
+            cardsToShow.add(opponent.getHand().cardAt(1));
+            cardsToShow.add(opponent.getHand().cardAt(2));
+            opponent.getHand().shuffle();
+            return cardsToShow;
+        }
+        if (commander.getCommanderInformation() == CommanderInformation.EmhyrVarEmreis_EmperorOfNilfgaard) {
+            //TODO : this commander cancel the opponent commander ability and I should hard code for this.
+            return null;
+        }
+        if (commander.getCommanderInformation() == CommanderInformation.EmhyrVarEmreis_TheRelentless)
+            return opponent.getDiscardPiles().getCards();
+        if (commander.getCommanderInformation() == CommanderInformation.EmhyrVarEmreis_InvaderOfTheNorth) {
+            currentPlayer.invaderAbility();
+            opponent.invaderAbility();
+            return null;
+        }
+        return null;
+    }
+
+    public ArrayList<Card> executeMonsters(Commander commander) {
+        Player currentPlayer = getPlayers(0);
+        Player opponent = getPlayers(1);
+        if (commander.getCommanderInformation() == CommanderInformation.EredinBreaccGlas_BringerOfDeath) {
+            if (playGround.haveCommandersHornAt(0)) return null;
+            playGround.commandersHornAbility(0);
+            return null;
+        }
+        if (commander.getCommanderInformation() == CommanderInformation.Foltest_KingOfTemeria)
+            return currentPlayer.getDiscardPiles().getCards();
+        if (commander.getCommanderInformation() == CommanderInformation.EredinBreaccGlas_DestroyerOfWorlds) {
+            ArrayList<Card> cardsToShow = new ArrayList<>();
+            cardsToShow.addAll(playGround.getUnitCardsInRow(0));
+            cardsToShow.addAll(playGround.getUnitCardsInRow(1));
+            cardsToShow.addAll(playGround.getUnitCardsInRow(2));
+            return cardsToShow;
+        }
+        if (commander.getCommanderInformation() == CommanderInformation.EredinBreaccGlas_CommanderOfTheRedRiders)
+            return currentPlayer.getDeck().weatherCards();
+        if (commander.getCommanderInformation() == CommanderInformation.EredinBreaccGlas_TheTreacherous) {
+            playGround.spyCardBuff();
+            return null;
+        }
+        return null;
+    }
+
+    public ArrayList<Card> executeScoiatael(Commander commander) {
+        Player currentPlayer = getPlayers(0);
+        Player opponent = getPlayers(1);
+        if (commander.getCommanderInformation() == CommanderInformation.FrancescaFindabair_QueenOfDolBlathanna) {
+            if (playGround.suitableToScorch(5))
+                playGround.simpleRemoveCardWithMaxPower(6, currentPlayer, opponent);
+            return null;
+        }
+        if (commander.getCommanderInformation() == CommanderInformation.FrancescaFindabair_TheBeautiful) {
+            if (playGround.haveCommandersHornAt(1)) return null;
+            playGround.commandersHornAbility(1);
+        }
+        //this commander ability won't execute, but in the first of the match.
+        if (commander.getCommanderInformation() == CommanderInformation.FrancescaFindabair_DaisyOfTheValley)
+            return null;
+        if (commander.getCommanderInformation() == CommanderInformation.FrancescaFindabair_PureBloodElf) {
+            if (currentPlayer.getDeck().bitingFrostGetter() == null) {
+                if (currentPlayer.getHand().bitingFrostGetter() != null)
+                    playGround.placeSpellCard(Objects.requireNonNull(Special.getInstanceByName(SpecialInformation.
+                                    BitingFrost.name())), currentPlayer,
+                                    opponent);
+            } else
+                playGround.placeSpellCard(Objects.requireNonNull(Special.getInstanceByName(SpecialInformation.
+                                BitingFrost.name())), currentPlayer,
+                                opponent);
+            return null;
+        }
+        if (commander.getCommanderInformation() == CommanderInformation.FrancescaFindabair_HopeOfTheAenSeidhe) {
+            //TODO : fill this for this commander about agile unit.
+            return null;
+        }
+        return null;
+    }
+
+    public ArrayList<Card> executeSkellige(Commander commander) {
+        Player currentPlayer = getPlayers(0);
+        Player opponent = getPlayers(1);
+        if (commander.getCommanderInformation() == CommanderInformation.TWO_COMMANDER_SKELLIGE_CrachAnCraite) {
+            currentPlayer.shuffleDiscardPilesAndAdd();
+            opponent.shuffleDiscardPilesAndAdd();
+            return null;
+        }
+        if (commander.getCommanderInformation() == CommanderInformation.TWO_COMMANDER_SKELLIGE_KingBran) {
+            //TODO : complete this commander.
+            return null;
+        }
+        return null;
+    }
 }

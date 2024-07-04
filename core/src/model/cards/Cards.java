@@ -1,8 +1,6 @@
 package model.cards;
 
-import model.card.Ability;
-import model.card.Card;
-import model.card.Unit;
+import model.card.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -107,6 +105,67 @@ public abstract class Cards {
             }
         }
         return allMusters;
+    }
+
+    public ArrayList<Unit> allMaidens() {
+        Iterator<Card> iterator = cards.iterator();
+        ArrayList<Unit> allMaidens = new ArrayList<>();
+        while (iterator.hasNext()) {
+            Card card = iterator.next();
+            if (card.getName().equalsIgnoreCase(UnitInformation.ClanDrummondShieldmaiden.name())) {
+                allMaidens.add(Unit.getInstanceByName(card.getName()));
+                iterator.remove();
+            }
+        }
+        return allMaidens;
+    }
+
+    public void makeEmpty() {
+        Iterator<Card> iterator = cards.iterator();
+        while (iterator.hasNext()) {
+            iterator.remove();
+        }
+    }
+
+    public void addAll(ArrayList<Card> cards) {
+        this.cards.addAll(cards);
+    }
+
+    //For SiegeMaster ability
+    public Card impenetrableFogGetter() {
+        for (Card card : cards)
+            if (card.getName().equalsIgnoreCase(SpecialInformation.ImpenetrableFog.name())) {
+                cards.remove(card);
+                return card;
+            }
+        return null;
+    }
+
+    //For The White Flame ability
+    public Card torrentialRainGetter() {
+        for (Card card : cards)
+            if (card.getName().equalsIgnoreCase(SpecialInformation.TorrentialRain.name())) {
+                cards.remove(card);
+                return card;
+            }
+        return null;
+    }
+    //For Pure blood elf ability
+    public Card bitingFrostGetter() {
+        for (Card card : cards)
+            if (card.getName().equalsIgnoreCase(SpecialInformation.BitingFrost.name())) {
+                cards.remove(card);
+                return card;
+            }
+        return null;
+    }
+    //For Commander of the red riders ability
+    public ArrayList<Card> weatherCards() {
+        ArrayList<Card> allWeathers = new ArrayList<>();
+        for (Card card : cards)
+            if (card.getType().equals(Type.Weather))
+                allWeathers.addAll(cards);
+        return allWeathers;
     }
 
     @Override
