@@ -3,22 +3,25 @@ package view.graphic;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.RegisterMenu;
 import game.GWENT;
+import network.Command;
+import network.Connector;
+import network.Instruction;
+import view.Resource;
+
+import java.util.Objects;
 
 public class RegisterView extends View {
-    private final Table registerTable;
-    private final Table textTable;
     private final Label registerMessage;
-    private final Label question;
+    private final TextField question;
     private final TextField username;
+    private final TextField nickname;
     private final TextField password;
+    private final TextField email;
     private final TextField answer;
     private final Image register;
     private final Image loginMenu;
@@ -27,28 +30,45 @@ public class RegisterView extends View {
     public RegisterView(GWENT game) {
         super(game);
         menu = RegisterMenu.getInstance();
-        registerTable = new Table();
+        Table registerTable = new Table();
         registerTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 3));
         registerTable.align(Align.center);
-        textTable = new Table();
-        textTable.setBounds(635, 170, 400, 400);
-        textTable.align(Align.center);
-        registerMessage = new Label("ohhhhhhhhhhh", label);//TODO: The bloody message.
-        question = new Label("Question", label);//TODO: !.
-        username = new TextField("", textField);
+        VerticalGroup textGroup = new VerticalGroup();
+        textGroup.setBounds(635, 170, 400, 400);
+        textGroup.align(Align.center);
+        textGroup.space(10);
+        registerMessage = new Label("", skin);
+        username = new TextField("", skin);
         username.setMessageText("username");
-        password = new TextField("", textField);
+        nickname = new TextField("", skin);
+        nickname.setMessageText("nickname");
+        email = new TextField("", skin);
+        email.setMessageText("email");
+        password = new TextField("", skin);
         password.setMessageText("password");
         password.setPasswordCharacter('*');
         password.setPasswordMode(true);
-        answer = new TextField("", textField);
+        TextField confirmPassword = new TextField("", skin);
+        confirmPassword.setMessageText("confirm");
+        confirmPassword.setPasswordMode(true);
+        confirmPassword.setPasswordCharacter('*');
+        question = new TextField("", skin);
+        question.setMessageText("question");
+        answer = new TextField("", skin);
         answer.setMessageText("answer");
         register = new Image(new Texture(Resource.REGISTER_OFF.address()));
         register.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 register.setDrawable(new Image(new Texture(Resource.REGISTER_CLICKED.address())).getDrawable());
-                //TODO: fill it.
+                perform(new Connector().perform(new Instruction(Command.REGISTER,
+                        username.getText(),
+                        nickname.getText(),
+                        email.getText(),
+                        password.getText(),
+                        confirmPassword.getText(),
+                        question.getText(),
+                        answer.getText())));
             }
 
             @Override
@@ -102,22 +122,41 @@ public class RegisterView extends View {
         registerTable.add(loginMenu);
         registerTable.row();
         registerTable.add(exit);
-        textTable.add(registerMessage);
-        textTable.row();
-        textTable.add(username);
-        textTable.row();
-        textTable.add(password);
-        textTable.row();
-        textTable.add(question);
-        textTable.row();
-        textTable.add(answer);
+        textGroup.addActor(registerMessage);
+        textGroup.addActor(username);
+        textGroup.addActor(nickname);
+        textGroup.addActor(email);
+        textGroup.addActor(password);
+        textGroup.addActor(confirmPassword);
+        textGroup.addActor(question);
+        textGroup.addActor(answer);
         stage.addActor(background);
         stage.addActor(registerTable);
-        stage.addActor(textTable);
+        stage.addActor(textGroup);
     }
 
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.REGISTER_BACKGROUND.address()));
+    }
+
+    @Override
+    protected void perform(Instruction instruction) {
+        if (Objects.requireNonNull(instruction.command()) == Command.REGISTER_MESSAGE) {
+            if (Objects.equals(instruction.arguments()[0], "empty"))
+                game.changeScreen(new LoginView(game));
+            else {
+                StringBuilder builder = new StringBuilder();
+                for (String string : instruction.arguments())
+                    builder.append(string).append(" ");
+                registerMessage.setText(builder.toString().trim());
+                username.setText("");
+                nickname.setText("");
+                email.setText("");
+                password.setText("");
+                question.setText("");
+                answer.setText("");
+            }
+        }
     }
 }

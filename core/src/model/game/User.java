@@ -28,9 +28,8 @@ public class User {
 
     static {
         allUsers.add(new User("a", "b", "c", "d", "e", "f"));//TODO: delete at the end of project.
-        DataBaseHandler.addAllUsers(allUsers);
+        allUsers.add(new User("g", "h", "i", "j", "k", "l"));
     }
-
     public User(String username, String nickname, String email, String password, String question, String answer) {
         this.username = username;
         this.nickname = nickname;
@@ -47,7 +46,6 @@ public class User {
         allUsers.add(this);
         saveUser();
     }
-
     public void saveUser() {
         //This part is to save and specify a place for saving deck and user json in file system.
         DataBaseHandler.insertUser(this);
@@ -60,9 +58,11 @@ public class User {
     }
 
     public static User findUser(String username) {
-        for (User user : allUsers)
-            if (user.username().equals(username))
+        for (User user : allUsers) {
+            if (user.username().equals(username)) {
                 return user;
+            }
+        }
         return null;
     }
 
@@ -169,7 +169,10 @@ public class User {
     public String question() {
         return question;
     }
-
+    public static ArrayList<User> ranking() {
+        return allUsers;
+        //TODO: sort!
+    }
     static class DataBaseHandler {
         public static void createDataBaseUserTable() {
             String url = "jdbc:sqlite:users.db";
@@ -230,7 +233,7 @@ public class User {
             String json = gson.toJson(user);
 
             try (Connection conn = DriverManager.getConnection(url);
-                PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setString(1, json);
                 preparedStatement.setString(2, user.username);
                 preparedStatement.executeUpdate();
@@ -244,7 +247,7 @@ public class User {
             String sql = "DELETE FROM users WHERE name = ?";
 
             try (Connection conn = DriverManager.getConnection("jdbc:sqlite:users.db");
-                PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setString(1, name);
                 preparedStatement.executeUpdate();
                 System.out.println("User(s) deleted successfully.");

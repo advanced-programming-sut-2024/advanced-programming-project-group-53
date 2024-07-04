@@ -1,21 +1,9 @@
 package controller;
 
-import model.game.User;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import view.message.MenuMessage;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-
-import static org.junit.Assert.*;
-
 public class LoginMenuTest {
-    private LoginMenu loginMenu;
+    /*private LoginMenu loginMenu;
     private static final ArrayList<User> allUsersTemp = new ArrayList<>();
-/*
+
     @Before
     public void setUp() {
         loginMenu = LoginMenu.getInstance();
@@ -29,7 +17,7 @@ public class LoginMenuTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         assertTrue(loginMenu.enterMenu("MainMenu"));
-        assertEquals(MenuMessage.ENTER_MAIN_MENU.message(), outContent.toString().trim());
+        assertEquals(Message.ENTER_MAIN_MENU.message(), outContent.toString().trim());
     }
 
     @Test
@@ -37,7 +25,7 @@ public class LoginMenuTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         loginMenu.showMenu();
-        assertEquals(MenuMessage.LOGIN_MENU.message(), outContent.toString().trim());
+        assertEquals(Message.LOGIN_MENU.message(), outContent.toString().trim());
     }
 
     @Test
@@ -45,7 +33,7 @@ public class LoginMenuTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         assertFalse(loginMenu.enterMenu("aMenu"));
-        assertEquals(MenuMessage.INVALID_MENU.message(), outContent.toString().trim());
+        assertEquals(Message.INVALID_MENU.message(), outContent.toString().trim());
     }
 
     @Test
@@ -58,7 +46,7 @@ public class LoginMenuTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         assertFalse(loginMenu.login("ANotExistingUsername", "APassword"));
-        assertEquals(MenuMessage.NO_USER.message(), outContent.toString().trim());
+        assertEquals(Message.NO_USER.message(), outContent.toString().trim());
     }
 
     @Test
@@ -66,7 +54,7 @@ public class LoginMenuTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         assertFalse(loginMenu.login("ValidUsername", "AWrongPassword"));
-        assertEquals(MenuMessage.INCORRECT_PASSWORD.message(), outContent.toString().trim());
+        assertEquals(Message.INCORRECT_PASSWORD.message(), outContent.toString().trim());
     }
 
     @Test
@@ -84,7 +72,7 @@ public class LoginMenuTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         loginMenu.setPassword("AnotherValidAndStrongPassword12$$", "ValidUsername");
-        assertEquals(MenuMessage.PASSWORD_CHANGED.message(), outContent.toString().trim());
+        assertEquals(Message.PASSWORD_CHANGED.message(), outContent.toString().trim());
         //Todo: check that the password has actually changed or not
     }
 
@@ -93,7 +81,7 @@ public class LoginMenuTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         loginMenu.setPassword("WeakPass", "ValidUsername");
-        assertEquals(MenuMessage.WEAK_PASSWORD.message(), outContent.toString().trim());
+        assertEquals(Message.WEAK_PASSWORD.message(), outContent.toString().trim());
         //Todo: check that the password hasn't changed
     }
     //todo: tests for security question
@@ -101,7 +89,5 @@ public class LoginMenuTest {
     @After
     public void loadUsers() {
         User.loadUsers(allUsersTemp);
-    }
-
- */
+    }*/
 }

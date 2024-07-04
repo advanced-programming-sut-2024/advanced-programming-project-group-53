@@ -119,29 +119,13 @@ public class GameMenu extends Menu {
             Printer.print(MenuMessage.INVALID_PLAYGROUND_NUMBER.message());
             return false;
         }
-        if (state == 1) {
-            currentPlayer.getHand().removeCard(card.getName());
-            table.getPlayGround().placeSpellCard(card, table.getPlayers(0), table.getPlayers(1));
-            return true;
-        }
-        if (state == 2) {
-            currentPlayer.getHand().removeCard(card.getName());
-            table.getPlayGround().placeSpyUnitCard(rowNumber, card , currentPlayer);
-            return true;
-        }
-        if (state == 3) {
-            currentPlayer.getHand().removeCard(card.getName());
-            table.getPlayGround().placeNoneSpyUnit(card, rowNumber, table.getPlayers(0), table.getPlayers(1));
-            return true;
-        }
         if (state == 4) {
             currentPlayer.getHand().removeCard(card.getName());
-            table.getPlayGround().decoyAbility(rowNumber, index, currentPlayer);
-            return true;
+            table.getPlayGround().placeNoneSpyUnit(card, rowNumber, table.getPlayers(0), table.getPlayers(1));
+            return false;
         }
         if (state == 5) {
             currentPlayer.getHand().removeCard(card.getName());
-            table.getPlayGround().placeSpecialCard(rowNumber, card);
             return true;
         }
         return false;

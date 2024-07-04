@@ -1,9 +1,7 @@
 package controller;
 
 import model.game.User;
-import model.menu.MenuName;
-import view.message.MenuMessage;
-
+import view.Message;
 
 import java.util.Objects;
 
@@ -11,7 +9,6 @@ public class LoginMenu extends Menu {
     private static LoginMenu instance;
 
     private LoginMenu() {
-        super.setMenuName(MenuName.LoginMenu);
     }
 
     public static LoginMenu getInstance() {
@@ -23,17 +20,17 @@ public class LoginMenu extends Menu {
     public String login(String username, String password) {
         User user = User.findUser(username);
         if (user == null)
-            return MenuMessage.NO_USER.message();
+            return Message.NO_USER.message();
         else if (!user.password().equals(password))
-            return MenuMessage.INCORRECT_PASSWORD.message();
-        return "";
+            return Message.INCORRECT_PASSWORD.message();
+        return "empty";
     }
 
     public String userValidation(String username) {
         User user = User.findUser(username);
         if (user == null)
-            return MenuMessage.NO_USER.message();
-        return username;
+            return Message.NO_USER.message();
+        return "empty";
     }
 
     public String question(String username) {
@@ -43,15 +40,15 @@ public class LoginMenu extends Menu {
     public String changePassword(String answer,String newPassword,String newPasswordConfirm, String username) {
         User user = User.findUser(username);
         if (!user.checkSecurityAnswer(answer))
-            return MenuMessage.WRONG_ANSWER.message();
-        if (newPassword.equals(newPasswordConfirm))
-            return MenuMessage.PASSWORD_IS_NOT_THE_SAME.message();
+            return Message.WRONG_ANSWER.message();
+        if (!newPassword.equals(newPasswordConfirm))
+            return Message.PASSWORD_IS_NOT_THE_SAME.message();
         String result = RegisterMenu.getInstance().passwordValidation(newPassword);
         if (!Objects.equals(result, ""))
             return result;
         else {
             user.setPassword(newPassword);
-            return MenuMessage.PASSWORD_CHANGED.message();
+            return Message.PASSWORD_CHANGED.message();
         }
     }
 }
