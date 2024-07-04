@@ -40,4 +40,5 @@ public abstract class Card {
         return this.getName() + " " + this.getType() + " -- " + this.getFaction() +
                 " - " + this.getAbility() + "-" + this.getPower() + "---->" + isHero + "_" + isSpecial;
     }
+    public abstract int power();
 }

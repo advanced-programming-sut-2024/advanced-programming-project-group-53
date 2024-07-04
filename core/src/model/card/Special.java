@@ -43,6 +43,11 @@ public class Special extends Card {
         return specialInformation.address();
     }
 
+    @Override
+    public int power() {
+        return specialInformation.power();
+    }
+
     public static Special getInstanceByName(String cardName) {
         for (SpecialInformation specialInfo : SpecialInformation.values())
             if (specialInfo.name().equalsIgnoreCase(cardName))

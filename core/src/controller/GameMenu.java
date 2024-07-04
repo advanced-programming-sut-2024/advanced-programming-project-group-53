@@ -7,8 +7,6 @@ import model.card.Special;
 import model.game.Player;
 import model.game.Playground;
 import model.game.Table;
-import view.message.MenuMessage;
-import view.message.Printer;
 
 import java.util.ArrayList;
 
@@ -24,7 +22,7 @@ public class GameMenu extends Menu {
         return instance;
     }
 
-    public static GameMenu setInstance(Player player1, Player player2) {
+    /*public static GameMenu setInstance(Player player1, Player player2) {
         instance = new GameMenu(player1, player2);
         return instance;
     }
@@ -155,5 +153,5 @@ public class GameMenu extends Menu {
     }
     public Table getTable() {
         return table;
-    }
+    }*/
 }

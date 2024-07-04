@@ -17,10 +17,7 @@ import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Draft;
 import model.game.User;
 import model.game.ValidationRegex;
-import model.menu.MenuName;
-import view.message.MenuMessage;
-import view.message.Printer;
-import view.terminal.TerminalRun;
+import view.Message;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -135,7 +132,7 @@ public class RegisterMenu extends Menu {
     }
 
     //This method for sending email needs to google cloud credential that it needs to living out of Iran, so we won't use it in project, but I store it for future and project view.
-    public static class GMailer {
+    /*public static class GMailer {
         private static Credential getCredentials(final NetHttpTransport httpTransport, GsonFactory jsonFactory)
                 throws IOException {
             GoogleClientSecrets clientSecrets =
@@ -198,5 +195,5 @@ public class RegisterMenu extends Menu {
         public static void main(String[] args) throws Exception {
             new GMailer().sendMail("subject", "msg");
         }
-    }
+    }*/
 }

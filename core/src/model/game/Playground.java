@@ -280,7 +280,8 @@ public class Playground {
         ArrayList<Card> unitCardRow = unitCardsGround.get(row);
         for (Card card : unitCardRow) {
             int power;
-            if (card.isSpecial()) power = ((Special) card).getSpecialInformation().power();
+            if (card.isSpecial())
+                power = (int) ((Special) card).power();
             else power = ((Unit) card).getInformation().power();
             card.setPower(power);
         }

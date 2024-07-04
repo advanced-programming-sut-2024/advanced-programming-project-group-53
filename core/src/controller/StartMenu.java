@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import model.card.*;
 import model.cards.Deck;
 import model.game.User;
-import model.menu.MenuName;
-import view.message.MenuMessage;
-import view.message.Printer;
+import view.Message;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -25,7 +23,6 @@ public class StartMenu extends Menu {
 
     //TODO : make it available for 2 user for interact in this menu.
     private StartMenu(String username) {
-        super.setMenuName(MenuName.StartMenu);
         this.user = User.findUser(username);
         this.initialDeck = new Deck();
         this.userFaction = null;
@@ -37,7 +34,7 @@ public class StartMenu extends Menu {
         return instance;
     }
 
-    public static void setInstance(String username) {
+    /*public static void setInstance(String username) {
         instance = new StartMenu(username);
     }
 
@@ -208,7 +205,7 @@ public class StartMenu extends Menu {
         0 for state which there is no card with this name.
         1 for when there is unit card with this name.
         2 for when there is special card with this name.
-         */
+
     }
 
     public static boolean deleteFromDeck(String cardName, String numberStr, String username) {
@@ -257,7 +254,7 @@ public class StartMenu extends Menu {
         currentStartMenu.setUserFaction(null);
         currentStartMenu.setHasFaction(false);
         currentStartMenu.setInitialDeck(new Deck());
-        User.setCurrentUser(currentStartMenu.getUser2());*/
+        User.setCurrentUser(currentStartMenu.getUser2());
         return true;
     }
 
@@ -272,7 +269,7 @@ public class StartMenu extends Menu {
                 currentStartMenu.getCommanderUser());
         currentStartMenu.setPlayer2(userPlayer);
         User.setCurrentUser(currentStartMenu.getUser1());
-        currentStartMenu.enterMenu("Game");*/
+        currentStartMenu.enterMenu("Game");
         return true;
     }
 
@@ -298,7 +295,7 @@ public class StartMenu extends Menu {
     @Override
     public void showMenu() {
         Printer.print(MenuMessage.START_MENU.message());
-    }*/
+    }
 
 
     public void saveDeck(String username, String deckName) {
@@ -352,5 +349,5 @@ public class StartMenu extends Menu {
 
     public User getUser() {
         return user;
-    }
+    }*/
 }

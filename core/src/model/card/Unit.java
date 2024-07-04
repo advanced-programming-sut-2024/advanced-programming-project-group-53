@@ -47,6 +47,11 @@ public class Unit extends Card {
         return information.address();
     }
 
+    @Override
+    public int power() {
+        return information.power();
+    }
+
     public static Unit getInstanceByName(String cardName) {
         for (UnitInformation unitInfo : UnitInformation.values())
             if (unitInfo.name().equalsIgnoreCase(cardName))
