@@ -92,4 +92,66 @@ public class ProfileMenuTest {
         assertEquals(Message.EMPTY_GAME_HISTORY.message(),profileMenu.showGameHistory("Username","",""));
         User.deleteAccount(user);
     }
+
+    @Test
+    public void shouldChangeValidUsernameAndErrorInvalid() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals(Message.INVALID_USERNAME.message()+"\n",profileMenu.changeUsername("Invalid username","Username"));
+        assertEquals("",profileMenu.changeUsername("NewUsername","Username"));
+        assertEquals("NewUsername",user.username());
+        User.deleteAccount(user);
+    }
+
+    @Test
+    public void shouldErrorWrongOldPassword() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals(Message.INCORRECT_PASSWORD.message(),profileMenu.changePassword("WrongPassword","newPassword","newPassword","Username"));
+        User.deleteAccount(user);
+    }
+
+    @Test
+    public void shouldErrorInvalidNewPasswordAndNotSame() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals(Message.PASSWORD_IS_NOT_THE_SAME.message(),profileMenu.changePassword("Password123#","newPassword","new_Password","Username"));
+        assertEquals(Message.WEAK_PASSWORD.message()+"\n",profileMenu.changePassword("Password123#","newPassword","newPassword","Username"));
+        User.deleteAccount(user);
+    }
+
+    @Test
+    public void shouldChangePassword() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals("",profileMenu.changePassword("Password123#","newPassword123#","newPassword123#","Username"));
+        assertEquals("newPassword123#",user.password());
+        User.deleteAccount(user);
+    }
+
+    @Test
+    public void shouldChangeValidNicknameAndErrorInvalid() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals(Message.INVALID_NICKNAME.message()+"\n",profileMenu.changeNickname("Invalid nickname","Username"));
+        assertEquals("",profileMenu.changeNickname("NewNickname","Username"));
+        assertEquals("NewNickname",user.nickname());
+        User.deleteAccount(user);
+    }
+
+    @Test
+    public void shouldChangeValidEmailAndErrorInvalid() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals(Message.INVALID_EMAIL.message()+"\n",profileMenu.changeEmail("Invalid email","Username"));
+        assertEquals("",profileMenu.changeEmail("newEmail@outlook.com","Username"));
+        assertEquals("newEmail@outlook.com",user.email());
+        User.deleteAccount(user);
+    }
 }
