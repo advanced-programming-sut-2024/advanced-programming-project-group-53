@@ -1,5 +1,13 @@
 package controller;
 
+import model.game.User;
+import org.junit.Before;
+import org.junit.Test;
+import view.Message;
+
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 public class RegisterMenuTest {
     /*private RegisterMenu registerMenu;
     private static final ArrayList<User> allUsersTemp = new ArrayList<>();
@@ -113,4 +121,43 @@ public class RegisterMenuTest {
     public void loadUsers() {
         User.loadUsers(allUsersTemp);
     }*/
+
+    private RegisterMenu registerMenu;
+
+    @Before
+    public void setUp() {
+        registerMenu = RegisterMenu.getInstance();
+    }
+
+    @Test
+    public void shouldRegisterValidNotExistingUser() {
+        if(User.findUser("validUsername") != null)
+            fail("test is invalid.");
+        assertEquals("",registerMenu.registerValidate("validUsername","validNickname","valid_email@yahoo.com","ValidPass123##"));
+    }
+
+    @Test
+    public void shouldErrorExistingUsername() {
+        //adding a user
+        User user = new User("ExistingUser","validNickname","validMail@yahoo.com","validPass123#","Question?","answer");
+        //todo: change the expected message when the message is actually existing :)
+        assertEquals("",registerMenu.registerValidate("ExistingUser","validNickname","valid_email@yahoo.com","ValidPass123##"));
+        User.deleteAccount(user);
+        assertNull(User.findUser("ExistingUser"));
+    }
+
+    @Test
+    public void shouldErrorInvalidUsername() {
+        assertEquals(Message.INVALID_USERNAME.message()+"\n",registerMenu.usernameValidation("Invalid username"));
+    }
+
+    @Test
+    public void shouldErrorInvalidNickname() {
+        assertEquals(Message.INVALID_NICKNAME.message()+"\n",registerMenu.nicknameValidation("Invalid nickname"));
+    }
+
+    @Test
+    public void shouldErrorInvalidEmail() {
+        assertEquals(Message.INVALID_EMAIL.message()+"\n",registerMenu.emailValidation("InvalidEmail @gmail.com"));
+    }
 }
