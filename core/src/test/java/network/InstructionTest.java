@@ -79,4 +79,12 @@ public class InstructionTest {
         assertArrayEquals(new String[]{}, instruction.arguments());
         assertEquals(0, instruction.argumentCount());
     }
+
+    @Test
+    public void shouldErrorInvalidCommand() {
+        Instruction instruction = Instruction.fromString("INVALID_COMMAND argument1 argument2");
+
+        assertNull(instruction.command());
+        assertArrayEquals(new String[]{"argument1" , "argument2"}, instruction.arguments());
+    }
 }
