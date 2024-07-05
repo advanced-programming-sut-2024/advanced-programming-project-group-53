@@ -160,4 +160,25 @@ public class RegisterMenuTest {
     public void shouldErrorInvalidEmail() {
         assertEquals(Message.INVALID_EMAIL.message()+"\n",registerMenu.emailValidation("InvalidEmail @gmail.com"));
     }
+
+    @Test
+    public void shouldErrorWeakPassword() {
+        assertEquals(Message.WEAK_PASSWORD.message()+"\n",registerMenu.passwordValidation("password_without_capital1"));
+        assertEquals(Message.WEAK_PASSWORD.message()+"\n",registerMenu.passwordValidation("PASSWORD_WITHOUT_ORDINARY1"));
+        assertEquals(Message.WEAK_PASSWORD.message()+"\n",registerMenu.passwordValidation("Password_Without_Number"));
+        assertEquals(Message.WEAK_PASSWORD.message()+"\n",registerMenu.passwordValidation("PasswordWithoutSpecialChar12"));
+        assertEquals(Message.WEAK_PASSWORD.message()+"\n",registerMenu.passwordValidation("Short#1"));
+        assertEquals(Message.WEAK_PASSWORD.message()+"\n",registerMenu.passwordValidation("Password with space 123#"));
+        //todo: check suggestion pass later
+    }
+
+    @Test
+    public void shouldErrorNotSamePassword() {
+        assertEquals(Message.PASSWORD_IS_NOT_THE_SAME.message(),registerMenu.register("ExistingUser","validNickname","validMail@yahoo.com","validPass123#","notSamePass123#","Question?","answer"));
+    }
+
+    @Test
+    public void shouldHaveMultipleErrors() {
+        assertEquals(Message.INVALID_USERNAME.message()+"\n"+Message.INVALID_NICKNAME.message()+"\n"+Message.INVALID_EMAIL.message()+"\n"+Message.WEAK_PASSWORD.message()+"\n",registerMenu.registerValidate("invalid username","invalid nickname","invalid mail@yahoo.com","weakPassword"));
+    }
 }
