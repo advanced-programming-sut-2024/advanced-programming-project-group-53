@@ -9,61 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class ProfileMenuTest {
-   /* private ProfileMenu profileMenu;
-    private static final ArrayList<User> allUsersTemp = new ArrayList<>();
-    private static final User currentUserTemp = User.getCurrentUser();
-    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-
-    @Before
-    public void setUp() {
-        profileMenu = ProfileMenu.getInstance();
-        User.resetUsers(allUsersTemp);
-        User userInstance = new User("aValidUsername-1", "aValid-1Nickname", "valid2mail@gmail.com", "Valid#Strong45password");
-        User.setCurrentUser(userInstance);
-    }
-
-    @Test
-    public void shouldShowProfileMenu() {
-        System.setOut(new PrintStream(outContent));
-        profileMenu.showMenu();
-        assertEquals(Message.PROFILE_MENU.message(), outContent.toString().trim());
-    }
-
-    @Test
-    public void shouldExitToMainMenu() {
-        System.setOut(new PrintStream(outContent));
-        profileMenu.exitMenu();
-        assertEquals(Message.ENTER_MAIN_MENU.message(), outContent.toString().trim());
-    }
-
-    @Test
-    public void shouldNotEnterAnyMenu() {
-        System.setOut(new PrintStream(outContent));
-        assertFalse(profileMenu.enterMenu("aMenu"));
-        assertEquals(Message.INVALID_MENU.message(), outContent.toString().trim());
-    }
-
-    @Test
-    public void shouldShowUsersInformation() {
-        System.setOut(new PrintStream(outContent));
-        profileMenu.showInformation();
-        assertEquals("Username:   aValidUsername-1\r\nNickname:   aValid-1Nickname\r\nMaxXP:      0.0\r\nRank:       0\r\nGame Count: 0\r\nDraw Count: 0\r\nWin Count:  0\r\nLose Count: 0", outContent.toString().trim());
-    }
-
-    @Test
-    public void shouldShowEmptyGameHistory() {
-        System.setOut(new PrintStream(outContent));
-        profileMenu.showGameHistory(2);//just a useless number to give to method
-        assertEquals(Message.EMPTY_GAME_HISTORY.message(), outContent.toString().trim());
-        //test failure because of temporary print
-    }
-
-    @After
-    public void loadUsers() {
-        User.setCurrentUser(currentUserTemp);
-        User.loadUsers(allUsersTemp);
-    }*/
-
     private ProfileMenu profileMenu;
 
     @Before
@@ -98,8 +43,8 @@ public class ProfileMenuTest {
         if(User.findUser("Username") != null)
             fail("test is invalid");
         User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
-        assertEquals(Message.INVALID_USERNAME.message()+"\n",profileMenu.changeUsername("Invalid username","Username"));
-        assertEquals("",profileMenu.changeUsername("NewUsername","Username"));
+        assertEquals(Message.INVALID_USERNAME.message(),profileMenu.changeUsername("Invalid username","Username"));
+        assertEquals("empty",profileMenu.changeUsername("NewUsername","Username"));
         assertEquals("NewUsername",user.username());
         User.deleteAccount(user);
     }
@@ -119,7 +64,7 @@ public class ProfileMenuTest {
             fail("test is invalid");
         User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
         assertEquals(Message.PASSWORD_IS_NOT_THE_SAME.message(),profileMenu.changePassword("Password123#","newPassword","new_Password","Username"));
-        assertEquals(Message.WEAK_PASSWORD.message()+"\n",profileMenu.changePassword("Password123#","newPassword","newPassword","Username"));
+        assertEquals(Message.WEAK_PASSWORD.message(),profileMenu.changePassword("Password123#","newPassword","newPassword","Username"));
         User.deleteAccount(user);
     }
 
@@ -128,7 +73,7 @@ public class ProfileMenuTest {
         if(User.findUser("Username") != null)
             fail("test is invalid");
         User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
-        assertEquals("",profileMenu.changePassword("Password123#","newPassword123#","newPassword123#","Username"));
+        assertEquals("empty",profileMenu.changePassword("Password123#","newPassword123#","newPassword123#","Username"));
         assertEquals("newPassword123#",user.password());
         User.deleteAccount(user);
     }
@@ -138,8 +83,8 @@ public class ProfileMenuTest {
         if(User.findUser("Username") != null)
             fail("test is invalid");
         User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
-        assertEquals(Message.INVALID_NICKNAME.message()+"\n",profileMenu.changeNickname("Invalid nickname","Username"));
-        assertEquals("",profileMenu.changeNickname("NewNickname","Username"));
+        assertEquals(Message.INVALID_NICKNAME.message(),profileMenu.changeNickname("Invalid nickname","Username"));
+        assertEquals("empty",profileMenu.changeNickname("NewNickname","Username"));
         assertEquals("NewNickname",user.nickname());
         User.deleteAccount(user);
     }
@@ -149,8 +94,8 @@ public class ProfileMenuTest {
         if(User.findUser("Username") != null)
             fail("test is invalid");
         User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
-        assertEquals(Message.INVALID_EMAIL.message()+"\n",profileMenu.changeEmail("Invalid email","Username"));
-        assertEquals("",profileMenu.changeEmail("newEmail@outlook.com","Username"));
+        assertEquals(Message.INVALID_EMAIL.message(),profileMenu.changeEmail("Invalid email","Username"));
+        assertEquals("empty",profileMenu.changeEmail("newEmail@outlook.com","Username"));
         assertEquals("newEmail@outlook.com",user.email());
         User.deleteAccount(user);
     }
