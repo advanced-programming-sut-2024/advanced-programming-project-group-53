@@ -46,6 +46,12 @@ public class User {
         allUsers.add(this);
         saveUser();
     }
+
+    public static void deleteAccount(User user) {
+        //used for tests(Don't delete, please)
+        allUsers.remove(user);
+    }
+
     public void saveUser() {
         //This part is to save and specify a place for saving deck and user json in file system.
         DataBaseHandler.insertUser(this);
