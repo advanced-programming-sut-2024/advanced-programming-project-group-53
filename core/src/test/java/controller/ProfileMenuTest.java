@@ -1,5 +1,13 @@
 package controller;
 
+import model.game.User;
+import org.junit.Before;
+import org.junit.Test;
+import view.Message;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 public class ProfileMenuTest {
    /* private ProfileMenu profileMenu;
     private static final ArrayList<User> allUsersTemp = new ArrayList<>();
@@ -55,4 +63,33 @@ public class ProfileMenuTest {
         User.setCurrentUser(currentUserTemp);
         User.loadUsers(allUsersTemp);
     }*/
+
+    private ProfileMenu profileMenu;
+
+    @Before
+    public void setUp() {
+        profileMenu = ProfileMenu.getInstance();
+    }
+
+    @Test
+    public void shouldShowUserInfo() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        user.setDrawCount(12);
+        user.setGameCount(15);
+        user.setLoseCount(1);
+        user.setWinCount(2);
+        assertEquals("Username Nickname 0.0 0 15 12 2 1 ",profileMenu.getInformation("Username"));
+        User.deleteAccount(user);
+    }
+
+    @Test
+    public void shouldShowEmptyGameHistory() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals(Message.EMPTY_GAME_HISTORY.message(),profileMenu.showGameHistory("Username","",""));
+        User.deleteAccount(user);
+    }
 }
