@@ -23,6 +23,9 @@ public enum Resource {
     CHANGE_USERNAME_ON("button/changeUsername/on.png"),
     CHANGE_USERNAME_OFF("button/changeUsername/off.png"),
     CHANGE_USERNAME_CLICKED("button/changeUsername/clicked.png"),
+    CHAT_ON("button/chat/on.png"),
+    CHAT_OFF("button/chat/off.png"),
+    CHAT_CLICKED("button/chat/clicked.png"),
     CHOOSE_DECK_ON("button/chooseDeck/on.png"),
     CHOOSE_DECK_OFF("button/chooseDeck/off.png"),
     CHOOSE_DECK_CLICKED("button/chooseDeck/clicked.png"),
@@ -35,6 +38,9 @@ public enum Resource {
     FORGET_PASSWORD_ON("button/forgetPassword/on.png"),
     FORGET_PASSWORD_OFF("button/forgetPassword/off.png"),
     FORGET_PASSWORD_CLICKED("button/forgetPassword/clicked.png"),
+    FRIEND_ON("button/friend/on.png"),
+    FRIEND_OFF("button/friend/off.png"),
+    FRIEND_CLICKED("button/friend/clicked.png"),
     HISTORY_ON("button/history/on.png"),
     HISTORY_OFF("button/history/off.png"),
     HISTORY_CLICKED("button/history/clicked.png"),
@@ -71,6 +77,9 @@ public enum Resource {
     SAVE_ON("button/save/on.png"),
     SAVE_OFF("button/save/off.png"),
     SAVE_CLICKED("button/save/clicked.png"),
+    SEND_ON("button/send/on.png"),
+    SEND_OFF("button/send/off.png"),
+    SEND_CLICKED("button/send/clicked.png"),
     SINGLE_ON("button/single/on.png"),
     SINGLE_OFF("button/single/off.png"),
     SINGLE_CLICKED("button/single/clicked.png"),
@@ -90,6 +99,10 @@ public enum Resource {
     RANKING_BACKGROUND("background/ranking.jpeg"),
     GAME_BACKGROUND("background/game.png"),
     TOURNAMENT_BACKGROUND("background/tournament.jpeg"),
+    CHAT_BACKGROUND("background/chat.jpeg"),
+    PREGAME_BACKGROUND("background/pregame.jpeg"),
+    SELECT_BACKGROUND("background/select.jpeg"),
+    END_BACKGROUND("background/end.jpg"),
     FIRST_MUSIC("sound/02. Geralt Of Rivia.mp3"),
     LOGIN_MUSIC("sound/08. Spikeroog.mp3"),
     REGISTER_MUSIC("sound/16. Kaer Morhen.mp3"),
@@ -100,7 +113,10 @@ public enum Resource {
     RANKING_MUSIC("sound/27. After The Storm.mp3"),
     GAME_MUSIC("sound/34. Child Of The Elder Blood.mp3"),
     TOURNAMENT_MUSIC("sound/47. Go For It.mp3"),
-    ;
+    CHAT_MUSIC("sound/09. King Bran's Final Voyage.mp3"),
+    PREGAME_MUSIC("sound/03. Eredin, King Of The Hunt.mp3"),
+    SELECT_MUSIC("sound/13. City Of Intrigues.mp3"),
+    END_MUSIC("sound/01. The Trail.mp3");
     private final String address;
 
     Resource(String address) {

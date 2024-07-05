@@ -211,7 +211,6 @@ public class LoginView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
-        System.out.println(instruction);
         String[] response = instruction.arguments();
         String empty = response[0];
         StringBuilder builder = new StringBuilder();
@@ -250,8 +249,11 @@ public class LoginView extends View {
             case LOGIN_MESSAGE:
                 if (Objects.equals(empty, "empty"))
                     game.changeScreen(new MainView(game, username.getText()));
-                else
+                else {
                     loginMessage.setText(arguments);
+                    username.setText("");
+                    password.setText("");
+                }
                 break;
         }
     }

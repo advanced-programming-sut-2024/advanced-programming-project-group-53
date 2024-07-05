@@ -1,13 +1,16 @@
 package com.mygdx.game.network;
 
+import controller.ChatMenu;
 import controller.LoginMenu;
 import controller.ProfileMenu;
 import controller.RegisterMenu;
 import network.Command;
 import network.Instruction;
+import view.ChatContainer;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Handler {
     private final Socket socket;
@@ -27,6 +30,7 @@ public class Handler {
     }
 
     private Instruction response(Instruction instruction) {
+        System.out.println(instruction);
         String[] arguments = instruction.arguments();
         switch (instruction.command()) {
             case REGISTER:
@@ -78,6 +82,19 @@ public class Handler {
                 return null;//TODO:!
             case DISCARD_PILE_INFORMATION:
                 return null;//TODO:!
+            case SEND:
+                String[] strings = new String[3];
+                strings[2] = arguments[arguments.length - 1];
+                strings[1] = arguments[arguments.length - 2];
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < arguments.length - 2; i++)
+                    builder.append(arguments[i]).append(" ");
+                strings[0] = builder.toString();
+                return new Instruction(Command.SEND_MESSAGE, ChatMenu.getInstance().setMessage(strings[0], strings[1], strings[2]));
+            case SHOW_CHAT:
+                return new Instruction(Command.SHOW_CHAT_MESSAGE, ChatMenu.getInstance().getMessage(arguments[0], arguments[1]));
+            case USERNAME_VALIDATION:
+                return new Instruction(Command.USERNAME_VALIDATION_MESSAGE, ChatMenu.getInstance().userValidation(arguments[0]));
             default:
                 return null;
         }

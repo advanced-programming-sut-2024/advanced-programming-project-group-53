@@ -18,6 +18,7 @@ public class MainView extends View {
     private final Image ranking;
     private final Image logout;
     private final Image exit;
+    private final Image chat;
 
     public MainView(GWENT game, String currentUsername) {
         super(game);
@@ -26,6 +27,8 @@ public class MainView extends View {
         Table mainTable = new Table();
         mainTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 4));
         mainTable.align(Align.center);
+        Table sideTable = new Table();
+        sideTable.setBounds(574, 50, 400, (float) (400 * 0.1458 * 2));
         chooseDeck = new Image(new Texture(Resource.CHOOSE_DECK_OFF.address()));
         chooseDeck.addListener(new ClickListener() {
             @Override
@@ -81,7 +84,6 @@ public class MainView extends View {
             }
         });
         logout = new Image(new Texture(Resource.LOGOUT_OFF.address()));
-        logout.setPosition(574, 50);
         logout.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -97,6 +99,24 @@ public class MainView extends View {
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 logout.setDrawable(new Image(new Texture(Resource.LOGOUT_OFF.address())).getDrawable());
+            }
+        });
+        chat = new Image(new Texture(Resource.CHAT_OFF.address()));
+        chat.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                chat.setDrawable(new Image(new Texture(Resource.CHAT_CLICKED.address())).getDrawable());
+                game.changeScreen(new ChatView(game, currentUsername));
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                chat.setDrawable(new Image(new Texture(Resource.CHAT_ON.address())).getDrawable());
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                chat.setDrawable(new Image(new Texture(Resource.CHAT_OFF.address())).getDrawable());
             }
         });
         exit = new Image(new Texture(Resource.EXIT_OFF.address()));
@@ -124,9 +144,12 @@ public class MainView extends View {
         mainTable.add(ranking);
         mainTable.row();
         mainTable.add(exit);
+        sideTable.add(chat);
+        sideTable.row();
+        sideTable.add(logout);
         stage.addActor(background);
         stage.addActor(mainTable);
-        stage.addActor(logout);
+        stage.addActor(sideTable);
     }
 
     @Override

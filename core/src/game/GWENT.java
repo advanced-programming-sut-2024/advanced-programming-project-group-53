@@ -38,6 +38,8 @@ public class GWENT extends Game {
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.REGISTER_MUSIC.address()));
         else if (view instanceof view.graphic.MainView)
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.MAIN_MUSIC.address()));
+        else if (view instanceof view.graphic.ChatView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.CHAT_MUSIC.address()));
         else if (view instanceof view.graphic.ProfileView)
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.PROFILE_MUSIC.address()));
         else if (view instanceof view.graphic.HistoryView)
@@ -46,8 +48,14 @@ public class GWENT extends Game {
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.RANKING_MUSIC.address()));
         else if (view instanceof view.graphic.FactionView)
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.START_MUSIC.address()));
+        else if (view instanceof view.graphic.PregameView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.PREGAME_MUSIC.address()));
         else if (view instanceof view.graphic.GameView)
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.GAME_MUSIC.address()));
+        else if (view instanceof view.graphic.SelectView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.SELECT_MUSIC.address()));
+        else if (view instanceof view.graphic.TournamentView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.TOURNAMENT_MUSIC.address()));
         music.setLooping(true);
         music.play();
     }
@@ -72,6 +80,10 @@ public class GWENT extends Game {
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.START_MUSIC.address()));
         else if (view instanceof view.single.GameView)
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.GAME_MUSIC.address()));
+        else if (view instanceof view.single.SelectView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.SELECT_MUSIC.address()));
+        else if (view instanceof view.single.EndView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.END_MUSIC.address()));
         music.setLooping(true);
         music.play();
     }

@@ -1,7 +1,10 @@
 package com.mygdx.game.network;
 
+import view.ChatContainer;
+
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server {
     private ServerSocket serverSocket;
@@ -12,6 +15,7 @@ public class Server {
         } catch (Exception ignored) {
         }
     }
+
     public void start() {
         System.out.println("Server started on port " + serverSocket.getLocalPort() + " with IP " + serverSocket.getInetAddress().getHostAddress());
         while (true) {
@@ -24,6 +28,7 @@ public class Server {
             }
         }
     }
+
     public static void main(String[] args) {
         Server server = new Server(8080);
         server.start();

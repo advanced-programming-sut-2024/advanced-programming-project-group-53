@@ -57,7 +57,7 @@ public enum Message {
     INVALID_PLAYGROUND_NUMBER("Invalid playground number.\n"),
     INVALID_RANGE("Invalid range.\n"),
     PASSWORD_IS_NOT_THE_SAME("Password is not the same.\n"),
-    ;
+    ILLEGAL_CHARACTER("Illegal character. You can not use \"\\\" or \"/\"in chat.\n"),;
     private final String message;
 
     Message(String message) {

@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.*;
 
 public class User {
-    private final static ArrayList<User> allUsers = new ArrayList<>();
+    protected final static ArrayList<User> allUsers = new ArrayList<>();
     private String username;
     private String nickname;
     private String email;
@@ -21,15 +21,16 @@ public class User {
     private int winCount;
     private int loseCount;
     private int drawCount;
+    private final ArrayList<String> friends = new ArrayList<>();
     // this attributes can handle with simple methods.
     private final ArrayList<GameInformation> gameInformations;
     private TreeMap<String, String> securityQuestions;
     private Faction lastFaction;
 
     static {
-        allUsers.add(new User("a", "b", "c", "d", "e", "f"));//TODO: delete at the end of project.
-        allUsers.add(new User("g", "h", "i", "j", "k", "l"));
+        DataBaseHandler.addAllUsers(allUsers);
     }
+
     public User(String username, String nickname, String email, String password, String question, String answer) {
         this.username = username;
         this.nickname = nickname;
@@ -43,9 +44,9 @@ public class User {
         this.drawCount = 0;
         this.maxPoint = 0;
         this.gameInformations = new ArrayList<>();
-        allUsers.add(this);
         saveUser();
     }
+
     public void saveUser() {
         //This part is to save and specify a place for saving deck and user json in file system.
         DataBaseHandler.insertUser(this);
@@ -58,6 +59,7 @@ public class User {
     }
 
     public static User findUser(String username) {
+        DataBaseHandler.addAllUsers(allUsers);
         for (User user : allUsers) {
             if (user.username().equals(username)) {
                 return user;
@@ -169,10 +171,24 @@ public class User {
     public String question() {
         return question;
     }
+
     public static ArrayList<User> ranking() {
         return allUsers;
         //TODO: sort!
     }
+
+    public void addFriend(String friendUsername) {
+        this.friends.add(friendUsername);
+    }
+
+    public void removeFriend(String friendUsername) {
+        this.friends.remove(friendUsername);
+    }
+
+    public ArrayList<String> friends() {
+        return friends;
+    }
+
     static class DataBaseHandler {
         public static void createDataBaseUserTable() {
             String url = "jdbc:sqlite:users.db";
@@ -190,6 +206,7 @@ public class User {
                 System.out.println(e.getMessage());
             }
         }
+
         public static void selectAllUsers() {
             String url = "jdbc:sqlite:users.db";
             String sql = "SELECT data FROM users";
@@ -226,6 +243,7 @@ public class User {
                 System.out.println(e.getMessage());
             }
         }
+
         public static void insertUser(User user) {
             String url = "jdbc:sqlite:users.db";
             String sql = "INSERT INTO users(data,name) VALUES(?,?)";
@@ -263,7 +281,6 @@ public class User {
             try (Connection conn = DriverManager.getConnection(url);
                  Statement statement = conn.createStatement();
                  ResultSet resultSet = statement.executeQuery(sql)) {
-
                 while (resultSet.next()) {
                     String jsonData = resultSet.getString("data");
                     User user = gson.fromJson(jsonData, User.class);
@@ -287,11 +304,15 @@ public class User {
                 System.out.println(e.getMessage());
             }
         }
+
         public static void main(String[] args) {
             //Just for testing purposes!
-            resetDatabase();
-            createDataBaseUserTable();
+//            resetDatabase();
+//            createDataBaseUserTable();
+//            new User("a", "b", "c", "d", "e", "f");//TODO: delete at the end of project.
+//            new User("g", "h", "i", "j", "k", "l");
+//            new User("m","n","o","p","q","r");
+//            selectAllUsers();
         }
-
     }
 }
