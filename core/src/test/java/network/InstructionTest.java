@@ -58,4 +58,25 @@ public class InstructionTest {
         instruction = new Instruction(Command.HISTORY_MESSAGE, args);
         assertEquals("HISTORY_MESSAGE argument1 argument2", instruction.toString());
     }
+
+    @Test
+    public void testStringRequest() {
+        Instruction instruction = Instruction.fromString("LOGIN argument1 argument2");
+
+        assertEquals(Command.LOGIN, instruction.command());
+        assertArrayEquals(new String[]{"argument1","argument2"}, instruction.arguments());
+        assertEquals(2, instruction.argumentCount());
+
+        instruction = Instruction.fromString("REGISTER argument1");
+
+        assertEquals(Command.REGISTER, instruction.command());
+        assertArrayEquals(new String[]{"argument1"}, instruction.arguments());
+        assertEquals(1, instruction.argumentCount());
+
+        instruction = Instruction.fromString("REGISTER_MESSAGE");
+
+        assertEquals(Command.REGISTER_MESSAGE, instruction.command());
+        assertArrayEquals(new String[]{}, instruction.arguments());
+        assertEquals(0, instruction.argumentCount());
+    }
 }
