@@ -4,6 +4,7 @@ import model.card.*;
 import model.game.Player;
 import model.game.Playground;
 import model.game.Table;
+import sun.awt.X11.XStateProtocol;
 import view.Message;
 
 import java.util.ArrayList;
@@ -48,28 +49,28 @@ public class GameMenu extends Menu {
         return true;
     }
 
-    public boolean placeCardInRow(Card card, int rowNumber, int index) {
+    public int placeCardInRow(Card card, int rowNumber, int index) {
         Table table = getTable();
         Player currentPlayer = table.getPlayers(0);
         if (card == null) {
             System.out.println(Message.INVALID_NUMBER.message());
-            return false;
+            return -2;
         }
         int state = table.getPlayGround().cardRangeChecker(card, rowNumber, index);
         if (state == -1 || state == 0) {
             System.out.println(Message.INVALID_PLAYGROUND_NUMBER.message());
-            return false;
+            return state;
         }
-        if (state == 4) {
+        if (state == 3) {
             currentPlayer.getHand().removeCard(card.getName());
             table.getPlayGround().placeNoneSpyUnit(card, rowNumber, table.getPlayers(0), table.getPlayers(1));
-            return false;
+            return state;
         }
         if (state == 5) {
             currentPlayer.getHand().removeCard(card.getName());
-            return true;
+            return state;
         }
-        return false;
+        return state;
     }
 
     public static int getCardPositionToPlay(Card card) {

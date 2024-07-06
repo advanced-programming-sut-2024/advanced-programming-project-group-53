@@ -363,9 +363,11 @@ public class GameView extends View {
         if (S && STime > time) {
             if (clicked != null) {
                 System.out.println("play card " + clicked);
+                int state = -3;
                 if (!clicked.isSpecial())
-                    ((GameMenu) menu).placeCardInRow(clicked, 0, 0);
+                    state = ((GameMenu) menu).placeCardInRow(clicked, 0, 0);
                 else gameTable.getPlayGround().placeSpecialCard(0, clicked);
+                System.out.println("STATE = " + state);
                 updateAll();
             }
         }
@@ -492,6 +494,7 @@ public class GameView extends View {
     }
 
     private void handUpdater() {
+        player1HandGroup.clear();
         player1Hand = gameTable.getPlayers(0).getHand().getCards();
         for (int i = 0; i < player1Hand.size(); i++) {
             Card card = player1Hand.get(i);

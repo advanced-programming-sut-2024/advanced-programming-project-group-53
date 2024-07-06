@@ -66,8 +66,8 @@ public class Playground {
         //for spy
         if(card.getAbility().equalsIgnoreCase(Ability.Spy.name()) && row < 6) return 2;
         //for valid combat range selection
-        if ((row == 0 && card.getType() == Type.CloseCombat) || (row == 1 && card.getType() == Type.RangedCombat) ||
-                (row == 2 && card.getType() == Type.Siege) || (card.getType() == Type.Agile && (row == 0 || row == 1)))
+        if ((row == 0 && card.getType() == Type.Siege) || (row == 1 && card.getType() == Type.RangedCombat) ||
+                (row == 2 && card.getType() == Type.CloseCombat) || (card.getType() == Type.Agile && (row == 0 || row == 1)))
             return 3;
         //for decoy
         if (card.getName().equalsIgnoreCase(SpecialInformation.Decoy.name()) && index >= 0 &&
@@ -83,6 +83,7 @@ public class Playground {
     }
 
     public void addUnit(Card card, int rowNumber) {
+        System.out.println("card " + card.getName() + " added to row " + rowNumber);
         unitCardsGround.get(rowNumber).add(Unit.getInstanceByName(card.getName()));
     }
     //place none spy cards.
