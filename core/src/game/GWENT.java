@@ -54,8 +54,6 @@ public class GWENT extends Game {
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.PREGAME_MUSIC.address()));
         else if (view instanceof view.graphic.GameView)
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.GAME_MUSIC.address()));
-        else if (view instanceof view.graphic.SelectView)
-            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.SELECT_MUSIC.address()));
         else if (view instanceof view.graphic.TournamentView)
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.TOURNAMENT_MUSIC.address()));
         music.setLooping(true);
