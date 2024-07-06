@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import controller.StartMenu;
 import game.GWENT;
 import model.card.Faction;
+import model.game.Player;
 import view.Resource;
 
 import java.util.HashMap;
@@ -158,7 +159,7 @@ public class FactionView extends View {
         stage.addActor(table);
     }
 
-    public FactionView(GWENT game, String currentUsername, String username1) {
+    public FactionView(GWENT game, String currentUsername, String username1 , Player player) {
         super(game);
         this.username1 = username1;
         this.currentUsername = currentUsername;
@@ -234,7 +235,7 @@ public class FactionView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 save.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
-                game.changeScreen(new CommanderView(game, currentFaction, currentUsername, username1));
+                game.changeScreen(new CommanderView(game, currentFaction, currentUsername, username1, player));
             }
 
             @Override

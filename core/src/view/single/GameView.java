@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controller.GameMenu;
 import game.GWENT;
 import model.card.*;
+import model.game.Player;
+import model.game.Table;
 import view.components.ImageWrapper;
 import view.Resource;
 
@@ -41,36 +43,23 @@ public class GameView extends View {
     private Image player2RangedHead;
     private Image player2ClosedHead;
 
+    private Table gameTable;
+
     private Card clicked;
 
-    {
-        player1Commander = new Commander(CommanderInformation.EredinBreaccGlas_CommanderOfTheRedRiders);
-        player2Commander = new Commander(CommanderInformation.EmhyrVarEmreis_HisImperialMajesty);
-        player1Deck = new ArrayList<>();
-        player1Hand = new ArrayList<>();
-        player1Siege = new ArrayList<>();
-        player1Ranged = new ArrayList<>();
-        player1Closed = new ArrayList<>();
-        player2Siege = new ArrayList<>();
-        player1Deck.add(new Unit(UnitInformation.Arachas));
-        player1Deck.add(new Unit(UnitInformation.Arachas));
-        player1Deck.add(new Unit(UnitInformation.Arachas));
-        player1Deck.add(new Unit(UnitInformation.Arachas));
-        player1Deck.add(new Unit(UnitInformation.CelaenoHarpy));
-        player1Deck.add(new Unit(UnitInformation.CelaenoHarpy));
-        player1Deck.add(new Unit(UnitInformation.CelaenoHarpy));
-        player1Deck.add(new Unit(UnitInformation.CelaenoHarpy));
-        player1Deck.add(new Special(SpecialInformation.BitingFrost));
-        player1Hand.addAll(player1Deck);
-    }
-
-    public GameView(GWENT game, String username1, String username2) {
+    public GameView(GWENT game, String username1, String username2, Player player1, Player player2) {
         super(game);
-        this.currentUsername = username1;
-        this.username1 = username1;
-        this.username2 = username2;
-        menu = GameMenu.getInstance();
+        menu = GameMenu.setInstance(player1, player2);
+        this.gameTable = ((GameMenu)menu).getTable();
+        this.currentUsername = gameTable.getPlayers(0).getUser().username();
+        this.username1 = gameTable.getPlayers(0).getUser().username();
+        this.username2 = gameTable.getPlayers(1).getUser().username();
+        player1Commander = gameTable.getPlayers(0).getCommander();
+        player2Commander = gameTable.getPlayers(1).getCommander();
+        player1Hand = gameTable.getPlayers(0).getHand().getCards();
+        player1Deck = gameTable.getPlayers(0).getDeck().getCards();
         player1CommanderImage = new Image(new Texture(player1Commander.getCommanderInformation().address()));
+        System.out.println(player1Commander.getCommanderInformation().name());
         player1CommanderImage.setWidth(50);
         player1CommanderImage.setHeight(70);
         player1CommanderImage.setPosition(75, 285);
@@ -86,6 +75,7 @@ public class GameView extends View {
                     player1Siege.add(clicked);
                     siege();
                     player1Hand.remove(clicked);
+                    gameTable.getPlayers(0).getHand().removeCard(clicked.getName());
                     handUpdater();
                     clicked = null;
                 }
@@ -100,6 +90,7 @@ public class GameView extends View {
                     player1Ranged.add(clicked);
                     ranged();
                     player1Hand.remove(clicked);
+                    gameTable.getPlayers(0).getHand().removeCard(clicked.getName());
                     handUpdater();
                     clicked = null;
                 }
@@ -114,18 +105,13 @@ public class GameView extends View {
                     player1Closed.add(clicked);
                     closed();
                     player1Hand.remove(clicked);
+                    gameTable.getPlayers(0).getHand().removeCard(clicked.getName());
                     handUpdater();
                     clicked = null;
                 }
             }
         });
-        ImageWrapper imageWrapper = new ImageWrapper(player1Deck.get(2).address(), 50, 65);//TODO: delete
-        player1SiegeGroup.addActor(imageWrapper);//TODO: delete
-        imageWrapper = new ImageWrapper(player1Deck.get(2).address(), 50, 65);//TODO: delete
-        player1RangedGroup.addActor(imageWrapper);//TODO: delete
-        imageWrapper = new ImageWrapper(player1Deck.get(2).address(), 50, 65);//TODO: delete
-        player1ClosedGroup.addActor(imageWrapper);//TODO: delete
-        player1SiegeHead = new Image();
+        player1SiegeHead = new Image(new Texture("Empty.png"));
         player1SiegeHead.setBounds(315, 365, 50, 65);
         player1SiegeHead.addListener(new ClickListener() {
             @Override
@@ -133,12 +119,13 @@ public class GameView extends View {
                 if (clicked != null && (clicked.getType() == Type.Spell || clicked.getType() == Type.Weather)) {
                     player1SiegeHead.setDrawable(new Image(new Texture(clicked.address())).getDrawable());
                     player1Hand.remove(clicked);
+                    gameTable.getPlayers(0).getHand().removeCard(clicked.getName());
                     handUpdater();
                     clicked = null;
                 }
             }
         });
-        player1RangedHead = new Image();
+        player1RangedHead = new Image(new Texture("Empty.png"));
         player1RangedHead.setBounds(315, 440, 50, 65);
         player1RangedHead.addListener(new ClickListener() {
             @Override
@@ -146,12 +133,13 @@ public class GameView extends View {
                 if (clicked != null && (clicked.getType() == Type.Spell || clicked.getType() == Type.Weather)) {
                     player1RangedHead.setDrawable(new Image(new Texture(clicked.address())).getDrawable());
                     player1Hand.remove(clicked);
+                    gameTable.getPlayers(0).getHand().removeCard(clicked.getName());
                     handUpdater();
                     clicked = null;
                 }
             }
         });
-        player1ClosedHead = new Image();
+        player1ClosedHead = new Image(new Texture("Empty.png"));
         player1ClosedHead.setBounds(315, 510, 50, 65);
         player1ClosedHead.addListener(new ClickListener() {
             @Override
@@ -159,12 +147,13 @@ public class GameView extends View {
                 if (clicked != null && (clicked.getType() == Type.Spell || clicked.getType() == Type.Weather)) {
                     player1ClosedHead.setDrawable(new Image(new Texture(clicked.address())).getDrawable());
                     player1Hand.remove(clicked);
+                    gameTable.getPlayers(0).getHand().removeCard(clicked.getName());
                     handUpdater();
                     clicked = null;
                 }
             }
         });
-
+        System.out.println(player2Commander.getCommanderInformation().name());
         player2CommanderImage = new Image(new Texture(player2Commander.getCommanderInformation().address()));
         player2CommanderImage.setWidth(50);
         player2CommanderImage.setHeight(70);
@@ -175,17 +164,11 @@ public class GameView extends View {
         player2RangedGroup.setBounds(400, 662, 380, 65);
         player2ClosedGroup = new HorizontalGroup();
         player2ClosedGroup.setBounds(400, 732, 380, 65);
-        imageWrapper = new ImageWrapper(player1Deck.get(2).address(), 50, 65);//TODO: delete
-        player2SiegeGroup.addActor(imageWrapper);//TODO: delete
-        imageWrapper = new ImageWrapper(player1Deck.get(2).address(), 50, 65);//TODO: delete
-        player2RangedGroup.addActor(imageWrapper);//TODO: delete
-        imageWrapper = new ImageWrapper(player1Deck.get(2).address(), 50, 65);//TODO: delete
-        player2ClosedGroup.addActor(imageWrapper);//TODO: delete
-        player2SiegeHead = new Image(new Texture(player1Deck.get(0).address()));
+        player2SiegeHead = new Image(new Texture("Empty.png"));
         player2SiegeHead.setBounds(315, 590, 50, 65);
-        player2RangedHead = new Image(new Texture(player1Deck.get(0).address()));
+        player2RangedHead = new Image(new Texture("Empty.png"));
         player2RangedHead.setBounds(315, 662, 50, 65);
-        player2ClosedHead = new Image(new Texture(player1Deck.get(0).address()));
+        player2ClosedHead = new Image(new Texture("Empty.png"));
         player2ClosedHead.setBounds(315, 732, 50, 65);
 
         stage.addActor(background);
@@ -214,35 +197,45 @@ public class GameView extends View {
 
     private void siege() {
         player1SiegeGroup.clear();
+        player1Siege = gameTable.getPlayGround().getUnitCardsInRow(0);
         for (int i = 0; i < player1Siege.size(); i++) {
             Card card = player1Siege.get(i);
             ImageWrapper imageWrapper = new ImageWrapper(card.address(), 50, 65);
             imageWrapper.setPosition(i * 55, 0);
             player1SiegeGroup.addActor(imageWrapper);
         }
+        player1SiegeHead.clear();
+        player1SiegeHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(0).address()));
     }
 
     private void ranged() {
         player1RangedGroup.clear();
+        player1Ranged = gameTable.getPlayGround().getUnitCardsInRow(1);
         for (int i = 0; i < player1Ranged.size(); i++) {
             Card card = player1Ranged.get(i);
             ImageWrapper imageWrapper = new ImageWrapper(card.address(), 50, 65);
             imageWrapper.setPosition(i * 55, 0);
             player1RangedGroup.addActor(imageWrapper);
         }
+        player1RangedHead.clear();
+        player1RangedHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(1).address()));
     }
 
     private void closed() {
         player1ClosedGroup.clear();
+        player1Closed = gameTable.getPlayGround().getUnitCardsInRow(2);
         for (int i = 0; i < player1Closed.size(); i++) {
             Card card = player1Closed.get(i);
             ImageWrapper imageWrapper = new ImageWrapper(card.address(), 50, 65);
             imageWrapper.setPosition(i * 55, 0);
             player1ClosedGroup.addActor(imageWrapper);
         }
+        player1ClosedHead.clear();
+        player1ClosedHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(2).address()));
     }
 
     private void handUpdater() {
+        player1Hand = gameTable.getPlayers(0).getHand().getCards();
         for (int i = 0; i < player1Hand.size(); i++) {
             Card card = player1Hand.get(i);
             ImageWrapper image = new ImageWrapper(card.address(), 50, 65);

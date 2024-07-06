@@ -7,12 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import controller.Menu;
 import controller.StartMenu;
 import game.GWENT;
-import model.card.CommanderInformation;
-import model.card.Faction;
-import model.card.SpecialInformation;
-import model.card.UnitInformation;
+import model.card.*;
+import model.game.Player;
+import model.game.User;
 import view.Resource;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class CardView extends View {
     public CardView(GWENT game, Faction faction, CommanderInformation commander, String currentUsername) {
         super(game);
         this.currentUsername = currentUsername;
-        menu = StartMenu.getInstance();
+        menu = StartMenu.setInstance(currentUsername, faction, new Commander(commander));
         VerticalGroup card = new VerticalGroup();
         card.space(10);
         deck = new VerticalGroup();
@@ -48,6 +48,8 @@ public class CardView extends View {
                 image.addListener(new ClickListener() {//22 10
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        boolean added = ((StartMenu)menu).addSpecialToDeck(special);
+                        if (!added) return; //TODO : show message to show that card number is more than max number
                         Image image1 = new Image(new Texture(special.address()));
                         image1.setWidth(200);
                         image1.setHeight(200 * 1.9f);
@@ -57,6 +59,7 @@ public class CardView extends View {
                             public void clicked(InputEvent event, float x, float y) {
                                 deckSpecialImages.remove(image1);
                                 deckSpecial.remove(special);
+                                ((StartMenu)menu).getDeck().removeCard(special.name());
                                 deckUpdater();
                             }
 
@@ -96,6 +99,8 @@ public class CardView extends View {
                 image.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        boolean added = ((StartMenu)menu).addUnitToDeck(unit);
+                        if (!added) return; // TODO : message to show that card number is more that secure state.
                         Image image1 = new Image(new Texture(unit.address()));
                         image1.setWidth(200);
                         image1.setHeight(200 * 1.9f);
@@ -105,6 +110,7 @@ public class CardView extends View {
                             public void clicked(InputEvent event, float x, float y) {
                                 deckUnitImages.remove(image1);
                                 deckUnit.remove(unit);
+                                ((StartMenu)menu).getDeck().removeCard(unit.name());
                                 deckUpdater();
                             }
 
@@ -142,14 +148,13 @@ public class CardView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 save.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
-                /*String[] deck = new String[deckUnit.size() + deckSpecial.size() + 1];
-                deck[0] = commander.toString();
-                for (int i = 0; i < deckUnit.size(); i++)
-                    deck[i + 1] = deckUnit.get(i).toString();
-                for (int i = 0; i < deckSpecial.size(); i++)
-                    deck[i + 1 + deckSpecial.size()] = deckSpecial.get(i).toString();*/
                 //TODO: save deck!
-                game.changeScreen(new LoginView(game, currentUsername));
+                boolean isOKToSaveDeck = ((StartMenu)menu).availableToSave();
+                if (!isOKToSaveDeck) return; //TODO : show message for that.
+                Player currentPlayer = new Player(User.findUser(currentUsername), ((StartMenu) menu).getDeck(),
+                        faction, ((StartMenu)menu).getCommanderUser());
+                System.out.println(currentPlayer.getCommander().getCommanderInformation().name());
+                game.changeScreen(new LoginView(game, currentUsername, currentPlayer));
             }
 
             @Override
@@ -241,11 +246,11 @@ public class CardView extends View {
         stage.addActor(changeFaction);
     }
 
-    public CardView(GWENT game, Faction faction, CommanderInformation commander, String currentUsername, String username1) {
+    public CardView(GWENT game, Faction faction, CommanderInformation commander, String currentUsername, String username1, Player player) {
         super(game);
         this.username1 = username1;
         this.currentUsername = currentUsername;
-        menu = StartMenu.getInstance();
+        menu = StartMenu.setInstance(currentUsername, faction, new Commander(commander));
         VerticalGroup card = new VerticalGroup();
         card.space(10);
         deck = new VerticalGroup();
@@ -264,6 +269,8 @@ public class CardView extends View {
                 image.addListener(new ClickListener() {//22 10
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        boolean added = ((StartMenu)menu).addSpecialToDeck(special);
+                        if (!added) return; // TODO : message to show that card number is more that secure state.
                         Image image1 = new Image(new Texture(special.address()));
                         image1.setWidth(200);
                         image1.setHeight(200 * 1.9f);
@@ -273,6 +280,7 @@ public class CardView extends View {
                             public void clicked(InputEvent event, float x, float y) {
                                 deckSpecialImages.remove(image1);
                                 deckSpecial.remove(special);
+
                                 deckUpdater();
                             }
 
@@ -312,6 +320,8 @@ public class CardView extends View {
                 image.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        boolean added = ((StartMenu)menu).addUnitToDeck(unit);
+                        if (!added) return; // TODO : message to show that card number is more that secure state.
                         Image image1 = new Image(new Texture(unit.address()));
                         image1.setWidth(200);
                         image1.setHeight(200 * 1.9f);
@@ -358,14 +368,13 @@ public class CardView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 save.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
-                /*String[] deck = new String[deckUnit.size() + deckSpecial.size() + 1];
-                deck[0] = commander.toString();
-                for (int i = 0; i < deckUnit.size(); i++)
-                    deck[i + 1] = deckUnit.get(i).toString();
-                for (int i = 0; i < deckSpecial.size(); i++)
-                    deck[i + 1 + deckSpecial.size()] = deckSpecial.get(i).toString();*/
                 //TODO: save deck!
-                game.changeScreen(new GameView(game, username1, currentUsername));
+                boolean isOKToSaveDeck = ((StartMenu)menu).availableToSave();
+                if (!isOKToSaveDeck) return; //TODO : show message for that.
+                Player currentPlayer = new Player(User.findUser(currentUsername), ((StartMenu) menu).getDeck(),
+                        faction, ((StartMenu)menu).getCommanderUser());
+                System.out.println(currentPlayer.getCommander().getCommanderInformation());
+                game.changeScreen(new GameView(game, username1, currentUsername, player, currentPlayer));
             }
 
             @Override

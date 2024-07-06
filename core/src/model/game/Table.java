@@ -77,13 +77,13 @@ public class Table {
     }
 
     public Player getPlayers(int which) {
-        return players.get(which - 1);
+        return players.get(which);
     }
 
     public void newRound(Round round) {
         // TODO : make this and round better for store with Gson and preventing circular references.
         this.rounds.add(new Round(this.currentPlayer.getUser(), this.players.get(0).getPoint(),
-                this.players.get(1).getPoint()));
+                this.players.get(0).getPoint()));
     }
 
     public Playground getPlayGround() {
