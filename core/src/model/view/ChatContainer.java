@@ -1,5 +1,7 @@
 package model.view;
 
+import controller.ChatMenu;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,6 +16,11 @@ public class ChatContainer {
         this.sender = sender;
         this.receiver = receiver;
         this.date = new Date();
+        saveIntoDB();
+    }
+
+    public void saveIntoDB() {
+        ChatMenu.DatabaseHandler.insertChat(this);
     }
 
     public String message() {
@@ -27,6 +34,7 @@ public class ChatContainer {
     public String receiver() {
         return receiver;
     }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -40,5 +48,6 @@ public class ChatContainer {
         builder.append(sdf.format(date));
         return builder.toString();
     }
+
 
 }
