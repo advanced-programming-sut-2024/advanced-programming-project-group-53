@@ -27,6 +27,7 @@ public class Table {
         this.rounds = new ArrayList<>();
         this.currentPlayer = player1;
         this.roundNumber = 1;
+        this.playGround = new Playground();
         preGameConfigs();
     }
 

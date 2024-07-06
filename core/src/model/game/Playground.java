@@ -88,6 +88,7 @@ public class Playground {
     //place none spy cards.
     public void placeNoneSpyUnit(Card card, int rowNumber, Player currentPlayer, Player opponent) {
         addUnit(card, rowNumber);
+        System.out.println("unit card is about to place");
         if (card.getAbility().equalsIgnoreCase(Ability.MoralBoost.name())) {
             for (Card unitCard : unitCardsGround.get(rowNumber))
                 if (!unitCard.getName().equalsIgnoreCase(card.getName()))
@@ -134,6 +135,7 @@ public class Playground {
     }
 
     public void placeSpecialCard(int row, Card card) {
+        System.out.println("special card is about to place");
         specials.set(row, (Special) card);
         if (card.getName().equalsIgnoreCase(SpecialInformation.CommandersHorn.name()))
             commandersHornAbility(row);

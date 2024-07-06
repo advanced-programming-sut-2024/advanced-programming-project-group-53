@@ -1,9 +1,6 @@
 package controller;
 
-import model.card.Card;
-import model.card.Commander;
-import model.card.Faction;
-import model.card.Special;
+import model.card.*;
 import model.game.Player;
 import model.game.Playground;
 import model.game.Table;
@@ -51,10 +48,9 @@ public class GameMenu extends Menu {
         return true;
     }
 
-    public static boolean placeCardInRow(int cardNumber, int rowNumber, int index) {
-        Table table = getInstance().getTable();
+    public boolean placeCardInRow(Card card, int rowNumber, int index) {
+        Table table = getTable();
         Player currentPlayer = table.getPlayers(0);
-        Card card = currentPlayer.getCardFromHand(cardNumber);
         if (card == null) {
             System.out.println(Message.INVALID_NUMBER.message());
             return false;
@@ -76,15 +72,21 @@ public class GameMenu extends Menu {
         return false;
     }
 
-    public static boolean commanderExecution() {
+    public static int getCardPositionToPlay(Card card) {
+        if (card.getType() == Type.Siege) return 0;
+        else if (card.getType() == Type.RangedCombat) return 1;
+        else if (card.getType() == Type.CloseCombat) return 2;
+        else return -1;
+    }
+    public ArrayList<Card> commanderExecution() {
         if (getInstance().getTable().getPlayers(0).isCommanderUsed()) {
             System.out.println(Message.YOU_HAVE_COMMANDER.message());
-            return false;
+            return null;
         }
         Table table = getInstance().getTable();
         Player player = table.getPlayers(0);
         Commander commander = player.getCommander();
-        ArrayList<Card> cardsToWorkWith;
+        ArrayList<Card> cardsToWorkWith = null;
         if (player.getFaction() == Faction.NorthernRealms) {
             cardsToWorkWith = table.executeNorthern(commander);
         } else if (player.getFaction() == Faction.NilfgaardianEmpire) {
@@ -96,8 +98,11 @@ public class GameMenu extends Menu {
         } else if (player.getFaction() == Faction.Skellige) {
             cardsToWorkWith = table.executeSkellige(commander);
         }
-        //TODO : do something with cardsToWorkWith with graphical interface.
-        return true;
+        return cardsToWorkWith;
+    }
+
+    public void changeTurn() {
+
     }
     /*
     public static boolean vetoCards(int cardNumber) {
