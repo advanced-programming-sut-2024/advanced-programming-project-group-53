@@ -150,12 +150,8 @@ public class CardView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 save.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
-                String[] deck = new String[deckUnit.size() + deckSpecial.size() + 1];
-                deck[0] = commander.toString();
-                for (int i = 1; i < deck.length; i++)
-
-                new Connector().perform(new Instruction(Command.SAVE_DECK));
-               // game.changeScreen(new CardView(game, faction, commander));
+                //TODO: save the deck.
+                game.changeScreen(new DeckExportView(game, currentUsername));
             }
 
             @Override
@@ -174,7 +170,7 @@ public class CardView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 changeCommander.setDrawable(new Image(new Texture(Resource.CHANGE_COMMANDER_CLICKED.address())).getDrawable());
-            //    game.changeScreen(new CommanderView(game, faction));
+                game.changeScreen(new CommanderView(game, faction, currentUsername));
             }
 
             @Override
@@ -193,7 +189,7 @@ public class CardView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 changeFaction.setDrawable(new Image(new Texture(Resource.CHANGE_FACTION_CLICKED.address())).getDrawable());
-                //game.changeScreen(new FactionView(game));
+                game.changeScreen(new FactionView(game, currentUsername));
             }
 
             @Override
