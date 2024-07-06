@@ -66,6 +66,7 @@ public class GameMenu extends Menu {
         }
         if (state == 5) {
             currentPlayer.getHand().removeCard(card.getName());
+            table.getPlayGround().placeSpecialCard(rowNumber, card);
             return state;
         }
         return state;

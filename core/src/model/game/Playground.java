@@ -4,11 +4,12 @@ import model.card.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
 public class Playground {
-    private ArrayList<ArrayList<Card>> unitCardsGround;
+    private final ArrayList<ArrayList<Card>> unitCardsGround;
     private ArrayList<Special> spells;
-    private ArrayList<Special> specials;
+    private final ArrayList<Special> specials;
     public static final int MAX_ROW_CAPACITY = 6;
     public ArrayList<Boolean> weatherCondition;
     public Playground() {
@@ -147,14 +148,20 @@ public class Playground {
     public void placeSpecialCard(int row, Card card) {
         System.out.println("special card is about to place");
         specials.set(row, (Special) card);
-        if (card.getName().equalsIgnoreCase(SpecialInformation.CommandersHorn.name()))
+        if (card.getName().equalsIgnoreCase(SpecialInformation.CommandersHorn.name())) {
             commandersHornAbility(row);
-        else if (card.getName().equalsIgnoreCase(SpecialInformation.Mardoeme.name()))
+            if (getSpecialInRow(row) != null)
+                System.out.println("commander's horn placed");
+        }
+        else if (card.getName().equalsIgnoreCase(SpecialInformation.Mardoeme.name())) {
             mardoemeAbility(row);
+            System.out.println("maradoeme placed.");
+        }
     }
 
     public void placeSpellCard(Card card, Player player1, Player player2) {
         spells.add((Special) card);
+        player1.getHand().removeCard(card.getName());
         if (card.getName().equalsIgnoreCase(SpecialInformation.ClearWeather.name()))
             clearWeatherAbility();
         else if (card.getName().equalsIgnoreCase(SpecialInformation.BitingFrost.name()))
@@ -186,6 +193,31 @@ public class Playground {
             counter++;
         }
         return allIndexes;
+    }
+
+
+    public void printPlayGround() {
+        System.out.println("Spells :");
+        for (Special spell : spells) {
+            System.out.println(spell.getName());
+        }
+        System.out.println("playground :");
+        for (int i = 5; i >= 0; i--) {
+            if (specials.get(i) != null) {
+                System.out.printf(getSpecialInRow(i).getName() + "|");
+            } else System.out.print("null|");
+            for (Card card : getUnitCardsInRow(i)) {
+                System.out.printf(card.getName() + " ");
+            }
+            System.out.println(" ---->  point: " + playerPointInRow(i));
+        }
+    }
+
+    public int playerPointInRow(int row) {
+        int point = 0;
+        for (Card card : getUnitCardsInRow(row))
+            point += card.getPower();
+        return point;
     }
 
     public void decoyAbility(int row, int index, Player currentPlayer) {
@@ -393,5 +425,14 @@ public class Playground {
             for (Card card : row)
                 if (card.getAbility().equalsIgnoreCase(Ability.Spy.name()))
                     card.setPower(card.getPower() * 2);
+    }
+
+    public void removeCardWithNameInRow(Card cardForRemove, int row) {
+        for (Card card : unitCardsGround.get(row)) {
+            if (Objects.equals(card.getName(), card.getName())) {
+                unitCardsGround.get(row).remove(card);
+                break;
+            }
+        }
     }
 }

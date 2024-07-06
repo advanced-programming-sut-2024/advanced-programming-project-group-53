@@ -17,6 +17,9 @@ import view.components.ImageWrapper;
 import view.Resource;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import static model.card.SpecialInformation.*;
 
 public class GameView extends View {
     private Commander player1Commander;
@@ -53,9 +56,11 @@ public class GameView extends View {
     private HorizontalGroup discardPileGroup;
     private ScrollPane discardPileScrollPane;
     private ArrayList<Card> discards;
+
     private Card clicked;
 
     private Card decoyAbility;
+
     //commander attributes
     private boolean P = false;
     private double PTime = 0;
@@ -69,6 +74,26 @@ public class GameView extends View {
     private double CTime = 0;
     private boolean E = false;
     private double ETime = 0;
+    private boolean W = false;
+    private double WTime = 0;
+    private boolean V = false;
+    private double VTime = 0;
+    //cheat codes key.
+    private boolean ONE = false;
+    private double ONETime = 0;
+    private boolean TWO = false;
+    private double TWOTime = 0;
+    private boolean THREE = false;
+    private double THREETime = 0;
+    private boolean FOUR = false;
+    private double FOURTime = 0;
+    private boolean FIVE = false;
+    private double FIVETime = 0;
+    private boolean SIX = false;
+    private double SIXTime = 0;
+    private boolean SEVEN = false;
+    private double SEVENTime = 0;
+
     private final double time = 0.5;
 
     private final HorizontalGroup commanderGroup;
@@ -87,6 +112,7 @@ public class GameView extends View {
     private ScrollPane middle;
     private HorizontalGroup middleGroup;
     private ArrayList<Special> middles;
+
     public GameView(GWENT game, String username1, String username2, Player player1, Player player2) {
         super(game);
         menu = GameMenu.setInstance(player1, player2);
@@ -271,17 +297,17 @@ public class GameView extends View {
         player2CommanderImage.setHeight(70);
         player2CommanderImage.setPosition(75, 685);
         player2SiegeGroup = new HorizontalGroup();
-        player2SiegeGroup.setBounds(400, 590, 380, 65);
+        player2SiegeGroup.setBounds(400, 732, 380, 65);
         player2RangedGroup = new HorizontalGroup();
         player2RangedGroup.setBounds(400, 662, 380, 65);
         player2ClosedGroup = new HorizontalGroup();
-        player2ClosedGroup.setBounds(400, 732, 380, 65);
+        player2ClosedGroup.setBounds(400, 590, 380, 65);
         player2SiegeHead = new Image(new Texture(Resource.EMPTY.address()));
-        player2SiegeHead.setBounds(315, 590, 50, 65);
+        player2SiegeHead.setBounds(315, 732, 50, 65);
         player2RangedHead = new Image(new Texture(Resource.EMPTY.address()));
         player2RangedHead.setBounds(315, 662, 50, 65);
         player2ClosedHead = new Image(new Texture(Resource.EMPTY.address()));
-        player2ClosedHead.setBounds(315, 732, 50, 65);
+        player2ClosedHead.setBounds(315, 590, 50, 65);
         stage.addListener(new ClickListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -297,6 +323,25 @@ public class GameView extends View {
                     R = true;
                 else if (keycode == Input.Keys.E)
                     E = true;
+                else if (keycode == Input.Keys.W) {
+                    W = true;
+                } else if (keycode == Input.Keys.V) {
+                    V = true;
+                } else if (keycode == Input.Keys.NUM_1) {
+                    ONE = true;
+                } else if (keycode == Input.Keys.NUM_2) {
+                    TWO = true;
+                } else if (keycode == Input.Keys.NUM_3) {
+                    THREE = true;
+                } else if (keycode == Input.Keys.NUM_4) {
+                    FOUR = true;
+                } else if (keycode == Input.Keys.NUM_5) {
+                    FIVE = true;
+                } else if (keycode == Input.Keys.NUM_6) {
+                    SIX = true;
+                } else if (keycode == Input.Keys.NUM_7) {
+                    SEVEN = true;
+                }
                 return true;
             }
 
@@ -314,6 +359,24 @@ public class GameView extends View {
                     R = false;
                 else if (keycode == Input.Keys.E) {
                     E = false;
+                } else if (keycode == Input.Keys.W) {
+                    W = false;
+                } else if (keycode == Input.Keys.V) {
+                    V = false;
+                } else if (keycode == Input.Keys.NUM_1) {
+                    ONE = false;
+                } else if (keycode == Input.Keys.NUM_2) {
+                    TWO = false;
+                } else if (keycode == Input.Keys.NUM_3) {
+                    THREE = false;
+                } else if (keycode == Input.Keys.NUM_4) {
+                    FOUR = false;
+                } else if (keycode == Input.Keys.NUM_5) {
+                    FIVE = false;
+                } else if (keycode == Input.Keys.NUM_6) {
+                    SIX = false;
+                } else if (keycode == Input.Keys.NUM_7) {
+                    SEVEN = false;
                 }
                 return true;
             }
@@ -322,19 +385,21 @@ public class GameView extends View {
         middleGroup.space(10);
         middle = new ScrollPane(middleGroup, skin);
         middle.setBounds(75, 485, 125, 70);
+        middle.setPosition(50, 485);
 
         discardPile = new Image(new Texture(Resource.EMPTY.address()));
         discardPile.setBounds(820, 285, 55, 70);
         discardPile.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //Do sth.
+                //TODO : show discard piles .
             }
         });
         discardPileGroup = new HorizontalGroup();
         discardPileGroup.space(10);
         discardPileScrollPane = new ScrollPane(discardPileGroup, skin);
         discardPileScrollPane.setBounds(200, 900, 500, 100);
+
         stage.addActor(background);
         stage.addActor(player1CommanderImage);
         stage.addActor(player1HandGroup);
@@ -355,6 +420,9 @@ public class GameView extends View {
         stage.addActor(life12);
         stage.addActor(life21);
         stage.addActor(life22);
+        stage.addActor(middle);
+        stage.addActor(discardPile);
+        stage.addActor(discardPileScrollPane);
     }
 
     @Override
@@ -372,6 +440,15 @@ public class GameView extends View {
         RTime += delta;
         CTime += delta;
         ETime += delta;
+        WTime += delta;
+        VTime += delta;
+        ONETime += delta;
+        TWOTime += delta;
+        THREETime += delta;
+        FOURTime += delta;
+        FIVETime += delta;
+        SIXTime += delta;
+        SEVENTime += delta;
         if (P && PTime > time) {
             if (clicked != null) {
                 System.out.println("play card " + clicked);
@@ -381,32 +458,57 @@ public class GameView extends View {
             }
         }
         if (N && NTime > time) {
-
+            boolean ended = gameTable.changeTurn();
+            gameTable.getPlayGround().printPlayGround();
+            gameTable.printCurrentPlayerHand();
+            if (ended) {
+                //TODO : get into exit menu.
+            }
+            updateAll();
         }
         if (S && STime > time) {
             if (clicked != null) {
-                int state = -3;
-                if (!clicked.isSpecial())
-                    ((GameMenu) menu).placeCardInRow(clicked, 0, 0);
-                else gameTable.getPlayGround().placeSpecialCard(0, clicked);
+                System.out.println("play card " + clicked);
+                if (clicked.getName() != Decoy.name()) {
+                    int state = -3;
+                    state = ((GameMenu) menu).placeCardInRow(clicked, 0, 0);
+                    System.out.println("STATE = " + state);
+                    gameTable.getPlayGround().printPlayGround();
+                    gameTable.printCurrentPlayerHand();
+                } else if (Objects.equals(clicked.getName(), Decoy.name())) {
+                    if (decoyAbility != null)
+                        gameTable.placeDecoy(decoyAbility, 0);
+                }
                 updateAll();
             }
         }
         if (R && RTime > time) {
             if (clicked != null) {
                 System.out.println("play card " + clicked);
-                if (!clicked.isSpecial())
-                    ((GameMenu) menu).placeCardInRow(clicked, 1, 0);
-                else gameTable.getPlayGround().placeSpecialCard(1, clicked);
+                if (clicked.getName() != Decoy.name()) {
+                    int state = -3;
+                    state = ((GameMenu) menu).placeCardInRow(clicked, 1, 0);
+                    System.out.println("STATE = " + state);
+                    gameTable.printCurrentPlayerHand();
+                } else if (Objects.equals(clicked.getName(), Decoy.name())) {
+                    if (decoyAbility != null)
+                        gameTable.placeDecoy(decoyAbility, 1);
+                }
                 updateAll();
             }
         }
         if (C && CTime > time) {
             if (clicked != null) {
                 System.out.println("play card " + clicked);
-                if (!clicked.isSpecial())
-                    ((GameMenu) menu).placeCardInRow(clicked, 2, 0);
-                else gameTable.getPlayGround().placeSpecialCard(2, clicked);
+                if (clicked.getName() != Decoy.name()) {
+                    int state = -3;
+                    state = ((GameMenu) menu).placeCardInRow(clicked, 2, 0);
+                    System.out.println("STATE = " + state);
+                    gameTable.printCurrentPlayerHand();
+                } else if (Objects.equals(clicked.getName(), Decoy.name())) {
+                    if (decoyAbility != null)
+                        gameTable.placeDecoy(decoyAbility, 2);
+                }
                 updateAll();
             }
         }
@@ -414,6 +516,23 @@ public class GameView extends View {
             System.out.println("execute commander");
             ((GameMenu) menu).commanderExecution();
             updateAll();
+        }
+        if (V && VTime > time) {
+            if (clicked != null) {
+                gameTable.veto(clicked);
+                gameTable.printCurrentPlayerHand();
+                updateAll();
+            }
+        }
+        if (W && WTime > time) {
+            if (clicked != null) {
+                if (clicked.isSpecial()) {
+                    gameTable.getPlayGround().placeSpellCard(clicked, gameTable.getPlayers(0),
+                            gameTable.getPlayers(1));
+                    gameTable.printCurrentPlayerHand();
+                    updateAll();
+                }
+            }
         }
 
     }
@@ -433,7 +552,6 @@ public class GameView extends View {
                     else
                         decoyAbility = card;
                     System.out.println("Card For Decoy: " + decoyAbility);
-
                 }
             });
             player1SiegeGroup.addActor(imageWrapper);
@@ -551,7 +669,7 @@ public class GameView extends View {
         for (int i = 0; i < player1Hand.size(); i++) {
             Card card = player1Hand.get(i);
             ImageWrapper image = new ImageWrapper(card.address(), 40, 52);
-            image.setPosition(i * 55, 10);
+            image.setPosition(i * 45, 10);
             image.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -566,10 +684,22 @@ public class GameView extends View {
         }
     }
     private void lifeUpdater() {
+        life11.setDrawable(new Image(new Texture(Resource.LIFE_ON.address())).getDrawable());
+        life12.setDrawable(new Image(new Texture(Resource.LIFE_ON.address())).getDrawable());
+        life21.setDrawable(new Image(new Texture(Resource.LIFE_ON.address())).getDrawable());
+        life22.setDrawable(new Image(new Texture(Resource.LIFE_ON.address())).getDrawable());
         if (gameTable.getPlayers(0).hp() == 1)
             life12.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
         if (gameTable.getPlayers(1).hp() == 1)
             life22.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
+        if (gameTable.getPlayers(0).hp() == 0) {
+            life12.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
+            life11.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
+        }
+        if (gameTable.getPlayers(1).hp() == 0) {
+            life22.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
+            life21.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
+        }
     }
 
     private void commanderUpdater() {
@@ -600,6 +730,7 @@ public class GameView extends View {
             discardPileGroup.addActor(image);
         }
     }
+
     private void updateAll() {
         lifeUpdater();
         commanderUpdater();
@@ -609,6 +740,7 @@ public class GameView extends View {
         closed2();
         ranged1();
         ranged2();
+        weather();
         handUpdater();
     }
 }

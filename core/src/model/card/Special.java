@@ -8,6 +8,10 @@ public class Special extends Card {
         super.setPower(0);
     }
 
+    public SpecialInformation getSpecialInformation() {
+        return specialInformation;
+    }
+
     @Override
     public boolean isSpecial() {
         return true;

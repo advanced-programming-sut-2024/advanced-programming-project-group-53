@@ -2,6 +2,7 @@ package model.game;
 
 import model.card.*;
 
+import javax.sound.midi.Soundbank;
 import java.util.*;
 
 public class Table {
@@ -99,11 +100,10 @@ public class Table {
             if (players.get(0).hp() == 0) {
                 if (players.get(1).hp() == 0) {
                     winner = players.get(0);
-                    loser = players.get(0);
                 } else {
                     winner = players.get(1);
-                    loser = players.get(0);
                 }
+                loser = players.get(0);
                 saveGame();
                 players.get(0).getUser().addGameInformation(gameInformation);
                 players.get(1).getUser().addGameInformation(gameInformation);
@@ -129,12 +129,32 @@ public class Table {
         }
     }
 
+    public void veto(Card card) {
+        if (players.get(0).getHand().specifiedCardCounter(card.getName()) >= 2) {
+            if (!players.get(0).getDeck().getCards().isEmpty()) {
+                System.out.println("veto card : " + card);
+                players.get(0).getHand().removeCard(card.getName());
+                players.get(0).getHand().add(players.get(0).getDeck().cardAt(0));
+                players.get(0).getDeck().getCards().remove(0);
+            }
+        }
+
+    }
+
     public void cleanCards() {
         for (int i = 0; i < 6; i++) {
+            if (i <= 2) {
+                players.get(0).getDiscardPiles().getCards().addAll(playGround.getUnitCardsInRow(i));
+                players.get(0).getDiscardPiles().getCards().add(playGround.getSpecialInRow(i));
+            } else {
+                players.get(1).getDiscardPiles().getCards().addAll(playGround.getUnitCardsInRow(i));
+                players.get(1).getDiscardPiles().getCards().add(playGround.getSpecialInRow(i));
+
+            }
             playGround.getUnitCardsGround().set(i, new ArrayList<>());
             playGround.getSpecials().set(i, null);
-            playGround.resetSpells();
         }
+        playGround.resetSpells();
     }
 
     public ArrayList<Card> getAllCardForPlayer(int which) {
@@ -192,6 +212,15 @@ public class Table {
         for (Card card : playGround.getUnitCardsInRow(row))
             point += card.getPower();
         return point;
+    }
+
+    public void printCurrentPlayerHand() {
+        System.out.println("HAND");
+        ArrayList<Card> handCards = players.get(0).getHand().getCards();
+        for (Card card : handCards) {
+            System.out.printf(card.getName() + " = ");
+        }
+        System.out.println();
     }
     //leaders Abilities
     public ArrayList<Card> executeNorthern(Commander commander) {
@@ -377,5 +406,10 @@ public class Table {
                 players.get(1).getDiscardPiles().getCards().remove(0);
             }
         }
+    }
+
+    public void placeDecoy(Card card, int row) {
+        playGround.removeCardWithNameInRow(card, row);
+        playGround.getUnitCardsInRow(row).add(new Special(SpecialInformation.Decoy));
     }
 }
