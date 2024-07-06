@@ -53,11 +53,18 @@ public class GameView extends View {
 
     //commander attributes
     private boolean P = false;
+    private double PTime = 0;
     private boolean N = false;
+    private double NTime = 0;
     private boolean S = false;
+    private double STime = 0;
     private boolean R = false;
+    private double RTime = 0;
     private boolean C = false;
+    private double CTime = 0;
     private boolean E = false;
+    private double ETime = 0;
+    private final double time = 0.5;
 
     private final HorizontalGroup commanderGroup;
     private final ScrollPane commanderScrollPane;
@@ -77,7 +84,7 @@ public class GameView extends View {
     public GameView(GWENT game, String username1, String username2, Player player1, Player player2) {
         super(game);
         menu = GameMenu.setInstance(player1, player2);
-        this.gameTable = ((GameMenu)menu).getTable();
+        this.gameTable = ((GameMenu) menu).getTable();
         this.currentUsername = gameTable.getPlayers(0).getUser().username();
         this.username1 = gameTable.getPlayers(0).getUser().username();
         this.username2 = gameTable.getPlayers(1).getUser().username();
@@ -336,18 +343,24 @@ public class GameView extends View {
     @Override
     public void render(float delta) {
         super.render(delta);
-        if (P) {
+        PTime += delta;
+        NTime += delta;
+        STime += delta;
+        RTime += delta;
+        CTime += delta;
+        ETime += delta;
+        if (P && PTime > time) {
             if (clicked != null) {
                 System.out.println("play card " + clicked);
                 if (!clicked.isSpecial())
-                    ((GameMenu) menu).placeCardInRow(clicked, GameMenu.getCardPositionToPlay(clicked) , 0);
+                    ((GameMenu) menu).placeCardInRow(clicked, GameMenu.getCardPositionToPlay(clicked), 0);
                 updateAll();
             }
         }
-        if (N) {
+        if (N && NTime > time) {
 
         }
-        if (S) {
+        if (S && STime > time) {
             if (clicked != null) {
                 System.out.println("play card " + clicked);
                 if (!clicked.isSpecial())
@@ -356,7 +369,7 @@ public class GameView extends View {
                 updateAll();
             }
         }
-        if (R) {
+        if (R && RTime > time) {
             if (clicked != null) {
                 System.out.println("play card " + clicked);
                 if (!clicked.isSpecial())
@@ -365,7 +378,7 @@ public class GameView extends View {
                 updateAll();
             }
         }
-        if (C) {
+        if (C && CTime > time) {
             if (clicked != null) {
                 System.out.println("play card " + clicked);
                 if (!clicked.isSpecial())
@@ -374,7 +387,7 @@ public class GameView extends View {
                 updateAll();
             }
         }
-        if (E) {
+        if (E && ETime > time) {
             System.out.println("execute commander");
             ((GameMenu) menu).commanderExecution();
             updateAll();
@@ -394,7 +407,8 @@ public class GameView extends View {
         player1SiegeHead.clear();
         if (gameTable.getPlayGround().getSpecialInRow(0) != null)
             player1SiegeHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(0).address()));
-        else player1SiegeHead = new Image(new Texture(Resource.EMPTY.address()));
+        else
+            player1SiegeHead = new Image(new Texture(Resource.EMPTY.address()));
     }
 
     private void ranged1() {
@@ -409,7 +423,8 @@ public class GameView extends View {
         player1RangedHead.clear();
         if (gameTable.getPlayGround().getSpecialInRow(1) != null)
             player1RangedHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(1).address()));
-        else player1RangedHead = new Image(new Texture(Resource.EMPTY.address()));
+        else
+            player1RangedHead = new Image(new Texture(Resource.EMPTY.address()));
     }
 
     private void closed1() {
@@ -424,7 +439,8 @@ public class GameView extends View {
         player1ClosedHead.clear();
         if (gameTable.getPlayGround().getSpecialInRow(2) != null)
             player1ClosedHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(2).address()));
-        else player1ClosedHead = new Image(new Texture(Resource.EMPTY.address()));
+        else
+            player1ClosedHead = new Image(new Texture(Resource.EMPTY.address()));
     }
 
     private void siege2() {
@@ -439,7 +455,8 @@ public class GameView extends View {
         player2SiegeHead.clear();
         if (gameTable.getPlayGround().getSpecialInRow(5) != null)
             player2SiegeHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(5).address()));
-        else player2SiegeHead = new Image(new Texture(Resource.EMPTY.address()));
+        else
+            player2SiegeHead = new Image(new Texture(Resource.EMPTY.address()));
     }
 
     private void ranged2() {
@@ -454,7 +471,8 @@ public class GameView extends View {
         player2RangedHead.clear();
         if (gameTable.getPlayGround().getSpecialInRow(4) != null)
             player2RangedHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(4).address()));
-        else player2RangedHead = new Image(new Texture(Resource.EMPTY.address()));
+        else
+            player2RangedHead = new Image(new Texture(Resource.EMPTY.address()));
     }
 
     private void closed2() {
@@ -469,7 +487,8 @@ public class GameView extends View {
         player2ClosedHead.clear();
         if (gameTable.getPlayGround().getSpecialInRow(3) != null)
             player2ClosedHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(3).address()));
-        else player2ClosedHead = new Image(new Texture(Resource.EMPTY.address()));
+        else
+            player2ClosedHead = new Image(new Texture(Resource.EMPTY.address()));
     }
 
     private void handUpdater() {
