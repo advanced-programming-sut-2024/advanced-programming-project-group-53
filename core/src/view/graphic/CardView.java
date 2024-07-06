@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controller.StartMenu;
 import game.GWENT;
 import model.card.*;
+import model.cards.Deck;
 import network.Command;
 import network.Connector;
 import network.Instruction;
@@ -150,8 +151,8 @@ public class CardView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 save.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
-                //TODO: save the deck.
-                game.changeScreen(new DeckExportView(game, currentUsername));
+                //TODO: make the deck.
+                game.changeScreen(new DeckExportView(game, currentUsername, new Deck()));
             }
 
             @Override

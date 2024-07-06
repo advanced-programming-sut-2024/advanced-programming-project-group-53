@@ -17,6 +17,7 @@ public class ChatMenu extends Menu {
     {
         DatabaseHandler.addAllChats(messages);
     }
+
     private ChatMenu() {
     }
 
@@ -69,7 +70,7 @@ public class ChatMenu extends Menu {
                     + ");";
 
             try (Connection conn = DriverManager.getConnection(url);
-                Statement stmt = conn.createStatement()) {
+                 Statement stmt = conn.createStatement()) {
                 stmt.execute(sql);
                 System.out.println("Chats table created successfully.");
             } catch (SQLException e) {
@@ -121,7 +122,7 @@ public class ChatMenu extends Menu {
             String json = gson.toJson(chatContainer);
 
             try (Connection conn = DriverManager.getConnection(url);
-                PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setString(1, json);
                 preparedStatement.executeUpdate();
                 System.out.println("Chat inserted successfully.");
@@ -134,7 +135,7 @@ public class ChatMenu extends Menu {
             String sql = "DELETE FROM chats WHERE data = ?";
 
             try (Connection conn = DriverManager.getConnection("jdbc:sqlite:chats.db");
-                PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
                 preparedStatement.setString(1, json);
                 preparedStatement.executeUpdate();
                 System.out.println("Chat(s) deleted successfully.");
@@ -164,7 +165,7 @@ public class ChatMenu extends Menu {
             String spl = "UPDATE chats SET data = ? WHERE data = ?";
 
             try (Connection conn = DriverManager.getConnection("jdbc:sqlite:chats.db");
-                PreparedStatement preparedStatement = conn.prepareStatement(spl)) {
+                 PreparedStatement preparedStatement = conn.prepareStatement(spl)) {
                 preparedStatement.setString(1, updatedData);
                 preparedStatement.setString(2, previousData);
                 preparedStatement.executeUpdate();
@@ -172,11 +173,6 @@ public class ChatMenu extends Menu {
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
-        }
-
-        public static void main(String[] args) {
-            resetDatabase();
-            createDataBaseChatTable();
         }
     }
 }
