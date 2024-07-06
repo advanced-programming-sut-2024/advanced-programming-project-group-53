@@ -280,7 +280,7 @@ public class CardView extends View {
                             public void clicked(InputEvent event, float x, float y) {
                                 deckSpecialImages.remove(image1);
                                 deckSpecial.remove(special);
-
+                                ((StartMenu)menu).getDeck().removeCard(special.name());
                                 deckUpdater();
                             }
 
@@ -331,6 +331,7 @@ public class CardView extends View {
                             public void clicked(InputEvent event, float x, float y) {
                                 deckUnitImages.remove(image1);
                                 deckUnit.remove(unit);
+                                ((StartMenu)menu).getDeck().removeCard(unit.name());
                                 deckUpdater();
                             }
 
