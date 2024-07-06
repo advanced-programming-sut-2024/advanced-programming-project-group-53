@@ -1,8 +1,9 @@
 package controller;
 
 import model.game.User;
-import view.Message;
+import model.view.Message;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ProfileMenu extends Menu {
@@ -41,10 +42,16 @@ public class ProfileMenu extends Menu {
             number = Integer.parseInt(numberString);
         if (user.isGameHistoryEmpty())
             return Message.EMPTY_GAME_HISTORY.message();
-        else {
-            //TODO : fill this in user field for showing game history.
-            return "TEMP";
-        }
+        else
+            return user.gameInformation().toString();
+    }
+
+    public String showRanking() {
+        ArrayList<User> users = User.ranking();
+        StringBuilder ranking = new StringBuilder();
+        for (User user : users)
+            ranking.append(user.username()).append(" ");
+        return ranking.toString();
     }
 
     public String changeUsername(String newUsername, String oldUsername) {

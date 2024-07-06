@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import controller.MainMenu;
 import game.GWENT;
 import network.Instruction;
-import view.Resource;
+import model.view.Resource;
 
 public class MainView extends View {
     private final Image chooseDeck;

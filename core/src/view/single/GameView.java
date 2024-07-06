@@ -9,7 +9,7 @@ import controller.GameMenu;
 import game.GWENT;
 import model.card.*;
 import view.components.ImageWrapper;
-import view.Resource;
+import model.view.Resource;
 
 import java.util.ArrayList;
 

@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.ProfileMenu;
 import game.GWENT;
-import view.Resource;
+import model.view.Resource;
 
 public class HistoryView extends View {
     private final Label history;

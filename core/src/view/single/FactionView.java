@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import controller.StartMenu;
 import game.GWENT;
 import model.card.Faction;
-import view.Resource;
+import model.view.Resource;
 
 import java.util.HashMap;
 

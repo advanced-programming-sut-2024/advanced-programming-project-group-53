@@ -11,7 +11,7 @@ import controller.StartMenu;
 import game.GWENT;
 import model.card.Faction;
 import network.Instruction;
-import view.Resource;
+import model.view.Resource;
 
 import java.util.HashMap;
 

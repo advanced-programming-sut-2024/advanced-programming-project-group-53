@@ -8,10 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.RegisterMenu;
 import game.GWENT;
+import model.view.Message;
 import network.Command;
 import network.Connector;
 import network.Instruction;
-import view.Resource;
+import model.view.Resource;
 
 import java.util.Objects;
 
@@ -26,6 +27,11 @@ public class RegisterView extends View {
     private final Image register;
     private final Image loginMenu;
     private final Image exit;
+    private final Table emailAuthentication;
+    private final Image save;
+    private final TextField codeInput;
+    private final Label error;
+    private String code;
 
     public RegisterView(GWENT game) {
         super(game);
@@ -37,6 +43,9 @@ public class RegisterView extends View {
         textGroup.setBounds(635, 170, 400, 400);
         textGroup.align(Align.center);
         textGroup.space(10);
+        emailAuthentication = new Table();
+        emailAuthentication.setBounds(50, 250, 400, 400);
+        emailAuthentication.align(Align.center);
         registerMessage = new Label("", skin);
         username = new TextField("", skin);
         username.setMessageText("username");
@@ -48,6 +57,9 @@ public class RegisterView extends View {
         password.setMessageText("password");
         password.setPasswordCharacter('*');
         password.setPasswordMode(true);
+        error = new Label("", skin);
+        codeInput = new TextField("", skin);
+        codeInput.setMessageText("code");
         TextField confirmPassword = new TextField("", skin);
         confirmPassword.setMessageText("confirm");
         confirmPassword.setPasswordMode(true);
@@ -61,14 +73,11 @@ public class RegisterView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 register.setDrawable(new Image(new Texture(Resource.REGISTER_CLICKED.address())).getDrawable());
-                perform(new Connector().perform(new Instruction(Command.REGISTER,
+                perform(new Connector().perform(new Instruction(Command.REGISTER_VALIDATION,
                         username.getText(),
                         nickname.getText(),
                         email.getText(),
-                        password.getText(),
-                        confirmPassword.getText(),
-                        question.getText(),
-                        answer.getText())));
+                        password.getText())));
             }
 
             @Override
@@ -79,6 +88,34 @@ public class RegisterView extends View {
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 register.setDrawable(new Image(new Texture(Resource.REGISTER_OFF.address())).getDrawable());
+            }
+        });
+        save = new Image(new Texture(Resource.SAVE_OFF.address()));
+        save.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                save.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
+                if (codeInput.getText().equals(code))
+                    perform(new Connector().perform(new Instruction(Command.REGISTER,
+                            username.getText(),
+                            nickname.getText(),
+                            email.getText(),
+                            password.getText(),
+                            confirmPassword.getText(),
+                            question.getText(),
+                            answer.getText())));
+                else
+                    error.setText(Message.CODE.message());
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                save.setDrawable(new Image(new Texture(Resource.SAVE_ON.address())).getDrawable());
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                save.setDrawable(new Image(new Texture(Resource.SAVE_OFF.address())).getDrawable());
             }
         });
         loginMenu = new Image(new Texture(Resource.LOGIN_MENU_OFF.address()));
@@ -133,6 +170,7 @@ public class RegisterView extends View {
         stage.addActor(background);
         stage.addActor(registerTable);
         stage.addActor(textGroup);
+        stage.addActor(emailAuthentication);
     }
 
     @Override
@@ -142,21 +180,34 @@ public class RegisterView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
-        if (Objects.requireNonNull(instruction.command()) == Command.REGISTER_MESSAGE) {
-            if (Objects.equals(instruction.arguments()[0], "empty"))
-                game.changeScreen(new LoginView(game));
-            else {
-                StringBuilder builder = new StringBuilder();
-                for (String string : instruction.arguments())
-                    builder.append(string).append(" ");
-                registerMessage.setText(builder.toString().trim());
-                username.setText("");
-                nickname.setText("");
-                email.setText("");
-                password.setText("");
-                question.setText("");
-                answer.setText("");
-            }
+        System.out.println(instruction);
+        String[] arguments = instruction.arguments();
+        StringBuilder builder = new StringBuilder();
+        for (String string : instruction.arguments())
+            builder.append(string).append(" ");
+        String message = builder.toString().trim();
+        switch (instruction.command()) {
+            case REGISTER_MESSAGE:
+                if (!Objects.equals(arguments[0], "empty"))
+                    error.setText(message);
+                else
+                    codeInput.setText("");
+                break;
+            case EMAIL_VALIDATION_MESSAGE:
+                code = arguments[0];
+                break;
+            case REGISTER_VALIDATION_MESSAGE:
+                if (Objects.equals(arguments[0], "empty")) {
+                    perform(new Connector().perform(new Instruction(Command.EMAIL_VALIDATION, username.getText(), email.getText())));
+                    emailAuthentication.add(error);
+                    emailAuthentication.row();
+                    emailAuthentication.add(codeInput);
+                    emailAuthentication.row();
+                    emailAuthentication.add(save);
+                }
+                else
+                    registerMessage.setText(message);
+                break;
         }
     }
 }

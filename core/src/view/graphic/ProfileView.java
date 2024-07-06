@@ -11,7 +11,7 @@ import game.GWENT;
 import network.Command;
 import network.Connector;
 import network.Instruction;
-import view.Resource;
+import model.view.Resource;
 
 import java.util.Objects;
 
@@ -43,6 +43,7 @@ public class ProfileView extends View {
     private final Image exit;
     private final Image save;
     private final Image mainMenu;
+    private final Image friend;
     private boolean isOnChangeUsername = false;
     private boolean isOnChangeNickname = false;
     private boolean isOnChangeEmail = false;
@@ -56,7 +57,7 @@ public class ProfileView extends View {
         rightTable.setBounds(574, 50, 400, (float) (400 * 0.1458 * 2));
         rightTable.align(Align.center);
         Table middleTable = new Table();
-        middleTable.setBounds(312, 810, 400, (float) (400 * 0.1458 * 3));
+        middleTable.setBounds(312, 740, 400, (float) (400 * 0.1458 * 4));
         middleTable.align(Align.center);
         Table leftTable = new Table();
         leftTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 2));
@@ -264,7 +265,7 @@ public class ProfileView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 history.setDrawable(new Image(new Texture(Resource.HISTORY_CLICKED.address())).getDrawable());
-                //game.changeScreen(new HistoryView(game, currentUsername));
+                game.changeScreen(new HistoryView(game, currentUsername));
             }
 
             @Override
@@ -275,6 +276,24 @@ public class ProfileView extends View {
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 history.setDrawable(new Image(new Texture(Resource.HISTORY_OFF.address())).getDrawable());
+            }
+        });
+        friend = new Image(new Texture(Resource.FRIEND_OFF.address()));
+        friend.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                friend.setDrawable(new Image(new Texture(Resource.FRIEND_CLICKED.address())).getDrawable());
+                game.changeScreen(new FriendView(game, currentUsername));
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                friend.setDrawable(new Image(new Texture(Resource.FRIEND_ON.address())).getDrawable());
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                friend.setDrawable(new Image(new Texture(Resource.FRIEND_OFF.address())).getDrawable());
             }
         });
         mainMenu = new Image(new Texture(Resource.MAIN_MENU_OFF.address()));
@@ -355,6 +374,8 @@ public class ProfileView extends View {
         rightTable.row();
         rightTable.add(changeEmail);
         middleTable.add(history);
+        middleTable.row();
+        middleTable.add(friend);
         middleTable.row();
         middleTable.add(mainMenu);
         middleTable.row();

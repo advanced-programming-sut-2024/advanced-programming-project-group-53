@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.ScreenUtils;
 import view.FirstView;
-import view.Resource;
+import model.view.Resource;
 
 public class GWENT extends Game {
     private Music music;
@@ -42,6 +42,8 @@ public class GWENT extends Game {
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.CHAT_MUSIC.address()));
         else if (view instanceof view.graphic.ProfileView)
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.PROFILE_MUSIC.address()));
+        else if (view instanceof view.graphic.FriendView)
+            music = Gdx.audio.newMusic(Gdx.files.internal(Resource.FRIEND_MUSIC.address()));
         else if (view instanceof view.graphic.HistoryView)
             music = Gdx.audio.newMusic(Gdx.files.internal(Resource.HISTORY_MUSIC.address()));
         else if (view instanceof view.graphic.RankingView)

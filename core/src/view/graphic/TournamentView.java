@@ -1,6 +1,9 @@
 package view.graphic;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import game.GWENT;
+import model.view.Resource;
 import network.Instruction;
 
 public class TournamentView extends View {
@@ -10,7 +13,7 @@ public class TournamentView extends View {
 
     @Override
     protected void backgroundLoader() {
-
+        background = new Image(new Texture(Resource.TOURNAMENT_BACKGROUND.address()));
     }
 
     @Override

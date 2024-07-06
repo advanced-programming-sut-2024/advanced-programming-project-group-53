@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import controller.Menu;
 import game.GWENT;
 import network.Instruction;
-import view.Resource;
+import model.view.Resource;
 
 import static com.badlogic.gdx.Gdx.input;
 

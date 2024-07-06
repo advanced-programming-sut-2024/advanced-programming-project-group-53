@@ -14,7 +14,7 @@ import game.GWENT;
 import network.Command;
 import network.Connector;
 import network.Instruction;
-import view.Resource;
+import model.view.Resource;
 
 import java.util.Objects;
 

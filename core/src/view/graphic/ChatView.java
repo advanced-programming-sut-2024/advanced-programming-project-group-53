@@ -5,21 +5,15 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import controller.ChatMenu;
 import game.GWENT;
 import network.Command;
 import network.Connector;
 import network.Instruction;
-import view.ChatContainer;
-import view.Resource;
-
-import java.util.ArrayList;
+import model.view.Resource;
 
 public class ChatView extends View {
-    private ArrayList<HorizontalGroup> horizontalGroups;
     private final VerticalGroup group;
-    private final ScrollPane chat;
     private final Label error;
     private final Label who;
     private final TextField username;
@@ -36,7 +30,7 @@ public class ChatView extends View {
         group = new VerticalGroup();
         group.setFillParent(true);
         group.space(20);
-        chat = new ScrollPane(group, skin);
+        ScrollPane chat = new ScrollPane(group, skin);
         chat.setFlickScroll(true);
         chat.setFadeScrollBars(false);
         username = new TextField("", skin);
@@ -179,23 +173,19 @@ public class ChatView extends View {
 
     private void updateContent(String content) {
         group.clear();
-        horizontalGroups = new ArrayList<>();
         String[] messages = content.split("\\\\");
         for (String message : messages) {
-            HorizontalGroup group = new HorizontalGroup();
+            Label line = new Label("",skin);
             String[] contents = message.split("/");
-            group.addActor(new Label("message:\n" +
+            line.setText("message:\n" +
                     contents[0] +
                     "\nfrom: " +
                     contents[1] +
                     "\nto: " +
                     contents[2] +
                     "\ndate: " +
-                    contents[3],
-                    skin));
-            horizontalGroups.add(group);
+                    contents[3]);
+            group.addActor(line);
         }
-        for (HorizontalGroup horizontalGroup : horizontalGroups)
-            group.addActor(horizontalGroup);
     }
 }

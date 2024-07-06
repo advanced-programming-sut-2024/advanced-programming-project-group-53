@@ -20,7 +20,7 @@ public enum Command {
     CHANGE_PASSWORD,
     HISTORY_INFORMATION,
     HISTORY_MESSAGE,
-    RANKING_INFORMATION,
+    RANKING,
     RANKING_MESSAGE,
     DECK_INFORMATION,
     DECK_MESSAGE,
@@ -36,6 +36,20 @@ public enum Command {
     SHOW_CHAT_MESSAGE,
     USERNAME_VALIDATION,
     USERNAME_VALIDATION_MESSAGE,
+    EMAIL_VALIDATION,
+    EMAIL_VALIDATION_MESSAGE,
+    REGISTER_VALIDATION,
+    REGISTER_VALIDATION_MESSAGE,
+    REQUEST_IN,
+    REQUEST_IN_MESSAGE,
+    REQUEST_OUT,
+    REQUEST_OUT_MESSAGE,
+    FRIEND,
+    FRIEND_MESSAGE,
+    FRIEND_REQUEST,
+    FRIEND_REQUEST_MESSAGE,
+    SEND_REQUEST,
+    SEND_REQUEST_MESSAGE,
     ;
 
     public static Command fromString(String command) {
@@ -78,8 +92,8 @@ public enum Command {
                 return HISTORY_INFORMATION;
             case "HISTORY_MESSAGE":
                 return HISTORY_MESSAGE;
-            case "RANKING_INFORMATION":
-                return RANKING_INFORMATION;
+            case "RANKING":
+                return RANKING;
             case "RANKING_MESSAGE":
                 return RANKING_MESSAGE;
             case "DECK_INFORMATION":
@@ -110,6 +124,34 @@ public enum Command {
                 return USERNAME_VALIDATION;
             case "USERNAME_VALIDATION_MESSAGE":
                 return USERNAME_VALIDATION_MESSAGE;
+            case "EMAIL_VALIDATION":
+                return EMAIL_VALIDATION;
+            case "EMAIL_VALIDATION_MESSAGE":
+                return EMAIL_VALIDATION_MESSAGE;
+            case "REGISTER_VALIDATION":
+                return REGISTER_VALIDATION;
+            case "REGISTER_VALIDATION_MESSAGE":
+                return REGISTER_VALIDATION_MESSAGE;
+            case "REQUEST_IN":
+                return REQUEST_IN;
+            case "REQUEST_IN_MESSAGE":
+                return REQUEST_IN_MESSAGE;
+            case "REQUEST_OUT":
+                return REQUEST_OUT;
+            case "REQUEST_OUT_MESSAGE":
+                return REQUEST_OUT_MESSAGE;
+            case "FRIEND":
+                return FRIEND;
+            case "FRIEND_MESSAGE":
+                return FRIEND_MESSAGE;
+            case "FRIEND_REQUEST":
+                return FRIEND_REQUEST;
+            case "FRIEND_REQUEST_MESSAGE":
+                return FRIEND_REQUEST_MESSAGE;
+            case "SEND_REQUEST":
+                return SEND_REQUEST;
+            case "SEND_REQUEST_MESSAGE":
+                return SEND_REQUEST_MESSAGE;
             default:
                 return null;
         }

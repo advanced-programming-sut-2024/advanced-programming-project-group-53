@@ -173,8 +173,8 @@ public class User {
     }
 
     public static ArrayList<User> ranking() {
+        allUsers.sort(Comparator.comparing(User::winCount));
         return allUsers;
-        //TODO: sort!
     }
 
     public void addFriend(String friendUsername) {
@@ -187,6 +187,10 @@ public class User {
 
     public ArrayList<String> friends() {
         return friends;
+    }
+
+    public ArrayList<GameInformation> gameInformation() {
+        return gameInformations;
     }
 
     static class DataBaseHandler {

@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import controller.GameMenu;
 import game.GWENT;
 import network.Instruction;
-import view.Resource;
+import model.view.Resource;
 import view.single.MainView;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package controller;
 
 import model.game.User;
-import view.Message;
+import model.view.Message;
 
 import java.util.Objects;
 

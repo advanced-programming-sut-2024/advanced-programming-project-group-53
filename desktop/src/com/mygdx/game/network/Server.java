@@ -1,10 +1,7 @@
 package com.mygdx.game.network;
 
-import view.ChatContainer;
-
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class Server {
     private ServerSocket serverSocket;
@@ -21,8 +18,8 @@ public class Server {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                new Handler(socket);
                 System.out.println("Accepted");
+                new Handler(socket);
             } catch (Exception e) {
                 System.out.println("Not accepted");
             }

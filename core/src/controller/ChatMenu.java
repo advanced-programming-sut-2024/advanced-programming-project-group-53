@@ -1,8 +1,8 @@
 package controller;
 
 import model.game.User;
-import view.ChatContainer;
-import view.Message;
+import model.view.ChatContainer;
+import model.view.Message;
 
 import java.util.ArrayList;
 import java.util.Objects;
