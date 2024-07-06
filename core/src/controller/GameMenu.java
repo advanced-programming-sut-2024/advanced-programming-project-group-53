@@ -2,9 +2,7 @@ package controller;
 
 import model.card.*;
 import model.game.Player;
-import model.game.Playground;
 import model.game.Table;
-import sun.awt.X11.XStateProtocol;
 import view.Message;
 
 import java.util.ArrayList;
@@ -103,7 +101,7 @@ public class GameMenu extends Menu {
     }
 
     public void changeTurn() {
-
+        table.changeTurn();
     }
     /*
     public static boolean vetoCards(int cardNumber) {

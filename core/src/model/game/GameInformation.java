@@ -8,6 +8,7 @@ public class GameInformation {
     private final ArrayList<Round> rounds;
     private final String winnerName;
     private final String loserName;
+    private boolean draw;
     public GameInformation(Player winner, Player loser, ArrayList<Round> rounds) {
         // before this store it in user probably will handle by team.
         this.winnerName = winner.getUser().username();

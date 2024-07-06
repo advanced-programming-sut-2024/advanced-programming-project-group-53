@@ -53,11 +53,9 @@ public class GameView extends View {
     private HorizontalGroup discardPileGroup;
     private ScrollPane discardPileScrollPane;
     private ArrayList<Card> discards;
-
     private Card clicked;
 
     private Card decoyAbility;
-
     //commander attributes
     private boolean P = false;
     private double PTime = 0;
@@ -91,7 +89,6 @@ public class GameView extends View {
     private ScrollPane middle;
     private HorizontalGroup middleGroup;
     private ArrayList<Card> middles;
-
     public GameView(GWENT game, String username1, String username2, Player player1, Player player2) {
         super(game);
         menu = GameMenu.setInstance(player1, player2);
@@ -340,7 +337,6 @@ public class GameView extends View {
         discardPileGroup.space(10);
         discardPileScrollPane = new ScrollPane(discardPileGroup, skin);
         discardPileScrollPane.setBounds(200, 900, 500, 100);
-
         stage.addActor(background);
         stage.addActor(player1CommanderImage);
         stage.addActor(player1HandGroup);
@@ -361,9 +357,6 @@ public class GameView extends View {
         stage.addActor(life12);
         stage.addActor(life21);
         stage.addActor(life22);
-        stage.addActor(middle);
-        stage.addActor(discardPile);
-        stage.addActor(discardPileScrollPane);
     }
 
     @Override
@@ -575,6 +568,19 @@ public class GameView extends View {
             player1HandGroup.addActor(image);
         }
     }
+    private void lifeUpdater() {
+        if (gameTable.getPlayers(0).hp() == 1)
+            life12.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
+        if (gameTable.getPlayers(1).hp() == 1)
+            life22.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
+    }
+
+    private void commanderUpdater() {
+        player1Commander = gameTable.getPlayers(0).getCommander();
+        player2Commander = gameTable.getPlayers(1).getCommander();
+        player1CommanderImage = new Image(new Texture(player1Commander.getCommanderInformation().address()));
+        player2CommanderImage = new Image(new Texture(player1Commander.getCommanderInformation().address()));
+    }
 
     private void weather() {
         middleGroup.clear();
@@ -597,8 +603,9 @@ public class GameView extends View {
             discardPileGroup.addActor(image);
         }
     }
-
     private void updateAll() {
+        lifeUpdater();
+        commanderUpdater();
         siege1();
         siege2();
         closed1();

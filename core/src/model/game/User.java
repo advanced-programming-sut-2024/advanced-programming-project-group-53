@@ -172,6 +172,10 @@ public class User {
         return allUsers;
         //TODO: sort!
     }
+
+    public void addGameInformation(GameInformation gameInformation) {
+        gameInformations.add(gameInformation);
+    }
     static class DataBaseHandler {
         public static void createDataBaseUserTable() {
             String url = "jdbc:sqlite:users.db";

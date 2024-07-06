@@ -33,6 +33,13 @@ public class Player {
         this.hand.setCards(this.deck.shuffleAndSelect());
     }
 
+    public void decreaseHP() {
+        this.hp--;
+    }
+
+    public int hp() {
+        return hp;
+    }
     public void vetoPlayer(String cardName) {
         this.discardPiles.add(this.hand.getCard(cardName));
         this.hand.removeCard(cardName);

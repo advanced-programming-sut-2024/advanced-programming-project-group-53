@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Playground {
-    private final ArrayList<ArrayList<Card>> unitCardsGround;
-    private final ArrayList<Special> spells;
-    private final ArrayList<Special> specials;
+    private ArrayList<ArrayList<Card>> unitCardsGround;
+    private ArrayList<Special> spells;
+    private ArrayList<Special> specials;
     public static final int MAX_ROW_CAPACITY = 6;
     public ArrayList<Boolean> weatherCondition;
     public Playground() {
@@ -21,6 +21,15 @@ public class Playground {
         }
     }
 
+    public ArrayList<ArrayList<Card>> getUnitCardsGround() {
+        return unitCardsGround;
+    }
+
+    public void resetSpells() {
+        this.spells = new ArrayList<>();
+        clearWeatherAbility();
+        weatherCondition.set(0, false);
+    }
     public void changeTurn() {
         for (int i = 0; i < 3; i++) {
             Collections.swap(unitCardsGround, i, 5 - i);
