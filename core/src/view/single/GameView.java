@@ -79,8 +79,6 @@ public class GameView extends View {
     private Card commanderAbility;
 
     //life
-    private int life1;
-    private int life2;
     private Image life11;
     private Image life12;
     private Image life21;
@@ -88,7 +86,7 @@ public class GameView extends View {
 
     private ScrollPane middle;
     private HorizontalGroup middleGroup;
-    private ArrayList<Card> middles;
+    private ArrayList<Special> middles;
     public GameView(GWENT game, String username1, String username2, Player player1, Player player2) {
         super(game);
         menu = GameMenu.setInstance(player1, player2);
@@ -584,7 +582,7 @@ public class GameView extends View {
 
     private void weather() {
         middleGroup.clear();
-        //Do sth.
+        middles = gameTable.getPlayGround().getSpells();
         for (int i = 0; i < middles.size(); i++) {
             Card card = middles.get(i);
             ImageWrapper image = new ImageWrapper(card.address(), 50, 65);
@@ -595,7 +593,7 @@ public class GameView extends View {
 
     private void discardPile() {
         discardPileGroup.clear();
-        //Do sth.
+        discards = gameTable.getPlayers(0).getDiscardPiles().getCards();
         for (int i = 0; i < discards.size(); i++) {
             Card card = discards.get(i);
             ImageWrapper image = new ImageWrapper(card.address(), 50, 65);
