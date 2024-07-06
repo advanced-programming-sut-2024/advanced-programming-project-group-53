@@ -49,7 +49,14 @@ public class GameView extends View {
 
     private Table gameTable;
 
+    private Image discardPile;
+    private HorizontalGroup discardPileGroup;
+    private ScrollPane discardPileScrollPane;
+    private ArrayList<Card> discards;
+
     private Card clicked;
+
+    private Card decoyAbility;
 
     //commander attributes
     private boolean P = false;
@@ -80,6 +87,10 @@ public class GameView extends View {
     private Image life12;
     private Image life21;
     private Image life22;
+
+    private ScrollPane middle;
+    private HorizontalGroup middleGroup;
+    private ArrayList<Card> middles;
 
     public GameView(GWENT game, String username1, String username2, Player player1, Player player2) {
         super(game);
@@ -312,6 +323,24 @@ public class GameView extends View {
                 return true;
             }
         });
+        middleGroup = new HorizontalGroup();
+        middleGroup.space(10);
+        middle = new ScrollPane(middleGroup, skin);
+        middle.setBounds(75, 485, 125, 70);
+
+        discardPile = new Image(new Texture(Resource.EMPTY.address()));
+        discardPile.setBounds(820, 285, 55, 70);
+        discardPile.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //Do sth.
+            }
+        });
+        discardPileGroup = new HorizontalGroup();
+        discardPileGroup.space(10);
+        discardPileScrollPane = new ScrollPane(discardPileGroup, skin);
+        discardPileScrollPane.setBounds(200, 900, 500, 100);
+
         stage.addActor(background);
         stage.addActor(player1CommanderImage);
         stage.addActor(player1HandGroup);
@@ -332,6 +361,9 @@ public class GameView extends View {
         stage.addActor(life12);
         stage.addActor(life21);
         stage.addActor(life22);
+        stage.addActor(middle);
+        stage.addActor(discardPile);
+        stage.addActor(discardPileScrollPane);
     }
 
     @Override
@@ -404,6 +436,16 @@ public class GameView extends View {
             Card card = player1Siege.get(i);
             ImageWrapper imageWrapper = new ImageWrapper(card.address(), 50, 65);
             imageWrapper.setPosition(i * 55, 0);
+            imageWrapper.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if (decoyAbility == card)
+                        decoyAbility = null;
+                    else
+                        decoyAbility = card;
+                    System.out.println(decoyAbility);
+                }
+            });
             player1SiegeGroup.addActor(imageWrapper);
         }
         player1SiegeHead.clear();
@@ -420,6 +462,16 @@ public class GameView extends View {
             Card card = player1Ranged.get(i);
             ImageWrapper imageWrapper = new ImageWrapper(card.address(), 50, 65);
             imageWrapper.setPosition(i * 55, 0);
+            imageWrapper.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if (decoyAbility == card)
+                        decoyAbility = null;
+                    else
+                        decoyAbility = card;
+                    System.out.println(decoyAbility);
+                }
+            });
             player1RangedGroup.addActor(imageWrapper);
         }
         player1RangedHead.clear();
@@ -436,6 +488,16 @@ public class GameView extends View {
             Card card = player1Closed.get(i);
             ImageWrapper imageWrapper = new ImageWrapper(card.address(), 50, 65);
             imageWrapper.setPosition(i * 55, 0);
+            imageWrapper.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if (decoyAbility == card)
+                        decoyAbility = null;
+                    else
+                        decoyAbility = card;
+                    System.out.println(decoyAbility);
+                }
+            });
             player1ClosedGroup.addActor(imageWrapper);
         }
         player1ClosedHead.clear();
@@ -511,6 +573,28 @@ public class GameView extends View {
                 }
             });
             player1HandGroup.addActor(image);
+        }
+    }
+
+    private void weather() {
+        middleGroup.clear();
+        //Do sth.
+        for (int i = 0; i < middles.size(); i++) {
+            Card card = middles.get(i);
+            ImageWrapper image = new ImageWrapper(card.address(), 50, 65);
+            image.setPosition(i * 55, 0);
+            middleGroup.addActor(image);
+        }
+    }
+
+    private void discardPile() {
+        discardPileGroup.clear();
+        //Do sth.
+        for (int i = 0; i < discards.size(); i++) {
+            Card card = discards.get(i);
+            ImageWrapper image = new ImageWrapper(card.address(), 50, 65);
+            image.setPosition(i * 55, 0);
+            discardPileGroup.addActor(image);
         }
     }
 
