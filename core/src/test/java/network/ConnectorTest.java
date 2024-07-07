@@ -58,8 +58,15 @@ public class ConnectorTest {
     @Test
     public void shouldEstablishConnection() {
         connector.establishConnection("localhost", port);
-        // If no exception is thrown, the test passes
+        // the test fails if an exception is thrown
     }
 
+    @Test
+    public void testSendMessage() {
+        connector.establishConnection("localhost", port);
+        Instruction instruction = new Instruction(Command.LOGIN, "username", "password");
+        connector.sendMessage(instruction);
+        // the test can fail if an exception is thrown
+    }
 
 }
