@@ -77,4 +77,11 @@ public class ConnectorTest {
         assertEquals(instruction.toString(), connector.receiveMessage().toString());// checking if the received message is the same
     }
 
+    @Test
+    public void shouldEndConnection() {
+        connector.establishConnection("localhost", port);
+        connector.endConnection();
+        // test fails if an exception is thrown
+    }
+
 }
