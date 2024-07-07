@@ -65,8 +65,8 @@ public class DeckContainer {
         }
     }
 
-    public static DeckContainer importDeck(String name) {
-        File file = new File("~/gwentInformation/" + name + ".json");
+    public static DeckContainer importDeck(String name, String username) {
+        File file = new File("~/gwentInformation/" + username + "/" + name + ".json");
         if (!file.exists()) return null;
         try (FileReader reader = new FileReader(file)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
