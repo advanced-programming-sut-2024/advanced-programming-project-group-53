@@ -385,12 +385,10 @@ public class GameView extends View {
         }
         if (S && STime > time) {
             if (clicked != null) {
-                System.out.println("play card " + clicked);
                 int state = -3;
                 if (!clicked.isSpecial())
-                    state = ((GameMenu) menu).placeCardInRow(clicked, 0, 0);
+                    ((GameMenu) menu).placeCardInRow(clicked, 0, 0);
                 else gameTable.getPlayGround().placeSpecialCard(0, clicked);
-                System.out.println("STATE = " + state);
                 updateAll();
             }
         }
@@ -434,7 +432,8 @@ public class GameView extends View {
                         decoyAbility = null;
                     else
                         decoyAbility = card;
-                    System.out.println(decoyAbility);
+                    System.out.println("Card For Decoy: " + decoyAbility);
+
                 }
             });
             player1SiegeGroup.addActor(imageWrapper);
@@ -460,7 +459,7 @@ public class GameView extends View {
                         decoyAbility = null;
                     else
                         decoyAbility = card;
-                    System.out.println(decoyAbility);
+                    System.out.println("Card For Decoy: " + decoyAbility);
                 }
             });
             player1RangedGroup.addActor(imageWrapper);
@@ -486,7 +485,7 @@ public class GameView extends View {
                         decoyAbility = null;
                     else
                         decoyAbility = card;
-                    System.out.println(decoyAbility);
+                    System.out.println("Card For Decoy: " + decoyAbility);
                 }
             });
             player1ClosedGroup.addActor(imageWrapper);
@@ -551,8 +550,8 @@ public class GameView extends View {
         player1Hand = gameTable.getPlayers(0).getHand().getCards();
         for (int i = 0; i < player1Hand.size(); i++) {
             Card card = player1Hand.get(i);
-            ImageWrapper image = new ImageWrapper(card.address(), 50, 65);
-            image.setPosition(i * 55, 0);
+            ImageWrapper image = new ImageWrapper(card.address(), 40, 52);
+            image.setPosition(i * 55, 10);
             image.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
