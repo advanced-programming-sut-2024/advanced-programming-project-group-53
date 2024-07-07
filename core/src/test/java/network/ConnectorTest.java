@@ -69,4 +69,12 @@ public class ConnectorTest {
         // the test can fail if an exception is thrown
     }
 
+    @Test
+    public void testReceiveMessage() {
+        connector.establishConnection("localhost", port);
+        Instruction instruction = new Instruction(Command.REGISTER, "user", "pass");
+        connector.sendMessage(instruction);
+        assertEquals(instruction.toString(), connector.receiveMessage().toString());// checking if the received message is the same
+    }
+
 }
