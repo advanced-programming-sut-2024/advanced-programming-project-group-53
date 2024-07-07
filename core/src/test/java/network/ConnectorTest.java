@@ -55,4 +55,11 @@ public class ConnectorTest {
         serverSocket.close();
     }
 
+    @Test
+    public void shouldEstablishConnection() {
+        connector.establishConnection("localhost", port);
+        // If no exception is thrown, the test passes
+    }
+
+
 }
