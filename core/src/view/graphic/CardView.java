@@ -37,7 +37,7 @@ public class CardView extends View {
     public CardView(GWENT game, Faction faction, CommanderInformation commander, String currentUsername) {
         super(game);
         this.currentUsername = currentUsername;
-        menu = StartMenu.getInstance();
+        menu = StartMenu.setInstance(currentUsername, faction, new Commander(commander));
         card = new VerticalGroup();
         card.space(10);
         deck = new VerticalGroup();

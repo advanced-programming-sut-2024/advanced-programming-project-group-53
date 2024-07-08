@@ -27,8 +27,7 @@ public class User {
     private Faction lastFaction;
 
     static {
-        allUsers.add(new User("a", "b", "c", "d", "e", "f"));//TODO: delete at the end of project.
-        allUsers.add(new User("g", "h", "i", "j", "k", "l"));
+        DataBaseHandler.addAllUsers(allUsers);
     }
     public User(String username, String nickname, String email, String password, String question, String answer) {
         this.username = username;
@@ -173,6 +172,16 @@ public class User {
         return allUsers;
         //TODO: sort!
     }
+
+    public void addGameInformation(GameInformation gameInformation) {
+        gameInformations.add(gameInformation);
+        if (gameInformation.getWinnerName().equalsIgnoreCase(username) &&
+                !Objects.equals(gameInformation.getWinnerName(),gameInformation.getLoserName()))
+            winCount++;
+        else if (Objects.equals(gameInformation.getWinnerName(),gameInformation.getLoserName())) {
+            drawCount++;
+        } else loseCount++;
+    }
     static class DataBaseHandler {
         public static void createDataBaseUserTable() {
             String url = "jdbc:sqlite:users.db";
@@ -237,7 +246,7 @@ public class User {
                 preparedStatement.setString(1, json);
                 preparedStatement.setString(2, user.username);
                 preparedStatement.executeUpdate();
-                System.out.println("User inserted successfully.");
+                System.out.println("User " + user.username + " inserted successfully.");
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
@@ -278,7 +287,7 @@ public class User {
             String spl = "UPDATE users SET data = ? WHERE name = ?";
 
             try (Connection conn = DriverManager.getConnection("jdbc:sqlite:users.db");
-                 PreparedStatement preparedStatement = conn.prepareStatement(spl)) {
+                PreparedStatement preparedStatement = conn.prepareStatement(spl)) {
                 preparedStatement.setString(1, updatedData);
                 preparedStatement.setString(2, username);
                 preparedStatement.executeUpdate();
@@ -289,8 +298,12 @@ public class User {
         }
         public static void main(String[] args) {
             //Just for testing purposes!
-            resetDatabase();
-            createDataBaseUserTable();
+//            resetDatabase();
+//            createDataBaseUserTable();
+//            new User("safari", "safar" , "e" , "p" , "q" , "a");
+//            deleteUserByUsername("a");
+//            deleteUserByUsername("safari");
+            selectAllUsers();
         }
 
     }

@@ -2,10 +2,8 @@ package model.game;
 
 import model.card.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Random;
+import javax.sound.midi.Soundbank;
+import java.util.*;
 
 public class Table {
     private final ArrayList<Player> players;
@@ -15,8 +13,9 @@ public class Table {
     private Player loser;
     private ArrayList<Round> rounds;
     private GameInformation gameInformation;
-    private Playground playGround;
+    private final Playground playGround;
     private int roundNumber;
+    private int turnNumber;
 
     public Table(Player player1, Player player2) {
         this.players = new ArrayList<>();
@@ -27,6 +26,8 @@ public class Table {
         this.rounds = new ArrayList<>();
         this.currentPlayer = player1;
         this.roundNumber = 1;
+        this.turnNumber = 1;
+        this.playGround = new Playground();
         preGameConfigs();
     }
 
@@ -51,25 +52,15 @@ public class Table {
         currentPlayer = players.get(0);
     }
 
-    public boolean putCard(Card card, int row) {
-        //TODO : fill this one.
-        ArrayList<Card> unitCardsInRow = playGround.getUnitCardsInRow(row);
-        if (unitCardsInRow.size() == 9)
-            return false;
-        this.playGround.placeNoneSpyUnit(card, row, getPlayers(0), getPlayers(1));
-        return true;
-    }
-
-    public void changeTurn() {
+    public void swapCards() {
         Collections.swap(players, 0, 1);
         currentPlayer = players.get(0);
+        playGround.changeTurn();
     }
 
     public GameInformation saveGame() {
-        //for end of the game. probably with Gson and saving with random naming .
-        //TODO : specify attributes that are needed for save a game correctly .
-        this.gameInformation = new GameInformation(winner, loser, this.rounds);
-        return null;
+        this.gameInformation = new GameInformation(player1, player2 ,winner, loser, this.rounds);
+        return gameInformation;
     }
 
     public GameInformation getGame() {
@@ -77,13 +68,107 @@ public class Table {
     }
 
     public Player getPlayers(int which) {
-        return players.get(which - 1);
+        return players.get(which);
     }
 
-    public void newRound(Round round) {
+    public void newRound() {
         // TODO : make this and round better for store with Gson and preventing circular references.
         this.rounds.add(new Round(this.currentPlayer.getUser(), this.players.get(0).getPoint(),
-                this.players.get(1).getPoint()));
+                this.players.get(0).getPoint()));
+    }
+
+    public boolean changeTurn() {
+        if (turnNumber % 2 == 0) {
+            changeMonster();
+            if (roundNumber == 2) changeSkellige();
+            newRound();
+            if (playerPoint(0) > playerPoint(1)) {
+                players.get(1).decreaseHP();
+            } else if (playerPoint(0) < playerPoint(1)) {
+                players.get(0).decreaseHP();
+            } else {
+                if (players.get(0).getFaction() == Faction.NilfgaardianEmpire &&
+                        players.get(1).getFaction() != Faction.NilfgaardianEmpire) {
+                    players.get(1).decreaseHP();
+                } else if (players.get(1).getFaction() == Faction.NilfgaardianEmpire) {
+                    players.get(0).decreaseHP();
+                } else {
+                    players.get(0).decreaseHP();
+                    players.get(1).decreaseHP();
+                }
+            }
+            if (players.get(0).hp() == 0) {
+                if (players.get(1).hp() == 0) {
+                    winner = players.get(0);
+                } else {
+                    winner = players.get(1);
+                }
+                loser = players.get(0);
+                saveGame();
+                players.get(0).getUser().addGameInformation(gameInformation);
+                players.get(1).getUser().addGameInformation(gameInformation);
+                return true;
+            } else if (players.get(1).hp() == 0) {
+                winner = players.get(0);
+                loser = players.get(1);
+                saveGame();
+                players.get(0).getUser().addGameInformation(gameInformation);
+                players.get(1).getUser().addGameInformation(gameInformation);
+                return true;
+            } else {
+                increaseRoundNumber();
+                increaseTurnNumber();
+                cleanCards();
+                swapCards();
+                return false;
+            }
+        } else {
+            increaseTurnNumber();
+            swapCards();
+            return false;
+        }
+    }
+
+    public void veto(Card card) {
+        if (players.get(0).getHand().specifiedCardCounter(card.getName()) >= 2) {
+            if (!players.get(0).getDeck().getCards().isEmpty()) {
+                System.out.println("veto card : " + card);
+                players.get(0).getHand().removeCard(card.getName());
+                players.get(0).getHand().add(players.get(0).getDeck().cardAt(0));
+                players.get(0).getDeck().getCards().remove(0);
+            }
+        }
+
+    }
+
+    public void cleanCards() {
+        for (int i = 0; i < 6; i++) {
+            if (i <= 2) {
+                players.get(0).getDiscardPiles().getCards().addAll(playGround.getUnitCardsInRow(i));
+                players.get(0).getDiscardPiles().getCards().add(playGround.getSpecialInRow(i));
+            } else {
+                players.get(1).getDiscardPiles().getCards().addAll(playGround.getUnitCardsInRow(i));
+                players.get(1).getDiscardPiles().getCards().add(playGround.getSpecialInRow(i));
+
+            }
+            playGround.getUnitCardsGround().set(i, new ArrayList<>());
+            playGround.getSpecials().set(i, null);
+        }
+        playGround.resetSpells();
+    }
+
+    public ArrayList<Card> getAllCardForPlayer(int which) {
+        ArrayList<Card> result = new ArrayList<>();
+        if (which == 0) {
+            result.addAll(playGround.getUnitCardsInRow(0));
+            result.addAll(playGround.getUnitCardsInRow(1));
+            result.addAll(playGround.getUnitCardsInRow(2));
+        } else {
+            result.addAll(playGround.getUnitCardsInRow(3));
+            result.addAll(playGround.getUnitCardsInRow(4));
+            result.addAll(playGround.getUnitCardsInRow(5));
+        }
+        return result;
     }
 
     public Playground getPlayGround() {
@@ -102,11 +187,41 @@ public class Table {
         return roundNumber;
     }
 
-    public void setRoundNumber(int roundNumber) {
-        this.roundNumber = roundNumber;
+    public void increaseRoundNumber() {
+        this.roundNumber++;
+    }
+
+    public void increaseTurnNumber() {
+        this.turnNumber++;
+    }
+
+    public int getTurnNumber() {
+        return turnNumber;
     }
 
 
+    public int playerPoint(int which) {
+        int point = 0;
+        if (which == 0) point += playerPointInRow(0) + playerPointInRow(1) + playerPointInRow(2);
+        else point += playerPointInRow(3) + playerPointInRow(4) + playerPointInRow(5);
+        return point;
+    }
+
+    public int playerPointInRow(int row) {
+        int point = 0;
+        for (Card card : playGround.getUnitCardsInRow(row))
+            point += card.getPower();
+        return point;
+    }
+
+    public void printCurrentPlayerHand() {
+        System.out.println("HAND");
+        ArrayList<Card> handCards = players.get(0).getHand().getCards();
+        for (Card card : handCards) {
+            System.out.printf(card.getName() + " = ");
+        }
+        System.out.println();
+    }
     //leaders Abilities
     public ArrayList<Card> executeNorthern(Commander commander) {
         Player currentPlayer = getPlayers(0);
@@ -255,5 +370,47 @@ public class Table {
             return null;
         }
         return null;
+    }
+
+    public void changeMonster() {
+        if (players.get(0).getFaction() == Faction.Monsters) {
+            ArrayList<Card> allCards = getAllCardForPlayer(0);
+            if (!allCards.isEmpty())
+                players.get(0).getHand().add(allCards.get(0));
+        }
+        if (players.get(1).getFaction() == Faction.Monsters) {
+            ArrayList<Card> allCards = getAllCardForPlayer(0);
+            if (!allCards.isEmpty())
+                players.get(1).getHand().add(allCards.get(0));
+        }
+    }
+    
+    public void changeSkellige() {
+        if (players.get(0).getFaction() == Faction.Skellige) {
+            players.get(0).shuffleDiscardPilesAndAdd();
+            if (players.get(0).getDiscardPiles().getCards().size() >= 3) {
+                players.get(0).getHand().getCards().addAll(Arrays.asList(players.get(0).getDiscardPiles().cardAt(0),
+                        players.get(0).getDiscardPiles().cardAt(1), players.get(0).getDiscardPiles().cardAt(2)));
+                players.get(0).getDiscardPiles().getCards().remove(0);
+                players.get(0).getDiscardPiles().getCards().remove(0);
+                players.get(0).getDiscardPiles().getCards().remove(0);
+            }
+        }
+        if (players.get(1).getFaction() == Faction.Skellige) {
+            players.get(1).shuffleDiscardPilesAndAdd();
+            if (players.get(1).getDiscardPiles().getCards().size() >= 3) {
+                players.get(1).getHand().getCards().addAll(Arrays.asList(players.get(1).getDiscardPiles().cardAt(0),
+                        players.get(1).getDiscardPiles().cardAt(1), players.get(1).getDiscardPiles().cardAt(2)));
+                players.get(1).getDiscardPiles().getCards().remove(0);
+                players.get(1).getDiscardPiles().getCards().remove(0);
+                players.get(1).getDiscardPiles().getCards().remove(0);
+            }
+        }
+    }
+
+    public void placeDecoy(Card card, int row) {
+        playGround.removeCardWithNameInRow(card, row);
+        playGround.getUnitCardsInRow(row).add(new Special(SpecialInformation.Decoy));
+        players.get(0).getHand().removeCard(SpecialInformation.Decoy.name());
     }
 }

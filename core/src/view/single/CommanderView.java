@@ -11,6 +11,7 @@ import controller.StartMenu;
 import game.GWENT;
 import model.card.CommanderInformation;
 import model.card.Faction;
+import model.game.Player;
 import view.Resource;
 
 import java.util.HashMap;
@@ -130,7 +131,7 @@ public class CommanderView extends View {
         stage.addActor(save);
     }
 
-    public CommanderView(GWENT game, Faction faction, String currentUsername, String username1) {
+    public CommanderView(GWENT game, Faction faction, String currentUsername, String username1, Player player) {
         super(game);
         this.username1 = username1;
         this.currentUsername = currentUsername;
@@ -175,7 +176,7 @@ public class CommanderView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 save.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
-                game.changeScreen(new CardView(game, faction, commander, currentUsername, username1));
+                game.changeScreen(new CardView(game, faction, commander, currentUsername, username1, player));
             }
 
             @Override
