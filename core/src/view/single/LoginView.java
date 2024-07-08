@@ -65,7 +65,7 @@ public class LoginView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 LoginContainer preLogin;
-                        login.setDrawable(new Image(new Texture(Resource.LOGIN_CLICKED.address())).getDrawable());
+                login.setDrawable(new Image(new Texture(Resource.LOGIN_CLICKED.address())).getDrawable());
                 try {
                     preLogin = LoginContainer.getLastLogin();
                 } catch (FileNotFoundException e) {
@@ -75,8 +75,7 @@ public class LoginView extends View {
                 if (preLogin != null) {
                     response = ((LoginMenu) menu).login(preLogin.getUsername(), preLogin.getPassword());
                     finalUsername = preLogin.getUsername();
-                }
-                else {
+                } else {
                     response = ((LoginMenu) menu).login(username.getText(), password.getText());
                     finalUsername = username.getText();
                 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import controller.Menu;
 import controller.StartMenu;
 import game.GWENT;
 import model.card.*;
@@ -17,7 +18,6 @@ import model.card.CommanderInformation;
 import model.card.Faction;
 import model.card.SpecialInformation;
 import model.card.UnitInformation;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
