@@ -69,7 +69,7 @@ public class DeckExportView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 start.setDrawable(new Image(new Texture(Resource.START_GAME_CLICKED.address())).getDrawable());
-                //TODO: start game.
+                game.changeScreen(new PregameView(game, currentUsername));
             }
 
             @Override

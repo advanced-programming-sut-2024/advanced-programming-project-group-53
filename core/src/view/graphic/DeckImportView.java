@@ -15,6 +15,7 @@ public class DeckImportView extends View {
     private TextField address;
     private Image save;
     private Image exit;
+    private Image start;
 
     public DeckImportView(GWENT game, String currentUsername) {
         super(game);
@@ -42,6 +43,25 @@ public class DeckImportView extends View {
                 exit.setDrawable(new Image(new Texture(Resource.EXIT_OFF.address())).getDrawable());
             }
         });
+        start = new Image(new Texture(Resource.START_GAME_OFF.address()));
+        start.setPosition(312, 924);
+        start.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                start.setDrawable(new Image(new Texture(Resource.START_GAME_CLICKED.address())).getDrawable());
+                game.changeScreen(new PregameView(game, currentUsername));
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                start.setDrawable(new Image(new Texture(Resource.START_GAME_ON.address())).getDrawable());
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                start.setDrawable(new Image(new Texture(Resource.START_GAME_OFF.address())).getDrawable());
+            }
+        });
         save = new Image(new Texture(Resource.SAVE_OFF.address()));
         save.setPosition(312, 150);
         save.addListener(new ClickListener() {
@@ -61,6 +81,11 @@ public class DeckImportView extends View {
                 save.setDrawable(new Image(new Texture(Resource.SAVE_OFF.address())).getDrawable());
             }
         });
+        stage.addActor(background);
+        stage.addActor(address);
+        stage.addActor(exit);
+        stage.addActor(start);
+        stage.addActor(save);
     }
 
     @Override

@@ -8,15 +8,20 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Objects;
 
-public class Handler {
+public class Handler extends Thread {
     private final Socket socket;
 
     public Handler(Socket socket) {
         this.socket = socket;
-        this.run();
+        this.start();
+        try {
+            this.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void run() {
+    public void run() {
         try {
             DataInputStream dis = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
