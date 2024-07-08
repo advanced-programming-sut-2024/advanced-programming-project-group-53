@@ -175,6 +175,12 @@ public class User {
 
     public void addGameInformation(GameInformation gameInformation) {
         gameInformations.add(gameInformation);
+        if (gameInformation.getWinnerName().equalsIgnoreCase(username) &&
+                !Objects.equals(gameInformation.getWinnerName(),gameInformation.getLoserName()))
+            winCount++;
+        else if (Objects.equals(gameInformation.getWinnerName(),gameInformation.getLoserName())) {
+            drawCount++;
+        } else loseCount++;
     }
     static class DataBaseHandler {
         public static void createDataBaseUserTable() {
@@ -294,9 +300,9 @@ public class User {
             //Just for testing purposes!
 //            resetDatabase();
 //            createDataBaseUserTable();
-            new User("safari", "safar" , "e" , "p" , "q" , "a");
+//            new User("safari", "safar" , "e" , "p" , "q" , "a");
 //            deleteUserByUsername("a");
-//            deleteUserByUsername("b");
+//            deleteUserByUsername("safari");
             selectAllUsers();
         }
 
