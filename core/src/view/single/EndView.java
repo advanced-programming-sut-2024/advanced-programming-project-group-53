@@ -13,6 +13,7 @@ import game.GWENT;
 import model.view.Resource;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class EndView extends View {
@@ -50,6 +51,7 @@ public class EndView extends View {
         super(game);
         menu = GameMenu.getInstance();
         this.currentUsername = currentUser;
+//        if (Objects.equals(winner, loser))
         Label winner1 = new Label("WINNER:\n" + winner, skin);
         winner1.setColor(Color.GREEN);
         winner1.setPosition(512 - winner1.getWidth() / 2, 800);

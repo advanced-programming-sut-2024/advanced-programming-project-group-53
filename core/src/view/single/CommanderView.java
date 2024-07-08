@@ -12,7 +12,6 @@ import game.GWENT;
 import model.card.CommanderInformation;
 import model.card.Faction;
 import model.game.Player;
-import view.Resource;
 import model.view.Resource;
 
 import java.util.HashMap;

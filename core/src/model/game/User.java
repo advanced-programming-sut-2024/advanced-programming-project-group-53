@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import model.card.Faction;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.*;
 
@@ -51,21 +55,13 @@ public class User {
     public void saveUser() {
         //This part is to save and specify a place for saving deck and user json in file system.
         DataBaseHandler.insertUser(this);
-        Path gwentInformation = Paths.get("~/gwentInformation");
-        if (Files.exists(gwentInformation)) {
-            try {
-                Files.createDirectories(gwentInformation);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        File info = new File(System.getProperty("user.home") + "/gwentInformation");
+        if (!info.exists()) {
+            info.mkdirs();
         }
-        Path userDecksPath = Paths.get(gwentInformation.toUri() + "/" + username);
-        if (Files.exists(gwentInformation)) {
-            try {
-                Files.createDirectories(userDecksPath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        File gwentUserInfo = new File( System.getProperty("user.home") + "/gwentInformation/" + username);
+        if (!gwentUserInfo.exists()) {
+            gwentUserInfo.mkdirs();
         }
     }
 
@@ -338,8 +334,12 @@ public class User {
 
         public static void main(String[] args) {
             //Just for testing purposes!
-            resetDatabase();
-            createDataBaseUserTable();
+//            resetDatabase();
+//            createDataBaseUserTable();
+//            deleteUserByUsername("m");
+            new User("safari", "safar", "e", "p", "q", "a");
+//            deleteUserByUsername("safari");
+            selectAllUsers();
         }
 
     }

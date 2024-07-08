@@ -2,8 +2,7 @@ package model.cards;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import model.card.Commander;
-import model.card.Faction;
+import model.card.*;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -42,9 +41,9 @@ public class DeckContainer {
     }
 
     public void saveDeck() {
-        ensureDirectoryExists("~/gwentInformation/" + username);
+        ensureDirectoryExists(System.getProperty("user.home") + "/gwentInformation/" + username);
         String filename = name + ".json";
-        File file = new File("~/gwentInformation/" + username, filename);
+        File file = new File(System.getProperty("user.home") + "/gwentInformation/" + username, filename);
         try (FileWriter writer = new FileWriter(file)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(this, writer);
@@ -66,13 +65,11 @@ public class DeckContainer {
     }
 
     public static DeckContainer importDeck(String name, String username) {
-        File file = new File("~/gwentInformation/" + username + "/" + name + ".json");
+        File file = new File(System.getProperty("user.home") + "/gwentInformation/" + username + "/" + name + ".json");
         if (!file.exists()) return null;
         try (FileReader reader = new FileReader(file)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             return gson.fromJson(reader, DeckContainer.class);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -84,21 +81,30 @@ public class DeckContainer {
         try (FileReader reader = new FileReader(file)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             return gson.fromJson(reader, DeckContainer.class);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void ensureDirectoryExists(String address) {
-        Path path = Paths.get(address);
-        if (!Files.exists(path)) {
-            try {
-                Files.createDirectories(path);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        File dir = new File(address);
+        if (!dir.exists()) dir.mkdirs();
+    }
+
+    public static void main(String[] args) {
+        Deck deck = new Deck();
+//        deck.add(Unit.getInstanceByName(UnitInformation.GaunterODimmDarkness.name()));
+//        deck.add(Unit.getInstanceByName(UnitInformation.GaunterODimmDarkness.name()));
+//        deck.add(Unit.getInstanceByName(UnitInformation.KeiraMetz.name()));
+//        Faction faction = Faction.NorthernRealms;
+//        String username = "safari";
+//        String name = "testDeckContainer";
+//        Commander commander = new Commander(CommanderInformation.Foltest_LordCommanderOfTheNorth);
+//        DeckContainer deckContainer = new DeckContainer(name, username, faction ,commander, deck);
+//        deckContainer.saveDeckInAddress("/home/safar/GraphicPrac");
+//        deckContainer.saveDeck();
+        DeckContainer deckContainer = DeckContainer.importDeckWithAddress("/home/safar/GraphicPrac/testDeckContainer.json");
+        System.out.println(deckContainer.getCommander().getCommanderInformation().name());
+        System.out.println(deckContainer.getFaction().name());
     }
 }

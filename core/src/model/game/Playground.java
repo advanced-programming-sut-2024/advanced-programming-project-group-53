@@ -143,6 +143,7 @@ public class Playground {
         assert unit != null;
         addUnit(unit, row);
         currentPlayer.spyAbility();
+        System.out.println("Spy placed");
     }
 
     public void placeSpecialCard(int row, Card card) {

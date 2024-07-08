@@ -58,8 +58,11 @@ public class Table {
         playGround.changeTurn();
     }
 
-    public GameInformation saveGame() {
+    public void saveGame() {
         this.gameInformation = new GameInformation(player1, player2 ,winner, loser, this.rounds);
+    }
+
+    public GameInformation getGameInformation() {
         return gameInformation;
     }
 
@@ -218,7 +221,8 @@ public class Table {
         System.out.println("HAND");
         ArrayList<Card> handCards = players.get(0).getHand().getCards();
         for (Card card : handCards) {
-            System.out.printf(card.getName() + " = ");
+            if (card != null)
+                System.out.printf(card.getName() + " = ");
         }
         System.out.println();
     }
@@ -412,5 +416,6 @@ public class Table {
         playGround.removeCardWithNameInRow(card, row);
         playGround.getUnitCardsInRow(row).add(new Special(SpecialInformation.Decoy));
         players.get(0).getHand().removeCard(SpecialInformation.Decoy.name());
+        players.get(0).getHand().add(card);
     }
 }

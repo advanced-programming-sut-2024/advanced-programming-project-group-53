@@ -15,6 +15,7 @@ import model.game.Player;
 import model.game.Table;
 import view.components.ImageWrapper;
 import model.view.Resource;
+import view.graphic.EndView;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -463,22 +464,28 @@ public class GameView extends View {
         SEVENTime += delta;
         if (P && PTime > time) {
             if (clicked != null) {
-                if (Objects.equals(clicked.getAbility(), Ability.Spy.name()))
+                if (Objects.equals(clicked.getAbility(), Ability.Spy.name())) {
                     gameTable.getPlayGround().placeSpyUnitCard(5, clicked, gameTable.getPlayers(0));
+                    System.out.println("spy is about to place");
+                }
                 updateAll();
             }
         }
         if (O && OTime > time) {
             if (clicked != null) {
-                if (Objects.equals(clicked.getAbility(), Ability.Spy.name()))
+                if (Objects.equals(clicked.getAbility(), Ability.Spy.name())) {
                     gameTable.getPlayGround().placeSpyUnitCard(4, clicked, gameTable.getPlayers(0));
+                    System.out.println("spy is about to place");
+                }
                 updateAll();
             }
         }
         if (I && ITime > time) {
             if (clicked != null) {
-                if (Objects.equals(clicked.getAbility(), Ability.Spy.name()))
+                if (Objects.equals(clicked.getAbility(), Ability.Spy.name())) {
                     gameTable.getPlayGround().placeSpyUnitCard(3, clicked, gameTable.getPlayers(0));
+                    System.out.println("spy is about to place");
+                }
                 updateAll();
             }
         }
@@ -487,7 +494,9 @@ public class GameView extends View {
             gameTable.getPlayGround().printPlayGround();
             gameTable.printCurrentPlayerHand();
             if (ended) {
-                //TODO : get into exit menu.
+                game.changeScreen(new EndView(game, gameTable.getGameInformation().getWinnerName(),
+                        gameTable.getGameInformation().getLoserName(), gameTable.getPlayers(0).getUser().username()));
+                System.out.println("YOU DIED");
             }
             updateAll();
         }
@@ -563,7 +572,9 @@ public class GameView extends View {
     }
 
     private void siege1() {
+        player1SiegeGroup.clear();
         player1Siege = gameTable.getPlayGround().getUnitCardsInRow(0);
+        player1Siege.removeIf(Objects::isNull);
         for (int i = 0; i < player1Siege.size(); i++) {
             Card card = player1Siege.get(i);
             ImageWrapper imageWrapper = new ImageWrapper(card.address(), 50, 65);
@@ -588,7 +599,9 @@ public class GameView extends View {
     }
 
     private void ranged1() {
+        player1RangedGroup.clear();
         player1Ranged = gameTable.getPlayGround().getUnitCardsInRow(1);
+        player1Ranged.removeIf(Objects::isNull);
         for (int i = 0; i < player1Ranged.size(); i++) {
             Card card = player1Ranged.get(i);
             ImageWrapper imageWrapper = new ImageWrapper(card.address(), 50, 65);
@@ -613,7 +626,9 @@ public class GameView extends View {
     }
 
     private void closed1() {
+        player1ClosedGroup.clear();
         player1Closed = gameTable.getPlayGround().getUnitCardsInRow(2);
+        player1Closed.removeIf(Objects::isNull);
         for (int i = 0; i < player1Closed.size(); i++) {
             Card card = player1Closed.get(i);
             ImageWrapper imageWrapper = new ImageWrapper(card.address(), 50, 65);
@@ -638,7 +653,9 @@ public class GameView extends View {
     }
 
     private void siege2() {
+        player2SiegeGroup.clear();
         player2Siege = gameTable.getPlayGround().getUnitCardsInRow(5);
+        player1Siege.removeIf(Objects::isNull);
         for (int i = 0; i < player2Siege.size(); i++) {
             Card card = player2Siege.get(i);
             ImageWrapper imageWrapper = new ImageWrapper(card.address(), 50, 65);
@@ -653,7 +670,9 @@ public class GameView extends View {
     }
 
     private void ranged2() {
+        player2RangedGroup.clear();
         player2Ranged = gameTable.getPlayGround().getUnitCardsInRow(4);
+        player2Ranged.removeIf(Objects::isNull);
         for (int i = 0; i < player2Ranged.size(); i++) {
             Card card = player2Ranged.get(i);
             ImageWrapper imageWrapper = new ImageWrapper(card.address(), 50, 65);
@@ -668,7 +687,9 @@ public class GameView extends View {
     }
 
     private void closed2() {
+        player2ClosedGroup.clear();
         player2Closed = gameTable.getPlayGround().getUnitCardsInRow(3);
+        player2Closed.removeIf(Objects::isNull);
         for (int i = 0; i < player2Closed.size(); i++) {
             Card card = player2Closed.get(i);
             ImageWrapper imageWrapper = new ImageWrapper(card.address(), 50, 65);
@@ -685,6 +706,7 @@ public class GameView extends View {
     private void handUpdater() {
         player1HandGroup.clear();
         player1Hand = gameTable.getPlayers(0).getHand().getCards();
+        player1Hand.removeIf(Objects::isNull);
         for (int i = 0; i < player1Hand.size(); i++) {
             Card card = player1Hand.get(i);
             ImageWrapper image = new ImageWrapper(card.address(), 40, 52);
@@ -711,11 +733,11 @@ public class GameView extends View {
             life12.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
         if (gameTable.getPlayers(1).hp() == 1)
             life22.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
-        if (gameTable.getPlayers(0).hp() == 0) {
+        if (gameTable.getPlayers(0).hp() <= 0) {
             life12.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
             life11.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
         }
-        if (gameTable.getPlayers(1).hp() == 0) {
+        if (gameTable.getPlayers(1).hp() <= 0) {
             life22.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
             life21.setDrawable(new Image(new Texture(Resource.LIFE_OFF.address())).getDrawable());
         }

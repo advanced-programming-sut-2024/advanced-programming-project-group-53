@@ -5,6 +5,7 @@ import model.card.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Objects;
 
 public abstract class Cards {
     private ArrayList<Card> cards;
@@ -177,5 +178,9 @@ public abstract class Cards {
                     append("_").append(isHero).append("\n");
         }
         return result.toString();
+    }
+
+    public void removeNulls() {
+        cards.removeIf(Objects::isNull);
     }
 }

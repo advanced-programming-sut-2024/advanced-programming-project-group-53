@@ -3,7 +3,7 @@ package controller;
 import model.card.*;
 import model.game.Player;
 import model.game.Table;
-import view.Message;
+import model.view.Message;
 
 import java.util.ArrayList;
 

@@ -1,21 +1,35 @@
 package model.card;
 
-public abstract class Card {
+public class Card {
     private int power;
 
-    abstract public boolean isSpecial();
+    public boolean isSpecial() {
+        return false;
+    }
 
-    abstract public String getName();
+    public String getName() {
+        return null;
+    }
 
-    abstract public Type getType();
+    public Type getType() {
+        return null;
+    }
 
-    abstract public Faction getFaction();
+    public Faction getFaction() {
+        return null;
+    }
 
-    abstract public boolean isHero();
+    public boolean isHero() {
+        return false;
+    }
 
-    abstract public String getAbility();
+    public String getAbility() {
+        return null;
+    }
 
-    public abstract String address();
+    public String address() {
+        return null;
+    }
 
     public int getPower() {
         return power;
@@ -33,6 +47,10 @@ public abstract class Card {
         this.power += heal;
     }
 
+    public int power() {
+        return 0;
+    }
+
     @Override
     public String toString() {
         String isHero = (this.isHero()) ? "HERO" : "";
@@ -40,5 +58,6 @@ public abstract class Card {
         return this.getName() + " " + this.getType() + " -- " + this.getFaction() +
                 " - " + this.getAbility() + "-" + this.getPower() + "---->" + isHero + "_" + isSpecial;
     }
-    public abstract int power();
+
+
 }
