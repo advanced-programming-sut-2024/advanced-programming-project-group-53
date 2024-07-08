@@ -51,12 +51,18 @@ public class EndView extends View {
         super(game);
         menu = GameMenu.getInstance();
         this.currentUsername = currentUser;
-//        if (Objects.equals(winner, loser))
-        Label winner1 = new Label("WINNER:\n" + winner, skin);
+        Label winner1;
+        Label loser1;
+        if (Objects.equals(winner, loser)) {
+            winner1 = new Label("WINNER:\nDRAW", skin);
+            loser1 = new Label("LOSER:\nDRAW", skin);
+        } else {
+            winner1 = new Label("WINNER:\n" + winner, skin);
+            loser1 = new Label("LOSER:\n" + loser, skin);
+        }
         winner1.setColor(Color.GREEN);
         winner1.setPosition(512 - winner1.getWidth() / 2, 800);
         winner1.setAlignment(Align.center);
-        Label loser1 = new Label("LOSER:\n" + loser, skin);
         loser1.setColor(Color.RED);
         loser1.setPosition(512 - loser1.getWidth() / 2, 700);
         loser1.setAlignment(Align.center);
