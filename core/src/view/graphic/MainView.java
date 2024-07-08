@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import controller.MainMenu;
 import game.GWENT;
 import network.Instruction;
-import view.Resource;
+import model.view.Resource;
 
 public class MainView extends View {
     private final Image chooseDeck;
@@ -18,6 +18,9 @@ public class MainView extends View {
     private final Image ranking;
     private final Image logout;
     private final Image exit;
+    private final Image chat;
+    private final Image oldDeck;
+    private final Image importDeck;
 
     public MainView(GWENT game, String currentUsername) {
         super(game);
@@ -26,6 +29,8 @@ public class MainView extends View {
         Table mainTable = new Table();
         mainTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 4));
         mainTable.align(Align.center);
+        Table sideTable = new Table();
+        sideTable.setBounds(574, 50, 400, (float) (400 * 0.1458 * 4));
         chooseDeck = new Image(new Texture(Resource.CHOOSE_DECK_OFF.address()));
         chooseDeck.addListener(new ClickListener() {
             @Override
@@ -81,7 +86,6 @@ public class MainView extends View {
             }
         });
         logout = new Image(new Texture(Resource.LOGOUT_OFF.address()));
-        logout.setPosition(574, 50);
         logout.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -97,6 +101,24 @@ public class MainView extends View {
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 logout.setDrawable(new Image(new Texture(Resource.LOGOUT_OFF.address())).getDrawable());
+            }
+        });
+        chat = new Image(new Texture(Resource.CHAT_OFF.address()));
+        chat.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                chat.setDrawable(new Image(new Texture(Resource.CHAT_CLICKED.address())).getDrawable());
+                game.changeScreen(new ChatView(game, currentUsername));
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                chat.setDrawable(new Image(new Texture(Resource.CHAT_ON.address())).getDrawable());
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                chat.setDrawable(new Image(new Texture(Resource.CHAT_OFF.address())).getDrawable());
             }
         });
         exit = new Image(new Texture(Resource.EXIT_OFF.address()));
@@ -117,6 +139,42 @@ public class MainView extends View {
                 exit.setDrawable(new Image(new Texture(Resource.EXIT_OFF.address())).getDrawable());
             }
         });
+        oldDeck = new Image(new Texture(Resource.OLD_DECK_OFF.address()));
+        oldDeck.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                oldDeck.setDrawable(new Image(new Texture(Resource.OLD_DECK_CLICKED.address())).getDrawable());
+                game.changeScreen(new DeckOldView(game, currentUsername));
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                oldDeck.setDrawable(new Image(new Texture(Resource.OLD_DECK_ON.address())).getDrawable());
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                oldDeck.setDrawable(new Image(new Texture(Resource.OLD_DECK_OFF.address())).getDrawable());
+            }
+        });
+        importDeck = new Image(new Texture(Resource.IMPORT_DECK_OFF.address()));
+        importDeck.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                importDeck.setDrawable(new Image(new Texture(Resource.IMPORT_DECK_CLICKED.address())).getDrawable());
+                game.changeScreen(new DeckImportView(game, currentUsername));
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                importDeck.setDrawable(new Image(new Texture(Resource.IMPORT_DECK_ON.address())).getDrawable());
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                importDeck.setDrawable(new Image(new Texture(Resource.IMPORT_DECK_OFF.address())).getDrawable());
+            }
+        });
         mainTable.add(chooseDeck);
         mainTable.row();
         mainTable.add(profile);
@@ -124,9 +182,16 @@ public class MainView extends View {
         mainTable.add(ranking);
         mainTable.row();
         mainTable.add(exit);
+        sideTable.add(oldDeck);
+        sideTable.row();
+        sideTable.add(importDeck);
+        sideTable.row();
+        sideTable.add(chat);
+        sideTable.row();
+        sideTable.add(logout);
         stage.addActor(background);
         stage.addActor(mainTable);
-        stage.addActor(logout);
+        stage.addActor(sideTable);
     }
 
     @Override

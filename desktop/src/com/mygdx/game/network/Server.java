@@ -12,18 +12,20 @@ public class Server {
         } catch (Exception ignored) {
         }
     }
+
     public void start() {
         System.out.println("Server started on port " + serverSocket.getLocalPort() + " with IP " + serverSocket.getInetAddress().getHostAddress());
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                new Handler(socket);
                 System.out.println("Accepted");
+                new Handler(socket);
             } catch (Exception e) {
                 System.out.println("Not accepted");
             }
         }
     }
+
     public static void main(String[] args) {
         Server server = new Server(8080);
         server.start();

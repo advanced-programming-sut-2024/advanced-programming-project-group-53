@@ -7,14 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controller.MainMenu;
 import game.GWENT;
+import network.Command;
+import network.Connector;
 import network.Instruction;
-import view.Resource;
+import model.view.Resource;
 
 import java.util.ArrayList;
 
 public class RankingView extends View {
     private final VerticalGroup lines;
-    private final ArrayList<Label> players;
+    private ArrayList<Label> players = new ArrayList<>();
     private final Image mainMenu;
     private final Image exit;
     private final ScrollPane ranking;
@@ -25,9 +27,7 @@ public class RankingView extends View {
         menu = MainMenu.getInstance();
         lines = new VerticalGroup();
         lines.space(10);
-        players = new ArrayList<>();//TODO: give it the players!
-        players.add(new Label("ali", skin));
-        players.add(new Label("ali", skin));
+        perform(new Connector().perform(new Instruction(Command.RANKING)));
         mainMenu = new Image(new Texture(Resource.MAIN_MENU_OFF.address()));
         mainMenu.setPosition(574, 50);
         mainMenu.addListener(new ClickListener() {
@@ -85,6 +85,8 @@ public class RankingView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
-
+        String[] users = instruction.arguments()[0].split(" ");
+        for (String user : users)
+            players.add(new Label(user, skin));
     }
 }

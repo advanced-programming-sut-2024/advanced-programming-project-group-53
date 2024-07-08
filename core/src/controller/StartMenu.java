@@ -1,17 +1,9 @@
 package controller;
 
-import com.google.gson.Gson;
 import model.card.*;
 import model.cards.Deck;
 import model.game.Player;
 import model.game.User;
-import view.Message;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 //make this usable in offline mode when we need run two player in one device.
 public class StartMenu extends Menu {

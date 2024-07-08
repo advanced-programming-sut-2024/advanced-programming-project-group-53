@@ -14,7 +14,7 @@ import game.GWENT;
 import network.Command;
 import network.Connector;
 import network.Instruction;
-import view.Resource;
+import model.view.Resource;
 
 import java.util.Objects;
 
@@ -37,12 +37,14 @@ public class LoginView extends View {
     private final Image save;
     private boolean isOnForgetPassword1 = false;
     private boolean isOnForgetPassword2 = false;
+    private boolean isStayLoggedIn = false;//TODO: do sth with it.
+    private Image stayLoggedIn;
 
     public LoginView(GWENT game) {
         super(game);
         menu = LoginMenu.getInstance();
         Table loginTable = new Table();
-        loginTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 3));
+        loginTable.setBounds(50, 50, 400, (float) (400 * 0.1458 * 4));
         loginTable.align(Align.center);
         VerticalGroup textGroup = new VerticalGroup();
         textGroup.setBounds(700, 170, 400, 400);
@@ -113,6 +115,27 @@ public class LoginView extends View {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 if (!isOnForgetPassword1)
                     forgetPassword.setDrawable(new Image(new Texture(Resource.FORGET_PASSWORD_OFF.address())).getDrawable());
+            }
+        });
+        stayLoggedIn = new Image(new Texture(Resource.STAY_LOGGED_IN_OFF.address()));
+        stayLoggedIn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                stayLoggedIn.setDrawable(new Image(new Texture(Resource.STAY_LOGGED_IN_CLICKED.address())).getDrawable());
+                if (isStayLoggedIn)
+                    isStayLoggedIn = false;
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if (!isStayLoggedIn)
+                    stayLoggedIn.setDrawable(new Image(new Texture(Resource.STAY_LOGGED_IN_ON.address())).getDrawable());
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                if (!isStayLoggedIn)
+                    stayLoggedIn.setDrawable(new Image(new Texture(Resource.STAY_LOGGED_IN_OFF.address())).getDrawable());
             }
         });
         exit = new Image(new Texture(Resource.EXIT_OFF.address()));
@@ -193,6 +216,8 @@ public class LoginView extends View {
         textGroup.addActor(password);
         loginTable.add(login);
         loginTable.row();
+        loginTable.add(stayLoggedIn);
+        loginTable.row();
         loginTable.add(forgetPassword);
         loginTable.row();
         loginTable.add(exit);
@@ -211,7 +236,6 @@ public class LoginView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
-        System.out.println(instruction);
         String[] response = instruction.arguments();
         String empty = response[0];
         StringBuilder builder = new StringBuilder();
@@ -250,8 +274,11 @@ public class LoginView extends View {
             case LOGIN_MESSAGE:
                 if (Objects.equals(empty, "empty"))
                     game.changeScreen(new MainView(game, username.getText()));
-                else
+                else {
                     loginMessage.setText(arguments);
+                    username.setText("");
+                    password.setText("");
+                }
                 break;
         }
     }

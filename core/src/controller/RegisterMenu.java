@@ -1,34 +1,14 @@
 package controller;
 
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.googleapis.json.GoogleJsonError;
-import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.client.util.Base64;
-import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.gmail.Gmail;
-import com.google.api.services.gmail.GmailScopes;
-import com.google.api.services.gmail.model.Draft;
 import model.game.User;
 import model.game.ValidationRegex;
-import view.Message;
+import model.view.Message;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.Random;
-import java.util.Set;
 import java.util.regex.Matcher;
 
 public class RegisterMenu extends Menu {
@@ -56,15 +36,12 @@ public class RegisterMenu extends Menu {
     }
 
     public String register(String username, String nickname, String email, String password, String confirmPassword,String question, String answer) {
-        String result = "";
-        if (!password.equals(confirmPassword)) {
-            result += Message.PASSWORD_IS_NOT_THE_SAME.message();
-            return result;
-        }
-        result +=  registerValidate(username, nickname, email, password);
-        if (result.equals("empty"))
+        if (!password.equals(confirmPassword))
+            return Message.PASSWORD_IS_NOT_THE_SAME.message();
+        else {
             new User(username, nickname, email, password, question, answer);
-        return result;
+            return "empty";
+        }
     }
 
     public String usernameValidation(String username) {
@@ -96,11 +73,14 @@ public class RegisterMenu extends Menu {
         StringBuilder result = new StringBuilder();
         if (!matcher.find()) {
             result.append(Message.WEAK_PASSWORD.message());
-            //TODO: suggest a password.
+            result.append("\n");
+            result.append(password).append("@\n");
+            result.append("\n");
+            result.append(password).append("#\n");
         }
         return result.toString();
     }
-    public static void sendAuthorizationEmail(String username, String toEmail){
+    public String sendAuthorizationEmail(String username, String toEmail){
         final String from = "hgp.master@gmail.com";
         final String password = "ygxh ztnj vsid bxqx";
         String host = "smtp.gmail.com";
@@ -129,71 +109,6 @@ public class RegisterMenu extends Menu {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+        return code;
     }
-
-    //This method for sending email needs to google cloud credential that it needs to living out of Iran, so we won't use it in project, but I store it for future and project view.
-    /*public static class GMailer {
-        private static Credential getCredentials(final NetHttpTransport httpTransport, GsonFactory jsonFactory)
-                throws IOException {
-            GoogleClientSecrets clientSecrets =
-                    GoogleClientSecrets.load(jsonFactory
-                            , new InputStreamReader(GMailer.class.getResourceAsStream("/...json")));
-
-            // Build flow and trigger user authorization request.
-            GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                    httpTransport, jsonFactory, clientSecrets, Set.of(GmailScopes.GMAIL_SEND))
-                    .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
-                    .setAccessType("offline")
-                    .build();
-            LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-            //returns an authorized Credential object.
-            return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-        }
-
-        public void sendMail(String subject, String msg) throws Exception {
-            final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-            GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
-            Gmail service = new Gmail.Builder(httpTransport, jsonFactory, getCredentials(httpTransport, jsonFactory))
-                    .setApplicationName("GWENT authorization")
-                    .build();
-
-            // Encode as MIME message
-            Properties props = new Properties();
-            Session session = Session.getDefaultInstance(props, null);
-            MimeMessage email = new MimeMessage(session);
-            email.setFrom(new InternetAddress("hgp.master@gmail.com"));
-            email.addRecipient(javax.mail.Message.RecipientType.TO,
-                    new InternetAddress("safariamirparsa@gmail.com"));
-            email.setSubject(subject);
-            email.setText(msg);
-            // Encode and wrap the MIME message into a gmail message
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            email.writeTo(buffer);
-            byte[] rawMessageBytes = buffer.toByteArray();
-            String encodedEmail = Base64.encodeBase64URLSafeString(rawMessageBytes);
-            com.google.api.services.gmail.model.Message message = new com.google.api.services.gmail.model.Message();
-            message.setRaw(encodedEmail);
-
-            try {
-                // Create the draft message
-                Draft draft = new Draft();
-                draft.setMessage(message);
-                draft = service.users().drafts().create("me", draft).execute();
-                System.out.println("Draft id: " + draft.getId());
-                System.out.println(draft.toPrettyString());
-            } catch (GoogleJsonResponseException e) {
-                // TODO(developer) - handle error appropriately
-                GoogleJsonError error = e.getDetails();
-                if (error.getCode() == 403) {
-                    System.err.println("Unable to create draft: " + e.getDetails());
-                } else {
-                    throw e;
-                }
-            }
-        }
-
-        public static void main(String[] args) throws Exception {
-            new GMailer().sendMail("subject", "msg");
-        }
-    }*/
 }

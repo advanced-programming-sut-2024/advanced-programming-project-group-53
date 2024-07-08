@@ -21,6 +21,7 @@ public class User {
     private int winCount;
     private int loseCount;
     private int drawCount;
+    private final ArrayList<String> friends = new ArrayList<>();
     // this attributes can handle with simple methods.
     private final ArrayList<GameInformation> gameInformations;
     private TreeMap<String, String> securityQuestions;
@@ -29,6 +30,7 @@ public class User {
     static {
         DataBaseHandler.addAllUsers(allUsers);
     }
+
     public User(String username, String nickname, String email, String password, String question, String answer) {
         this.username = username;
         this.nickname = nickname;
@@ -45,9 +47,26 @@ public class User {
         allUsers.add(this);
         saveUser();
     }
+
     public void saveUser() {
         //This part is to save and specify a place for saving deck and user json in file system.
         DataBaseHandler.insertUser(this);
+        Path gwentInformation = Paths.get("~/gwentInformation");
+        if (Files.exists(gwentInformation)) {
+            try {
+                Files.createDirectories(gwentInformation);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        Path userDecksPath = Paths.get(gwentInformation.toUri() + "/" + username);
+        if (Files.exists(gwentInformation)) {
+            try {
+                Files.createDirectories(userDecksPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void updateUserInformation() {
@@ -57,6 +76,7 @@ public class User {
     }
 
     public static User findUser(String username) {
+        DataBaseHandler.addAllUsers(allUsers);
         for (User user : allUsers) {
             if (user.username().equals(username)) {
                 return user;
@@ -168,9 +188,22 @@ public class User {
     public String question() {
         return question;
     }
+
     public static ArrayList<User> ranking() {
+        allUsers.sort(Comparator.comparing(User::winCount));
         return allUsers;
-        //TODO: sort!
+    }
+
+    public void addFriend(String friendUsername) {
+        this.friends.add(friendUsername);
+    }
+
+    public void removeFriend(String friendUsername) {
+        this.friends.remove(friendUsername);
+    }
+
+    public ArrayList<String> friends() {
+        return friends;
     }
 
     public void addGameInformation(GameInformation gameInformation) {
@@ -182,6 +215,11 @@ public class User {
             drawCount++;
         } else loseCount++;
     }
+
+    public ArrayList<GameInformation> gameInformation() {
+        return gameInformations;
+    }
+
     static class DataBaseHandler {
         public static void createDataBaseUserTable() {
             String url = "jdbc:sqlite:users.db";
@@ -199,6 +237,7 @@ public class User {
                 System.out.println(e.getMessage());
             }
         }
+
         public static void selectAllUsers() {
             String url = "jdbc:sqlite:users.db";
             String sql = "SELECT data FROM users";
@@ -235,6 +274,7 @@ public class User {
                 System.out.println(e.getMessage());
             }
         }
+
         public static void insertUser(User user) {
             String url = "jdbc:sqlite:users.db";
             String sql = "INSERT INTO users(data,name) VALUES(?,?)";
@@ -272,7 +312,6 @@ public class User {
             try (Connection conn = DriverManager.getConnection(url);
                  Statement statement = conn.createStatement();
                  ResultSet resultSet = statement.executeQuery(sql)) {
-
                 while (resultSet.next()) {
                     String jsonData = resultSet.getString("data");
                     User user = gson.fromJson(jsonData, User.class);
@@ -296,14 +335,11 @@ public class User {
                 System.out.println(e.getMessage());
             }
         }
+
         public static void main(String[] args) {
             //Just for testing purposes!
-//            resetDatabase();
-//            createDataBaseUserTable();
-//            new User("safari", "safar" , "e" , "p" , "q" , "a");
-//            deleteUserByUsername("a");
-//            deleteUserByUsername("safari");
-            selectAllUsers();
+            resetDatabase();
+            createDataBaseUserTable();
         }
 
     }

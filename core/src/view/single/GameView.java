@@ -14,7 +14,7 @@ import model.card.*;
 import model.game.Player;
 import model.game.Table;
 import view.components.ImageWrapper;
-import view.Resource;
+import model.view.Resource;
 
 import java.util.ArrayList;
 import java.util.Objects;
