@@ -59,7 +59,7 @@ public class Table {
     }
 
     public GameInformation saveGame() {
-        this.gameInformation = new GameInformation(winner, loser, this.rounds);
+        this.gameInformation = new GameInformation(player1, player2 ,winner, loser, this.rounds);
         return gameInformation;
     }
 
@@ -411,5 +411,6 @@ public class Table {
     public void placeDecoy(Card card, int row) {
         playGround.removeCardWithNameInRow(card, row);
         playGround.getUnitCardsInRow(row).add(new Special(SpecialInformation.Decoy));
+        players.get(0).getHand().removeCard(SpecialInformation.Decoy.name());
     }
 }

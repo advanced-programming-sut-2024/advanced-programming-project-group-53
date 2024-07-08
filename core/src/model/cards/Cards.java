@@ -121,10 +121,7 @@ public abstract class Cards {
     }
 
     public void makeEmpty() {
-        Iterator<Card> iterator = cards.iterator();
-        while (iterator.hasNext()) {
-            iterator.remove();
-        }
+        cards = new ArrayList<>();
     }
 
     public void addAll(ArrayList<Card> cards) {

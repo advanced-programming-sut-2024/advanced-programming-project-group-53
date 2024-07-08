@@ -64,6 +64,10 @@ public class GameView extends View {
     //commander attributes
     private boolean P = false;
     private double PTime = 0;
+    private boolean O = false;
+    private double OTime = 0;
+    private boolean I = false;
+    private double ITime = 0;
     private boolean N = false;
     private double NTime = 0;
     private boolean S = false;
@@ -313,6 +317,10 @@ public class GameView extends View {
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.P)
                     P = true;
+                else if (keycode == Input.Keys.O)
+                    O = true;
+                else if (keycode == Input.Keys.I)
+                    I = true;
                 else if (keycode == Input.Keys.C)
                     C = true;
                 else if (keycode == Input.Keys.N)
@@ -349,6 +357,10 @@ public class GameView extends View {
             public boolean keyUp(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.P)
                     P = false;
+                else if (keycode == Input.Keys.O)
+                    O = false;
+                else if (keycode == Input.Keys.I)
+                    I = false;
                 else if (keycode == Input.Keys.C)
                     C = false;
                 else if (keycode == Input.Keys.N)
@@ -451,9 +463,22 @@ public class GameView extends View {
         SEVENTime += delta;
         if (P && PTime > time) {
             if (clicked != null) {
-                System.out.println("play card " + clicked);
-                if (!clicked.isSpecial())
-                    ((GameMenu) menu).placeCardInRow(clicked, GameMenu.getCardPositionToPlay(clicked), 0);
+                if (Objects.equals(clicked.getAbility(), Ability.Spy.name()))
+                    gameTable.getPlayGround().placeSpyUnitCard(5, clicked, gameTable.getPlayers(0));
+                updateAll();
+            }
+        }
+        if (O && OTime > time) {
+            if (clicked != null) {
+                if (Objects.equals(clicked.getAbility(), Ability.Spy.name()))
+                    gameTable.getPlayGround().placeSpyUnitCard(4, clicked, gameTable.getPlayers(0));
+                updateAll();
+            }
+        }
+        if (I && ITime > time) {
+            if (clicked != null) {
+                if (Objects.equals(clicked.getAbility(), Ability.Spy.name()))
+                    gameTable.getPlayGround().placeSpyUnitCard(3, clicked, gameTable.getPlayers(0));
                 updateAll();
             }
         }
@@ -469,7 +494,7 @@ public class GameView extends View {
         if (S && STime > time) {
             if (clicked != null) {
                 System.out.println("play card " + clicked);
-                if (clicked.getName() != Decoy.name()) {
+                if (!Objects.equals(clicked.getName(), Decoy.name())) {
                     int state = -3;
                     state = ((GameMenu) menu).placeCardInRow(clicked, 0, 0);
                     System.out.println("STATE = " + state);
@@ -485,7 +510,7 @@ public class GameView extends View {
         if (R && RTime > time) {
             if (clicked != null) {
                 System.out.println("play card " + clicked);
-                if (clicked.getName() != Decoy.name()) {
+                if (!Objects.equals(clicked.getName(), Decoy.name())) {
                     int state = -3;
                     state = ((GameMenu) menu).placeCardInRow(clicked, 1, 0);
                     System.out.println("STATE = " + state);
@@ -500,7 +525,7 @@ public class GameView extends View {
         if (C && CTime > time) {
             if (clicked != null) {
                 System.out.println("play card " + clicked);
-                if (clicked.getName() != Decoy.name()) {
+                if (!Objects.equals(clicked.getName(), Decoy.name())) {
                     int state = -3;
                     state = ((GameMenu) menu).placeCardInRow(clicked, 2, 0);
                     System.out.println("STATE = " + state);
