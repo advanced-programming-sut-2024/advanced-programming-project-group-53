@@ -166,8 +166,6 @@ public class MainView extends View {
         sideTable.row();
         sideTable.add(importDeck);
         sideTable.row();
-        sideTable.add(chat);
-        sideTable.row();
         sideTable.add(logout);
         stage.addActor(background);
         stage.addActor(mainTable);
