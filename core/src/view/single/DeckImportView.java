@@ -1,4 +1,4 @@
-package view.graphic;
+package view.single;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -9,8 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controller.StartMenu;
 import game.GWENT;
+import model.game.Player;
+import model.game.User;
 import model.view.Resource;
-import network.Instruction;
 
 public class DeckImportView extends View {
     private TextField address;
@@ -53,7 +54,7 @@ public class DeckImportView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 start.setDrawable(new Image(new Texture(Resource.START_GAME_CLICKED.address())).getDrawable());
-                game.changeScreen(new PregameView(game, currentUsername));
+                game.changeScreen(new LoginView(game, currentUsername, new Player(User.findUser(currentUsername), null, null, null)));//TODO: NULLLLLLL!!!!!!!
             }
 
             @Override
@@ -95,10 +96,5 @@ public class DeckImportView extends View {
     @Override
     protected void backgroundLoader() {
         background = new Image(new Texture(Resource.START_BACKGROUND.address()));
-    }
-
-    @Override
-    protected void perform(Instruction instruction) {
-
     }
 }

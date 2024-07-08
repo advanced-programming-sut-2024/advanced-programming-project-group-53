@@ -208,5 +208,9 @@ public class FriendMenu extends Menu {
                 System.out.println(e.getMessage());
             }
         }
+        public static void main(String[] args) {
+            resetDatabase();
+            createDataBaseRequestTable();
+        }
     }
 }

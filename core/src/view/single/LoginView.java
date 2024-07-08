@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.LoginMenu;
 import game.GWENT;
+import model.game.Player;
 import model.view.Resource;
 
 import java.util.Objects;
@@ -220,7 +221,7 @@ public class LoginView extends View {
         stage.addActor(forgetPasswordGroup2);
     }
 
-    public LoginView(GWENT game, String username1) {
+    public LoginView(GWENT game, String username1, Player player) {
         super(game);
         this.username1 = username1;
         menu = LoginMenu.getInstance();

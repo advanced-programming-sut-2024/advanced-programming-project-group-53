@@ -47,7 +47,7 @@ public class FirstView implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 multi.setDrawable(new Image(new Texture(Resource.MULTI_ON.address())).getDrawable());
-                game.changeScreen(new view.graphic.TournamentView(game,"a"));
+                game.changeScreen(new view.graphic.LoginView(game));
             }
 
             @Override
