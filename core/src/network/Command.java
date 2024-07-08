@@ -52,6 +52,7 @@ public enum Command {
     SEND_REQUEST_MESSAGE,
     SEARCH_RANDOM,
     EMPTY,
+    EXPIRE,
     ;
 
     public static Command fromString(String command) {
@@ -158,6 +159,8 @@ public enum Command {
                 return SEARCH_RANDOM;
             case "EMPTY":
                 return EMPTY;
+            case"EXPIRE":
+                return EXPIRE;
             default:
                 return null;
         }

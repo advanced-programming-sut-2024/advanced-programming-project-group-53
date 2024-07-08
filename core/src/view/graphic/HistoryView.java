@@ -154,6 +154,7 @@ public class HistoryView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
+        token(instruction);
         String[] arguments = instruction.arguments();
         if (Objects.requireNonNull(instruction.command()) == Command.HISTORY_MESSAGE)
             history.setText(arguments[0]);

@@ -23,11 +23,11 @@ public class TournamentView extends View {
         this.currentUsername = currentUsername;
         this.menu = TournamentMenu.getInstance();
         stage.addActor(background);
-        String[][] arrangement1 = {{"1","2"},{"3","4"},{"5","6"},{"7","8"}};
+        String[][] arrangement1 = {{"1", "2"}, {"3", "4"}, {"5", "6"}, {"7", "8"}};
         firstRound(arrangement1);
-        String[][] arrangement2 = {{"1","2"},{"3","4"}};
+        String[][] arrangement2 = {{"1", "2"}, {"3", "4"}};
         secondRound(arrangement2);
-        String[][] arrangement3 = {{"1","2"}};
+        String[][] arrangement3 = {{"1", "2"}};
         lastRound(arrangement3);
     }
 
@@ -38,7 +38,7 @@ public class TournamentView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
-
+        token(instruction);
     }
 
     private void firstRound(String[][] arrangement) {

@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import controller.Menu;
 import game.GWENT;
+import network.Command;
 import network.Instruction;
 import model.view.Resource;
 
@@ -69,5 +70,10 @@ public abstract class View implements Screen {
 
     @Override
     public void hide() {
+    }
+
+    public void token(Instruction instruction) {
+        if (instruction.command() == Command.EXPIRE)
+            game.changeScreen(new LoginView(game));
     }
 }
