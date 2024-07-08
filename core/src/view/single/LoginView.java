@@ -9,8 +9,6 @@ import com.badlogic.gdx.utils.Align;
 import controller.LoginMenu;
 import game.GWENT;
 import model.game.Player;
-import view.Resource;
-import model.game.Player;
 import model.view.Resource;
 
 import java.util.Objects;

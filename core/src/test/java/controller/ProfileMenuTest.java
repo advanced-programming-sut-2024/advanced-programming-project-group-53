@@ -1,58 +1,101 @@
 package controller;
 
+import model.game.User;
+import org.junit.Before;
+import org.junit.Test;
+import model.view.Message;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 public class ProfileMenuTest {
-   /* private ProfileMenu profileMenu;
-    private static final ArrayList<User> allUsersTemp = new ArrayList<>();
-    private static final User currentUserTemp = User.getCurrentUser();
-    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private ProfileMenu profileMenu;
 
     @Before
     public void setUp() {
         profileMenu = ProfileMenu.getInstance();
-        User.resetUsers(allUsersTemp);
-        User userInstance = new User("aValidUsername-1", "aValid-1Nickname", "valid2mail@gmail.com", "Valid#Strong45password");
-        User.setCurrentUser(userInstance);
     }
 
     @Test
-    public void shouldShowProfileMenu() {
-        System.setOut(new PrintStream(outContent));
-        profileMenu.showMenu();
-        assertEquals(Message.PROFILE_MENU.message(), outContent.toString().trim());
-    }
-
-    @Test
-    public void shouldExitToMainMenu() {
-        System.setOut(new PrintStream(outContent));
-        profileMenu.exitMenu();
-        assertEquals(Message.ENTER_MAIN_MENU.message(), outContent.toString().trim());
-    }
-
-    @Test
-    public void shouldNotEnterAnyMenu() {
-        System.setOut(new PrintStream(outContent));
-        assertFalse(profileMenu.enterMenu("aMenu"));
-        assertEquals(Message.INVALID_MENU.message(), outContent.toString().trim());
-    }
-
-    @Test
-    public void shouldShowUsersInformation() {
-        System.setOut(new PrintStream(outContent));
-        profileMenu.showInformation();
-        assertEquals("Username:   aValidUsername-1\r\nNickname:   aValid-1Nickname\r\nMaxXP:      0.0\r\nRank:       0\r\nGame Count: 0\r\nDraw Count: 0\r\nWin Count:  0\r\nLose Count: 0", outContent.toString().trim());
+    public void shouldShowUserInfo() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        user.setDrawCount(12);
+        user.setGameCount(15);
+        user.setLoseCount(1);
+        user.setWinCount(2);
+        assertEquals("Username Nickname 0.0 0 15 12 2 1 ",profileMenu.getInformation("Username"));
     }
 
     @Test
     public void shouldShowEmptyGameHistory() {
-        System.setOut(new PrintStream(outContent));
-        profileMenu.showGameHistory(2);//just a useless number to give to method
-        assertEquals(Message.EMPTY_GAME_HISTORY.message(), outContent.toString().trim());
-        //test failure because of temporary print
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals(Message.EMPTY_GAME_HISTORY.message(),profileMenu.showGameHistory("Username","",""));
     }
 
-    @After
-    public void loadUsers() {
-        User.setCurrentUser(currentUserTemp);
-        User.loadUsers(allUsersTemp);
-    }*/
+    @Test
+    public void shouldChangeValidUsernameAndErrorInvalid() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals(Message.INVALID_USERNAME.message(),profileMenu.changeUsername("Invalid username","Username"));
+        assertEquals("empty",profileMenu.changeUsername("NewUsername","Username"));
+        assertEquals("NewUsername",user.username());
+    }
+
+    @Test
+    public void shouldErrorWrongOldPassword() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals(Message.INCORRECT_PASSWORD.message(),profileMenu.changePassword("WrongPassword","newPassword","newPassword","Username"));
+    }
+
+    @Test
+    public void shouldErrorInvalidNewPasswordAndNotSame() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals(Message.PASSWORD_IS_NOT_THE_SAME.message(),profileMenu.changePassword("Password123#","newPassword","new_Password","Username"));
+        assertEquals(Message.WEAK_PASSWORD.message(),profileMenu.changePassword("Password123#","newPassword","newPassword","Username"));
+    }
+
+    @Test
+    public void shouldChangePassword() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals("empty",profileMenu.changePassword("Password123#","newPassword123#","newPassword123#","Username"));
+        assertEquals("newPassword123#",user.password());
+    }
+
+    @Test
+    public void shouldChangeValidNicknameAndErrorInvalid() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals(Message.INVALID_NICKNAME.message(),profileMenu.changeNickname("Invalid nickname","Username"));
+        assertEquals("empty",profileMenu.changeNickname("NewNickname","Username"));
+        assertEquals("NewNickname",user.nickname());
+    }
+
+    @Test
+    public void shouldChangeValidEmailAndErrorInvalid() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals(Message.INVALID_EMAIL.message(),profileMenu.changeEmail("Invalid email","Username"));
+        assertEquals("empty",profileMenu.changeEmail("newEmail@outlook.com","Username"));
+        assertEquals("newEmail@outlook.com",user.email());
+    }
+    @Test
+    public void ranking() {
+        if(User.findUser("Username") != null)
+            fail("test is invalid");
+        User user = new User("Username","Nickname","mail@gmail.com","Password123#","Question?","Answer");
+        assertEquals(profileMenu.showRanking(), User.ranking().toString());
+    }
 }
