@@ -50,6 +50,8 @@ public enum Command {
     FRIEND_REQUEST_MESSAGE,
     SEND_REQUEST,
     SEND_REQUEST_MESSAGE,
+    SEARCH_RANDOM,
+    EMPTY,
     ;
 
     public static Command fromString(String command) {
@@ -152,6 +154,10 @@ public enum Command {
                 return SEND_REQUEST;
             case "SEND_REQUEST_MESSAGE":
                 return SEND_REQUEST_MESSAGE;
+            case "SEARCH_RANDOM":
+                return SEARCH_RANDOM;
+            case "EMPTY":
+                return EMPTY;
             default:
                 return null;
         }

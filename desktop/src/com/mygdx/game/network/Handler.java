@@ -1,6 +1,7 @@
 package com.mygdx.game.network;
 
 import controller.*;
+import game.GWENT;
 import network.Command;
 import network.Instruction;
 
@@ -117,6 +118,9 @@ public class Handler extends Thread {
                     return new Instruction(Command.FRIEND_REQUEST_MESSAGE, FriendMenu.getInstance().rejectFriendRequest(arguments[0], arguments[1]));
             case SEND_REQUEST:
                 return new Instruction(Command.SEND_REQUEST_MESSAGE, FriendMenu.getInstance().sendFriendRequest(arguments[0], arguments[1]));
+            case SEARCH_RANDOM:
+                PregameMenu.getInstance().addToWaiting(arguments[0],new GWENT());
+                return new Instruction(Command.EMPTY);
             default:
                 return null;
         }

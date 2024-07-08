@@ -208,15 +208,5 @@ public class FriendMenu extends Menu {
                 System.out.println(e.getMessage());
             }
         }
-
-        public static void main(String[] args) {
-            //Just for testing purposes!
-//            resetDatabase();
-//            createDataBaseUserTable();
-//            new User("a", "b", "c", "d", "e", "f");//TODO: delete at the end of project.
-//            new User("g", "h", "i", "j", "k", "l");
-//            new User("m","n","o","p","q","r");
-//            selectAllUsers();
-        }
     }
 }

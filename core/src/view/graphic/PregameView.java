@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import controller.StartMenu;
+import controller.PregameMenu;
 import game.GWENT;
 import model.view.Resource;
 import network.Command;
@@ -23,12 +23,13 @@ public class PregameView extends View {
 
     public PregameView(GWENT game, String currentUsername) {
         super(game);
-        this.menu = StartMenu.getInstance();
+        this.menu = PregameMenu.getInstance();
         this.currentUsername = currentUsername;
         group = new VerticalGroup();
         group.space(10);
         friends = new ScrollPane(group, skin);
-        perform(new Connector().perform(new Instruction(Command.FRIEND, currentUsername)));
+        friends.setBounds(100, 400, 924, 500);
+        //perform(new Connector().perform(new Instruction(Command.FRIEND, currentUsername)));//TODO:data base is empty.
         table = new Table();
         table.setBounds(312, 100, 400, (float) (400 * 0.1458 * 2));
         Label wait = new Label("", skin);
@@ -39,6 +40,7 @@ public class PregameView extends View {
                 random.setDrawable(new Image(new Texture(Resource.RANDOM_CLICKED.address())).getDrawable());
                 wait.setText("Please wait we are looking for an opponent");
                 wait.setPosition(300, 924);
+                new Connector().perform(new Instruction(Command.SEARCH_RANDOM, currentUsername));
             }
 
             @Override
@@ -95,8 +97,16 @@ public class PregameView extends View {
             case FRIEND_MESSAGE:
                 if (!Objects.equals(empty, "empty")) {
                     group.clear();
-                    for (String name : response)
-                        group.addActor(new Label(name, skin));
+                    for (String name : response) {
+                        Label label = new Label(name, skin);
+                        label.addListener(new ClickListener() {
+                            @Override
+                            public void clicked(InputEvent event, float x, float y) {
+                                game.changeScreen(new GameView(game, currentUsername, name));
+                            }
+                        });
+                        group.addActor(label);
+                    }
                 }
                 break;
         }

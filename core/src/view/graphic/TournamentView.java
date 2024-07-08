@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import controller.TournamentMenu;
 import game.GWENT;
 import model.view.Resource;
 import network.Instruction;
@@ -20,7 +21,14 @@ public class TournamentView extends View {
     public TournamentView(GWENT game, String currentUsername) {
         super(game);
         this.currentUsername = currentUsername;
+        this.menu = TournamentMenu.getInstance();
         stage.addActor(background);
+        String[][] arrangement1 = {{"1","2"},{"3","4"},{"5","6"},{"7","8"}};
+        firstRound(arrangement1);
+        String[][] arrangement2 = {{"1","2"},{"3","4"}};
+        secondRound(arrangement2);
+        String[][] arrangement3 = {{"1","2"}};
+        lastRound(arrangement3);
     }
 
     @Override
@@ -36,15 +44,15 @@ public class TournamentView extends View {
     private void firstRound(String[][] arrangement) {
         for (int i = 0; i < arrangement.length; i++) {
             Label label1 = new Label(arrangement[i][0], skin);
-            label1.setPosition(50 + (float) ((i / 2) * 924), 974 - (float) ((i % 2) * 462));
+            label1.setPosition(50 + (float) ((i / 2) * 800), 800 - (float) ((i % 2) * 462));
             Label label2 = new Label(arrangement[i][1], skin);
-            label2.setPosition(50 + (float) ((i / 2) * 924), 974 - (float) ((i % 2) * 462) - 206);
+            label2.setPosition(50 + (float) ((i / 2) * 800), 800 - (float) ((i % 2) * 462) - 206);
             stage.addActor(label1);
             stage.addActor(label2);
         }
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             TextButton textButton = new TextButton("round1", skin);
-            textButton.setPosition(100 + (float) ((i / 2) * 924), 974 - (float) ((i % 2) * 462) - 103);
+            textButton.setPosition(100 + (float) ((i / 2) * 800), 800 - (float) ((i % 2) * 462) - 103);
             int finalI = i;
             textButton.addListener(new ClickListener() {
                 @Override
@@ -62,15 +70,15 @@ public class TournamentView extends View {
     private void secondRound(String[][] arrangement) {
         for (int i = 0; i < arrangement.length; i++) {
             Label label1 = new Label(arrangement[i][0], skin);
-            label1.setPosition(200 + i * 774, 562);
+            label1.setPosition(200 + i * 500, 500);
             Label label2 = new Label(arrangement[i][1], skin);
-            label2.setPosition(200 + i * 774, 462);
+            label2.setPosition(200 + i * 500, 400);
             stage.addActor(label1);
             stage.addActor(label2);
         }
         for (int i = 0; i < 2; i++) {
             TextButton textButton = new TextButton("round2", skin);
-            textButton.setPosition(200 + i * 774, 512);
+            textButton.setPosition(250 + i * 500, 450);
             int finalI = i;
             textButton.addListener(new ClickListener() {
                 @Override
@@ -87,13 +95,13 @@ public class TournamentView extends View {
 
     private void lastRound(String[][] arrangement) {
         Label label1 = new Label(arrangement[0][0], skin);
-        label1.setPosition(350, 512);
+        label1.setPosition(300, 600);
         Label label2 = new Label(arrangement[0][1], skin);
-        label2.setPosition(624, 512);
+        label2.setPosition(574, 600);
         stage.addActor(label1);
         stage.addActor(label2);
         TextButton textButton = new TextButton("round3", skin);
-        textButton.setPosition(487, 512);
+        textButton.setPosition(437, 600);
         int finalI = 0;
         textButton.addListener(new ClickListener() {
             @Override
