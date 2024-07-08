@@ -563,7 +563,6 @@ public class GameView extends View {
     }
 
     private void siege1() {
-        player1SiegeGroup.clear();
         player1Siege = gameTable.getPlayGround().getUnitCardsInRow(0);
         for (int i = 0; i < player1Siege.size(); i++) {
             Card card = player1Siege.get(i);
@@ -583,13 +582,12 @@ public class GameView extends View {
         }
         player1SiegeHead.clear();
         if (gameTable.getPlayGround().getSpecialInRow(0) != null)
-            player1SiegeHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(0).address()));
+            player1SiegeHead.setDrawable(new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(0).address())).getDrawable());
         else
-            player1SiegeHead = new Image(new Texture(Resource.EMPTY.address()));
+            player1SiegeHead.setDrawable(new Image(new Texture(Resource.EMPTY.address())).getDrawable());
     }
 
     private void ranged1() {
-        player1RangedGroup.clear();
         player1Ranged = gameTable.getPlayGround().getUnitCardsInRow(1);
         for (int i = 0; i < player1Ranged.size(); i++) {
             Card card = player1Ranged.get(i);
@@ -609,13 +607,12 @@ public class GameView extends View {
         }
         player1RangedHead.clear();
         if (gameTable.getPlayGround().getSpecialInRow(1) != null)
-            player1RangedHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(1).address()));
+            player1RangedHead.setDrawable(new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(1).address())).getDrawable());
         else
-            player1RangedHead = new Image(new Texture(Resource.EMPTY.address()));
+            player1RangedHead.setDrawable(new Image(new Texture(Resource.EMPTY.address())).getDrawable());
     }
 
     private void closed1() {
-        player1ClosedGroup.clear();
         player1Closed = gameTable.getPlayGround().getUnitCardsInRow(2);
         for (int i = 0; i < player1Closed.size(); i++) {
             Card card = player1Closed.get(i);
@@ -635,13 +632,12 @@ public class GameView extends View {
         }
         player1ClosedHead.clear();
         if (gameTable.getPlayGround().getSpecialInRow(2) != null)
-            player1ClosedHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(2).address()));
+            player1ClosedHead.setDrawable(new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(2).address())).getDrawable());
         else
-            player1ClosedHead = new Image(new Texture(Resource.EMPTY.address()));
+            player1ClosedHead.setDrawable(new Image(new Texture(Resource.EMPTY.address())).getDrawable());
     }
 
     private void siege2() {
-        player2SiegeGroup.clear();
         player2Siege = gameTable.getPlayGround().getUnitCardsInRow(5);
         for (int i = 0; i < player2Siege.size(); i++) {
             Card card = player2Siege.get(i);
@@ -651,13 +647,12 @@ public class GameView extends View {
         }
         player2SiegeHead.clear();
         if (gameTable.getPlayGround().getSpecialInRow(5) != null)
-            player2SiegeHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(5).address()));
+            player2SiegeHead.setDrawable(new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(5).address())).getDrawable());
         else
-            player2SiegeHead = new Image(new Texture(Resource.EMPTY.address()));
+            player2SiegeHead.setDrawable(new Image(new Texture(Resource.EMPTY.address())).getDrawable());
     }
 
     private void ranged2() {
-        player2RangedGroup.clear();
         player2Ranged = gameTable.getPlayGround().getUnitCardsInRow(4);
         for (int i = 0; i < player2Ranged.size(); i++) {
             Card card = player2Ranged.get(i);
@@ -667,13 +662,12 @@ public class GameView extends View {
         }
         player2RangedHead.clear();
         if (gameTable.getPlayGround().getSpecialInRow(4) != null)
-            player2RangedHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(4).address()));
+            player2RangedHead.setDrawable(new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(4).address())).getDrawable());
         else
-            player2RangedHead = new Image(new Texture(Resource.EMPTY.address()));
+            player2RangedHead.setDrawable(new Image(new Texture(Resource.EMPTY.address())).getDrawable());
     }
 
     private void closed2() {
-        player2ClosedGroup.clear();
         player2Closed = gameTable.getPlayGround().getUnitCardsInRow(3);
         for (int i = 0; i < player2Closed.size(); i++) {
             Card card = player2Closed.get(i);
@@ -683,9 +677,9 @@ public class GameView extends View {
         }
         player2ClosedHead.clear();
         if (gameTable.getPlayGround().getSpecialInRow(3) != null)
-            player2ClosedHead = new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(3).address()));
+            player2ClosedHead.setDrawable(new Image(new Texture(gameTable.getPlayGround().getSpecialInRow(3).address())).getDrawable());
         else
-            player2ClosedHead = new Image(new Texture(Resource.EMPTY.address()));
+            player2ClosedHead.setDrawable(new Image(new Texture(Resource.EMPTY.address())).getDrawable());
     }
 
     private void handUpdater() {
