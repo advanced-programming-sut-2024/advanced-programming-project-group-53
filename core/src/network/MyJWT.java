@@ -8,10 +8,14 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 import java.util.Date;
 
 public class MyJWT {
-    private static final String SECRET_KEY = "mySecretKey";
     private static final long EXPIRATION_TIME = 15 * 60 * 1000;
+    private final String SECRET_KEY;
 
-    public static String generateToken(String subject) {
+    public MyJWT(String username) {
+        this.SECRET_KEY = username;
+    }
+
+    public String generateToken(String subject) {
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
         return JWT.create()
                 .withSubject(subject)
@@ -20,7 +24,7 @@ public class MyJWT {
                 .sign(algorithm);
     }
 
-    public static boolean validateToken(String token) {
+    public boolean validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
             JWTVerifier verifier = JWT.require(algorithm).build();
