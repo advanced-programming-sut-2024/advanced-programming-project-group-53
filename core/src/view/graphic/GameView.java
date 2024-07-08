@@ -316,7 +316,7 @@ public class GameView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
-
+        token(instruction);
     }
 
     private void siege1() {

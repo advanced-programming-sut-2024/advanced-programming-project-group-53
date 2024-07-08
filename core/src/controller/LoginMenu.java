@@ -2,6 +2,7 @@ package controller;
 
 import model.game.User;
 import model.view.Message;
+import network.MyJWT;
 
 import java.util.Objects;
 
@@ -23,7 +24,10 @@ public class LoginMenu extends Menu {
             return Message.NO_USER.message();
         else if (!user.password().equals(password))
             return Message.INCORRECT_PASSWORD.message();
-        return "empty";
+        else {
+            user.setToken(new MyJWT(username).generateToken("expireAfter15min"));
+            return "empty";
+        }
     }
 
     public String userValidation(String username) {

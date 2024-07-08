@@ -87,6 +87,7 @@ public class PregameView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
+        token(instruction);
         String[] response = instruction.arguments();
         String empty = response[0];
         StringBuilder builder = new StringBuilder();

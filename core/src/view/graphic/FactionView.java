@@ -169,6 +169,6 @@ public class FactionView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
-
+        token(instruction);
     }
 }

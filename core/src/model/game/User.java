@@ -19,6 +19,7 @@ public class User {
     private String password;
     private final String question;
     private final String answer;
+    private String token;
     private double maxPoint;
     private int rank;
     private int gameCount;
@@ -206,11 +207,19 @@ public class User {
     public void addGameInformation(GameInformation gameInformation) {
         gameInformations.add(gameInformation);
         if (gameInformation.getWinnerName().equalsIgnoreCase(username) &&
-                !Objects.equals(gameInformation.getWinnerName(),gameInformation.getLoserName()))
+                !Objects.equals(gameInformation.getWinnerName(), gameInformation.getLoserName()))
             winCount++;
-        else if (Objects.equals(gameInformation.getWinnerName(),gameInformation.getLoserName())) {
+        else if (Objects.equals(gameInformation.getWinnerName(), gameInformation.getLoserName())) {
             drawCount++;
         } else loseCount++;
+    }
+
+    public String token() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public ArrayList<GameInformation> gameInformation() {
@@ -323,7 +332,7 @@ public class User {
             String spl = "UPDATE users SET data = ? WHERE name = ?";
 
             try (Connection conn = DriverManager.getConnection("jdbc:sqlite:users.db");
-                PreparedStatement preparedStatement = conn.prepareStatement(spl)) {
+                 PreparedStatement preparedStatement = conn.prepareStatement(spl)) {
                 preparedStatement.setString(1, updatedData);
                 preparedStatement.setString(2, username);
                 preparedStatement.executeUpdate();

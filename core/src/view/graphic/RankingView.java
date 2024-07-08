@@ -85,6 +85,7 @@ public class RankingView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
+        token(instruction);
         String[] users = instruction.arguments()[0].split(" ");
         for (String user : users)
             players.add(new Label(user, skin));

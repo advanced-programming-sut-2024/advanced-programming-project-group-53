@@ -71,7 +71,7 @@ public class CommanderView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 save.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
-                game.changeScreen(new CardView(game, faction, commander,currentUsername));
+                game.changeScreen(new CardView(game, faction, commander, currentUsername));
             }
 
             @Override
@@ -90,7 +90,7 @@ public class CommanderView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 changeFaction.setDrawable(new Image(new Texture(Resource.CHANGE_FACTION_CLICKED.address())).getDrawable());
-                game.changeScreen(new FactionView(game,currentUsername));
+                game.changeScreen(new FactionView(game, currentUsername));
             }
 
             @Override
@@ -143,6 +143,6 @@ public class CommanderView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
-
+        token(instruction);
     }
 }

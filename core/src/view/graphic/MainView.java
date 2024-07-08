@@ -201,5 +201,6 @@ public class MainView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
+        token(instruction);
     }
 }

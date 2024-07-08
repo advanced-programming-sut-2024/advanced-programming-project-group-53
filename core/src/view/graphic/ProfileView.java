@@ -407,6 +407,7 @@ public class ProfileView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
+        token(instruction);
         String[] arguments = instruction.arguments();
         switch (instruction.command()) {
             case PROFILE_MESSAGE:

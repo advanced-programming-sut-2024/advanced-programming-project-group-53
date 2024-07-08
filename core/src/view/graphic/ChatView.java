@@ -146,6 +146,7 @@ public class ChatView extends View {
 
     @Override
     protected void perform(Instruction instruction) {
+        token(instruction);
         StringBuilder builder = new StringBuilder();
         for (String string : instruction.arguments())
             builder.append(string).append(" ");
