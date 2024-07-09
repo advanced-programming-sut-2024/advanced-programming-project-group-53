@@ -2,7 +2,6 @@ package model.game;
 
 import model.card.*;
 
-import javax.sound.midi.Soundbank;
 import java.util.*;
 
 public class Table {
@@ -60,6 +59,8 @@ public class Table {
 
     public void saveGame() {
         this.gameInformation = new GameInformation(player1, player2 ,winner, loser, this.rounds);
+        players.get(0).getUser().addGameInformation(gameInformation);
+        players.get(1).getUser().addGameInformation(gameInformation);
     }
 
     public GameInformation getGameInformation() {
@@ -108,15 +109,11 @@ public class Table {
                 }
                 loser = players.get(0);
                 saveGame();
-                players.get(0).getUser().addGameInformation(gameInformation);
-                players.get(1).getUser().addGameInformation(gameInformation);
                 return true;
             } else if (players.get(1).hp() == 0) {
                 winner = players.get(0);
                 loser = players.get(1);
                 saveGame();
-                players.get(0).getUser().addGameInformation(gameInformation);
-                players.get(1).getUser().addGameInformation(gameInformation);
                 return true;
             } else {
                 increaseRoundNumber();
@@ -227,6 +224,7 @@ public class Table {
         System.out.println();
     }
     //leaders Abilities
+    //TODO : 3 leaders ability and 3 leader show card.
     public ArrayList<Card> executeNorthern(Commander commander) {
         Player currentPlayer = getPlayers(0);
         Player opponent = getPlayers(1);
@@ -417,5 +415,42 @@ public class Table {
         playGround.getUnitCardsInRow(row).add(new Special(SpecialInformation.Decoy));
         players.get(0).getHand().removeCard(SpecialInformation.Decoy.name());
         players.get(0).getHand().add(card);
+    }
+
+    //CheatCodes
+    public void cheatCode1RecoverCrystals() {
+        players.get(0).setHp(2);
+        players.get(1).setHp(2);
+    }
+
+    public void cheatCode2addCardToHand() {
+        players.get(0).addRandomCardToHand();
+    }
+
+    public void cheatCode3Win() {
+        winner = players.get(0);
+        loser = players.get(1);
+        saveGame();
+    }
+
+    public void cheatCode4Lose() {
+        winner = players.get(1);
+        loser = players.get(0);
+        saveGame();
+    }
+
+    public void cheatCode5Draw() {
+        winner = players.get(0);
+        loser = players.get(0);
+        saveGame();
+    }
+
+    public void cheatCode6Mardroeme() {
+        playGround.placeSpecialCard(2,
+                Objects.requireNonNull(Special.getInstanceByName(SpecialInformation.Mardoeme.name())));
+    }
+
+    public void cheatCode7Berserker() {
+        playGround.placeNoneSpyUnit(Unit.getInstanceByName(UnitInformation.Berserker.name()), 2, players.get(0), players.get(1));
     }
 }

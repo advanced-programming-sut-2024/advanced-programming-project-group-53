@@ -569,6 +569,44 @@ public class GameView extends View {
             }
         }
 
+        if (ONE && ONETime > time) {
+            gameTable.cheatCode1RecoverCrystals();
+            updateAll();
+        }
+
+        if (TWO && TWOTime > time) {
+            gameTable.cheatCode2addCardToHand();
+            updateAll();
+        }
+
+        if (THREE && THREETime > time) {
+            gameTable.cheatCode3Win();
+            game.changeScreen(new EndView(game, gameTable.getGameInformation().getWinnerName(),
+                    gameTable.getGameInformation().getLoserName(), gameTable.getPlayers(0).getUser().username()));
+        }
+
+        if (FOUR && FOURTime > time) {
+            gameTable.cheatCode4Lose();
+            game.changeScreen(new EndView(game, gameTable.getGameInformation().getWinnerName(),
+                    gameTable.getGameInformation().getLoserName(), gameTable.getPlayers(0).getUser().username()));
+        }
+
+        if (FIVE && FIVETime > time) {
+            gameTable.cheatCode5Draw();
+            game.changeScreen(new EndView(game, gameTable.getGameInformation().getWinnerName(),
+                    gameTable.getGameInformation().getLoserName(), gameTable.getPlayers(0).getUser().username()));
+        }
+
+        if (SIX && SIXTime > time) {
+            gameTable.cheatCode6Mardroeme();
+            updateAll();
+        }
+
+        if (SEVEN && SEVENTime > time) {
+            gameTable.cheatCode7Berserker();
+            updateAll();
+        }
+
     }
 
     private void siege1() {

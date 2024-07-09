@@ -30,6 +30,11 @@ public class Deck extends Cards {
         return cardsForHand;
     }
 
+    public Card randomCard() {
+        ArrayList<Card> cards = super.getCards();
+        Collections.shuffle(cards);
+        return cards.get(0);
+    }
     public boolean isHasSelected() {
         return hasSelected;
     }

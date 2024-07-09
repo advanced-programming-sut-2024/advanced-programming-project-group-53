@@ -151,6 +151,10 @@ public class Player {
         deck.removeCard(card1.getName());deck.removeCard(card2.getName());
     }
 
+    public void addRandomCardToHand() {
+        this.hand.add(deck.randomCard());
+    }
+
     public boolean isCommanderUsed() {
         return commanderUsed;
     }
