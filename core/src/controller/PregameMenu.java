@@ -29,4 +29,9 @@ public class PregameMenu extends Menu {
             waiting.remove(username2);
         }
     }
+
+    public ArrayList<String> getWaiting() {
+        //used for tests.
+        return waiting;
+    }
 }
