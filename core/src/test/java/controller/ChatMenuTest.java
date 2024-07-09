@@ -34,5 +34,13 @@ public class ChatMenuTest {
         assertEquals(Message.ILLEGAL_CHARACTER.message(),chatMenu.setMessage("Hello \\ how are you?", "senderUser", "receiverUser"));
     }
 
+    @Test
+    public void shouldGetMessage() {
+        chatMenu.setMessage("Hello", "user1", "user2");
+        chatMenu.setMessage("Hi", "user2", "user1");
+        assertTrue(chatMenu.getMessage("user1", "user2").contains("Hello"));
+        assertTrue(chatMenu.getMessage("user1", "user2").contains("Hi"));
+    }
+
 
 }
