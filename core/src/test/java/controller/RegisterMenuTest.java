@@ -17,6 +17,14 @@ public class RegisterMenuTest {
     }
 
     @Test
+    public void shouldBeSingleton() {
+        RegisterMenu instance1 = RegisterMenu.getInstance();
+        assertNotNull(instance1);//checking the instantiation
+        RegisterMenu instance2 = RegisterMenu.getInstance();
+        assertEquals(instance2,instance1);
+    }
+
+    @Test
     public void shouldRegisterValidNotExistingUser() {
         if(User.findUser("validUsername") != null)
             fail("test is invalid.");

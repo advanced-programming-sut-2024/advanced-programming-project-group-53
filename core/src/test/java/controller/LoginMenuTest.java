@@ -5,8 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import view.Message;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class LoginMenuTest {
     private LoginMenu loginMenu;
@@ -14,6 +13,14 @@ public class LoginMenuTest {
     @Before
     public void setUp() {
         loginMenu = LoginMenu.getInstance();
+    }
+
+    @Test
+    public void shouldBeSingleton() {
+        LoginMenu instance1 = LoginMenu.getInstance();
+        assertNotNull(instance1);//checking the instantiation
+        LoginMenu instance2 = LoginMenu.getInstance();
+        assertEquals(instance2,instance1);
     }
 
     @Test
