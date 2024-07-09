@@ -339,6 +339,7 @@ public class User {
 //            createDataBaseUserTable();
 //            deleteUserByUsername("m");
 //            new User("safari", "safar", "e", "p", "q", "a");
+//            new User("kiarash", "kia", "e", "p", "q", "a");
 //            deleteUserByUsername("safari");
             selectAllUsers();
         }

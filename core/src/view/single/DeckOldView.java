@@ -42,17 +42,19 @@ public class DeckOldView extends View {
         this.menu = StartMenu.getInstance();
         verticalGroup = new VerticalGroup();
         File dir = new File(System.getProperty("user.home") + "/gwentInformation/" + currentUsername);
-        for (File userFile : Objects.requireNonNull(dir.listFiles(File::isFile))) {
-            DeckContainer userDeck;
-            Gson gson = new Gson();
-            try {
-                FileReader reader = new FileReader(userFile);
-                userDeck = gson.fromJson(reader, DeckContainer.class);
-                reader.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        if (dir.list() != null) {
+            for (File userFile : Objects.requireNonNull(dir.listFiles(File::isFile))) {
+                DeckContainer userDeck;
+                Gson gson = new Gson();
+                try {
+                    FileReader reader = new FileReader(userFile);
+                    userDeck = gson.fromJson(reader, DeckContainer.class);
+                    reader.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                allUserDeckContainers.add(userDeck);
             }
-            allUserDeckContainers.add(userDeck);
         }
         verticalGroup.space(10);
         scrollPane = new ScrollPane(verticalGroup, skin);

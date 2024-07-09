@@ -424,8 +424,9 @@ public class Playground {
             if (card.getAbility().equalsIgnoreCase(Ability.CommandersHorn.name()))
                 return true;
         for (Special special : specials)
-            if (special.getAbility().equalsIgnoreCase(Ability.CommandersHorn.name()))
-                return true;
+            if (special != null)
+                if (special.getAbility().equalsIgnoreCase(Ability.CommandersHorn.name()))
+                    return true;
         return false;
     }
 
@@ -442,6 +443,29 @@ public class Playground {
                 unitCardsGround.get(row).remove(card);
                 break;
             }
+        }
+    }
+
+    public void cleanPlayGround() {
+        ArrayList<ArrayList<Card>> temp = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            temp.add(new ArrayList<>());
+        }
+        for (int i = 0; i < 6; i++) {
+            specials.set(i, null);
+            for (Card card : getUnitCardsInRow(i)) {
+                if (card != null)
+                    if (Objects.equals(card.getAbility(), Ability.Transformers.name())) {
+                        if (card.getPower() == 0) {
+                            card.setPower(8);
+                            temp.get(i).add(card);
+                        }
+                    }
+            }
+        }
+        for (int i = 0; i < 6; i++) {
+            unitCardsGround.set(i, new ArrayList<>());
+            unitCardsGround.get(i).addAll(temp.get(i));
         }
     }
 }

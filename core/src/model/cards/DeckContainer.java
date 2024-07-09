@@ -93,18 +93,49 @@ public class DeckContainer {
 
     public static void main(String[] args) {
         Deck deck = new Deck();
-//        deck.add(Unit.getInstanceByName(UnitInformation.GaunterODimmDarkness.name()));
-//        deck.add(Unit.getInstanceByName(UnitInformation.GaunterODimmDarkness.name()));
-//        deck.add(Unit.getInstanceByName(UnitInformation.KeiraMetz.name()));
-//        Faction faction = Faction.NorthernRealms;
-//        String username = "safari";
-//        String name = "testDeckContainer";
-//        Commander commander = new Commander(CommanderInformation.Foltest_LordCommanderOfTheNorth);
-//        DeckContainer deckContainer = new DeckContainer(name, username, faction ,commander, deck);
-//        deckContainer.saveDeckInAddress("/home/safar/GraphicPrac");
-//        deckContainer.saveDeck();
-        DeckContainer deckContainer = DeckContainer.importDeckWithAddress("/home/safar/GraphicPrac/testDeckContainer.json");
-        System.out.println(deckContainer.getCommander().getCommanderInformation().name());
-        System.out.println(deckContainer.getFaction().name());
+        //special add
+        deck.add(Special.getInstanceByName(SpecialInformation.BitingFrost.name()));
+        deck.add(Special.getInstanceByName(SpecialInformation.BitingFrost.name()));
+        deck.add(Special.getInstanceByName(SpecialInformation.CommandersHorn.name()));
+        deck.add(Special.getInstanceByName(SpecialInformation.CommandersHorn.name()));
+        deck.add(Special.getInstanceByName(SpecialInformation.CommandersHorn.name()));
+        deck.add(Special.getInstanceByName(SpecialInformation.Decoy.name()));
+        deck.add(Special.getInstanceByName(SpecialInformation.ImpenetrableFog.name()));
+        deck.add(Special.getInstanceByName(SpecialInformation.ImpenetrableFog.name()));
+        deck.add(Special.getInstanceByName(SpecialInformation.ImpenetrableFog.name()));
+        //special add
+        //unit add
+        deck.add(Unit.getInstanceByName(UnitInformation.Ballista.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.Ballista.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.BlueStripesCommando.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.BlueStripesCommando.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.BlueStripesCommando.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.Catapult.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.DragonHunter.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.DragonHunter.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.DragonHunter.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.EmielRegis.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.EsteradThyssen.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.GaunterODimm.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.GeraltOfRivia.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.JohnNatalis.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.KaedweniSiegeExpert.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.KaedweniSiegeExpert.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.KaedweniSiegeExpert.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.KeiraMetz.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.PhilippaEilhart.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.PoorFuckingInfantry.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.PoorFuckingInfantry.name()));
+        deck.add(Unit.getInstanceByName(UnitInformation.PoorFuckingInfantry.name()));
+
+        //unit add
+        Faction faction = Faction.NorthernRealms;
+        String username = "safari";
+        String name = "deck1";
+        Commander commander = new Commander(CommanderInformation.Foltest_TheSiegeMaster);
+        DeckContainer deckContainer = new DeckContainer(name, username, faction ,commander, deck);
+        deckContainer.saveDeckInAddress("/home/safar/GraphicPrac");
+        deckContainer.saveDeck();
+
     }
 }

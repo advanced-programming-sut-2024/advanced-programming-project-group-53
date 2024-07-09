@@ -47,13 +47,13 @@ public class EndView extends View {
     private final Image mainMenu;
     private final Image exit;
 
-    public EndView(GWENT game, String winner, String loser, String currentUser) {
+    public EndView(GWENT game, String winner, String loser, String currentUser, boolean isDraw) {
         super(game);
         menu = GameMenu.getInstance();
         this.currentUsername = currentUser;
         Label winner1;
         Label loser1;
-        if (winner.trim().equalsIgnoreCase(loser.trim())) {
+        if (isDraw) {
             winner1 = new Label("WINNER:\nDRAW", skin);
             loser1 = new Label("LOSER:\nDRAW", skin);
         } else {

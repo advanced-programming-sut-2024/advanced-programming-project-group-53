@@ -58,6 +58,10 @@ public class GameInformation {
         return result.toString();
     }
 
+    public boolean getDraw() {
+        return draw;
+    }
+
     public String getPlayer2Username() {
         return player2Username;
     }

@@ -151,9 +151,8 @@ public class Table {
                 players.get(1).getDiscardPiles().getCards().add(playGround.getSpecialInRow(i));
 
             }
-            playGround.getUnitCardsGround().set(i, new ArrayList<>());
-            playGround.getSpecials().set(i, null);
         }
+        playGround.cleanPlayGround();
         playGround.resetSpells();
     }
 
@@ -417,6 +416,11 @@ public class Table {
         players.get(0).getHand().add(card);
     }
 
+    public void cheatCode10Spy() {
+        playGround.placeSpyUnitCard(3 ,
+                Objects.requireNonNull(Unit.getInstanceByName(UnitInformation.MysteriousElf.name())), players.get(0));
+    }
+
     //CheatCodes
     public void cheatCode1RecoverCrystals() {
         players.get(0).setHp(2);
@@ -452,5 +456,19 @@ public class Table {
 
     public void cheatCode7Berserker() {
         playGround.placeNoneSpyUnit(Unit.getInstanceByName(UnitInformation.Berserker.name()), 2, players.get(0), players.get(1));
+    }
+
+    public void cheatCode8CommanderHorn() {
+        playGround.placeSpecialCard(2,
+                Objects.requireNonNull(Special.getInstanceByName(SpecialInformation.CommandersHorn.name())));
+    }
+
+    public void cheatCode9YoungBerserker() {
+        playGround.placeNoneSpyUnit(Unit.getInstanceByName(UnitInformation.Berserker.name()), 2, players.get(0), players.get(1));
+    }
+
+    public void cheatCode11Cow() {
+        playGround.placeNoneSpyUnit(Unit.getInstanceByName(UnitInformation.Cow.name()),
+                1, players.get(0), players.get(1));
     }
 }

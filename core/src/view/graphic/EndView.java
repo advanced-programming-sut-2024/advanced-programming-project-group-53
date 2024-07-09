@@ -48,7 +48,7 @@ public class EndView extends View {
     private final Image mainMenu;
     private final Image exit;
 
-    public EndView(GWENT game, String winner, String loser, String currentUser) {
+    public EndView(GWENT game, String winner, String loser, String currentUser, boolean draw) {
         super(game);
         menu = GameMenu.getInstance();
         this.currentUsername = currentUser;

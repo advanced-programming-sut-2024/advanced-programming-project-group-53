@@ -16,7 +16,6 @@ import model.game.Player;
 import model.game.Table;
 import view.components.ImageWrapper;
 import model.view.Resource;
-import view.graphic.EndView;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -99,6 +98,14 @@ public class GameView extends View {
     private double SIXTime = 0;
     private boolean SEVEN = false;
     private double SEVENTime = 0;
+    private boolean EIGHT = false;
+    private double EIGHTTime = 0;
+    private boolean NINE = false;
+    private double NINETime = 0;
+    private boolean ZERO = false;
+    private double ZEROTime = 0;
+    private boolean U = false;
+    private double UTime = 0;
 
     private final double time = 0.5;
 
@@ -375,6 +382,14 @@ public class GameView extends View {
                     SIX = true;
                 } else if (keycode == Input.Keys.NUM_7) {
                     SEVEN = true;
+                } else if (keycode == Input.Keys.NUM_8) {
+                    EIGHT = true;
+                } else if (keycode == Input.Keys.NUM_9) {
+                    NINE = true;
+                } else if (keycode == Input.Keys.NUM_0) {
+                    ZERO = true;
+                } else if (keycode == Input.Keys.U) {
+                    U = true;
                 }
                 return true;
             }
@@ -415,6 +430,14 @@ public class GameView extends View {
                     SIX = false;
                 } else if (keycode == Input.Keys.NUM_7) {
                     SEVEN = false;
+                } else if (keycode == Input.Keys.NUM_8) {
+                    EIGHT = false;
+                } else if (keycode == Input.Keys.NUM_9) {
+                    NINE = false;
+                } else if (keycode == Input.Keys.NUM_0) {
+                    ZERO = false;
+                } else if (keycode == Input.Keys.U) {
+                    U = false;
                 }
                 return true;
             }
@@ -496,6 +519,10 @@ public class GameView extends View {
         FIVETime += delta;
         SIXTime += delta;
         SEVENTime += delta;
+        EIGHTTime += delta;
+        NINETime += delta;
+        ZEROTime += delta;
+        UTime += delta;
         if (P && PTime > time) {
             if (clicked != null) {
                 if (Objects.equals(clicked.getAbility(), Ability.Spy.name())) {
@@ -529,7 +556,7 @@ public class GameView extends View {
             gameTable.printCurrentPlayerHand();
             if (ended) {
                 game.changeScreen(new EndView(game, gameTable.getGameInformation().getWinnerName(),
-                        gameTable.getGameInformation().getLoserName(), gameTable.getPlayers(0).getUser().username()));
+                        gameTable.getGameInformation().getLoserName(), gameTable.getPlayers(0).getUser().username(), gameTable.getGameInformation().getDraw()));
                 System.out.println("YOU DIED");
             }
             updateAll();
@@ -616,19 +643,19 @@ public class GameView extends View {
         if (THREE && THREETime > time) {
             gameTable.cheatCode3Win();
             game.changeScreen(new EndView(game, gameTable.getGameInformation().getWinnerName(),
-                    gameTable.getGameInformation().getLoserName(), gameTable.getPlayers(0).getUser().username()));
+                    gameTable.getGameInformation().getLoserName(), gameTable.getPlayers(0).getUser().username(),  gameTable.getGameInformation().getDraw()));
         }
 
         if (FOUR && FOURTime > time) {
             gameTable.cheatCode4Lose();
             game.changeScreen(new EndView(game, gameTable.getGameInformation().getWinnerName(),
-                    gameTable.getGameInformation().getLoserName(), gameTable.getPlayers(0).getUser().username()));
+                    gameTable.getGameInformation().getLoserName(), gameTable.getPlayers(0).getUser().username(), gameTable.getGameInformation().getDraw()));
         }
 
         if (FIVE && FIVETime > time) {
             gameTable.cheatCode5Draw();
             game.changeScreen(new EndView(game, gameTable.getGameInformation().getWinnerName(),
-                    gameTable.getGameInformation().getLoserName(), gameTable.getPlayers(0).getUser().username()));
+                    gameTable.getGameInformation().getLoserName(), gameTable.getPlayers(0).getUser().username(), gameTable.getGameInformation().getDraw()));
         }
 
         if (SIX && SIXTime > time) {
@@ -641,6 +668,25 @@ public class GameView extends View {
             updateAll();
         }
 
+        if (EIGHT && EIGHTTime > time) {
+            gameTable.cheatCode8CommanderHorn();
+            updateAll();
+        }
+
+        if (NINE && NINETime > time) {
+            gameTable.cheatCode9YoungBerserker();
+            updateAll();
+        }
+
+        if (ZERO && ZEROTime > time) {
+            gameTable.cheatCode10Spy();
+            updateAll();
+        }
+
+        if (U && UTime > time) {
+            gameTable.cheatCode11Cow();
+            updateAll();
+        }
     }
 
     private void siege1() {
@@ -846,6 +892,17 @@ public class GameView extends View {
         }
     }
 
+    public void scoreUpdated() {
+        label11.setText(gameTable.getPlayGround().playerPointInRow(0));
+        label12.setText(gameTable.getPlayGround().playerPointInRow(1));
+        label13.setText(gameTable.getPlayGround().playerPointInRow(2));
+        label14.setText(gameTable.getPlayGround().playersPoint(0));
+        label21.setText(gameTable.getPlayGround().playerPointInRow(3));
+        label22.setText(gameTable.getPlayGround().playerPointInRow(4));
+        label23.setText(gameTable.getPlayGround().playerPointInRow(5));
+        label24.setText(gameTable.getPlayGround().playersPoint(1));
+    }
+
     private void updateAll() {
         lifeUpdater();
         commanderUpdater();
@@ -858,5 +915,6 @@ public class GameView extends View {
         weather();
         handUpdater();
         discardPile();
+        scoreUpdated();
     }
 }
