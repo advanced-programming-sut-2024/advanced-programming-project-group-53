@@ -221,6 +221,14 @@ public class Playground {
         return point;
     }
 
+    public int playersPoint(int which) {
+        int result = 0;
+        if (which == 0)
+            result += playerPointInRow(0) + playerPointInRow(1) + playerPointInRow(2);
+        else result += playerPointInRow(3) + playerPointInRow(4) + playerPointInRow(5);
+        return result;
+    }
+
     public void decoyAbility(int row, int index, Player currentPlayer) {
         Card card = unitCardsGround.get(row).get(index);
         currentPlayer.getHand().add(card);
