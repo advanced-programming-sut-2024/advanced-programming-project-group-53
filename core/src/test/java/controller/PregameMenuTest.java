@@ -19,6 +19,14 @@ public class PregameMenuTest {
     }
 
     @Test
+    public void shouldBeSingleton() {
+        PregameMenu instance1 = PregameMenu.getInstance();
+        assertNotNull(instance1);//checking the instantiation
+        PregameMenu instance2 = PregameMenu.getInstance();
+        assertEquals(instance2,instance1);
+    }
+
+    @Test
     public void shouldAddOneUserToWaiting() {
         pregameMenu.addToWaiting("Username1", game);
         assertEquals(1, pregameMenu.getWaiting().size());

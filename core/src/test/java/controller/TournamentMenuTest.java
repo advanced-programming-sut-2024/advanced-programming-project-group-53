@@ -20,6 +20,14 @@ public class TournamentMenuTest {
     }
 
     @Test
+    public void shouldBeSingleton() {
+        TournamentMenu instance1 = TournamentMenu.getInstance();
+        assertNotNull(instance1);//checking the instantiation
+        TournamentMenu instance2 = TournamentMenu.getInstance();
+        assertEquals(instance2,instance1);
+    }
+
+    @Test
     public void shouldAddPlayers() {
         tournamentMenu.addPlayer("player1", "player2", "player3", "player4", "player5", "player6", "player7", "player8");
         assertEquals(1, tournamentMenu.getGames().size());

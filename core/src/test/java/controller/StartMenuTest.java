@@ -19,6 +19,14 @@ public class StartMenuTest {
     }
 
     @Test
+    public void shouldBeSingleton() {
+        StartMenu instance1 = StartMenu.getInstance();
+        assertNotNull(instance1);//checking the instantiation
+        StartMenu instance2 = StartMenu.getInstance();
+        assertEquals(instance2,instance1);
+    }
+
+    @Test
     public void shouldAddSpecialEnough() {
         for (int i = 0; i < 3; i++) { //3 is the max number of used card in the test
             assertTrue(StartMenu.getInstance().addSpecialToDeck(SpecialInformation.BitingFrost));
