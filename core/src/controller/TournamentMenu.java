@@ -84,4 +84,9 @@ public class TournamentMenu extends Menu {
         games.remove(index);
         games.add(index, new String[]{username1, username2});
     }
+
+    public ArrayList<String[]> getGames() {
+        //added for test purposes
+        return games;
+    }
 }
