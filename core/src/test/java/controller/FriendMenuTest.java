@@ -33,4 +33,11 @@ public class FriendMenuTest {
         assertEquals("Username2", friendMenu.requestsOut("Username1"));
     }
 
+    @Test
+    public void shouldShowAcceptingRequest() {
+        friendMenu.sendFriendRequest("Username1", "Username2");
+        friendMenu.acceptFriendRequest("Username1", "Username2");
+        assertTrue(user1.friends().contains("Username2"));
+        assertTrue(user2.friends().contains("Username1"));
+    }
 }
