@@ -67,5 +67,10 @@ public class FriendMenuTest {
             fail("Invalid Test");
         assertEquals(Message.NO_USER.message(), friendMenu.sendFriendRequest("Username1", "NonExistingUser"));
     }
-    
+
+    @Test
+    public void shouldAlertOldFriend() {
+        user1.addFriend("Username2");
+        assertEquals(Message.OLD_FRIEND.message(), friendMenu.sendFriendRequest("Username1", "Username2"));
+    }
 }
