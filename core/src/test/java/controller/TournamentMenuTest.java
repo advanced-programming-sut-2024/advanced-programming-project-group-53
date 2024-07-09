@@ -3,6 +3,9 @@ package controller;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.Assert.*;
 
 public class TournamentMenuTest {
@@ -12,6 +15,7 @@ public class TournamentMenuTest {
     @Before
     public void setUp() {
         tournamentMenu = TournamentMenu.getInstance();
+        tournamentMenu.getGames().clear();//to clear its memory
     }
 
     @Test
@@ -20,4 +24,26 @@ public class TournamentMenuTest {
         assertEquals(1, tournamentMenu.getGames().size());
         assertArrayEquals(new String[]{"player1", "player2", "player3", "player4", "player5", "player6", "player7", "player8"}, tournamentMenu.getGames().get(0));
     }
-}
+
+    @Test
+    public void testFirstRound() {
+        tournamentMenu.addPlayer("player1", "player2", "player3", "player4", "player5", "player6", "player7", "player8");
+        assertNotNull(tournamentMenu.firstRound(0));
+        assertEquals(56, tournamentMenu.firstRound(0).length()); // 8 players * 7 characters for each player
+    }
+
+    @Test
+    public void testSecondRound() {
+        tournamentMenu.addPlayer("player1", "player2", "player3", "player4", "player5", "player6", "player7", "player8");
+        assertNotNull(tournamentMenu.secondRound(0));
+        assertEquals(28, tournamentMenu.secondRound(0).length()); // 4 players * 7 characters for each player
+    }
+
+    @Test
+    public void testThirdRound() {
+        tournamentMenu.addPlayer("player1", "player2", "player3", "player4", "player5", "player6", "player7", "player8");
+        assertNotNull(tournamentMenu.secondRound(0));
+        assertEquals(14, tournamentMenu.secondRound(0).length()); // 2 players * 7 characters for each player
+    }
+
+    }
