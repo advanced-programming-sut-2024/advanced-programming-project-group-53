@@ -34,4 +34,27 @@ public class StartMenuTest {
         assertFalse(StartMenu.getInstance().addUnitToDeck(UnitInformation.Albrich));
     }
 
+    @Test
+    public void shouldBeAvailableToSave() {
+        StartMenu startMenu = StartMenu.getInstance();
+        assertFalse(startMenu.availableToSave());
+        //making a deck with less than 10 special cards and at least 22 unit cards
+        for (int i = 0; i < 3; i++) {
+            //note that all cards of this scope have a max availability of 3
+            //instances of special cards
+            startMenu.addSpecialToDeck(SpecialInformation.ClearWeather);
+            //instances of unit cards
+            startMenu.addUnitToDeck(UnitInformation.Arachas);
+            startMenu.addUnitToDeck(UnitInformation.BlueStripesCommando);
+            startMenu.addUnitToDeck(UnitInformation.ClanAnCraite);
+            startMenu.addUnitToDeck(UnitInformation.ClanBrokvarArcher);
+            startMenu.addUnitToDeck(UnitInformation.ClanDrummondShieldmaiden);
+            startMenu.addUnitToDeck(UnitInformation.DolBlathannaScout);
+            startMenu.addUnitToDeck(UnitInformation.DragonHunter);
+        }
+        startMenu.addUnitToDeck(UnitInformation.Albrich);
+        startMenu.addUnitToDeck(UnitInformation.DonarAnHindar);
+        assertEquals(26, startMenu.getDeck().size());
+        assertTrue(startMenu.availableToSave());
+    }
 }
