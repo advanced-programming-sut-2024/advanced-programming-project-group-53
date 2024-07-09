@@ -53,7 +53,7 @@ public class EndView extends View {
         this.currentUsername = currentUser;
         Label winner1;
         Label loser1;
-        if (Objects.equals(winner, loser)) {
+        if (winner.trim().equalsIgnoreCase(loser.trim())) {
             winner1 = new Label("WINNER:\nDRAW", skin);
             loser1 = new Label("LOSER:\nDRAW", skin);
         } else {

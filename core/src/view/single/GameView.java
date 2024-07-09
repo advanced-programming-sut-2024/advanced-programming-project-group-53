@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controller.GameMenu;
@@ -118,6 +119,15 @@ public class GameView extends View {
     private HorizontalGroup middleGroup;
     private ArrayList<Special> middles;
 
+    private Label label11;
+    private Label label12;
+    private Label label13;
+    private Label label14;
+    private Label label21;
+    private Label label22;
+    private Label label23;
+    private Label label24;
+
     public GameView(GWENT game, String username1, String username2, Player player1, Player player2) {
         super(game);
         menu = GameMenu.setInstance(player1, player2);
@@ -137,7 +147,22 @@ public class GameView extends View {
         player1HandGroup = new HorizontalGroup();
         player1HandGroup.setBounds(310, 285, 495, 65);
         handUpdater();
-
+        label11 = new Label("0", skin);
+        label11.setBounds(280, 380, 15, label11.getHeight());
+        label12 = new Label("0", skin);
+        label12.setBounds(280, 455, 15, label11.getHeight());
+        label13 = new Label("0", skin);
+        label13.setBounds(280, 525, 15, label11.getHeight());
+        label14 = new Label("0", skin);
+        label14.setBounds(235, 395, 15, label11.getHeight());
+        label21 = new Label("0", skin);
+        label21.setBounds(280, 605, 15, label11.getHeight());
+        label22 = new Label("0", skin);
+        label22.setBounds(280, 675, 15, label11.getHeight());
+        label23 = new Label("0", skin);
+        label23.setBounds(280, 745, 15, label11.getHeight());
+        label24 = new Label("0", skin);
+        label24.setBounds(235, 610, 15, label11.getHeight());
         //handle life part of game
         life11 = new Image(new Texture(Resource.LIFE_ON.address()));
         life11.setBounds(75, 360, 20, 20);
@@ -405,13 +430,14 @@ public class GameView extends View {
         discardPile.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //TODO : show discard piles .
+                discardPileScrollPane.setVisible(true);
             }
         });
         discardPileGroup = new HorizontalGroup();
         discardPileGroup.space(10);
         discardPileScrollPane = new ScrollPane(discardPileGroup, skin);
         discardPileScrollPane.setBounds(200, 900, 500, 100);
+        discardPileScrollPane.setVisible(false);
 
         stage.addActor(background);
         stage.addActor(player1CommanderImage);
@@ -436,6 +462,14 @@ public class GameView extends View {
         stage.addActor(middle);
         stage.addActor(discardPile);
         stage.addActor(discardPileScrollPane);
+        stage.addActor(label11);
+        stage.addActor(label12);
+        stage.addActor(label13);
+        stage.addActor(label14);
+        stage.addActor(label21);
+        stage.addActor(label22);
+        stage.addActor(label23);
+        stage.addActor(label24);
     }
 
     @Override
@@ -762,6 +796,7 @@ public class GameView extends View {
             player1HandGroup.addActor(image);
         }
     }
+
     private void lifeUpdater() {
         life11.setDrawable(new Image(new Texture(Resource.LIFE_ON.address())).getDrawable());
         life12.setDrawable(new Image(new Texture(Resource.LIFE_ON.address())).getDrawable());
@@ -802,6 +837,7 @@ public class GameView extends View {
     private void discardPile() {
         discardPileGroup.clear();
         discards = gameTable.getPlayers(0).getDiscardPiles().getCards();
+        discards.removeIf(Objects::isNull);
         for (int i = 0; i < discards.size(); i++) {
             Card card = discards.get(i);
             ImageWrapper image = new ImageWrapper(card.address(), 50, 65);
@@ -821,5 +857,6 @@ public class GameView extends View {
         ranged2();
         weather();
         handUpdater();
+        discardPile();
     }
 }
