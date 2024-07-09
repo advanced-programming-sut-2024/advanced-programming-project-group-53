@@ -1,6 +1,19 @@
 package controller;
 
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 public class MainMenuTest {
+
+    @Test
+    public void shouldBeSingleton() {
+        MainMenu instance1 = MainMenu.getInstance();
+        assertNotNull(instance1);//checking the instantiation
+        MainMenu instance2 = MainMenu.getInstance();
+        assertEquals(instance2,instance1);
+    }
     /*private MainMenu mainMenu;
     private static final ArrayList<User> allUsersTemp = new ArrayList<>();
     private static final User currentUserTemp = User.getCurrentUser();
