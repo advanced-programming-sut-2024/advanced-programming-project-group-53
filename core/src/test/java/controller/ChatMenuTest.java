@@ -16,6 +16,14 @@ public class ChatMenuTest {
     }
 
     @Test
+    public void shouldBeSingleton() {
+        ChatMenu instance1 = ChatMenu.getInstance();
+        assertNotNull(instance1);//checking the instantiation
+        ChatMenu instance2 = ChatMenu.getInstance();
+        assertEquals(instance2,instance1);
+    }
+
+    @Test
     public void shouldValidateExistingUsers() {
         if(User.findUser("Username") != null) {
             assertEquals("empty", chatMenu.userValidation("Username"));

@@ -21,6 +21,14 @@ public class FriendMenuTest {
         user2 = new User("Username2", "Nickname2", "mail2@gmail.com", "Pass123#2", "Question", "answer");
     }
 
+    @Test
+    public void shouldBeSingleton() {
+        FriendMenu instance1 = FriendMenu.getInstance();
+        assertNotNull(instance1);//checking the instantiation
+        FriendMenu instance2 = FriendMenu.getInstance();
+        assertEquals(instance2,instance1);
+    }
+
     @After
     public void end() {
         user1 = null;
