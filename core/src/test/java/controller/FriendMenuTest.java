@@ -49,5 +49,15 @@ public class FriendMenuTest {
         assertFalse(user2.friends().contains("Username1"));
     }
 
+    @Test
+    public void shouldAddFriend() {
+        user1.addFriend("Username2");
+        assertTrue(user1.friends().contains("Username2"));
+    }
+
+    @Test
+    public void shouldShowEmptyRespond() {
+        assertEquals("empty", friendMenu.sendFriendRequest("Username1", "Username2"));
+    }
 
 }
