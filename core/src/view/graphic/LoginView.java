@@ -11,14 +11,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.LoginMenu;
 import game.GWENT;
+import model.game.LoginContainer;
 import network.Command;
 import network.Connector;
 import network.Instruction;
 import model.view.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Objects;
 
 public class LoginView extends View {
+    private static final Logger log = LoggerFactory.getLogger(LoginView.class);
     private final VerticalGroup forgetPasswordGroup1;
     private final VerticalGroup forgetPasswordGroup2;
     private final Label loginMessage;
@@ -73,6 +79,25 @@ public class LoginView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 login.setDrawable(new Image(new Texture(Resource.LOGIN_CLICKED.address())).getDrawable());
+                try {
+                    LoginContainer preLoginState = LoginContainer.getLastLogin();
+                    if (preLoginState != null) {
+                        perform(new Connector().perform(new Instruction(Command.LOGIN,
+                                preLoginState.getUsername(), preLoginState.getPassword())));
+                        return;
+                    }
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                LoginContainer loginState;
+                if (isStayLoggedIn) {
+                    try {
+                        loginState = new LoginContainer(username.getText(), password.getText());
+                        LoginContainer.saveStayLoggedIn(loginState);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 perform(new Connector().perform(new Instruction(Command.LOGIN, username.getText(), password.getText())));
             }
 
@@ -122,8 +147,8 @@ public class LoginView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 stayLoggedIn.setDrawable(new Image(new Texture(Resource.STAY_LOGGED_IN_CLICKED.address())).getDrawable());
-                if (isStayLoggedIn)
-                    isStayLoggedIn = false;
+                if (!isStayLoggedIn)
+                    isStayLoggedIn = true;
             }
 
             @Override
@@ -275,6 +300,7 @@ public class LoginView extends View {
                 if (Objects.equals(empty, "empty"))
                     game.changeScreen(new MainView(game, username.getText()));
                 else {
+                    LoginContainer.deleteLoginState();
                     loginMessage.setText(arguments);
                     username.setText("");
                     password.setText("");

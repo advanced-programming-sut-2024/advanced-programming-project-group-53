@@ -36,4 +36,24 @@ public class GameInformation {
     public boolean containsPlayer(String username) {
         return this.winnerName.equals(username) || this.loserName.equals(username);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("GAME INFO:\n");
+        if (draw) {
+            result.append("DRAW\n");
+        } else {
+            result.append("Winner : ").append(winnerName).append("\n");
+            result.append("Loser : ").append(loserName).append("\n");
+        }
+        result.append("ROUNDS:\n");
+        int counter = 1;
+        for (Round round : rounds) {
+            result.append("Round ").append(counter).append("\n");
+            result.append(round);
+            counter++;
+        }
+        return result.toString();
+    }
 }

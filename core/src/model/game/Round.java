@@ -29,4 +29,11 @@ public class Round {
     public String getCurrentPlayer() {
         return currentPlayerName;
     }
+
+    @Override
+    public String toString() {
+        return "Current Player: " + currentPlayerName + "\n" +
+                "First Player Points: " + firstPlayerPoint + "\n" +
+                "Second Player Points: " + secondPlayerPoint + "\n";
+    }
 }
