@@ -1,6 +1,7 @@
 package controller;
 
 import model.game.User;
+import model.view.Message;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,4 +61,11 @@ public class FriendMenuTest {
         assertEquals("empty", friendMenu.sendFriendRequest("Username1", "Username2"));
     }
 
+    @Test
+    public void shouldErrorNonExistingUser() {
+        if (User.findUser("NonExistingUser") != null)
+            fail("Invalid Test");
+        assertEquals(Message.NO_USER.message(), friendMenu.sendFriendRequest("Username1", "NonExistingUser"));
+    }
+    
 }
