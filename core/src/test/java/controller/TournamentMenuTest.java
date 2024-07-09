@@ -3,6 +3,7 @@ package controller;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,4 +47,20 @@ public class TournamentMenuTest {
         assertEquals(14, tournamentMenu.secondRound(0).length()); // 2 players * 7 characters for each player
     }
 
+    @Test
+    public void testEndFirstRound() {
+        tournamentMenu.addPlayer("player1", "player2", "player3", "player4", "player5", "player6", "player7", "player8");
+        tournamentMenu.endFirstRound(0, "player1", "player2", "player3", "player4");
+        assertEquals(1, tournamentMenu.getGames().size());
+        assertArrayEquals(new String[]{"player1", "player2", "player3", "player4"}, tournamentMenu.getGames().get(0));
     }
+
+    @Test
+    public void testEndSecondRound() {
+        tournamentMenu.addPlayer("player1", "player2", "player3", "player4", "player5", "player6", "player7", "player8");
+        tournamentMenu.endSecondRound(0, "player1", "player2");
+        assertEquals(1, tournamentMenu.getGames().size());
+        assertArrayEquals(new String[]{"player1", "player2"}, tournamentMenu.getGames().get(0));
+    }
+
+}
