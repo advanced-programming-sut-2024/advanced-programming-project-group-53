@@ -1,6 +1,7 @@
 package controller;
 
-import model.view.ChatContainer;
+import model.game.User;
+import model.view.Message;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,5 +16,15 @@ public class ChatMenuTest {
         //todo: clear messages if needed(create a method)
     }
 
+    @Test
+    public void shouldValidateExistingUsers() {
+        if(User.findUser("Username") != null) {
+            assertEquals("empty", chatMenu.userValidation("Username"));
+        } else {
+            assertEquals(Message.NO_USER.message(), chatMenu.userValidation("Username"));
+            User user = new User("Username","Nickname", "mail@yahoo.com", "Password123#", "Question?", "answer");
+            assertEquals("empty", chatMenu.userValidation("Username"));//todo: why a new user doesn't appear to be in the database
+        }
+    }
 
 }
