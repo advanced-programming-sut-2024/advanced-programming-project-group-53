@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.google.gson.Gson;
 import controller.StartMenu;
 import game.GWENT;
 import model.card.Card;
@@ -18,22 +19,41 @@ import model.game.User;
 import model.view.Resource;
 import view.components.ImageWrapper;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DeckOldView extends View {
     private ScrollPane scrollPane;
     private VerticalGroup verticalGroup;
-    private ArrayList<DeckContainer> decks;
+    private ArrayList<DeckContainer> allUserDeckContainers;
     private Image save;
     private Image exit;
-    private DeckContainer select;
+    private DeckContainer select = null;
     private Image start;
+
 
     public DeckOldView(GWENT game, String currentUsername) {
         super(game);
         this.currentUsername = currentUsername;
         this.menu = StartMenu.getInstance();
         verticalGroup = new VerticalGroup();
+        File dir = new File(System.getProperty("user.home") + "/gwentInformation/" + currentUsername);
+        for (File userFile : Objects.requireNonNull(dir.listFiles(File::isFile))) {
+            DeckContainer userDeck;
+            Gson gson = new Gson();
+            try {
+                FileReader reader = new FileReader(userFile);
+                userDeck = gson.fromJson(reader, DeckContainer.class);
+                reader.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            allUserDeckContainers.add(userDeck);
+        }
         verticalGroup.space(10);
         scrollPane = new ScrollPane(verticalGroup, skin);
         scrollPane.setBounds(100, 250, 824, 650);
@@ -62,7 +82,6 @@ public class DeckOldView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 save.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
-                //TODO: save it.
             }
 
             @Override
@@ -81,7 +100,9 @@ public class DeckOldView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 start.setDrawable(new Image(new Texture(Resource.START_GAME_CLICKED.address())).getDrawable());
-                game.changeScreen(new LoginView(game, currentUsername,new Player(User.findUser(currentUsername),null,null,null)));//TODO:NULLLLLLL!!!!!!
+                if (select == null) return;
+                game.changeScreen(new LoginView(game, currentUsername,new Player(User.findUser(currentUsername),
+                        select.getDeck(), select.getFaction(),select.getCommander())));//TODO:NULLLLLLL!!!!!!
             }
 
             @Override
@@ -108,7 +129,8 @@ public class DeckOldView extends View {
 
     private void update() {
         verticalGroup.clear();
-        for (DeckContainer deckContainer : decks) {
+        //TODO : show all deck containers with name , faction and commander in a vertical group in this menu.
+        for (DeckContainer deckContainer : allUserDeckContainers) {
             HorizontalGroup horizontalGroup = new HorizontalGroup();
             horizontalGroup.space(10);
             horizontalGroup.addListener(new ClickListener() {
@@ -117,7 +139,6 @@ public class DeckOldView extends View {
                     select = deckContainer;
                 }
             });
-
             verticalGroup.addActor(horizontalGroup);
         }
     }
