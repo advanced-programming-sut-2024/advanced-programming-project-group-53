@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controller.StartMenu;
 import game.GWENT;
+import model.cards.DeckContainer;
 import model.game.Player;
 import model.game.User;
 import model.view.Resource;
@@ -19,11 +20,13 @@ public class DeckImportView extends View {
     private Image exit;
     private Image start;
     private Label error;
+    private String jsonAddress;
 
     public DeckImportView(GWENT game, String currentUsername) {
         super(game);
         this.currentUsername = currentUsername;
         this.menu = StartMenu.getInstance();
+        jsonAddress = null;
         address = new TextField("", skin);
         address.setMessageText("Address");
         address.setPosition(512 - address.getWidth() / 2, 512 - address.getHeight() / 2);
@@ -54,7 +57,11 @@ public class DeckImportView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 start.setDrawable(new Image(new Texture(Resource.START_GAME_CLICKED.address())).getDrawable());
-                game.changeScreen(new LoginView(game, currentUsername, new Player(User.findUser(currentUsername), null, null, null)));//TODO: NULLLLLLL!!!!!!!
+                if (jsonAddress == null) return;
+                DeckContainer deckContainer = DeckContainer.importDeckWithAddress(jsonAddress);
+                if (deckContainer == null) return;
+                game.changeScreen(new LoginView(game, currentUsername, new Player(User.findUser(currentUsername),
+                        deckContainer.getDeck(), deckContainer.getFaction(), deckContainer.getCommander())));//TODO: NULLLLLLL!!!!!!!
             }
 
             @Override
@@ -73,7 +80,7 @@ public class DeckImportView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 save.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
-                //TODO: save it.
+                jsonAddress = address.getText();
             }
 
             @Override

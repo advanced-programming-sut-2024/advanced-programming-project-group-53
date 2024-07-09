@@ -12,6 +12,7 @@ import controller.StartMenu;
 import game.GWENT;
 import model.card.Card;
 import model.cards.Deck;
+import model.cards.DeckContainer;
 import model.game.Player;
 import model.game.User;
 import model.view.Resource;
@@ -22,10 +23,10 @@ import java.util.ArrayList;
 public class DeckOldView extends View {
     private ScrollPane scrollPane;
     private VerticalGroup verticalGroup;
-    private ArrayList<Deck> decks;
+    private ArrayList<DeckContainer> decks;
     private Image save;
     private Image exit;
-    private Deck select;
+    private DeckContainer select;
     private Image start;
 
     public DeckOldView(GWENT game, String currentUsername) {
@@ -107,21 +108,16 @@ public class DeckOldView extends View {
 
     private void update() {
         verticalGroup.clear();
-        for (Deck deck : decks) {
+        for (DeckContainer deckContainer : decks) {
             HorizontalGroup horizontalGroup = new HorizontalGroup();
             horizontalGroup.space(10);
             horizontalGroup.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    select = deck;
+                    select = deckContainer;
                 }
             });
-            for (int i = 0; i < deck.getCards().size(); i++) {
-                Card card = deck.getCards().get(i);
-                ImageWrapper imageWrapper = new ImageWrapper(card.address(), 50, 65);
-                imageWrapper.setPosition(i * 55, 0);
-                horizontalGroup.addActor(imageWrapper);
-            }
+
             verticalGroup.addActor(horizontalGroup);
         }
     }

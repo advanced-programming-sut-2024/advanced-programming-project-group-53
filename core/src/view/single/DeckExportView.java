@@ -9,20 +9,25 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controller.StartMenu;
 import game.GWENT;
 import model.cards.Deck;
+import model.cards.DeckContainer;
 import model.game.Player;
 import model.game.User;
 import model.view.Resource;
 
 public class DeckExportView extends View {
     private TextField address;
+    private String jsonAddress;
     private Image save;
     private Image exit;
     private Image start;
+    private DeckContainer deckContainer;
 
-    public DeckExportView(GWENT game, String currentUsername, Deck deck) {
+    public DeckExportView(GWENT game, String currentUsername, DeckContainer deckContainer) {
         super(game);
         this.currentUsername = currentUsername;
         this.menu = StartMenu.getInstance();
+        this.deckContainer = deckContainer;
+        jsonAddress = null;
         address = new TextField("", skin);
         address.setMessageText("Address");
         address.setPosition(512 - address.getWidth() / 2, 512 - address.getHeight() / 2);
@@ -51,7 +56,9 @@ public class DeckExportView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 save.setDrawable(new Image(new Texture(Resource.SAVE_CLICKED.address())).getDrawable());
-                //TODO: save it.
+                jsonAddress = address.getText();
+                if (jsonAddress.isEmpty()) deckContainer.saveDeck();
+                else deckContainer.saveDeckInAddress(jsonAddress);
             }
 
             @Override
@@ -70,7 +77,8 @@ public class DeckExportView extends View {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 start.setDrawable(new Image(new Texture(Resource.START_GAME_CLICKED.address())).getDrawable());
-                game.changeScreen(new LoginView(game, currentUsername,new Player(User.findUser(currentUsername),null,null,null)));//TODO:NULLLLLLL!!!!!!!
+                game.changeScreen(new LoginView(game, currentUsername,new Player(User.findUser(currentUsername),
+                        deckContainer.getDeck(), deckContainer.getFaction(),deckContainer.getCommander())));//TODO:NULLLLLLL!!!!!!!
             }
 
             @Override
