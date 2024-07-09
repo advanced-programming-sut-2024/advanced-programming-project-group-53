@@ -14,6 +14,11 @@ public class ChatMenu extends Menu {
     private static ChatMenu instance;
     private final ArrayList<ChatContainer> messages = new ArrayList<>();
 
+    public ArrayList<ChatContainer> getMessages() {
+        //added for testing process
+        return messages;
+    }
+
     {
         DatabaseHandler.addAllChats(messages);
     }
