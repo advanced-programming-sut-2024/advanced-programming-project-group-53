@@ -13,7 +13,6 @@ public class ChatMenuTest {
     @Before
     public void setUp() {
         chatMenu = ChatMenu.getInstance();
-        //todo: clear messages if needed(create a method)
     }
 
     @Test

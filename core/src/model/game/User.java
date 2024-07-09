@@ -48,7 +48,7 @@ public class User {
         this.drawCount = 0;
         this.maxPoint = 0;
         this.gameInformations = new ArrayList<>();
-        saveUser();
+        saveUser();//farbod: new users do not exist in database
     }
 
     public void saveUser() {
