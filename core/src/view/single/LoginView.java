@@ -8,9 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import controller.LoginMenu;
 import game.GWENT;
+import model.game.LoginContainer;
 import model.game.Player;
 import model.view.Resource;
 
+import java.io.FileNotFoundException;
 import java.util.Objects;
 
 public class LoginView extends View {
@@ -30,6 +32,7 @@ public class LoginView extends View {
     private final Image save;
     private boolean isOnForgetPassword1 = false;
     private boolean isOnForgetPassword2 = false;
+    private String finalUsername;
 
     public LoginView(GWENT game) {
         super(game);
@@ -61,10 +64,24 @@ public class LoginView extends View {
         login.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                login.setDrawable(new Image(new Texture(Resource.LOGIN_CLICKED.address())).getDrawable());
-                String response = ((LoginMenu) menu).login(username.getText(), password.getText());
+                LoginContainer preLogin;
+                        login.setDrawable(new Image(new Texture(Resource.LOGIN_CLICKED.address())).getDrawable());
+                try {
+                    preLogin = LoginContainer.getLastLogin();
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                String response;
+                if (preLogin != null) {
+                    response = ((LoginMenu) menu).login(preLogin.getUsername(), preLogin.getPassword());
+                    finalUsername = preLogin.getUsername();
+                }
+                else {
+                    response = ((LoginMenu) menu).login(username.getText(), password.getText());
+                    finalUsername = username.getText();
+                }
                 if (Objects.equals(response, "empty"))
-                    game.changeScreen(new MainView(game, username.getText()));
+                    game.changeScreen(new MainView(game, finalUsername));
                 else
                     loginMessage.setText(response.trim());
             }

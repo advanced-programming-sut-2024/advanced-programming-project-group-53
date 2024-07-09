@@ -33,6 +33,7 @@ public class User {
 
     static {
         DataBaseHandler.addAllUsers(allUsers);
+        for (User user : allUsers) System.out.println(user.username);
     }
 
     public User(String username, String nickname, String email, String password, String question, String answer) {
@@ -337,7 +338,7 @@ public class User {
 //            resetDatabase();
 //            createDataBaseUserTable();
 //            deleteUserByUsername("m");
-            new User("safari", "safar", "e", "p", "q", "a");
+//            new User("safari", "safar", "e", "p", "q", "a");
 //            deleteUserByUsername("safari");
             selectAllUsers();
         }

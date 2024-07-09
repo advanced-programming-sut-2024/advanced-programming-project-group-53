@@ -45,6 +45,7 @@ public class LoginView extends View {
     private boolean isOnForgetPassword2 = false;
     private boolean isStayLoggedIn = false;//TODO: do sth with it.
     private Image stayLoggedIn;
+    private String finalUsername;
 
     public LoginView(GWENT game) {
         super(game);
@@ -82,6 +83,7 @@ public class LoginView extends View {
                 try {
                     LoginContainer preLoginState = LoginContainer.getLastLogin();
                     if (preLoginState != null) {
+                        finalUsername = preLoginState.getUsername();
                         perform(new Connector().perform(new Instruction(Command.LOGIN,
                                 preLoginState.getUsername(), preLoginState.getPassword())));
                         return;
@@ -98,6 +100,7 @@ public class LoginView extends View {
                         throw new RuntimeException(e);
                     }
                 }
+                finalUsername = username.getText();
                 perform(new Connector().perform(new Instruction(Command.LOGIN, username.getText(), password.getText())));
             }
 
@@ -298,7 +301,7 @@ public class LoginView extends View {
                 break;
             case LOGIN_MESSAGE:
                 if (Objects.equals(empty, "empty"))
-                    game.changeScreen(new MainView(game, username.getText()));
+                    game.changeScreen(new MainView(game, finalUsername));
                 else {
                     LoginContainer.deleteLoginState();
                     loginMessage.setText(arguments);

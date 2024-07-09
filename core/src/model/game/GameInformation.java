@@ -7,10 +7,11 @@ import java.util.Objects;
 public class GameInformation {
     private Date date;
     private final ArrayList<Round> rounds;
-    private String player1Username, player2Username;
+    private final String player1Username;
+    private final String player2Username;
     private final String winnerName;
     private final String loserName;
-    private boolean draw;
+    private final boolean draw;
     public GameInformation(Player player1, Player player2, Player winner, Player loser, ArrayList<Round> rounds) {
         // before this store it in user probably will handle by team.
         player1Username = player1.getUser().username();
@@ -55,5 +56,13 @@ public class GameInformation {
             counter++;
         }
         return result.toString();
+    }
+
+    public String getPlayer2Username() {
+        return player2Username;
+    }
+
+    public String getPlayer1Username() {
+        return player1Username;
     }
 }
