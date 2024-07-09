@@ -27,4 +27,12 @@ public class ChatMenuTest {
         }
     }
 
+    @Test
+    public void shouldSetMessage() {
+        assertEquals("empty", chatMenu.setMessage("Hello, how are you?", "senderUser", "receiverUser"));
+        assertEquals(1, chatMenu.getMessages().size());
+        assertEquals(Message.ILLEGAL_CHARACTER.message(),chatMenu.setMessage("Hello \\ how are you?", "senderUser", "receiverUser"));
+    }
+
+
 }
