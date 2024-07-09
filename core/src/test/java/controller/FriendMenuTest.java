@@ -3,6 +3,7 @@ package controller;
 import model.game.User;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
@@ -25,5 +26,11 @@ public class FriendMenuTest {
         user2 = null;
     }
 
+    @Test
+    public void shouldShowRequests() {
+        friendMenu.sendFriendRequest("Username1", "Username2");
+        assertEquals("Username1", friendMenu.requestsIn("Username2"));
+        assertEquals("Username2", friendMenu.requestsOut("Username1"));
+    }
 
 }
