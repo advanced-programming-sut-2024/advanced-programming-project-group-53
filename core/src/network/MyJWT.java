@@ -29,7 +29,7 @@ public class MyJWT {
                 Algorithm algorithm = Algorithm.HMAC256(username);
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT jwt = verifier.verify(token);
-                result = !jwt.getExpiresAt().before(new Date());
+                result = jwt.getExpiresAt().before(new Date());
             } catch (Exception exception) {
                 result = true;
                 exception.printStackTrace();
