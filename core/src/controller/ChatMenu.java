@@ -174,5 +174,10 @@ public class ChatMenu extends Menu {
                 System.out.println(e.getMessage());
             }
         }
+        public static void main(String[] args) {
+            resetDatabase();
+            createDataBaseChatTable();
+            new ChatContainer("SAFAR KHARE","kiarash","safari");
+        }
     }
 }

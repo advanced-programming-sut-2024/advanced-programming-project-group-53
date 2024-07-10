@@ -211,6 +211,7 @@ public class FriendMenu extends Menu {
         public static void main(String[] args) {
             resetDatabase();
             createDataBaseRequestTable();
+            new FriendRequest("kiarash","safari");
         }
     }
 }
