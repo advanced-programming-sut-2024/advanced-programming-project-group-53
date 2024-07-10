@@ -74,6 +74,6 @@ public abstract class View implements Screen {
 
     public void token(Instruction instruction) {
         if (instruction.command() == Command.EXPIRE)
-            game.changeScreen(new LoginView(game));
+            menu.exitGame();
     }
 }

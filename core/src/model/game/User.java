@@ -215,6 +215,9 @@ public class User {
     }
 
     public String token() {
+        if (token == null)
+            System.out.println("fuck");
+        System.out.println(token);
         return token;
     }
 

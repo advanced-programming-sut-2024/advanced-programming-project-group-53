@@ -25,7 +25,7 @@ public class LoginMenu extends Menu {
         else if (!user.password().equals(password))
             return Message.INCORRECT_PASSWORD.message();
         else {
-            user.setToken(new MyJWT(username).generateToken("expireAfter15min"));
+            user.setToken(MyJWT.generateToken(username));
             return "empty";
         }
     }
@@ -41,7 +41,7 @@ public class LoginMenu extends Menu {
         return User.findUser(username).question();
     }
 
-    public String changePassword(String answer,String newPassword,String newPasswordConfirm, String username) {
+    public String changePassword(String answer, String newPassword, String newPasswordConfirm, String username) {
         User user = User.findUser(username);
         if (!user.checkSecurityAnswer(answer))
             return Message.WRONG_ANSWER.message();

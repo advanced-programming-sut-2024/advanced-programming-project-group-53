@@ -2,8 +2,10 @@ package com.mygdx.game.network;
 
 import controller.*;
 import game.GWENT;
+import model.game.User;
 import network.Command;
 import network.Instruction;
+import network.MyJWT;
 
 import java.io.*;
 import java.net.Socket;
@@ -57,22 +59,34 @@ public class Handler extends Thread {
                 return new Instruction(Command.LOGIN_MESSAGE, LoginMenu.getInstance().login(arguments[0],
                         arguments[1]));
             case PROFILE_INFORMATION:
+                if (MyJWT.validateToken(arguments[0]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.PROFILE_MESSAGE, ProfileMenu.getInstance().getInformation(arguments[0]));
             case CHANGE_USERNAME:
+                if (MyJWT.validateToken(arguments[1]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.CHANGE_FIELD_MESSAGE, ProfileMenu.getInstance().changeUsername(arguments[0],
                         arguments[1]));
             case CHANGE_NICKNAME:
+                if (MyJWT.validateToken(arguments[1]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.CHANGE_FIELD_MESSAGE, ProfileMenu.getInstance().changeNickname(arguments[0],
                         arguments[1]));
             case CHANGE_EMAIL:
+                if (MyJWT.validateToken(arguments[1]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.CHANGE_FIELD_MESSAGE, ProfileMenu.getInstance().changeEmail(arguments[0],
                         arguments[1]));
             case CHANGE_PASSWORD:
+                if (MyJWT.validateToken(arguments[3]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.CHANGE_FIELD_MESSAGE, ProfileMenu.getInstance().changePassword(arguments[0],
                         arguments[1],
                         arguments[2],
                         arguments[3]));
             case HISTORY_INFORMATION:
+                if (MyJWT.validateToken(arguments[0]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.HISTORY_MESSAGE, ProfileMenu.getInstance().showGameHistory(arguments[0],
                         arguments[1],
                         arguments[2]));
@@ -92,34 +106,56 @@ public class Handler extends Thread {
                 for (int i = 0; i < arguments.length - 2; i++)
                     builder.append(arguments[i]).append(" ");
                 strings[0] = builder.toString();
+                if (MyJWT.validateToken(strings[1]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.SEND_MESSAGE, ChatMenu.getInstance().setMessage(strings[0], strings[1], strings[2]));
             case SHOW_CHAT:
+                if (MyJWT.validateToken(arguments[1]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.SHOW_CHAT_MESSAGE, ChatMenu.getInstance().getMessage(arguments[0], arguments[1]));
             case USERNAME_VALIDATION:
+                if (MyJWT.validateToken(arguments[0]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.USERNAME_VALIDATION_MESSAGE, ChatMenu.getInstance().userValidation(arguments[0]));
             case REGISTER_VALIDATION:
+                if (MyJWT.validateToken(arguments[0]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.REGISTER_VALIDATION_MESSAGE, RegisterMenu.getInstance().registerValidate(arguments[0],
                         arguments[1],
                         arguments[2],
                         arguments[3]));
             case EMAIL_VALIDATION:
+                if (MyJWT.validateToken(arguments[0]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.EMAIL_VALIDATION_MESSAGE, RegisterMenu.getInstance().sendAuthorizationEmail(arguments[0],
                         arguments[1]));
             case REQUEST_IN:
+                if (MyJWT.validateToken(arguments[0]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.REQUEST_IN_MESSAGE, FriendMenu.getInstance().requestsIn(arguments[0]));
             case REQUEST_OUT:
+                if (MyJWT.validateToken(arguments[0]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.REQUEST_OUT_MESSAGE, FriendMenu.getInstance().requestsOut(arguments[0]));
             case FRIEND:
+                if (MyJWT.validateToken(arguments[0]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.FRIEND_MESSAGE, FriendMenu.getInstance().friends(arguments[0]));
             case FRIEND_REQUEST:
+                if (MyJWT.validateToken(arguments[0]))
+                    return new Instruction(Command.EXPIRE);
                 if (Objects.equals(arguments[2], "true"))
                     return new Instruction(Command.FRIEND_REQUEST_MESSAGE, FriendMenu.getInstance().acceptFriendRequest(arguments[0], arguments[1]));
                 else
                     return new Instruction(Command.FRIEND_REQUEST_MESSAGE, FriendMenu.getInstance().rejectFriendRequest(arguments[0], arguments[1]));
             case SEND_REQUEST:
+                if (MyJWT.validateToken(arguments[0]))
+                    return new Instruction(Command.EXPIRE);
                 return new Instruction(Command.SEND_REQUEST_MESSAGE, FriendMenu.getInstance().sendFriendRequest(arguments[0], arguments[1]));
             case SEARCH_RANDOM:
-                PregameMenu.getInstance().addToWaiting(arguments[0],new GWENT());
+                if (MyJWT.validateToken(arguments[0]))
+                    return new Instruction(Command.EXPIRE);
+                PregameMenu.getInstance().addToWaiting(arguments[0], new GWENT());
                 return new Instruction(Command.EMPTY);
             default:
                 return null;
