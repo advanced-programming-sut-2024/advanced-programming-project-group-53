@@ -10,14 +10,6 @@ public class Connector {
     private Socket socket;
     private DataInputStream dis;
     private DataOutputStream dos;
-    private String username = null;
-
-    public Connector() {
-    }
-
-    public Connector(String username) {
-        this.username = username;
-    }
 
     public void establishConnection(String address, int port) {
         try {
@@ -59,19 +51,10 @@ public class Connector {
     }
 
     public Instruction perform(Instruction instruction) {
-        if (username != null) {
-            User user = User.findUser(username);
-            if (user != null && !new MyJWT(username).validateToken(user.token())) {
-                this.establishConnection("localhost", 8080);
-                return new Instruction(Command.EXPIRE);
-            }
-            return new Instruction(Command.EMPTY);
-        } else {
-            this.establishConnection("localhost", 8080);
-            this.sendMessage(instruction);
-            Instruction response = this.receiveMessage();
-            this.endConnection();
-            return response;
-        }
+        this.establishConnection("localhost", 8080);
+        this.sendMessage(instruction);
+        Instruction response = this.receiveMessage();
+        this.endConnection();
+        return response;
     }
 }

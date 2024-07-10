@@ -11,7 +11,6 @@ import game.GWENT;
 import model.view.Resource;
 import network.Instruction;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class TournamentView extends View {
